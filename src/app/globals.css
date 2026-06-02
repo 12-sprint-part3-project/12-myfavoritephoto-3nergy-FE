@@ -1,26 +1,80 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@theme {
+  --color-black: #0f0f0f;
+  --color-gray-500: #161616;
+  --color-gray-400: #5a5a5a;
+  --color-gray-300: #a4a4a4;
+  --color-gray-200: #dddddd;
+  --color-gray-100: #eeeeee;
+  --color-white: #ffffff;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --color-main: #eeef04;
+  --color-pink: #ff2a6a;
+  --color-purple: #a77eff;
+  --color-blue: #29c9f9;
+  --color-red: #ff483d;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-baskin: var(--font-baskin);
+  --font-noto: var(--font-noto);
+
+  --text-baskin-62-bold: 3.875rem;
+  --text-baskin-48-bold: 3rem;
+  --text-baskin-46-bold: 2.875rem;
+  --text-baskin-40-bold: 2.5rem;
+  --text-baskin-24-bold: 1.5rem;
+  --text-baskin-18-bold: 1.125rem;
+
+  --text-noto-40-bold: 2.5rem;
+  --text-noto-40-bold--font-weight: 700;
+  --text-noto-32-bold: 2rem;
+  --text-noto-32-bold--font-weight: 700;
+  --text-noto-28-bold: 1.75rem;
+  --text-noto-28-bold--font-weight: 700;
+  --text-noto-24-bold: 1.5rem;
+  --text-noto-24-bold--font-weight: 700;
+  --text-noto-24-regular: 1.5rem;
+  --text-noto-22-bold: 1.375rem;
+  --text-noto-22-bold--font-weight: 700;
+  --text-noto-20-bold: 1.25rem;
+  --text-noto-20-bold--font-weight: 700;
+  --text-noto-20-regular: 1.25rem;
+  --text-noto-18-bold: 1.125rem;
+  --text-noto-18-bold--font-weight: 700;
+  --text-noto-18-regular: 1.125rem;
+  --text-noto-18-light: 1.125rem;
+  --text-noto-18-light--font-weight: 400;
+
+  --text-noto-16-bold: 1rem;
+  --text-noto-16-bold--font-weight: 700;
+  --text-noto-16-regular: 1rem;
+  --text-noto-16-light: 1rem;
+  --text-noto-16-light--font-weight: 400;
+
+  --text-noto-14-bold: 0.875rem;
+  --text-noto-14-bold--font-weight: 700;
+  --text-noto-14-regular: 0.875rem;
+  --text-noto-14-light: 0.875rem;
+  --text-noto-14-light--font-weight: 400;
+
+  --text-noto-12-bold: 0.75rem;
+  --text-noto-12-bold--font-weight: 700;
+  --text-noto-12-regular: 0.75rem;
+  --text-noto-12-light: 0.75rem;
+  --text-noto-12-light--font-weight: 400;
+
+  --text-noto-10-regular: 0.625rem;
+  --text-noto-10-light: 0.625rem;
+  --text-noto-10-light--font-weight: 400;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-noto), sans-serif;
+}
+
+@layer utilities {
+  .font-baskin-base {
+    font-family: var(--font-baskin);
+    letter-spacing: -0.03em;
+  }
 }

@@ -1,14 +1,19 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import { Noto_Sans_KR } from "next/font/google";
+import localFont from "next/font/local";
+
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const fontNotoSansKr = Noto_Sans_KR({
   subsets: ["latin"],
+  weight: ["300", "400", "700"],
+  variable: "--font-noto",
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const fontBaskin = localFont({
+  src: "./fonts/baskin-robbins-bold.woff2",
+  variable: "--font-baskin",
+  display: "swap",
 });
 
 export const metadata = {
@@ -19,10 +24,13 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      lang="ko"
+      className={`${fontNotoSansKr.variable} ${fontBaskin.variable}`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <p className="font-baskin-base text-baskin-62-bold">제목</p>
+        {children}
+      </body>
     </html>
   );
 }
