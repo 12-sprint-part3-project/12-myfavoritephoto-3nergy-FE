@@ -1,5 +1,5 @@
 const page = () => {
-  return <div>page</div>;
+  return <div>나의판매포토카드</div>;
 };
 
 export default page;
