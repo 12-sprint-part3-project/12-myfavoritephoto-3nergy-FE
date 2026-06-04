@@ -1,6 +1,6 @@
 import { Button } from './Button';
 
-export default {
+const meta = {
   title: 'UI/Button',
   component: Button,
   tags: ['autodocs'],
@@ -49,6 +49,8 @@ export default {
     },
   },
 };
+
+export default meta;
 
 export const Primary = {
   args: {
