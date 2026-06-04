@@ -18,10 +18,10 @@ export default {
     },
     size: {
       control: 'select',
-      options: ['thick-lg', 'thick-md', 'lg', 'md', 'sm'],
+      options: ['thick', 'lg', 'md', 'sm', 'xs'],
       order: 2,
       table: {
-        type: { summary: 'thick-lg | thick-md | lg | md | sm' },
+        type: { summary: 'thick | lg | md | sm | xs' },
       },
     },
     disabled: {
@@ -88,24 +88,20 @@ export const AllSizes = {
   render: function Render(args) {
     return (
       <div className="flex flex-col gap-4">
-        <Button {...args} size="thick-lg">
-          thick-lg
+        <Button {...args} size="thick">
+          thick (75 / 75 / 80)
         </Button>
-
-        <Button {...args} size="thick-md">
-          thick-md
-        </Button>
-
         <Button {...args} size="lg">
-          lg
+          lg (55 / 60 / 60)
         </Button>
-
         <Button {...args} size="md">
-          md
+          md (55 / 55 / 60)
         </Button>
-
         <Button {...args} size="sm">
-          sm
+          sm (40 / 55 / 60)
+        </Button>
+        <Button {...args} size="xs">
+          xs (40 / 55 / 55)
         </Button>
       </div>
     );
