@@ -4,6 +4,7 @@ import GradeBadge from './GradeBadge';
 export default {
   title: 'Domain/Photocard/GradeBadge',
   component: GradeBadge,
+  tags: ['autodocs'],
 };
 
 // 등급별로 각각 스토리 만들기
