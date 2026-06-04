@@ -5,12 +5,13 @@ const variantStyles = {
   secondary: 'bg-black text-white border border-gray-200',
 };
 
+// 모바일 퍼스트 기준 (주석 순서: 모바일 / 태블릿 / PC)
 const sizeStyles = {
-  'thick-lg': 'h-[5rem]',
-  'thick-md': 'h-[4.6875rem]',
-  lg: 'h-[3.75rem]',
-  md: 'h-[3.4375rem]',
-  sm: 'h-[2.5rem]',
+  thick: 'h-[4.6875rem] lg:h-[5rem]', // 75 / 75 / 80
+  lg: 'h-[3.4375rem] md:h-[3.75rem]', // 55 / 60 / 60
+  md: 'h-[3.4375rem] lg:h-[3.75rem]', // 55 / 55 / 60
+  sm: 'h-[2.5rem] md:h-[3.4375rem] lg:h-[3.75rem]', // 40 / 55 / 60
+  xs: 'h-[2.5rem] md:h-[3.4375rem]', // 40 / 55 / 55
 };
 
 const disabledStyles = {
