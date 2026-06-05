@@ -4,9 +4,16 @@ const meta = {
   title: 'UI/FileInput',
   component: FileInput,
   argTypes: {
-    name: {
+    label: {
       control: 'text',
       order: 1,
+      table: {
+        type: { summary: 'string' },
+      },
+    },
+    name: {
+      control: 'text',
+      order: 2,
       table: {
         type: { summary: 'string' },
       },
@@ -19,6 +26,7 @@ export default meta;
 
 export const Default = {
   args: {
+    label: '사진 업로드',
     name: 'photo',
   },
 };
