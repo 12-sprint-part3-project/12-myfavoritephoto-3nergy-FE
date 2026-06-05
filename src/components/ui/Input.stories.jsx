@@ -12,6 +12,7 @@ export default {
     disabled: { control: 'boolean' },
     required: { control: 'boolean' },
   },
+  tags: ['autodocs'],
 };
 
 // ── Text (기본)
