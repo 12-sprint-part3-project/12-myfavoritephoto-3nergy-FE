@@ -33,7 +33,7 @@ const meta = {
       },
     },
     children: {
-      control: false,
+      control: 'text',
       description: '모달 내부 콘텐츠 (스크롤 영역)',
       table: {
         type: { summary: 'ReactNode' },
@@ -43,7 +43,6 @@ const meta = {
 };
 
 export default meta;
-
 function ModalWithTrigger({ footer, children }) {
   const [open, setOpen] = useState(false);
   return (
@@ -55,10 +54,10 @@ function ModalWithTrigger({ footer, children }) {
         <Overlay onClose={() => setOpen(false)}>
           <Modal
             onClose={() => setOpen(false)}
-            footer={footer?.({ onClose: () => setOpen(false) })} // onClose 주입
+            footer={footer?.({ onClose: () => setOpen(false) })}
             className="max-h-[80vh] w-[35rem] p-10"
           >
-            {children}
+            <p className="text-white">{children}</p>
           </Modal>
         </Overlay>
       )}
@@ -67,15 +66,17 @@ function ModalWithTrigger({ footer, children }) {
 }
 
 export const Default = {
-  render: () => (
-    <ModalWithTrigger>
-      <p className="text-white">모달 내용입니다.</p>
-    </ModalWithTrigger>
-  ),
+  args: {
+    children: '모달 내용입니다.',
+  },
+  render: (args) => <ModalWithTrigger>{args.children}</ModalWithTrigger>,
 };
 
 export const WithFooter = {
-  render: () => (
+  args: {
+    children: '하단에 버튼이 고정되는 모달입니다.',
+  },
+  render: (args) => (
     <ModalWithTrigger
       footer={({ onClose }) => (
         <div className="flex gap-2">
@@ -86,7 +87,7 @@ export const WithFooter = {
         </div>
       )}
     >
-      <p className="text-white">하단에 버튼이 고정되는 모달입니다.</p>
+      {args.children}
     </ModalWithTrigger>
   ),
 };
