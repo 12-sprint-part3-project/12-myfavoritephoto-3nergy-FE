@@ -72,6 +72,24 @@ body {
   font-family: var(--font-noto), sans-serif;
 }
 
+.custom-scrollbar {
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--color-gray-400);
+  border-radius: 999px;
+}
+
 @layer utilities {
   .font-baskin-base {
     font-family: var(--font-baskin);
