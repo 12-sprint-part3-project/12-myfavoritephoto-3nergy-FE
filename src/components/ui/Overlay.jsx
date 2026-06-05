@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import { createPortal } from 'react-dom';
 
 const alignStyles = {
   center: 'items-center justify-center', // 모달: 화면 중앙
@@ -25,13 +26,14 @@ export const Overlay = ({ onClose, align = 'center', children }) => {
     };
   }, []);
 
-  return (
-    // 클릭 시 모달/바텀시트 닫힘
+  return createPortal(
+    // 배경 클릭 시 모달/바텀시트 닫힘
     <div
       className={`fixed inset-0 z-50 flex bg-black/80 ${alignStyles[align]}`}
       onClick={onClose}
     >
       {children}
-    </div>
+    </div>,
+    document.body,
   );
 };
