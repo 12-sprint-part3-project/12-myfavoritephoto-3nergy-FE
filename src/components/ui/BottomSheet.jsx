@@ -1,5 +1,7 @@
 'use client';
 
+import { useState, useRef } from 'react';
+
 export const BottomSheet = ({ onClose, footer, children }) => {
   const sheetRef = useRef(null);
   const startYRef = useRef(null);
@@ -48,7 +50,7 @@ export const BottomSheet = ({ onClose, footer, children }) => {
         transform: `translateY(${dragY}px)`,
         transition: dragY === 0 ? 'transform 0.3s ease' : 'none',
       }}
-      className="flex max-h-[90vh] w-full flex-col rounded-t-[1.25rem] bg-gray-500"
+      className="flex max-h-[90vh] w-full flex-col rounded-t-[1.25rem] bg-gray-500 px-[1.25rem]"
       onClick={(e) => e.stopPropagation()}
     >
       {/* 드래그 핸들 */}
@@ -65,12 +67,10 @@ export const BottomSheet = ({ onClose, footer, children }) => {
       </div>
 
       {/* 스크롤 영역 */}
-      <div className="flex-1 overflow-y-auto px-[1.25rem]">{children}</div>
+      <div className="flex-1 overflow-y-auto">{children}</div>
 
       {/* 하단 고정 버튼 영역 */}
-      {footer && (
-        <div className="shrink-0 px-[1.25rem] pb-[3.75rem]">{footer}</div>
-      )}
+      {footer && <div className="shrink-0 pb-[3.75rem]">{footer}</div>}
     </div>
   );
 };
