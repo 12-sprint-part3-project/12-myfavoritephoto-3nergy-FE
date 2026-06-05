@@ -3,11 +3,11 @@
 import { useEffect, useRef } from 'react';
 import CloseIcon from '@/icons/close.svg';
 
-export const Modal = ({ onClose, className, children }) => {
+export const Modal = ({ onClose, footer, className, children }) => {
   const closeBtnRef = useRef(null);
 
   useEffect(() => {
-    // 모달 열릴 때 close 버튼으로 focus 이동
+    // 모달 열릴 때 close button으로 focus 이동
     closeBtnRef.current?.focus();
   }, []);
 
@@ -20,6 +20,7 @@ export const Modal = ({ onClose, className, children }) => {
       className={`relative rounded-sm bg-black ${className ?? ''}`}
       onClick={(e) => e.stopPropagation()}
     >
+      {/* close button */}
       <button
         ref={closeBtnRef}
         onClick={onClose}
@@ -31,7 +32,12 @@ export const Modal = ({ onClose, className, children }) => {
           className="group-hover:text-main text-gray-300 transition-colors duration-150"
         />
       </button>
-      {children}
+
+      {/* 스크롤 영역 */}
+      <div className="flex-1 overflow-y-auto">{children}</div>
+
+      {/* 하단 고정 버튼 영역 */}
+      {footer && <div className="shrink-0">{footer}</div>}
     </div>
   );
 };
