@@ -67,7 +67,7 @@ export const BottomSheet = ({ onClose, footer, children }) => {
       </div>
 
       {/* 스크롤 영역 */}
-      <div className="flex-1 overflow-y-auto">{children}</div>
+      <div className="custom-scrollbar flex-1 overflow-y-auto">{children}</div>
 
       {/* 하단 고정 버튼 영역 */}
       {footer && <div className="shrink-0 pb-[3.75rem]">{footer}</div>}
