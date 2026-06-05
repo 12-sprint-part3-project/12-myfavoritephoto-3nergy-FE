@@ -25,6 +25,7 @@ const nextConfig = {
               svgProps: {
                 width: 24,
                 height: 24,
+                fill: 'currentColor',
               },
             },
           },
