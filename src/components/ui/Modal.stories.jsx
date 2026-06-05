@@ -14,36 +14,29 @@ const meta = {
     onClose: {
       control: false,
       description: '모달 닫기 핸들러',
-      table: {
-        type: { summary: '() => void' },
-      },
+      table: { type: { summary: '() => void' } },
     },
     children: {
       control: 'text',
       description: '모달 본문 영역 (내용이 길면 스크롤)',
-      table: {
-        type: { summary: 'ReactNode' },
-      },
+      table: { type: { summary: 'ReactNode' } },
     },
     footer: {
       control: false,
       description:
         '하단에 고정할 콘텐츠. 스크롤과 무관하게 항상 보여야 할 요소. (없으면 렌더링 생략)',
-      table: {
-        type: { summary: 'ReactNode' },
-      },
+      table: { type: { summary: 'ReactNode' } },
     },
     className: {
       control: 'text',
       description: '너비, 패딩 등 추가 스타일 직접 지정 (예: w-[10rem] 등)',
-      table: {
-        type: { summary: 'string' },
-      },
+      table: { type: { summary: 'string' } },
     },
   },
 };
 
 export default meta;
+
 function ModalWithTrigger({ footer, children }) {
   const [open, setOpen] = useState(false);
   return (
@@ -70,12 +63,60 @@ export const Default = {
   args: {
     children: '모달 내용입니다.',
   },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+const [open, setOpen] = useState(false);
+
+<Button onClick={() => setOpen(true)}>모달 열기</Button>
+{open && (
+  <Overlay onClose={() => setOpen(false)}>
+    <Modal
+      onClose={() => setOpen(false)}
+      className="max-h-[80vh] w-[35rem] p-10"
+    >
+      <p>모달 내용입니다.</p>
+    </Modal>
+  </Overlay>
+)}`,
+      },
+    },
+  },
   render: (args) => <ModalWithTrigger>{args.children}</ModalWithTrigger>,
 };
 
 export const WithFooter = {
   args: {
     children: '하단에 버튼이 고정되는 모달입니다.',
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+const [open, setOpen] = useState(false);
+
+<Button onClick={() => setOpen(true)}>모달 열기</Button>
+{open && (
+  <Overlay onClose={() => setOpen(false)}>
+    <Modal
+      onClose={() => setOpen(false)}
+      className="max-h-[80vh] w-[35rem] p-10"
+      footer={
+        <div className="flex gap-2">
+          <Button variant="secondary" className="w-full" onClick={() => setOpen(false)}>
+            취소
+          </Button>
+          <Button className="w-full">확인</Button>
+        </div>
+      }
+    >
+      <p>하단에 버튼이 고정되는 모달입니다.</p>
+    </Modal>
+  </Overlay>
+)}`,
+      },
+    },
   },
   render: (args) => (
     <ModalWithTrigger
@@ -94,6 +135,38 @@ export const WithFooter = {
 };
 
 export const WithScrollContent = {
+  parameters: {
+    docs: {
+      source: {
+        code: `
+const [open, setOpen] = useState(false);
+
+<Button onClick={() => setOpen(true)}>모달 열기</Button>
+{open && (
+  <Overlay onClose={() => setOpen(false)}>
+    <Modal
+      onClose={() => setOpen(false)}
+      className="max-h-[80vh] w-[35rem] p-10"
+      footer={
+        <div className="flex gap-2">
+          <Button variant="secondary" className="w-full" onClick={() => setOpen(false)}>
+            취소
+          </Button>
+          <Button className="w-full">확인</Button>
+        </div>
+      }
+    >
+      <div className="flex flex-col gap-2">
+        {items.map((item) => (
+          <p key={item.id} className="text-white">{item.text}</p>
+        ))}
+      </div>
+    </Modal>
+  </Overlay>
+)}`,
+      },
+    },
+  },
   render: () => (
     <ModalWithTrigger
       footer={({ onClose }) => (

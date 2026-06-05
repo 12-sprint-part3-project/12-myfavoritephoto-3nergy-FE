@@ -71,12 +71,31 @@ function BasicModalWithTrigger({ title, buttonText, children }) {
     </>
   );
 }
-
 export const Default = {
   args: {
     title: '모달 제목',
     buttonText: '확인',
     children: '모달 내용이 들어갑니다.',
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+const [open, setOpen] = useState(false);
+
+<Button onClick={() => setOpen(true)}>모달 열기</Button>
+{open && (
+  <BasicModal
+    title="모달 제목"
+    buttonText="확인"
+    onClose={() => setOpen(false)}
+    onClick={() => setOpen(false)}
+  >
+    모달 내용이 들어갑니다.
+  </BasicModal>
+)}`,
+      },
+    },
   },
   render: (args) => (
     <BasicModalWithTrigger title={args.title} buttonText={args.buttonText}>

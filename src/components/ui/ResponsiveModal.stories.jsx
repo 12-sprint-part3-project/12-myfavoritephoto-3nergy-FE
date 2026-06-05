@@ -61,10 +61,22 @@ function ResponsiveModalWithTrigger({ footer, children }) {
     </>
   );
 }
-
 export const Default = {
-  args: {
-    children: '반응형 모달 내용입니다.',
+  args: { children: '반응형 모달 내용입니다.' },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+const [open, setOpen] = useState(false);
+
+<Button onClick={() => setOpen(true)}>모달 열기</Button>
+{open && (
+  <ResponsiveModal onClose={() => setOpen(false)}>
+    <p>반응형 모달 내용입니다.</p>
+  </ResponsiveModal>
+)}`,
+      },
+    },
   },
   render: (args) => (
     <ResponsiveModalWithTrigger>{args.children}</ResponsiveModalWithTrigger>
@@ -72,8 +84,31 @@ export const Default = {
 };
 
 export const WithFooter = {
-  args: {
-    children: '하단에 버튼이 고정되는 반응형 모달입니다.',
+  args: { children: '하단에 버튼이 고정되는 반응형 모달입니다.' },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+const [open, setOpen] = useState(false);
+
+<Button onClick={() => setOpen(true)}>모달 열기</Button>
+{open && (
+  <ResponsiveModal
+    onClose={() => setOpen(false)}
+    footer={
+      <div className="flex gap-2">
+        <Button variant="secondary" className="w-full" onClick={() => setOpen(false)}>
+          취소
+        </Button>
+        <Button className="w-full">확인</Button>
+      </div>
+    }
+  >
+    <p>하단에 버튼이 고정되는 반응형 모달입니다.</p>
+  </ResponsiveModal>
+)}`,
+      },
+    },
   },
   render: (args) => (
     <ResponsiveModalWithTrigger
@@ -92,6 +127,35 @@ export const WithFooter = {
 };
 
 export const WithScrollContent = {
+  parameters: {
+    docs: {
+      source: {
+        code: `
+const [open, setOpen] = useState(false);
+
+<Button onClick={() => setOpen(true)}>모달 열기</Button>
+{open && (
+  <ResponsiveModal
+    onClose={() => setOpen(false)}
+    footer={
+      <div className="flex gap-2">
+        <Button variant="secondary" className="w-full" onClick={() => setOpen(false)}>
+          취소
+        </Button>
+        <Button className="w-full">확인</Button>
+      </div>
+    }
+  >
+    <div className="flex flex-col gap-2">
+      {items.map((item) => (
+        <p key={item.id} className="text-white">{item.text}</p>
+      ))}
+    </div>
+  </ResponsiveModal>
+)}`,
+      },
+    },
+  },
   render: () => (
     <ResponsiveModalWithTrigger
       footer={({ onClose }) => (
