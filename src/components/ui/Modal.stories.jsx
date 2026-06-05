@@ -11,20 +11,6 @@ const meta = {
     layout: 'centered',
   },
   argTypes: {
-    footer: {
-      control: false,
-      description: '하단 고정 버튼 영역 (없으면 렌더링 생략)',
-      table: {
-        type: { summary: 'ReactNode' },
-      },
-    },
-    className: {
-      control: 'text',
-      description: '모달 너비, 패딩 등 추가 스타일',
-      table: {
-        type: { summary: 'string' },
-      },
-    },
     onClose: {
       control: false,
       description: '모달 닫기 핸들러',
@@ -34,9 +20,24 @@ const meta = {
     },
     children: {
       control: 'text',
-      description: '모달 내부 콘텐츠 (스크롤 영역)',
+      description: '모달 본문 영역 (내용이 길면 스크롤)',
       table: {
         type: { summary: 'ReactNode' },
+      },
+    },
+    footer: {
+      control: false,
+      description:
+        '하단에 고정할 콘텐츠. 스크롤과 무관하게 항상 보여야 할 요소. (없으면 렌더링 생략)',
+      table: {
+        type: { summary: 'ReactNode' },
+      },
+    },
+    className: {
+      control: 'text',
+      description: '너비, 패딩 등 추가 스타일 직접 지정 (예: w-[10rem] 등)',
+      table: {
+        type: { summary: 'string' },
       },
     },
   },
