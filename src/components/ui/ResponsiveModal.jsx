@@ -5,7 +5,7 @@ import { Modal } from '@/components/ui/Modal';
 import { Overlay } from '@/components/ui/Overlay';
 import { useIsDesktop } from '@/hooks/useIsDesktop';
 
-export const ResponsiveModal = ({ onClose, children }) => {
+export const ResponsiveModal = ({ onClose, footer, children }) => {
   // lg(1024px) 이상이면 true
   const isDesktop = useIsDesktop();
 
@@ -15,12 +15,19 @@ export const ResponsiveModal = ({ onClose, children }) => {
       {isDesktop ? (
         <Modal
           onClose={onClose}
+          footer={footer}
           className="mx-4 w-full max-w-[72.5rem] px-[1.875rem] py-[3.75rem]"
         >
           {children}
         </Modal>
       ) : (
-        <BottomSheet onClose={onClose}>{children}</BottomSheet>
+        <BottomSheet
+          onClose={onClose}
+          footer={footer}
+          className="text-gray-300"
+        >
+          {children}
+        </BottomSheet>
       )}
     </Overlay>
   );
