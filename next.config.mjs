@@ -1,3 +1,5 @@
+import { svgrOptions } from './svgr.config.js';
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   webpack(config) {
@@ -18,32 +20,7 @@ const nextConfig = {
         test: /\.svg$/i,
         issuer: fileLoaderRule.issuer,
         resourceQuery: { not: [...fileLoaderRule.resourceQuery.not, /url/] },
-        use: [
-          {
-            loader: '@svgr/webpack',
-            options: {
-              // viewBox 기준 크기 조절 활성화
-              icon: true,
-              svgProps: {
-                width: 24, // 기본 width 설정
-                height: 24, // 기본 height 설정
-                className: 'text-white', // 기본 색상 white 설정
-                focusable: 'false', // 스크린리더에서 SVG 무시
-              },
-              svgoConfig: {
-                plugins: [
-                  {
-                    name: 'convertColors',
-                    params: {
-                      // 모든 색상을 currentColor로 변환
-                      currentColor: true,
-                    },
-                  },
-                ],
-              },
-            },
-          },
-        ],
+        use: [{ loader: '@svgr/webpack', options: svgrOptions }],
       },
     );
 
