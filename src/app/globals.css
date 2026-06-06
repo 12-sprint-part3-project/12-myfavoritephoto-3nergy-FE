@@ -2,6 +2,7 @@
 
 @theme {
   --color-black: #0f0f0f;
+
   --color-gray-500: #161616;
   --color-gray-400: #5a5a5a;
   --color-gray-300: #a4a4a4;
@@ -16,6 +17,7 @@
   --color-red: #ff483d;
 
   --color-toast-bg: #535353cc;
+  --color-filter-bottom-sheet-bg: #1b1b1b;
 
   --font-baskin: var(--font-baskin);
   --font-noto: var(--font-noto);
