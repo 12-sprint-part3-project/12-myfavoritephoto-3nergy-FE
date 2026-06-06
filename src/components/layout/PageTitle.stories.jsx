@@ -9,6 +9,10 @@ const meta = {
   parameters: {
     layout: 'fullscreen',
     docs: {
+      description: {
+        component:
+          '페이지, 모달, 섹션 등에서 사용하는 제목 컴포넌트입니다. variant로 계층을 구분합니다.',
+      },
       story: {
         inline: true,
       },
@@ -80,24 +84,24 @@ const meta = {
 
 export default meta;
 
-// 1. variant별 기본 형태
-export const TitleLg = {
-  args: { variant: 'title-lg', title: '마켓 플레이스' },
+export const Default = {
+  args: {
+    variant: 'title-lg',
+    title: '마켓 플레이스',
+  },
 };
 
-export const TitleMd = {
-  args: { variant: 'title-md', title: '포토카드 생성' },
+export const AllVariants = {
+  render: () => (
+    <div className="flex flex-col gap-8">
+      <PageTitle variant="title-lg" title="마켓 플레이스" />
+      <PageTitle variant="title-md" title="포토카드 생성" />
+      <PageTitle variant="heading" title="우리집 앞마당" />
+      <PageTitle variant="subheading" title="교환 희망 정보" />
+    </div>
+  ),
 };
 
-export const Heading = {
-  args: { variant: 'heading', title: '우리집 앞마당' },
-};
-
-export const Subheading = {
-  args: { variant: 'subheading', title: '교환 희망 정보' },
-};
-
-// 2. 옵션 조합
 export const WithBreadcrumb = {
   args: {
     variant: 'title-md',
@@ -131,19 +135,23 @@ export const WithLeadingIcon = {
   render: (args) => (
     <PageTitle
       {...args}
-      leadingIcon={
-        <ExchangeIcon width={28} height={28} className="text-white" />
-      }
+      leadingIcon={<ExchangeIcon width={28} height={28} />}
     />
   ),
 };
 
-// 3. 모바일 옵션
 export const HideBorderOnMobile = {
   args: {
     variant: 'title-md',
     title: '나의 포토카드 판매하기',
     breadcrumb: '마이갤러리',
     hideBorderOnMobile: true,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: '모바일(768px 미만)에서 하단 선이 사라집니다.',
+      },
+    },
   },
 };
