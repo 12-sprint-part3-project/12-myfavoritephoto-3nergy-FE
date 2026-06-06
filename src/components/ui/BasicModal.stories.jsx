@@ -3,7 +3,7 @@ import { BasicModal } from './BasicModal';
 import { Button } from './Button';
 
 const meta = {
-  title: 'UI/BasicModal',
+  title: 'UI/Modal/BasicModal',
   component: BasicModal,
   tags: ['autodocs'],
   parameters: {

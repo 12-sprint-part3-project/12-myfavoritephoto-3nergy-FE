@@ -3,7 +3,7 @@ import { ResponsiveModal } from './ResponsiveModal';
 import { Button } from './Button';
 
 const meta = {
-  title: 'UI/ResponsiveModal',
+  title: 'UI/Modal/ResponsiveModal',
   component: ResponsiveModal,
   tags: ['autodocs'],
   parameters: {
