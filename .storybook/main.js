@@ -10,6 +10,29 @@ const config = {
       rule.test?.test?.('.svg'),
     );
 
+    const svgrLoader = {
+      loader: '@svgr/webpack',
+      options: {
+        // viewBox 기준 크기 조절 활성화
+        icon: true,
+        svgProps: {
+          width: 24, // 기본 width 설정
+          height: 24, // 기본 height 설정
+        },
+        svgoConfig: {
+          plugins: [
+            {
+              name: 'convertColors',
+              params: {
+                // 모든 색상을 currentColor로 변환
+                currentColor: true,
+              },
+            },
+          ],
+        },
+      },
+    };
+
     if (fileLoaderRule) {
       fileLoaderRule.exclude = /\.svg$/i;
 
@@ -22,14 +45,14 @@ const config = {
         {
           test: /\.svg$/i,
           resourceQuery: { not: [/url/] }, // ← fileLoaderRule.resourceQuery 안 씀
-          use: ['@svgr/webpack'],
+          use: [svgrLoader],
         },
       );
     } else {
       // SVG 룰 자체가 없으면 바로 추가
       config.module.rules.push({
         test: /\.svg$/i,
-        use: ['@svgr/webpack'],
+        use: [svgrLoader],
       });
     }
 

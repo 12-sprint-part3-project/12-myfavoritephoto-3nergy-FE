@@ -22,10 +22,22 @@ const nextConfig = {
           {
             loader: '@svgr/webpack',
             options: {
+              // viewBox 기준 크기 조절 활성화
+              icon: true,
               svgProps: {
-                width: 24,
-                height: 24,
-                fill: 'currentColor',
+                width: 24, // 기본 width 설정
+                height: 24, // 기본 height 설정
+              },
+              svgoConfig: {
+                plugins: [
+                  {
+                    name: 'convertColors',
+                    params: {
+                      // 모든 색상을 currentColor로 변환
+                      currentColor: true,
+                    },
+                  },
+                ],
               },
             },
           },
