@@ -1,4 +1,4 @@
-import ExchangeIcon from '@/icons/alert.svg';
+import ExchangeIcon from '@/icons/exchange.svg';
 import { PageTitle } from '@/components/layout/PageTitle';
 import { Button } from '@/components/ui/Button';
 
@@ -132,7 +132,7 @@ export const WithLeadingIcon = {
     <PageTitle
       {...args}
       leadingIcon={
-        <ExchangeIcon width={28} height={28} className="text-gray-300" />
+        <ExchangeIcon width={28} height={28} className="text-white" />
       }
     />
   ),
