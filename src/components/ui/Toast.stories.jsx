@@ -24,9 +24,9 @@ const meta = {
         type: { summary: 'string' },
       },
     },
-    open: {
+    isVisible: {
       control: 'boolean',
-      description: 'Toast의 표시 여부 (임시값)',
+      description: 'Toast의 표시 여부',
       table: {
         type: { summary: 'boolean' },
       },
@@ -39,31 +39,31 @@ export default meta;
 export const Default = {
   args: {
     message: '이번달 모든 생성 기회를 소진했어요',
-    open: true,
+    isVisible: true,
   },
 };
 
 function ToastWithTrigger({ message }) {
-  const [open, setOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    if (!open) return;
+    if (!isVisible) return;
 
     const timer = setTimeout(() => {
-      setOpen(false);
+      setIsVisible(false);
     }, 3000);
 
     return () => clearTimeout(timer);
-  }, [open]);
+  }, [isVisible]);
 
   return (
     <>
-      <Button onClick={() => setOpen(true)} className="w-[10rem]">
+      <Button onClick={() => setIsVisible(true)} className="w-[10rem]">
         Toast 실행
       </Button>
 
       <ToastContainer>
-        <Toast message={message} open={open} />
+        <Toast message={message} isVisible={isVisible} />
       </ToastContainer>
     </>
   );
@@ -77,17 +77,17 @@ export const Interactive = {
     docs: {
       source: {
         code: `
-const [open, setOpen] = useState(false);
+const [isVisible, setIsVisible] = useState(false);
 
 <>
-  <Button onClick={() => setOpen(true)} className="w-[10rem]">
+  <Button onClick={() => setIsVisible(true)} className="w-[10rem]">
     Toast 실행
   </Button>
 
   <ToastContainer>
     <Toast
       message="이번달 모든 생성 기회를 소진했어요"
-      open={open}
+      isVisible={isVisible}
     />
   </ToastContainer>
 </>
