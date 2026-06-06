@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useToast } from '@/hooks/useToast';
 import { Button } from './Button';
 import { Toast } from './Toast';
 import { ToastContainer } from './ToastContainer';
@@ -11,7 +11,7 @@ const meta = {
     docs: {
       description: {
         component:
-          '사용자에게 짧은 피드백 메시지를 제공하는 Toast 컴포넌트입니다.',
+          '사용자에게 짧은 피드백 메시지를 제공하는 Toast 컴포넌트입니다. useToast 훅과 함께 사용합니다.',
       },
     },
   },
@@ -44,26 +44,15 @@ export const Default = {
 };
 
 function ToastWithTrigger({ message }) {
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    if (!isVisible) return;
-
-    const timer = setTimeout(() => {
-      setIsVisible(false);
-    }, 3000);
-
-    return () => clearTimeout(timer);
-  }, [isVisible]);
+  const { isVisible, message: toastMessage, showToast } = useToast();
 
   return (
     <>
-      <Button onClick={() => setIsVisible(true)} className="w-[10rem]">
+      <Button onClick={() => showToast(message)} className="w-[10rem]">
         Toast 실행
       </Button>
-
       <ToastContainer>
-        <Toast message={message} isVisible={isVisible} />
+        <Toast message={toastMessage} isVisible={isVisible} />
       </ToastContainer>
     </>
   );
@@ -77,20 +66,17 @@ export const Interactive = {
     docs: {
       source: {
         code: `
-const [isVisible, setIsVisible] = useState(false);
+          const { open, message, showToast } = useToast();
 
-<>
-  <Button onClick={() => setIsVisible(true)} className="w-[10rem]">
-    Toast 실행
-  </Button>
+          <>
+            <Button onClick={() => showToast('이번달 모든 생성 기회를 소진했어요')}>
+              Toast 실행
+            </Button>
 
-  <ToastContainer>
-    <Toast
-      message="이번달 모든 생성 기회를 소진했어요"
-      isVisible={isVisible}
-    />
-  </ToastContainer>
-</>
+            <ToastContainer>
+              <Toast message={message} open={open} />
+            </ToastContainer>
+          </>
         `,
       },
     },
