@@ -1,3 +1,10 @@
+export const GRADE_TEXT_COLOR = {
+  COMMON: 'text-main',
+  RARE: 'text-blue',
+  SUPER_RARE: 'text-purple',
+  LEGENDARY: 'text-pink',
+};
+
 export const CARD_GRADE_STYLE = {
   COMMON: {
     label: 'COMMON',
