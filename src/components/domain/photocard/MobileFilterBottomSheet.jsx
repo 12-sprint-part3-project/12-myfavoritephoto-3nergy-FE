@@ -6,6 +6,7 @@ import { FILTER_TAB_CONFIG } from '@/constants/filter';
 import { GRADE_TEXT_COLOR } from '@/constants/card';
 import { Button } from '@/components/ui/Button';
 import { Overlay } from '@/components/ui/Overlay';
+import { BottomSheet } from '@/components/ui/BottomSheet';
 
 export const MobileFilterBottomSheet = ({
   tabs, // 표시할 필터 탭 키 목록
@@ -13,20 +14,19 @@ export const MobileFilterBottomSheet = ({
   onApply, // 필터 적용 핸들러
   counts, // 각 필터 항목별 포토카드 개수
   totalPhotos, // 전체 포토카드 개수
+  initialSelection = {}, // 이전에 적용된 선택값
 }) => {
   const [activeTab, setActiveTab] = useState(tabs[0]);
 
-  // 확인 버튼 누르기 전 선택 상태
   const [draftSelection, setDraftSelection] = useState(
     tabs.reduce((acc, key) => {
-      acc[key] = null;
+      acc[key] = initialSelection[key] ?? null;
       return acc;
     }, {}),
   );
 
   const activeConfig = FILTER_TAB_CONFIG[activeTab];
 
-  // 옵션 선택/해제 처리
   const selectOption = (option) => {
     setDraftSelection((prev) => ({
       ...prev,
@@ -34,12 +34,8 @@ export const MobileFilterBottomSheet = ({
     }));
   };
 
-  // 현재 활성 탭에서 해당 옵션이 선택됐는지 확인
-  const isSelected = (option) => {
-    return draftSelection[activeTab] === option;
-  };
+  const isSelected = (option) => draftSelection[activeTab] === option;
 
-  // 모든 탭의 선택값 초기화
   const resetFilter = () => {
     setDraftSelection(
       tabs.reduce((acc, key) => {
@@ -49,42 +45,48 @@ export const MobileFilterBottomSheet = ({
     );
   };
 
-  // 확인 버튼 클릭 시 선택값을 부모로 전달하고 닫기
   const applyFilter = () => {
     onApply?.(draftSelection);
     onClose();
   };
 
-  // 선택된 필터 기준으로 포토카드 총 개수 계산
   // NOTE: API 연동 전까지 단순 합산 값 (정확한 AND 결과 아님)
   const totalCount = tabs.reduce((sum, key) => {
     const selected = draftSelection[key];
-
     if (!selected) return sum;
-
     return sum + (counts?.[key]?.[selected] ?? 0);
   }, 0);
 
   return (
     <Overlay onClose={onClose} align="end">
-      <div
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="modal-title"
-        className="bg-filter-bottom-sheet-bg relative flex min-h-[30rem] w-full flex-col rounded-t-[1.25rem]"
+      <BottomSheet
+        onClose={onClose}
+        footer={
+          <div className="flex w-full gap-2">
+            <button
+              onClick={resetFilter}
+              aria-label="필터 초기화"
+              className="group focus-visible:ring-main p-[0.94rem] focus-visible:ring-2 focus-visible:outline-none"
+            >
+              <ExchangeIcon className="text-gray-400 transition-colors duration-150 group-hover:text-white" />
+            </button>
+            <Button onClick={applyFilter} className="w-full">
+              {totalCount > 0
+                ? `${totalCount}개 포토 보기`
+                : `${totalPhotos}개 포토 보기`}
+            </Button>
+          </div>
+        }
       >
         {/* 헤더 */}
-        <div className="flex justify-center py-4">
-          <h2
-            id="modal-title"
-            className="text-noto-16-regular font-medium text-gray-400"
-          >
+        <div className="relative flex justify-center py-4">
+          <h2 className="text-noto-16-regular font-medium text-gray-400">
             필터
           </h2>
           <button
             onClick={onClose}
             aria-label="모달 닫기"
-            className="group focus-visible:ring-main absolute top-[0.88rem] right-[0.9375rem] flex h-6 w-6 items-center justify-center focus-visible:ring-2 focus-visible:outline-none"
+            className="group focus-visible:ring-main absolute top-0 right-0 flex h-6 w-6 items-center justify-center focus-visible:ring-2 focus-visible:outline-none"
           >
             <CloseIcon
               width={14}
@@ -94,7 +96,7 @@ export const MobileFilterBottomSheet = ({
           </button>
         </div>
 
-        {/* 탭: 선택된 탭은 흰색 글씨와 하단 border 표시 */}
+        {/* 탭 */}
         <ul className="flex gap-6 border-b border-gray-500 px-6">
           {tabs.map((tab) => (
             <li key={tab}>
@@ -112,8 +114,8 @@ export const MobileFilterBottomSheet = ({
           ))}
         </ul>
 
-        {/* 옵션 목록: 선택 시 배경색과 글자색 변경, 등급은 글자 색상 유지 */}
-        <ul className="mt-[1.19rem] flex flex-1 flex-col gap-[0.19rem] overflow-y-auto">
+        {/* 옵션 목록 */}
+        <ul className="mt-[1.19rem] flex flex-col gap-[0.19rem]">
           {activeConfig.options.map((option) => (
             <li key={option}>
               <button
@@ -125,7 +127,7 @@ export const MobileFilterBottomSheet = ({
                 <span
                   className={
                     activeTab === 'grade'
-                      ? GRADE_TEXT_COLOR[option] // 등급은 항상 고유 색상 유지
+                      ? GRADE_TEXT_COLOR[option]
                       : isSelected(option)
                         ? 'text-white'
                         : 'text-gray-300 hover:text-gray-200'
@@ -133,13 +135,9 @@ export const MobileFilterBottomSheet = ({
                 >
                   {GRADE_TEXT_COLOR[option]?.label ?? option}
                 </span>
-
-                {/* 해당 항목별 포토카드 개수 */}
                 {counts?.[activeTab]?.[option] !== undefined && (
                   <span
-                    className={
-                      isSelected(option) ? 'text-white' : 'text-gray-300'
-                    }
+                    className={isSelected(option) ? 'text-white' : 'text-gray-300'}
                   >
                     {counts[activeTab][option]}개
                   </span>
@@ -148,25 +146,7 @@ export const MobileFilterBottomSheet = ({
             </li>
           ))}
         </ul>
-
-        {/* 푸터: 초기화 버튼 + 확인 버튼  */}
-        <div className="flex w-full shrink-0 gap-2 px-[18px] pb-[2.5rem]">
-          <button
-            onClick={resetFilter}
-            aria-label="필터 초기화"
-            className="group focus-visible:ring-main p-[0.94rem] focus-visible:ring-2 focus-visible:outline-none"
-          >
-            <ExchangeIcon className="text-gray-400 transition-colors duration-150 group-hover:text-white" />
-          </button>
-
-          {/* 선택된 필터 있으면 해당 개수, 없으면 전체 개수 표시 */}
-          <Button onClick={applyFilter} className="w-full">
-            {totalCount > 0
-              ? `${totalCount}개 포토 보기`
-              : `${totalPhotos}개 포토 보기`}
-          </Button>
-        </div>
-      </div>
+      </BottomSheet>
     </Overlay>
   );
 };
