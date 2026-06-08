@@ -1,8 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import CloseIcon from '@/icons/close.svg';
-import ExchangeIcon from '@/icons/exchange.svg';
+import { CloseIcon, ExchangeIcon } from '@/icons';
 import { FILTER_TAB_CONFIG } from '@/constants/filter';
 import { GRADE_TEXT_COLOR } from '@/constants/card';
 import { Button } from '@/components/ui/Button';
