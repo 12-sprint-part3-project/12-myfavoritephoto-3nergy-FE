@@ -72,6 +72,18 @@ const meta = {
   title: 'Layout/GNB/NotificationMenu',
   component: NotificationMenu,
   tags: ['autodocs'],
+  argTypes: {
+    notifications: {
+      control: 'object',
+      description: '알림 목록',
+      table: {
+        type: {
+          summary:
+            'Array<{ id: number, isRead: boolean, message: string, createdAt: string }>',
+        },
+      },
+    },
+  },
 };
 
 export default meta;
