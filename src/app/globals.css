@@ -77,8 +77,7 @@ body {
 }
 
 .custom-scrollbar {
-  overflow-y: scroll;
-  scrollbar-gutter: stable;
+  overflow-y: auto;
 }
 
 .custom-scrollbar::-webkit-scrollbar {
