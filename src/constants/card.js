@@ -1,4 +1,4 @@
-export const CARD_GRADE_COLOR = {
+export const CARD_GRADE_STYLE = {
   COMMON: {
     label: 'COMMON',
     className: 'border-main text-main',
@@ -16,3 +16,7 @@ export const CARD_GRADE_COLOR = {
     className: 'border-pink text-pink',
   },
 };
+
+export const CARD_GRADE_OPTIONS = Object.entries(CARD_GRADE_STYLE).map(
+  ([value, { label }]) => ({ value, label }),
+);
