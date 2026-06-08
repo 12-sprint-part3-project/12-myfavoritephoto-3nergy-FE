@@ -27,10 +27,7 @@ export default function RootLayout({ children }) {
       lang="ko"
       className={`${fontNotoSansKr.variable} ${fontBaskin.variable}`}
     >
-      <body className="flex min-h-full flex-col">
-        <p className="font-baskin-base text-baskin-62-bold">제목</p>
-        {children}
-      </body>
+      <body className="flex min-h-screen flex-col bg-black">{children}</body>
     </html>
   );
 }
