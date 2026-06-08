@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import ChevronDown from '@/icons/chevron-down.svg';
+import { ChevronDownIcon } from '@/icons';
 
 const SORT_OPTIONS = [
   { value: 'low-price', label: '낮은 가격순' },
@@ -45,8 +45,8 @@ export const SortDropdown = ({ value, onChange, className }) => {
         <span className={selectedOption ? 'text-white' : 'text-gray-300'}>
           {selectedOption ? selectedOption.label : '낮은 가격순'}
         </span>
-        <ChevronDown
-          className={`ml-2 h-4 w-4 shrink-0 text-white transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
+        <ChevronDownIcon
+          className={`ml-2 h-4 w-4 shrink-0 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
         />
       </button>
 
