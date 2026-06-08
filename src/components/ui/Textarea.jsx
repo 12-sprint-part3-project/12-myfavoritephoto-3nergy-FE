@@ -2,7 +2,7 @@
 
 import { useId } from 'react';
 
-const Textarea = ({
+export const Textarea = ({
   label,
   name,
   value,
@@ -37,4 +37,3 @@ const Textarea = ({
   );
 };
 
-export default Textarea;

@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { SearchIcon } from '@/icons';
 
-const SearchBar = () => {
+export const SearchBar = () => {
   const [keyword, setKeyword] = useState('');
 
   return (
@@ -22,4 +22,3 @@ const SearchBar = () => {
   );
 };
 
-export default SearchBar;

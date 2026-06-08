@@ -3,7 +3,7 @@
 import { useId, useState } from 'react';
 import { CloseIcon } from '@/icons';
 
-const FileInput = ({ label, name, onChange }) => {
+export const FileInput = ({ label, name, onChange }) => {
   const uid = useId();
   const inputId = `${name}-${uid}`;
   const [fileName, setFileName] = useState('');
@@ -70,4 +70,3 @@ const FileInput = ({ label, name, onChange }) => {
   );
 };
 
-export default FileInput;

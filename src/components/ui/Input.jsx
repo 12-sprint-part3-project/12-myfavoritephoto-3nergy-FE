@@ -3,7 +3,7 @@
 import { useId, useState } from 'react';
 import { VisibleIcon, InvisibleIcon } from '@/icons';
 
-const Input = ({
+export const Input = ({
   label,
   name,
   type = 'text',
@@ -66,4 +66,3 @@ const Input = ({
   );
 };
 
-export default Input;

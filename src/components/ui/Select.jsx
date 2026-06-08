@@ -3,7 +3,7 @@
 import { useId } from 'react';
 import { ChevronDownIcon } from '@/icons';
 
-const Select = ({
+export const Select = ({
   label,
   name,
   value,
@@ -70,4 +70,3 @@ const Select = ({
   );
 };
 
-export default Select;
