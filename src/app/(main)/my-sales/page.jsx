@@ -1,6 +1,6 @@
 const page = () => {
   return (
-    <div className="pb-[2.5rem] md:pb-[6.88rem] xl:pb-[8.75rem]">
+    <div className="pb-[40px] md:pb-[110px] xl:pb-[140px]">
       나의 판매 포토카드
     </div>
   );

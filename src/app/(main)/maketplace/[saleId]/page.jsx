@@ -1,7 +1,5 @@
 const page = () => {
-  return (
-    <div className="pb-[2.5rem] md:pb-[3.75rem] xl:pb-[11.25rem]">카드상세</div>
-  );
+  return <div className="pb-[40px] md:pb-[60px] xl:pb-[180px]">카드상세</div>;
 };
 
 export default page;

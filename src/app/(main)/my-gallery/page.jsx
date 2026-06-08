@@ -1,8 +1,6 @@
 const page = () => {
   return (
-    <div className="pb-[2.5rem] md:pb-[6.88rem] xl:pb-[8.75rem]">
-      마이갤러리
-    </div>
+    <div className="pb-[40px] md:pb-[110px] xl:pb-[140px]">마이갤러리</div>
   );
 };
 
