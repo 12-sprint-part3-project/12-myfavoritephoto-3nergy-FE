@@ -15,13 +15,22 @@ const SALE_METHOD_OPTIONS = [
   { value: 'exchange', label: '교환' },
 ];
 
+const MOCK_COUNTS = {
+  grade: { COMMON: 12, RARE: 21, SUPER_RARE: 34, LEGENDARY: 5 },
+  genre: { 여행: 21, 풍경: 34, 인물: 5, 사료: 12 },
+  soldOut: { '판매 중': 50, '판매 완료': 22 },
+};
+
 const meta = {
   title: 'Domain/Photocard/FilterDropdown',
   component: FilterDropdown,
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
-    backgrounds: { default: 'dark', values: [{ name: 'dark', value: '#0f0f0f' }] },
+    backgrounds: {
+      default: 'dark',
+      values: [{ name: 'dark', value: '#0f0f0f' }],
+    },
     viewport: { defaultViewport: 'tablet' },
   },
   argTypes: {
@@ -99,7 +108,8 @@ export const MobileWithBottomSheet = {
             tabs={['grade', 'genre', 'soldOut']}
             onClose={() => setOpen(false)}
             onApply={(selection) => setAppliedSelection(selection)}
-            totalPhotos={52}
+            counts={MOCK_COUNTS}
+            totalPhotos={72}
             initialSelection={appliedSelection}
           />
         )}
@@ -107,4 +117,3 @@ export const MobileWithBottomSheet = {
     );
   },
 };
-
