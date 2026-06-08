@@ -98,6 +98,7 @@ export const MobileWithBottomSheet = {
             tabs={['grade', 'genre', 'soldOut']}
             onClose={() => setOpen(false)}
             onApply={(selection) => console.log('applied:', selection)}
+            totalPhotos={52}
           />
         )}
       </>
