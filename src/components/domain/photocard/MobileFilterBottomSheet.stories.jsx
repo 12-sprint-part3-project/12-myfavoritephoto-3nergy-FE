@@ -26,7 +26,7 @@ const MOCK_COUNTS = {
 };
 
 const meta = {
-  title: 'Common/MobileFilterBottomSheet',
+  title: 'Domain/Photocard/MobileFilterBottomSheet',
   component: MobileFilterBottomSheet,
   tags: ['autodocs'],
   parameters: {
