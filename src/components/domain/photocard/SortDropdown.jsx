@@ -40,7 +40,7 @@ export const SortDropdown = ({ value, onChange, className }) => {
       <button
         type="button"
         onClick={() => setIsOpen((prev) => !prev)}
-        className="text-noto-16-regular flex h-[3.4375rem] w-full items-center justify-between gap-2 border border-white bg-gray-500 px-4 transition-colors hover:border-gray-300"
+        className="text-noto-16-regular flex h-[3.4375rem] w-full items-center justify-between gap-2 border border-white bg-gray-500 px-4"
       >
         <span className={selectedOption ? 'text-white' : 'text-gray-300'}>
           {selectedOption ? selectedOption.label : '낮은 가격순'}
