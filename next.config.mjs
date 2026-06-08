@@ -1,3 +1,5 @@
+import { svgrOptions } from './svgr.config.js';
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   webpack(config) {
@@ -18,18 +20,7 @@ const nextConfig = {
         test: /\.svg$/i,
         issuer: fileLoaderRule.issuer,
         resourceQuery: { not: [...fileLoaderRule.resourceQuery.not, /url/] },
-        use: [
-          {
-            loader: '@svgr/webpack',
-            options: {
-              svgProps: {
-                width: 24,
-                height: 24,
-                fill: 'currentColor',
-              },
-            },
-          },
-        ],
+        use: [{ loader: '@svgr/webpack', options: svgrOptions }],
       },
     );
 

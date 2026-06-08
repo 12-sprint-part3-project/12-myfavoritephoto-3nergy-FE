@@ -1,3 +1,5 @@
+import { svgrOptions } from '../svgr.config.js';
+
 /** @type { import('@storybook/nextjs').StorybookConfig } */
 const config = {
   stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
@@ -22,14 +24,14 @@ const config = {
         {
           test: /\.svg$/i,
           resourceQuery: { not: [/url/] }, // ← fileLoaderRule.resourceQuery 안 씀
-          use: ['@svgr/webpack'],
+          use: [{ loader: '@svgr/webpack', options: svgrOptions }],
         },
       );
     } else {
       // SVG 룰 자체가 없으면 바로 추가
       config.module.rules.push({
         test: /\.svg$/i,
-        use: ['@svgr/webpack'],
+        use: [{ loader: '@svgr/webpack', options: svgrOptions }],
       });
     }
 
