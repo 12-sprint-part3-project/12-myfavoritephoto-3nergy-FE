@@ -86,6 +86,7 @@ export const MobileWithBottomSheet = {
   },
   render: () => {
     const [open, setOpen] = useState(false);
+    const [appliedSelection, setAppliedSelection] = useState({});
     return (
       <>
         <FilterDropdown
@@ -97,8 +98,9 @@ export const MobileWithBottomSheet = {
           <MobileFilterBottomSheet
             tabs={['grade', 'genre', 'soldOut']}
             onClose={() => setOpen(false)}
-            onApply={(selection) => console.log('applied:', selection)}
+            onApply={(selection) => setAppliedSelection(selection)}
             totalPhotos={52}
+            initialSelection={appliedSelection}
           />
         )}
       </>
