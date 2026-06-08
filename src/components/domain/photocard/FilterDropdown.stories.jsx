@@ -86,23 +86,18 @@ export const MobileWithBottomSheet = {
   },
   render: () => {
     const [open, setOpen] = useState(false);
-    const [value, setValue] = useState(null);
     return (
       <>
         <FilterDropdown
           label="등급"
           options={GRADE_OPTIONS}
-          value={value}
-          onChange={setValue}
           onMobileClick={() => setOpen(true)}
         />
         {open && (
           <MobileFilterBottomSheet
-            label="등급"
-            options={GRADE_OPTIONS}
-            value={value}
-            onChange={setValue}
+            tabs={['grade', 'genre', 'soldOut']}
             onClose={() => setOpen(false)}
+            onApply={(selection) => console.log('applied:', selection)}
           />
         )}
       </>
