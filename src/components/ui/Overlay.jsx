@@ -32,7 +32,9 @@ export const Overlay = ({ onClose, align = 'center', children }) => {
       className={`fixed inset-0 z-50 flex bg-black/80 ${alignStyles[align]}`}
       onClick={onClose}
     >
-      {children}
+      <div className="contents" onClick={(e) => e.stopPropagation()}>
+        {children}
+      </div>
     </div>,
     document.body,
   );

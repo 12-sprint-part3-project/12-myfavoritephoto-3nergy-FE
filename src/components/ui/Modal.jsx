@@ -18,7 +18,6 @@ export const Modal = ({ onClose, footer, className, children }) => {
       aria-labelledby="modal-title"
       aria-describedby="modal-description"
       className={`relative flex flex-col rounded-sm bg-black ${className ?? ''}`}
-      onClick={(e) => e.stopPropagation()}
     >
       {/* close button */}
       <button
