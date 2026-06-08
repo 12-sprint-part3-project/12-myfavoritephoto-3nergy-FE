@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
+import ChevronDown from '@/icons/chevron-down.svg';
 
 export const FilterDropdown = ({ label, options = [], value, onChange }) => {
   const isControlled = value !== undefined;
@@ -36,19 +37,9 @@ export const FilterDropdown = ({ label, options = [], value, onChange }) => {
         className="flex items-center gap-1 text-noto-16-regular text-gray-300 transition-colors hover:text-white"
       >
         <span>{selectedOption ? selectedOption.label : label}</span>
-        <svg
+        <ChevronDown
           className={`h-3 w-3 shrink-0 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
-          viewBox="0 0 12 12"
-          fill="none"
-        >
-          <path
-            d="M2 4L6 8L10 4"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
+        />
       </button>
 
       {isOpen && (
