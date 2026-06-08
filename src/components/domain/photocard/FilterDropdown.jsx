@@ -1,9 +1,15 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { ChevronDownIcon } from '@/icons';
+import { ChevronDownIcon, FilterIcon } from '@/icons';
 
-export const FilterDropdown = ({ label, options = [], value, onChange }) => {
+export const FilterDropdown = ({
+  label,
+  options = [],
+  value,
+  onChange,
+  onMobileClick,
+}) => {
   const isControlled = value !== undefined;
   const [internalSelected, setInternalSelected] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
@@ -31,25 +37,35 @@ export const FilterDropdown = ({ label, options = [], value, onChange }) => {
 
   return (
     <div ref={containerRef} className="relative">
+      {/* 모바일: 필터 아이콘 버튼 → 바텀시트 오픈 */}
+      <button
+        type="button"
+        onClick={onMobileClick}
+        className="flex h-[2.1875rem] w-[2.1875rem] items-center justify-center rounded-xs border border-white md:hidden"
+      >
+        <FilterIcon className="h-[0.91rem] w-[0.91rem] text-white" />
+      </button>
+
+      {/* PC/태블릿: 드롭다운 */}
       <button
         type="button"
         onClick={() => setIsOpen((prev) => !prev)}
-        className="flex items-center gap-1 text-noto-16-regular text-gray-300 transition-colors hover:text-white"
+        className="text-noto-16-regular hidden items-center gap-1 text-gray-300 transition-colors hover:text-white md:flex"
       >
         <span>{selectedOption ? selectedOption.label : label}</span>
         <ChevronDownIcon
-          className={`h-3 w-3 shrink-0 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
+          className={`h-6 w-6 shrink-0 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
         />
       </button>
 
       {isOpen && (
-        <ul className="absolute left-0 top-full z-10 min-w-[8rem] bg-gray-500">
+        <ul className="absolute top-full left-0 z-10 min-w-[8rem] rounded-xs border border-white bg-gray-500">
           {options.map((option) => (
             <li key={option.value}>
               <button
                 type="button"
                 onClick={() => handleSelect(option)}
-                className={`flex h-[3.4375rem] w-full items-center px-4 text-noto-16-regular transition-colors hover:bg-gray-400 ${
+                className={`text-noto-16-regular flex h-[3.4375rem] w-full items-center px-4 transition-colors hover:bg-gray-400 ${
                   selectedOption?.value === option.value
                     ? 'text-main'
                     : 'text-white'

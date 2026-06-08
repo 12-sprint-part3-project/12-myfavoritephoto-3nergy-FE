@@ -1,3 +1,6 @@
+import { useState } from 'react';
+
+import { MobileFilterBottomSheet } from './MobileFilterBottomSheet';
 import { FilterDropdown } from './FilterDropdown';
 
 const GRADE_OPTIONS = [
@@ -18,7 +21,8 @@ const meta = {
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
-    backgrounds: { default: 'dark' },
+    backgrounds: { default: 'dark', values: [{ name: 'dark', value: '#0f0f0f' }] },
+    viewport: { defaultViewport: 'tablet' },
   },
   argTypes: {
     label: {
@@ -42,6 +46,12 @@ const meta = {
       action: 'changed',
       order: 4,
       table: { type: { summary: '(value: string) => void' } },
+    },
+    onMobileClick: {
+      action: 'mobileClicked',
+      order: 5,
+      description: '모바일에서 필터 아이콘 클릭 시 호출 (바텀시트 오픈용)',
+      table: { type: { summary: '() => void' } },
     },
   },
 };
@@ -69,3 +79,34 @@ export const GradeWithSelected = {
     value: 'rare',
   },
 };
+
+export const MobileWithBottomSheet = {
+  parameters: {
+    viewport: { defaultViewport: 'mobile1' },
+  },
+  render: () => {
+    const [open, setOpen] = useState(false);
+    const [value, setValue] = useState(null);
+    return (
+      <>
+        <FilterDropdown
+          label="등급"
+          options={GRADE_OPTIONS}
+          value={value}
+          onChange={setValue}
+          onMobileClick={() => setOpen(true)}
+        />
+        {open && (
+          <MobileFilterBottomSheet
+            label="등급"
+            options={GRADE_OPTIONS}
+            value={value}
+            onChange={setValue}
+            onClose={() => setOpen(false)}
+          />
+        )}
+      </>
+    );
+  },
+};
+

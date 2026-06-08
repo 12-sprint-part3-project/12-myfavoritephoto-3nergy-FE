@@ -40,24 +40,24 @@ export const SortDropdown = ({ value, onChange, className }) => {
       <button
         type="button"
         onClick={() => setIsOpen((prev) => !prev)}
-        className="flex h-[3.4375rem] w-full items-center justify-between border border-gray-400 bg-gray-500 px-4 text-noto-16-regular transition-colors hover:border-gray-300"
+        className="text-noto-16-regular flex h-[3.4375rem] w-full items-center justify-between gap-2 border border-white bg-gray-500 px-4 transition-colors hover:border-gray-300"
       >
         <span className={selectedOption ? 'text-white' : 'text-gray-300'}>
           {selectedOption ? selectedOption.label : '낮은 가격순'}
         </span>
         <ChevronDownIcon
-          className={`ml-2 h-4 w-4 shrink-0 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
+          className={`h-6 w-6 shrink-0 text-white transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
         />
       </button>
 
       {isOpen && (
-        <ul className="absolute left-0 right-0 top-full z-10 border border-t-0 border-gray-400 bg-gray-500">
+        <ul className="absolute top-full right-0 left-0 z-10 border border-t-0 border-white bg-gray-500">
           {SORT_OPTIONS.map((option) => (
             <li key={option.value}>
               <button
                 type="button"
                 onClick={() => handleSelect(option)}
-                className={`flex h-[3.4375rem] w-full items-center px-4 text-noto-16-regular transition-colors hover:bg-gray-400 ${
+                className={`text-noto-16-regular flex h-[3.4375rem] w-full items-center px-4 transition-colors hover:bg-gray-400 ${
                   selectedOption?.value === option.value
                     ? 'text-main'
                     : 'text-white'
