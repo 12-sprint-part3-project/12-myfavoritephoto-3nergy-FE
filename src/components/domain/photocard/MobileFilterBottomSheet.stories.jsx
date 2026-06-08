@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import { Button } from '@/components/ui/Button';
 import { MobileFilterBottomSheet } from './MobileFilterBottomSheet';
 
 const MOCK_COUNTS = {
@@ -69,6 +71,26 @@ const meta = {
 
 export default meta;
 
+function MobileFilterBottomSheetWithTrigger(args) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <>
+      <Button onClick={() => setOpen(true)} className="w-[10rem]">
+        바텀시트 열기
+      </Button>
+
+      {open && (
+        <MobileFilterBottomSheet
+          {...args}
+          onClose={() => setOpen(false)}
+          onApply={() => setOpen(false)}
+        />
+      )}
+    </>
+  );
+}
+
 // 기본 (등급/장르/매진여부)
 export const Default = {
   args: {
@@ -76,4 +98,5 @@ export const Default = {
     counts: MOCK_COUNTS,
     totalPhotos: 72,
   },
+  render: (args) => <MobileFilterBottomSheetWithTrigger {...args} />,
 };
