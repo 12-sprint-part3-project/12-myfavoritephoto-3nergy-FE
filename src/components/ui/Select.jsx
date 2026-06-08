@@ -1,7 +1,7 @@
 'use client';
 
 import { useId } from 'react';
-import ChevronDown from '@/icons/chevron-down.svg';
+import { ChevronDownIcon } from '@/icons';
 
 const Select = ({
   label,
@@ -61,7 +61,7 @@ const Select = ({
         <span
           className={`pointer-events-none absolute top-[50%] right-5 h-[1.5rem] w-[1.5rem] -translate-y-[50%] ${disabled ? 'text-gray-400' : 'text-white'}`}
         >
-          <ChevronDown />
+          <ChevronDownIcon />
         </span>
       </div>
 

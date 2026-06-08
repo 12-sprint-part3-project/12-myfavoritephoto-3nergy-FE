@@ -1,7 +1,7 @@
 'use client';
 
 import { useId, useState } from 'react';
-import Close from '@/icons/close.svg';
+import { CloseIcon } from '@/icons';
 
 const FileInput = ({ label, name, onChange }) => {
   const uid = useId();
@@ -43,7 +43,7 @@ const FileInput = ({ label, name, onChange }) => {
               onClick={handleClear}
               className="ml-3 h-6 w-6 shrink-0 cursor-pointer text-white"
             >
-              <Close />
+              <CloseIcon />
               <span className="sr-only">파일 삭제</span>
             </button>
           )}

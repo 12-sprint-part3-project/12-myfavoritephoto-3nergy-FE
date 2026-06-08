@@ -1,8 +1,7 @@
 'use client';
 
 import { useId, useState } from 'react';
-import Visible from '@/icons/visible.svg';
-import Invisible from '@/icons/invisible.svg';
+import { VisibleIcon, InvisibleIcon } from '@/icons';
 
 const Input = ({
   label,
@@ -56,7 +55,7 @@ const Input = ({
             onClick={() => setShowPassword((prev) => (disabled ? prev : !prev))}
             className={`absolute top-[50%] right-5 h-[1.5rem] w-[1.5rem] -translate-y-[50%] ${disabled ? 'text-gray-400' : 'cursor-pointer text-white'}`}
           >
-            {showPassword ? <Invisible /> : <Visible />}
+            {showPassword ? <InvisibleIcon /> : <VisibleIcon />}
             <span className="sr-only">{showPassword ? '숨기기' : '보기'}</span>
           </button>
         )}
