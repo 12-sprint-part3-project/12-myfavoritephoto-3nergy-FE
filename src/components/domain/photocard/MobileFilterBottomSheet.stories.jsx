@@ -83,13 +83,6 @@ export const Default = {
     counts: MOCK_COUNTS,
     totalPhotos: 72,
   },
-  parameters: {
-    docs: {
-      description: {
-        story: `tabs prop으로 탭 구성을 변경할 수 있습니다.\n- 마켓플레이스: ['grade', 'genre', 'soldOut']\n- 나의 판매 포토카드: ['grade', 'genre', 'soldOut', 'method']\n- 마이갤러리: ['grade', 'genre']`,
-      },
-    },
-  },
   render: (args) => (
     <MobileFilterBottomSheet
       {...args}
