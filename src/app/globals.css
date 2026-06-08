@@ -47,29 +47,29 @@
   --text-noto-18-bold--font-weight: 700;
   --text-noto-18-regular: 1.125rem;
   --text-noto-18-light: 1.125rem;
-  --text-noto-18-light--font-weight: 400;
+  --text-noto-18-light--font-weight: 300;
 
   --text-noto-16-bold: 1rem;
   --text-noto-16-bold--font-weight: 700;
   --text-noto-16-regular: 1rem;
   --text-noto-16-light: 1rem;
-  --text-noto-16-light--font-weight: 400;
+  --text-noto-16-light--font-weight: 300;
 
   --text-noto-14-bold: 0.875rem;
   --text-noto-14-bold--font-weight: 700;
   --text-noto-14-regular: 0.875rem;
   --text-noto-14-light: 0.875rem;
-  --text-noto-14-light--font-weight: 400;
+  --text-noto-14-light--font-weight: 300;
 
   --text-noto-12-bold: 0.75rem;
   --text-noto-12-bold--font-weight: 700;
   --text-noto-12-regular: 0.75rem;
   --text-noto-12-light: 0.75rem;
-  --text-noto-12-light--font-weight: 400;
+  --text-noto-12-light--font-weight: 300;
 
   --text-noto-10-regular: 0.625rem;
   --text-noto-10-light: 0.625rem;
-  --text-noto-10-light--font-weight: 400;
+  --text-noto-10-light--font-weight: 300;
 }
 
 body {
