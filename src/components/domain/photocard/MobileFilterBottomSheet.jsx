@@ -17,10 +17,9 @@ export const MobileFilterBottomSheet = ({
   const [activeTab, setActiveTab] = useState(tabs[0]);
 
   // 확인 버튼 누르기 전 선택 상태
-  // multiple 탭은 배열, single 탭은 단일값(null)으로 초기화
   const [draftSelection, setDraftSelection] = useState(
     tabs.reduce((acc, key) => {
-      acc[key] = FILTER_TAB_CONFIG[key].multiple ? [] : null;
+      acc[key] = null;
       return acc;
     }, {}),
   );
@@ -28,38 +27,23 @@ export const MobileFilterBottomSheet = ({
   const activeConfig = FILTER_TAB_CONFIG[activeTab];
 
   // 옵션 선택/해제 처리
-  // multiple 탭: 토글(있으면 제거, 없으면 추가)
-  // single 탭: 같은 값 클릭 시 해제, 다른 값 클릭 시 교체
   const selectOption = (option) => {
-    const isMultiple = FILTER_TAB_CONFIG[activeTab].multiple;
-
-    if (isMultiple) {
-      setDraftSelection((prev) => ({
-        ...prev,
-        [activeTab]: prev[activeTab].includes(option)
-          ? prev[activeTab].filter((v) => v !== option)
-          : [...prev[activeTab], option],
-      }));
-    } else {
-      setDraftSelection((prev) => ({
-        ...prev,
-        [activeTab]: prev[activeTab] === option ? null : option,
-      }));
-    }
+    setDraftSelection((prev) => ({
+      ...prev,
+      [activeTab]: prev[activeTab] === option ? null : option,
+    }));
   };
 
   // 현재 활성 탭에서 해당 옵션이 선택됐는지 확인
   const isSelected = (option) => {
-    const selected = draftSelection[activeTab];
-    if (Array.isArray(selected)) return selected.includes(option);
-    return selected === option;
+    return draftSelection[activeTab] === option;
   };
 
   // 모든 탭의 선택값 초기화
   const resetFilter = () => {
     setDraftSelection(
       tabs.reduce((acc, key) => {
-        acc[key] = FILTER_TAB_CONFIG[key].multiple ? [] : null;
+        acc[key] = null;
         return acc;
       }, {}),
     );
@@ -71,32 +55,13 @@ export const MobileFilterBottomSheet = ({
     onClose();
   };
 
-  // 탭에서 선택된 항목이 있으면 개수 표시 ex) '장르 2'
-  const getTabLabel = (key) => {
-    const { label, multiple } = FILTER_TAB_CONFIG[key];
-    const selected = draftSelection[key];
-
-    // 단일 선택 탭은 숫자 표시 안 함 (매진 여부, 판매 방법)
-    if (!multiple) {
-      return label;
-    }
-
-    const count = Array.isArray(selected) ? selected.length : selected ? 1 : 0;
-
-    return count > 0 ? `${label} ${count}` : label;
-  };
-
   // 선택된 필터 기준으로 포토카드 총 개수 계산
   // NOTE: API 연동 전까지 단순 합산 값 (정확한 AND 결과 아님)
   const totalCount = tabs.reduce((sum, key) => {
     const selected = draftSelection[key];
-    if (!selected || selected.length === 0) return sum;
 
-    if (Array.isArray(selected)) {
-      return (
-        sum + selected.reduce((s, opt) => s + (counts?.[key]?.[opt] ?? 0), 0)
-      );
-    }
+    if (!selected) return sum;
+
     return sum + (counts?.[key]?.[selected] ?? 0);
   }, 0);
 
@@ -141,7 +106,7 @@ export const MobileFilterBottomSheet = ({
                     : 'text-gray-400 hover:text-gray-300'
                 }`}
               >
-                {getTabLabel(tab)}
+                {FILTER_TAB_CONFIG[tab].label}
               </button>
             </li>
           ))}
