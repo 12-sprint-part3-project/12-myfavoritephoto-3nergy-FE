@@ -9,6 +9,7 @@ const EDGE_COUNT = 3;
 
 export const Pagination = ({ totalPages, currentPage, onPageChange }) => {
   const [isOpen, setIsOpen] = useState(false);
+  // 드롭다운 외부 클릭 감지 시 클릭 대상이 드롭다운 내부인지 판별하는 데 사용
   const dropdownRef = useRef(null);
 
   // totalPages가 양쪽 EDGE_COUNT 합산보다 클 때만 ... 표시
@@ -100,17 +101,25 @@ export const Pagination = ({ totalPages, currentPage, onPageChange }) => {
             {isOpen && (
               <ul className="absolute top-full left-1/2 z-10 max-h-[12.5rem] -translate-x-1/2 overflow-y-auto border border-white bg-black">
                 {/* md 미만에서만 표시 — 버튼 영역에서 숨겨진 firstPages[2] 보완 */}
-                <li key={firstPages[EDGE_COUNT - 1]} className="md:hidden">
+                <li
+                  key={firstPages[EDGE_COUNT - 1]}
+                  className="pr-[.375rem] md:hidden md:pr-[.5625rem] lg:pr-2"
+                >
                   <Page
                     page={firstPages[EDGE_COUNT - 1]}
+                    dropdown={true}
                     isActive={firstPages[EDGE_COUNT - 1] === currentPage}
                     onClick={() => handlePageChange(firstPages[EDGE_COUNT - 1])}
                   />
                 </li>
                 {middlePages.map((page) => (
-                  <li key={page}>
+                  <li
+                    key={page}
+                    className="pr-[.375rem] md:pr-[.5625rem] lg:pr-2"
+                  >
                     <Page
                       page={page}
+                      dropdown={true}
                       isActive={page === currentPage}
                       onClick={() => handlePageChange(page)}
                     />
@@ -120,6 +129,7 @@ export const Pagination = ({ totalPages, currentPage, onPageChange }) => {
                 <li key={lastPages[0]} className="md:hidden">
                   <Page
                     page={lastPages[0]}
+                    others
                     isActive={lastPages[0] === currentPage}
                     onClick={() => handlePageChange(lastPages[0])}
                   />
