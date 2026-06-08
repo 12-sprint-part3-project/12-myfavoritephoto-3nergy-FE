@@ -1,4 +1,4 @@
-import FileInput from './FileInput';
+import { FileInput } from './FileInput';
 
 const meta = {
   title: 'UI/FileInput',

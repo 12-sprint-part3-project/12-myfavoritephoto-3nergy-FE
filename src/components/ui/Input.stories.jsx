@@ -1,5 +1,5 @@
 // Input.stories.js
-import Input from './Input';
+import { Input } from './Input';
 
 export default {
   title: 'UI/Input',
