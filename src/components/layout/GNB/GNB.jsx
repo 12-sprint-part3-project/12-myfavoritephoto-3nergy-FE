@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
-import { AlarmIcon, CaretLeftIcon, MenuIcon, ProfileIcon } from '@/icons';
+import { AlarmIcon, CaretLeftIcon, MenuIcon } from '@/icons';
 import { NotificationMenu } from '@/components/layout/GNB/NotificationMenu';
 
 export const GNB = ({
@@ -12,16 +12,18 @@ export const GNB = ({
   notifications = [],
   onLogout,
   onMenuClick,
-  onProfileClick,
   onBack,
 }) => {
   const isSubPage = Boolean(pageTitle);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const notificationRef = useRef(null);
+  const mobileNotificationRef = useRef(null);
 
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (notificationRef.current && !notificationRef.current.contains(e.target)) {
+      const outsidePC = !notificationRef.current?.contains(e.target);
+      const outsideMobile = !mobileNotificationRef.current?.contains(e.target);
+      if (outsidePC && outsideMobile) {
         setIsNotificationOpen(false);
       }
     };
@@ -31,8 +33,8 @@ export const GNB = ({
 
   return (
     <header className="sticky top-0 z-40 bg-black">
-      <nav className="hidden w-full h-[5rem] items-center lg:flex">
-        <div className="mx-auto flex w-full max-w-[1480px] items-center justify-between px-[3.75rem]">
+      <nav className="hidden w-full items-center md:flex md:h-[4.375rem] lg:h-[5rem]">
+        <div className="mx-auto flex w-full max-w-[1480px] items-center justify-between md:px-[2.5rem] lg:px-[3.75rem]">
           <Link
             href="/"
             className="font-baskin-base text-baskin-24-bold text-white"
@@ -41,7 +43,7 @@ export const GNB = ({
           </Link>
 
           {isAuthenticated ? (
-            <div className="text-noto-16-regular flex items-center gap-4 text-white">
+            <div className="text-noto-14-bold flex items-center gap-4 text-gray-200">
               <span>{user?.points?.toLocaleString()} P</span>
               <div ref={notificationRef} className="relative">
                 <button
@@ -50,7 +52,7 @@ export const GNB = ({
                   aria-label="알림"
                   className="cursor-pointer"
                 >
-                  <AlarmIcon className="h-6 w-6 text-white" />
+                  <AlarmIcon />
                 </button>
                 {isNotificationOpen && (
                   <div className="absolute right-0 top-full mt-2 z-50">
@@ -58,18 +60,18 @@ export const GNB = ({
                   </div>
                 )}
               </div>
-              <span>{user?.nickname}</span>
+              <span className="font-baskin-base text-baskin-18-bold text-gray-200">{user?.nickname}</span>
               <span className="text-gray-400">|</span>
               <button
                 type="button"
                 onClick={onLogout}
-                className="cursor-pointer text-gray-300 transition-colors hover:text-white"
+                className="cursor-pointer text-gray-400 transition-colors hover:text-white"
               >
                 로그아웃
               </button>
             </div>
           ) : (
-            <div className="text-noto-16-regular flex items-center gap-6 text-white">
+            <div className="text-noto-14-regular flex items-center gap-6 text-gray-200">
               <Link href="/login" className="hover:text-main transition-colors">
                 로그인
               </Link>
@@ -81,7 +83,7 @@ export const GNB = ({
         </div>
       </nav>
 
-      <nav className="flex h-[3.75rem] items-center justify-between px-6 md:h-[4.375rem] md:px-[2.5rem] lg:hidden">
+      <nav className="flex h-[3.75rem] items-center justify-between px-6 md:hidden">
         {isSubPage ? (
           <>
             <button
@@ -90,9 +92,9 @@ export const GNB = ({
               aria-label="뒤로가기"
               className="cursor-pointer"
             >
-              <CaretLeftIcon className="h-6 w-6 text-white" />
+              <CaretLeftIcon />
             </button>
-            <span className="text-noto-16-bold text-white">{pageTitle}</span>
+            <span className="font-baskin-base text-baskin-18-bold text-white">{pageTitle}</span>
             <div className="h-6 w-6" aria-hidden="true" />
           </>
         ) : (
@@ -103,7 +105,7 @@ export const GNB = ({
               aria-label="메뉴"
               className="cursor-pointer"
             >
-              <MenuIcon className="h-6 w-6 text-white" />
+              <MenuIcon />
             </button>
             <Link
               href="/"
@@ -112,16 +114,23 @@ export const GNB = ({
               최애<span className="text-main">의</span>포토
             </Link>
             {isAuthenticated ? (
-              <button
-                type="button"
-                onClick={onProfileClick}
-                aria-label="프로필"
-                className="cursor-pointer"
-              >
-                <ProfileIcon className="h-6 w-6 text-white" />
-              </button>
+              <div ref={mobileNotificationRef} className="relative">
+                <button
+                  type="button"
+                  onClick={() => setIsNotificationOpen((prev) => !prev)}
+                  aria-label="알림"
+                  className="cursor-pointer"
+                >
+                  <AlarmIcon />
+                </button>
+                {isNotificationOpen && (
+                  <div className="absolute right-0 top-full mt-2 z-50">
+                    <NotificationMenu notifications={notifications} />
+                  </div>
+                )}
+              </div>
             ) : (
-              <Link href="/login" className="text-noto-14-regular text-white">
+              <Link href="/login" className="text-noto-14-regular text-gray-200">
                 로그인
               </Link>
             )}
