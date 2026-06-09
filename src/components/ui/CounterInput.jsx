@@ -19,7 +19,7 @@ export const CounterInput = ({
   };
 
   const handleIncrement = () => {
-    if (max !== undefined && value >= max) return;
+    if (value >= max) return;
     onChange(value + 1);
   };
 
@@ -51,14 +51,12 @@ export const CounterInput = ({
           <button
             type="button"
             onClick={handleIncrement}
-            disabled={max !== undefined && value >= max}
+            disabled={value >= max}
             aria-label="수량 증가"
           >
             <PlusIcon
               className={
-                max !== undefined && value >= max
-                  ? 'cursor-not-allowed text-gray-400'
-                  : 'text-white'
+                value >= max ? 'cursor-not-allowed text-gray-400' : 'text-white'
               }
             />
           </button>
