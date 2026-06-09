@@ -1,7 +1,7 @@
 import { ExchangeCard } from './ExchangeCard';
 
 const meta = {
-  title: 'Domain/Photocard/ExchangeCard',
+  title: 'Domain/Photocard/Card/Exchange',
   component: ExchangeCard,
   tags: ['autodocs'],
   parameters: {

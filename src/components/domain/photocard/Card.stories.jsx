@@ -1,7 +1,7 @@
 import { Card } from './Card';
 
 const meta = {
-  title: 'Domain/Photocard/Card',
+  title: 'Domain/Photocard/Card/Common',
   component: Card,
   tags: ['autodocs'],
   parameters: {
