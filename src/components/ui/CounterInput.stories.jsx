@@ -26,98 +26,82 @@ const meta = {
       description: '최댓값',
       table: { type: { summary: 'number' } },
     },
-    className: {
-      control: false,
-      description: '너비 등 추가 스타일 지정',
+    label: {
+      control: 'text',
+      description: '수량 입력 라벨',
       table: { type: { summary: 'string' } },
+    },
+    showMaxLabel: {
+      control: 'boolean',
+      description:
+        'max 값과 함께 "/max 최대 {max}장" 텍스트 표시 여부 (판매 등록/수정 모달에서 사용)',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' },
+      },
     },
   },
 };
 
 export default meta;
 
-function CounterInputWithState({ min, max }) {
-  const [value, setValue] = useState(min ?? 1);
-  return (
-    <CounterInput
-      value={value}
-      onChange={setValue}
-      min={min}
-      max={max}
-      className="w-[144px]"
-    />
-  );
+function CounterInputWithState(args) {
+  const [value, setValue] = useState(args.min ?? 1);
+  return <CounterInput {...args} value={value} onChange={setValue} />;
 }
+
 export const Default = {
   parameters: {
     docs: {
-      description: {
-        story:
-          '최솟값/최댓값 제한 없이 자유롭게 수량을 조절할 수 있는 기본 상태입니다.',
+      source: {
+        code: `
+const [value, setValue] = useState(1);
+
+<CounterInput
+  label="구매 수량"
+  value={value}
+  onChange={setValue}
+  min={1}
+  max={3}
+/>`,
       },
     },
+  },
+  args: {
+    label: '구매 수량',
+    min: 1,
+    max: 3,
   },
   render: (args) => <CounterInputWithState {...args} />,
 };
 
-export const WithMax = {
-  args: {
-    min: 1,
-    max: 3,
-  },
+export const WithMaxLabel = {
   parameters: {
     docs: {
       description: {
         story:
-          '최솟값 1, 최댓값 3으로 제한된 상태입니다. 판매 등록/수정 모달에서 사용됩니다.',
+          'showMaxLabel이 true일 때 "/max 최대 {max}장" 텍스트가 표시됩니다. 판매 등록/수정 모달에서 사용됩니다.',
+      },
+      source: {
+        code: `
+const [value, setValue] = useState(1);
+
+<CounterInput
+  label="총 판매 수량"
+  value={value}
+  onChange={setValue}
+  min={1}
+  max={3}
+  showMaxLabel
+/>`,
       },
     },
+  },
+  args: {
+    label: '총 판매 수량',
+    min: 1,
+    max: 3,
+    showMaxLabel: true,
   },
   render: (args) => <CounterInputWithState {...args} />,
-};
-
-export const AtMin = {
-  args: {
-    min: 1,
-    max: 3,
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: '최솟값에 도달한 상태입니다. 감소 버튼이 비활성화됩니다.',
-      },
-    },
-  },
-  render: () => (
-    <CounterInput
-      value={1}
-      onChange={() => {}}
-      min={1}
-      max={3}
-      className="w-[144px]"
-    />
-  ),
-};
-
-export const AtMax = {
-  args: {
-    min: 1,
-    max: 3,
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: '최댓값에 도달한 상태입니다. 증가 버튼이 비활성화됩니다.',
-      },
-    },
-  },
-  render: () => (
-    <CounterInput
-      value={3}
-      onChange={() => {}}
-      min={1}
-      max={3}
-      className="w-[144px]"
-    />
-  ),
 };
