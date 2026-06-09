@@ -31,7 +31,8 @@ export const fetchClient = async (endpoint, options = {}) => {
     throw error;
   }
 
-  return data;
+  // meta 있으면 { data, meta } 반환, 없으면 data 바로 반환
+  return data.meta ? { data: data.data, meta: data.meta } : data.data;
 };
 
 export default fetchClient;
