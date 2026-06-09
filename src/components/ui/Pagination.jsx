@@ -1,176 +1,113 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import { ChevronLeftIcon, ChevronRightIcon } from '@/icons';
+import { useEffect, useState } from 'react';
+import {
+  ChevronDoubleLeftIcon,
+  ChevronDoubleRightIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+} from '@/icons';
 import { Page } from './Page';
 
-// 양쪽 끝에 고정으로 보여줄 페이지 수 (1 2 3 ... n-2 n-1 n)
-const EDGE_COUNT = 3;
+const MD_BREAKPOINT = '(min-width: 768px)';
+// 한 번에 보여줄 페이지 번호 개수 (모바일 3개, 데스크탑 5개)
+const PAGE_GROUP_SIZE_MOBILE = 3;
+const PAGE_GROUP_SIZE_DESKTOP = 5;
+
+// 좌우 네비게이션 버튼
+const NavButton = ({ onClick, disabled, children }) => (
+  <button
+    type="button"
+    onClick={onClick}
+    disabled={disabled}
+    className="flex h-6 w-6 shrink-0 cursor-pointer items-center justify-center text-white disabled:cursor-default disabled:cursor-not-allowed disabled:text-gray-400"
+  >
+    {children}
+  </button>
+);
 
 export const Pagination = ({ totalPages, currentPage, onPageChange }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  // 드롭다운 외부 클릭 감지 시 클릭 대상이 드롭다운 내부인지 판별하는 데 사용
-  const dropdownRef = useRef(null);
-
-  // totalPages가 양쪽 EDGE_COUNT 합산보다 클 때만 ... 표시
-  const hasDots = totalPages > EDGE_COUNT * 2;
-
-  // hasDots가 false면 모든 페이지를 firstPages에 담아 그냥 렌더링
-  const firstPages = Array.from(
-    { length: hasDots ? EDGE_COUNT : totalPages },
-    (_, i) => i + 1,
+  // 화면 너비에 따라 pageGroupSize(보여줄 페이지 수)를 다르게 설정
+  const [pageGroupSize, setPageGroupSize] = useState(() =>
+    typeof window !== 'undefined' && window.matchMedia(MD_BREAKPOINT).matches
+      ? PAGE_GROUP_SIZE_DESKTOP
+      : PAGE_GROUP_SIZE_MOBILE,
   );
-  const lastPages = hasDots
-    ? Array.from(
-        { length: EDGE_COUNT },
-        (_, i) => totalPages - EDGE_COUNT + 1 + i,
-      )
-    : [];
-  // ... 드롭다운에 들어갈 중간 페이지 목록
-  const middlePages = hasDots
-    ? Array.from(
-        { length: totalPages - EDGE_COUNT * 2 },
-        (_, i) => EDGE_COUNT + 1 + i,
-      )
-    : [];
 
-  // 드롭다운이 열려있을 때 외부 클릭 시 닫기
+  // 브라우저 창 크기가 바뀔 때마다 pageGroupSize를 업데이트
+  // addEventListener로 변화를 감지하고, cleanup 함수(return)로 이벤트 종료
   useEffect(() => {
-    if (!isOpen) return;
-    const handler = (e) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
-        setIsOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', handler);
-    return () => document.removeEventListener('mousedown', handler);
-  }, [isOpen]);
+    const mq = window.matchMedia(MD_BREAKPOINT);
+    const handler = (e) =>
+      setPageGroupSize(
+        e.matches ? PAGE_GROUP_SIZE_DESKTOP : PAGE_GROUP_SIZE_MOBILE,
+      );
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
 
-  const handlePageChange = (page) => {
-    onPageChange(page);
-    setIsOpen(false);
-  };
+  // 현재 페이지를 중앙에 두는 슬라이딩 윈도우 계산
+  // ex) 전체 20페이지, 현재 10페이지, pageGroupSize 5 → 8 9 [10] 11 12
+  // Math.min으로 끝 부분에서 윈도우가 범위를 넘지 않게, Math.max로 앞 부분이 1 아래로 내려가지 않게 막는다
+  const start = Math.max(
+    1,
+    Math.min(
+      currentPage - Math.floor(pageGroupSize / 2),
+      totalPages - pageGroupSize + 1,
+    ),
+  );
+  const end = Math.min(totalPages, start + pageGroupSize - 1);
+  const pages = Array.from({ length: end - start + 1 }, (_, i) => start + i);
 
   return (
-    <div className="mt-15 flex items-center justify-center gap-5 md:mt-30">
-      <button
-        type="button"
-        onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
+    <div className="mt-15 flex items-center justify-center gap-[10px] md:mt-30 md:gap-5">
+      {/* 처음 페이지로 이동 — 이미 첫 페이지면 비활성화 */}
+      <NavButton onClick={() => onPageChange(1)} disabled={currentPage === 1}>
+        <ChevronDoubleLeftIcon
+          className={`${currentPage === 1 ? 'text-gray-400' : 'text-white'}`}
+        />
+      </NavButton>
+
+      {/* 이전 페이지로 이동 */}
+      <NavButton
+        onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        className="flex h-6 w-6 shrink-0 cursor-pointer items-center justify-center text-white disabled:cursor-default disabled:text-gray-400"
       >
         <ChevronLeftIcon
-          className={`${currentPage === 1 ? 'text-gray-400' : ''}`}
+          className={`${currentPage === 1 ? 'text-gray-400' : 'text-white'}`}
         />
-      </button>
+      </NavButton>
 
-      <div className="flex items-center justify-center gap-[.625rem]">
-        {firstPages.map((page, idx) =>
-          // 세 번째 페이지(idx=2)는 md 미만에서 숨김 — 드롭다운 상단에서 접근 가능
-          hasDots && idx === EDGE_COUNT - 1 ? (
-            <span key={page} className="hidden md:block">
-              <Page
-                page={page}
-                isActive={page === currentPage}
-                onClick={() => handlePageChange(page)}
-              />
-            </span>
-          ) : (
-            <Page
-              key={page}
-              page={page}
-              isActive={page === currentPage}
-              onClick={() => handlePageChange(page)}
-            />
-          ),
-        )}
-
-        {hasDots && (
-          <div className="relative" ref={dropdownRef}>
-            {/* hover 시 우하단 직각삼각형 표시, 클릭 시 드롭다운 토글 */}
-            <button
-              type="button"
-              onClick={() => setIsOpen((prev) => !prev)}
-              className="group relative flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center text-white md:h-[2.8125rem] md:w-[2.8125rem] lg:h-[3.125rem] lg:w-[3.125rem]"
-            >
-              ...
-              <span className="absolute right-0 bottom-0 hidden h-0 w-0 border-t-[.625rem] border-r-[.625rem] border-t-transparent border-r-white group-hover:block md:border-t-[.75rem] md:border-r-[.75rem]" />
-            </button>
-
-            {/* 최대 5개 높이까지 보이고 넘치면 스크롤 */}
-            {isOpen && (
-              <ul className="absolute top-full left-1/2 z-10 max-h-[12.5rem] -translate-x-1/2 overflow-y-auto border border-white bg-black">
-                {/* md 미만에서만 표시 — 버튼 영역에서 숨겨진 firstPages[2] 보완 */}
-                <li
-                  key={firstPages[EDGE_COUNT - 1]}
-                  className="pr-[.375rem] md:hidden md:pr-[.5625rem] lg:pr-2"
-                >
-                  <Page
-                    page={firstPages[EDGE_COUNT - 1]}
-                    dropdown={true}
-                    isActive={firstPages[EDGE_COUNT - 1] === currentPage}
-                    onClick={() => handlePageChange(firstPages[EDGE_COUNT - 1])}
-                  />
-                </li>
-                {middlePages.map((page) => (
-                  <li
-                    key={page}
-                    className="pr-[.375rem] md:pr-[.5625rem] lg:pr-2"
-                  >
-                    <Page
-                      page={page}
-                      dropdown={true}
-                      isActive={page === currentPage}
-                      onClick={() => handlePageChange(page)}
-                    />
-                  </li>
-                ))}
-                {/* md 미만에서만 표시 — 버튼 영역에서 숨겨진 lastPages[0] 보완 */}
-                <li key={lastPages[0]} className="md:hidden">
-                  <Page
-                    page={lastPages[0]}
-                    others
-                    isActive={lastPages[0] === currentPage}
-                    onClick={() => handlePageChange(lastPages[0])}
-                  />
-                </li>
-              </ul>
-            )}
-          </div>
-        )}
-
-        {hasDots &&
-          lastPages.map((page, idx) =>
-            // 첫 번째 페이지(idx=0, 즉 n-2)는 md 미만에서 숨김 — 드롭다운 하단에서 접근 가능
-            idx === 0 ? (
-              <span key={page} className="hidden md:block">
-                <Page
-                  page={page}
-                  isActive={page === currentPage}
-                  onClick={() => handlePageChange(page)}
-                />
-              </span>
-            ) : (
-              <Page
-                key={page}
-                page={page}
-                isActive={page === currentPage}
-                onClick={() => handlePageChange(page)}
-              />
-            ),
-          )}
+      <div className="flex items-center gap-[10px]">
+        {pages.map((page) => (
+          <Page
+            key={page}
+            page={page}
+            isActive={page === currentPage}
+            onClick={() => onPageChange(page)}
+          />
+        ))}
       </div>
 
-      <button
-        type="button"
-        onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
+      {/* 다음 페이지로 이동 */}
+      <NavButton
+        onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className="flex h-6 w-6 shrink-0 cursor-pointer items-center justify-center text-white disabled:cursor-default disabled:text-gray-400"
       >
         <ChevronRightIcon
-          className={`${currentPage === totalPages ? 'text-gray-400' : ''}`}
+          className={`${currentPage === totalPages ? 'text-gray-400' : 'text-white'}`}
         />
-      </button>
+      </NavButton>
+
+      {/* 마지막 페이지로 이동 — 이미 마지막 페이지면 비활성화 */}
+      <NavButton
+        onClick={() => onPageChange(totalPages)}
+        disabled={currentPage === totalPages}
+      >
+        <ChevronDoubleRightIcon
+          className={`${currentPage === totalPages ? 'text-gray-400' : 'text-white'}`}
+        />
+      </NavButton>
     </div>
   );
 };
