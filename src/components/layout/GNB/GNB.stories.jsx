@@ -59,8 +59,8 @@ const meta = {
     },
     onLogout: { action: 'onLogout' },
     onMenuClick: { action: 'onMenuClick' },
-    onProfileClick: { action: 'onProfileClick' },
     onBack: { action: 'onBack' },
+    onAlarmClick: { action: 'onAlarmClick', description: '모바일: 알람 아이콘 클릭 시 알림 페이지로 이동' },
   },
 };
 

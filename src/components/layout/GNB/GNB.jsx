@@ -13,17 +13,15 @@ export const GNB = ({
   onLogout,
   onMenuClick,
   onBack,
+  onAlarmClick,
 }) => {
   const isSubPage = Boolean(pageTitle);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const notificationRef = useRef(null);
-  const mobileNotificationRef = useRef(null);
 
   useEffect(() => {
     const handleClickOutside = (e) => {
-      const outsidePC = !notificationRef.current?.contains(e.target);
-      const outsideMobile = !mobileNotificationRef.current?.contains(e.target);
-      if (outsidePC && outsideMobile) {
+      if (!notificationRef.current?.contains(e.target)) {
         setIsNotificationOpen(false);
       }
     };
@@ -33,8 +31,8 @@ export const GNB = ({
 
   return (
     <header className="sticky top-0 z-40 bg-black">
-      <nav className="hidden w-full items-center md:flex md:h-[4.375rem] lg:h-[5rem]">
-        <div className="mx-auto flex w-full max-w-[1480px] items-center justify-between md:px-[2.5rem] lg:px-[3.75rem]">
+      <nav className="hidden w-full items-center sm:flex sm:h-[4.375rem] lg:h-[5rem]">
+        <div className="mx-auto flex w-full max-w-[1480px] items-center justify-between sm:px-[2.5rem] lg:px-[13.75rem]">
           <Link
             href="/"
             className="font-baskin-base text-baskin-24-bold text-white"
@@ -52,15 +50,17 @@ export const GNB = ({
                   aria-label="알림"
                   className="cursor-pointer"
                 >
-                  <AlarmIcon />
+                  <AlarmIcon className="transition-colors hover:text-main" />
                 </button>
                 {isNotificationOpen && (
-                  <div className="absolute right-0 top-full mt-2 z-50">
+                  <div className="absolute top-full right-0 z-50 mt-2">
                     <NotificationMenu notifications={notifications} />
                   </div>
                 )}
               </div>
-              <span className="font-baskin-base text-baskin-18-bold text-gray-200">{user?.nickname}</span>
+              <span className="font-baskin-base text-baskin-18-bold text-gray-200">
+                {user?.nickname}
+              </span>
               <span className="text-gray-400">|</span>
               <button
                 type="button"
@@ -75,7 +75,10 @@ export const GNB = ({
               <Link href="/login" className="hover:text-main transition-colors">
                 로그인
               </Link>
-              <Link href="/signup" className="hover:text-main transition-colors">
+              <Link
+                href="/signup"
+                className="hover:text-main transition-colors"
+              >
                 회원가입
               </Link>
             </div>
@@ -83,7 +86,7 @@ export const GNB = ({
         </div>
       </nav>
 
-      <nav className="flex h-[3.75rem] items-center justify-between px-6 md:hidden">
+      <nav className="flex h-[3.75rem] items-center justify-between px-6 sm:hidden">
         {isSubPage ? (
           <>
             <button
@@ -94,7 +97,9 @@ export const GNB = ({
             >
               <CaretLeftIcon />
             </button>
-            <span className="font-baskin-base text-baskin-18-bold text-white">{pageTitle}</span>
+            <span className="font-baskin-base text-baskin-18-bold text-white">
+              {pageTitle}
+            </span>
             <div className="h-6 w-6" aria-hidden="true" />
           </>
         ) : (
@@ -113,24 +118,21 @@ export const GNB = ({
             >
               최애<span className="text-main">의</span>포토
             </Link>
+
             {isAuthenticated ? (
-              <div ref={mobileNotificationRef} className="relative">
-                <button
-                  type="button"
-                  onClick={() => setIsNotificationOpen((prev) => !prev)}
-                  aria-label="알림"
-                  className="cursor-pointer"
-                >
-                  <AlarmIcon />
-                </button>
-                {isNotificationOpen && (
-                  <div className="absolute right-0 top-full mt-2 z-50">
-                    <NotificationMenu notifications={notifications} />
-                  </div>
-                )}
-              </div>
+              <button
+                type="button"
+                onClick={onAlarmClick}
+                aria-label="알림"
+                className="cursor-pointer"
+              >
+                <AlarmIcon />
+              </button>
             ) : (
-              <Link href="/login" className="text-noto-14-regular text-gray-200">
+              <Link
+                href="/login"
+                className="text-noto-14-regular text-gray-200"
+              >
                 로그인
               </Link>
             )}
