@@ -1,4 +1,4 @@
-import { BasicModal } from '@/components/ui/Modal';
+import { BasicModal } from '@/components/ui/BasicModal';
 
 // type에 따라 문구 분기 처리
 const MODAL_CONTENT = {
