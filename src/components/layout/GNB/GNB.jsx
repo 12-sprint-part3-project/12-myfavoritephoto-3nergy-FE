@@ -1,19 +1,33 @@
 'use client';
 
 import Link from 'next/link';
+import { useEffect, useRef, useState } from 'react';
 import { AlarmIcon, CaretLeftIcon, MenuIcon, ProfileIcon } from '@/icons';
+import { NotificationMenu } from '@/components/layout/GNB/NotificationMenu';
 
 export const GNB = ({
   isAuthenticated = false,
   user,
   pageTitle,
+  notifications = [],
   onLogout,
   onMenuClick,
-  onAlarmClick,
   onProfileClick,
   onBack,
 }) => {
   const isSubPage = Boolean(pageTitle);
+  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+  const notificationRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (notificationRef.current && !notificationRef.current.contains(e.target)) {
+        setIsNotificationOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   return (
     <header className="bg-black">
@@ -29,14 +43,21 @@ export const GNB = ({
           {isAuthenticated ? (
             <div className="text-noto-16-regular flex items-center gap-4 text-white">
               <span>{user?.points?.toLocaleString()} P</span>
-              <button
-                type="button"
-                onClick={onAlarmClick}
-                aria-label="알림"
-                className="cursor-pointer"
-              >
-                <AlarmIcon className="h-6 w-6 text-white" />
-              </button>
+              <div ref={notificationRef} className="relative">
+                <button
+                  type="button"
+                  onClick={() => setIsNotificationOpen((prev) => !prev)}
+                  aria-label="알림"
+                  className="cursor-pointer"
+                >
+                  <AlarmIcon className="h-6 w-6 text-white" />
+                </button>
+                {isNotificationOpen && (
+                  <div className="absolute right-0 top-full mt-2 z-50">
+                    <NotificationMenu notifications={notifications} />
+                  </div>
+                )}
+              </div>
               <span>{user?.nickname}</span>
               <span className="text-gray-400">|</span>
               <button
