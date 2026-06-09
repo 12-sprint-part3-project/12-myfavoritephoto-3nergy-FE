@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { CloseIcon, ExchangeIcon } from '@/icons';
 import { FILTER_TAB_CONFIG } from '@/constants/filter';
-import { GRADE_TEXT_COLOR } from '@/constants/card';
+import { GRADE_STYLE } from '@/constants/card';
 import { Button } from '@/components/ui/Button';
 import { Overlay } from '@/components/ui/Overlay';
 
@@ -125,13 +125,13 @@ export const MobileFilterBottomSheet = ({
                 <span
                   className={
                     activeTab === 'grade'
-                      ? GRADE_TEXT_COLOR[option] // 등급은 항상 고유 색상 유지
+                      ? GRADE_STYLE[option]?.textColor // 등급은 항상 고유 색상 유지
                       : isSelected(option)
                         ? 'text-white'
                         : 'text-gray-300 hover:text-gray-200'
                   }
                 >
-                  {GRADE_TEXT_COLOR[option]?.label ?? option}
+                  {GRADE_STYLE[option]?.label ?? option}
                 </span>
 
                 {/* 해당 항목별 포토카드 개수 */}
