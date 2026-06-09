@@ -54,7 +54,7 @@ export const GuestSubPage = {
   name: '비로그인 · 서브 페이지',
   args: {
     isAuthenticated: false,
-    pageTitle: '마켓플레이스',
+    pageTitle: '마이갤러리',
   },
 };
 
@@ -63,6 +63,6 @@ export const AuthSubPage = {
   args: {
     isAuthenticated: true,
     user: MOCK_USER,
-    pageTitle: '포토카드 상세',
+    pageTitle: '나의 포토카드 판매하기',
   },
 };

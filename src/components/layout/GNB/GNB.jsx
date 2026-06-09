@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { AlarmIcon, ChevronLeftIcon, MenuIcon, ProfileIcon } from '@/icons';
+import { AlarmIcon, CaretLeftIcon, MenuIcon, ProfileIcon } from '@/icons';
 
 export const GNB = ({
   isAuthenticated = false,
@@ -67,9 +67,9 @@ export const GNB = ({
               aria-label="뒤로가기"
               className="cursor-pointer"
             >
-              <ChevronLeftIcon className="h-6 w-6 text-white" />
+              <CaretLeftIcon className="h-6 w-6 text-white" />
             </button>
-            <span className="text-noto-16-bold text-white">{pageTitle}</span>
+            <span className="font-baskin-base text-baskin-24-bold text-white">{pageTitle}</span>
             <div className="h-6 w-6" aria-hidden="true" />
           </>
         ) : (
