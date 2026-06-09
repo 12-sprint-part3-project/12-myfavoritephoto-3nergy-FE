@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { AlarmIcon, CaretLeftIcon, MenuIcon } from '@/icons';
@@ -33,11 +34,24 @@ export const GNB = ({
     <header className="sticky top-0 z-40 bg-black">
       <nav className="hidden w-full items-center sm:flex sm:h-[4.375rem] lg:h-[5rem]">
         <div className="mx-auto flex w-full max-w-[1480px] items-center justify-between sm:px-[2.5rem] lg:px-[13.75rem]">
-          <Link
-            href="/"
-            className="font-baskin-base text-baskin-24-bold text-white"
-          >
-            최애<span className="text-main">의</span>포토
+          <Link href="/">
+            <Image
+              src="/logo.svg"
+              alt="최애의포토"
+              width={111}
+              height={20}
+              unoptimized
+              className="block lg:hidden"
+            />
+            <Image
+              src="/logo.svg"
+              alt=""
+              aria-hidden="true"
+              width={139}
+              height={25}
+              unoptimized
+              className="hidden lg:block"
+            />
           </Link>
 
           {isAuthenticated ? (
@@ -112,11 +126,14 @@ export const GNB = ({
             >
               <MenuIcon />
             </button>
-            <Link
-              href="/"
-              className="font-baskin-base text-baskin-18-bold text-white"
-            >
-              최애<span className="text-main">의</span>포토
+            <Link href="/">
+              <Image
+                src="/logo.svg"
+                alt="최애의포토"
+                width={83}
+                height={15}
+                unoptimized
+              />
             </Link>
 
             {isAuthenticated ? (
