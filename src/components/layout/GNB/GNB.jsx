@@ -17,48 +17,50 @@ export const GNB = ({
 
   return (
     <header className="bg-black">
-      <nav className="hidden h-[3.75rem] items-center justify-between px-10 md:flex">
-        <Link
-          href="/"
-          className="font-baskin-base text-baskin-24-bold text-white"
-        >
-          최애<span className="text-main">의</span>포토
-        </Link>
+      <nav className="hidden w-full h-[5rem] items-center lg:flex">
+        <div className="mx-auto flex w-full max-w-[1480px] items-center justify-between px-[3.75rem]">
+          <Link
+            href="/"
+            className="font-baskin-base text-baskin-24-bold text-white"
+          >
+            최애<span className="text-main">의</span>포토
+          </Link>
 
-        {isAuthenticated ? (
-          <div className="text-noto-16-regular flex items-center gap-4 text-white">
-            <span>{user?.points?.toLocaleString()} P</span>
-            <button
-              type="button"
-              onClick={onAlarmClick}
-              aria-label="알림"
-              className="cursor-pointer"
-            >
-              <AlarmIcon className="h-6 w-6 text-white" />
-            </button>
-            <span>{user?.nickname}</span>
-            <span className="text-gray-400">|</span>
-            <button
-              type="button"
-              onClick={onLogout}
-              className="text-noto-16-regular cursor-pointer text-gray-300 transition-colors hover:text-white"
-            >
-              로그아웃
-            </button>
-          </div>
-        ) : (
-          <div className="text-noto-16-regular flex items-center gap-6 text-white">
-            <Link href="/login" className="hover:text-main transition-colors">
-              로그인
-            </Link>
-            <Link href="/signup" className="hover:text-main transition-colors">
-              회원가입
-            </Link>
-          </div>
-        )}
+          {isAuthenticated ? (
+            <div className="text-noto-16-regular flex items-center gap-4 text-white">
+              <span>{user?.points?.toLocaleString()} P</span>
+              <button
+                type="button"
+                onClick={onAlarmClick}
+                aria-label="알림"
+                className="cursor-pointer"
+              >
+                <AlarmIcon className="h-6 w-6 text-white" />
+              </button>
+              <span>{user?.nickname}</span>
+              <span className="text-gray-400">|</span>
+              <button
+                type="button"
+                onClick={onLogout}
+                className="cursor-pointer text-gray-300 transition-colors hover:text-white"
+              >
+                로그아웃
+              </button>
+            </div>
+          ) : (
+            <div className="text-noto-16-regular flex items-center gap-6 text-white">
+              <Link href="/login" className="hover:text-main transition-colors">
+                로그인
+              </Link>
+              <Link href="/signup" className="hover:text-main transition-colors">
+                회원가입
+              </Link>
+            </div>
+          )}
+        </div>
       </nav>
 
-      <nav className="flex h-[3.4375rem] items-center justify-between px-4 md:hidden">
+      <nav className="flex h-[3.75rem] items-center justify-between px-6 md:h-[4.375rem] md:px-[2.5rem] lg:hidden">
         {isSubPage ? (
           <>
             <button
@@ -69,7 +71,7 @@ export const GNB = ({
             >
               <CaretLeftIcon className="h-6 w-6 text-white" />
             </button>
-            <span className="font-baskin-base text-baskin-24-bold text-white">{pageTitle}</span>
+            <span className="text-noto-16-bold text-white">{pageTitle}</span>
             <div className="h-6 w-6" aria-hidden="true" />
           </>
         ) : (
