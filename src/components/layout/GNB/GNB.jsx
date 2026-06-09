@@ -33,7 +33,7 @@ export const GNB = ({
   return (
     <header className="sticky top-0 z-40 bg-black">
       <nav className="hidden w-full items-center sm:flex sm:h-[4.375rem] lg:h-[5rem]">
-        <div className="mx-auto flex w-full max-w-[1480px] items-center justify-between sm:px-[2.5rem] lg:px-[13.75rem]">
+        <div className="flex w-full items-center justify-between sm:px-[2.5rem] lg:px-[13.75rem]">
           <Link href="/">
             <Image
               src="/logo.svg"
