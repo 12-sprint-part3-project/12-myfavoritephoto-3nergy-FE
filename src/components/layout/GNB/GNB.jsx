@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 import { APP_NAME } from '@/constants/app';
 import { AlarmIcon, CaretLeftIcon, MenuIcon } from '@/icons';
 import { NotificationMenu } from '@/components/layout/GNB/NotificationMenu';
+import { ProfileMenu } from '@/components/layout/GNB/ProfileMenu';
 
 export const GNB = ({
   isAuthenticated = false,
@@ -19,6 +20,7 @@ export const GNB = ({
 }) => {
   const isSubPage = Boolean(pageTitle);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
   const notificationRef = useRef(null);
 
   useEffect(() => {
@@ -73,9 +75,13 @@ export const GNB = ({
                   </div>
                 )}
               </div>
-              <span className="font-baskin-base text-baskin-18-bold text-gray-200">
+              <button
+                type="button"
+                onClick={() => setIsProfileOpen((prev) => !prev)}
+                className="font-baskin-base text-baskin-18-bold cursor-pointer text-gray-200"
+              >
                 {user?.nickname}
-              </span>
+              </button>
               <span className="text-gray-400">|</span>
               <button
                 type="button"
@@ -121,7 +127,10 @@ export const GNB = ({
           <>
             <button
               type="button"
-              onClick={onMenuClick}
+              onClick={() => {
+                setIsProfileOpen((prev) => !prev);
+                onMenuClick?.();
+              }}
               aria-label="메뉴"
               className="cursor-pointer"
             >
@@ -157,6 +166,14 @@ export const GNB = ({
           </>
         )}
       </nav>
+
+      {isProfileOpen && isAuthenticated && (
+        <ProfileMenu
+          user={user}
+          onLogout={onLogout}
+          onClose={() => setIsProfileOpen(false)}
+        />
+      )}
     </header>
   );
 };
