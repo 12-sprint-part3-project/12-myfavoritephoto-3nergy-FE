@@ -134,7 +134,8 @@ export const Mysales = {
   parameters: {
     docs: {
       description: {
-        story: '판매 중인 카드입니다. 이미지 좌상단에 판매 상태 뱃지가 표시됩니다.',
+        story:
+          '판매 중인 카드입니다. 이미지 좌상단에 판매 상태 뱃지가 표시됩니다.',
       },
     },
   },
@@ -192,4 +193,3 @@ export const SoldOut = {
     },
   },
 };
-
