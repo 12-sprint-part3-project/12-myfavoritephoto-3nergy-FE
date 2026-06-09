@@ -1,4 +1,4 @@
-import { CARD_GRADE_STYLE } from '@/constants/card';
+import { GRADE_STYLE } from '@/constants/card';
 import GradeBadge from './GradeBadge';
 
 const GradeBadgeList = ({ grades }) => {
@@ -8,7 +8,7 @@ const GradeBadgeList = ({ grades }) => {
         <GradeBadge
           key={grade}
           count={count}
-          {...CARD_GRADE_STYLE[grade]} // label, className 전달
+          {...GRADE_STYLE[grade]}
         />
       ))}
     </div>

@@ -1,29 +1,31 @@
-export const GRADE_TEXT_COLOR = {
-  COMMON: 'text-main',
-  RARE: 'text-blue',
-  SUPER_RARE: 'text-purple',
-  LEGENDARY: 'text-pink',
-};
-
-export const CARD_GRADE_STYLE = {
+export const GRADE_STYLE = {
   COMMON: {
     label: 'COMMON',
-    className: 'border-main text-main',
+    borderColor: 'border-main',
+    textColor: 'text-main',
   },
   RARE: {
     label: 'RARE',
-    className: 'border-blue text-blue',
+    borderColor: 'border-blue',
+    textColor: 'text-blue',
   },
   SUPER_RARE: {
     label: 'SUPER RARE',
-    className: 'border-purple text-purple',
+    borderColor: 'border-purple',
+    textColor: 'text-purple',
   },
   LEGENDARY: {
     label: 'LEGENDARY',
-    className: 'border-pink text-pink',
+    borderColor: 'border-pink',
+    textColor: 'text-pink',
   },
 };
 
-export const CARD_GRADE_OPTIONS = Object.entries(CARD_GRADE_STYLE).map(
+// MobileFilterBottomSheet 에서 사용 중 — GRADE_STYLE.textColor 로 대체 예정
+export const GRADE_TEXT_COLOR = Object.fromEntries(
+  Object.entries(GRADE_STYLE).map(([key, { textColor }]) => [key, textColor]),
+);
+
+export const CARD_GRADE_OPTIONS = Object.entries(GRADE_STYLE).map(
   ([value, { label }]) => ({ value, label }),
 );
