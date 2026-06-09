@@ -30,7 +30,7 @@ export const GNB = ({
   }, []);
 
   return (
-    <header className="bg-black">
+    <header className="sticky top-0 z-40 bg-black">
       <nav className="hidden w-full h-[5rem] items-center lg:flex">
         <div className="mx-auto flex w-full max-w-[1480px] items-center justify-between px-[3.75rem]">
           <Link
