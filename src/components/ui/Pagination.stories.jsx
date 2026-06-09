@@ -46,26 +46,17 @@ function PaginationWithState({ totalPages, initialPage = 1 }) {
   );
 }
 
+// 기본 상태 — 첫 페이지, << < 비활성화
+export const Default = {
+  render: () => <PaginationWithState totalPages={20} />,
+};
+
+// 전체 페이지가 윈도우보다 적을 때
 export const FewPages = {
-  render: () => <PaginationWithState totalPages={5} />,
+  render: () => <PaginationWithState totalPages={3} />,
 };
 
-export const SixPagesBoundary = {
-  render: () => <PaginationWithState totalPages={6} initialPage={3} />,
-};
-
-export const WithEllipsis = {
-  render: () => <PaginationWithState totalPages={15} />,
-};
-
-export const ActivePageInMiddle = {
-  render: () => <PaginationWithState totalPages={15} initialPage={7} />,
-};
-
+// 마지막 페이지 — > >> 비활성화
 export const LastPage = {
-  render: () => <PaginationWithState totalPages={15} initialPage={15} />,
-};
-
-export const ManyPages = {
-  render: () => <PaginationWithState totalPages={100} />,
+  render: () => <PaginationWithState totalPages={20} initialPage={20} />,
 };
