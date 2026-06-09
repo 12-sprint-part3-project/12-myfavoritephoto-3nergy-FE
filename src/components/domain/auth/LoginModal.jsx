@@ -1,5 +1,4 @@
 import { BasicModal } from '@/components/ui/Modal';
-import { useRouter } from 'next/navigation';
 
 // type에 따라 문구 분기 처리
 const MODAL_CONTENT = {
@@ -13,21 +12,15 @@ const MODAL_CONTENT = {
   },
 };
 
-export const LoginModal = ({ type, onClose }) => {
-  const router = useRouter();
+export const LoginModal = ({ type, onClose, onLogin }) => {
   const { title, description } = MODAL_CONTENT[type];
-
-  const handleLogin = () => {
-    onClose();
-    router.push('/login');
-  };
 
   return (
     <BasicModal
       title={title}
       buttonText="로그인"
       onClose={onClose}
-      onClick={handleLogin}
+      onClick={onLogin}
     >
       {description}
     </BasicModal>

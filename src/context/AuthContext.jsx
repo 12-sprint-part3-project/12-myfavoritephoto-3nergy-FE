@@ -7,12 +7,15 @@ import {
   useEffect,
   useCallback,
 } from 'react';
+import { useRouter } from 'next/navigation';
 import { getToken, setToken, clearToken } from '@/utils/token';
 import { LoginModal } from '@/components/domain/auth/LoginModal';
 
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
+  const router = useRouter();
+
   // 액세스 토큰 메모리 상태 (localStorage에서 초기값 복원)
   const [accessToken, setAccessToken] = useState(() => {
     if (typeof window === 'undefined') return null;
@@ -40,6 +43,11 @@ export const AuthProvider = ({ children }) => {
     clearToken();
   };
 
+  const handleLogin = () => {
+    closeLoginModal();
+    router.push('/login');
+  };
+
   // queryClient.js에서 발생시킨 auth:error 이벤트 수신
   useEffect(() => {
     const handler = (e) => {
@@ -61,7 +69,11 @@ export const AuthProvider = ({ children }) => {
     >
       {children}
       {loginModalType && (
-        <LoginModal type={loginModalType} onClose={closeLoginModal} />
+        <LoginModal
+          type={loginModalType}
+          onClose={closeLoginModal}
+          onLogin={handleLogin}
+        />
       )}
     </AuthContext.Provider>
   );
