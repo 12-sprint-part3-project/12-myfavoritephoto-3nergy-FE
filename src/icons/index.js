@@ -2,6 +2,8 @@ export { default as AlarmIcon } from './alarm.svg';
 export { default as AlertIcon } from './alert.svg';
 export { default as CaretLeftIcon } from './caret-left.svg';
 export { default as CaretRightIcon } from './caret-right.svg';
+export { default as ChevronDoubleLeftIcon } from './chevron-double-left.svg';
+export { default as ChevronDoubleRightIcon } from './chevron-double-right.svg';
 export { default as ChevronDownIcon } from './chevron-down.svg';
 export { default as ChevronLeftIcon } from './chevron-left.svg';
 export { default as ChevronRightIcon } from './chevron-right.svg';
