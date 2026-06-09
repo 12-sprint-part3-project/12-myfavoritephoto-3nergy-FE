@@ -1,5 +1,6 @@
 import { Noto_Sans_KR } from 'next/font/google';
 import localFont from 'next/font/local';
+import Providers from '@/app/providers/providers';
 
 import './globals.css';
 
@@ -27,7 +28,9 @@ export default function RootLayout({ children }) {
       lang="ko"
       className={`${fontNotoSansKr.variable} ${fontBaskin.variable}`}
     >
-      <body className="flex min-h-screen flex-col bg-black">{children}</body>
+      <body className="flex min-h-screen flex-col bg-black">
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }
