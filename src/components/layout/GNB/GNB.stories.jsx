@@ -10,20 +10,20 @@ const MOCK_NOTIFICATIONS = [
     id: 1,
     isRead: false,
     message: '기며누님이 [RARE | 우리집 앞마당]을 1장 구매했습니다.',
-    createdAt: new Date(Date.now() - 1000 * 60 * 30).toISOString(), // 방금 전
+    createdAt: new Date(Date.now() - 1000 * 60 * 30).toISOString(),
   },
   {
     id: 2,
     isRead: false,
     message:
       '예진쓰님이 [COMMON | 스페인 여행]의 포토카드 교환을 제안했습니다.',
-    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(), // 1일 전
+    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(),
   },
   {
     id: 3,
     isRead: true,
     message: '누군가 회원님의 포토카드를 구매했습니다.',
-    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 7).toISOString(), // 1주일 전
+    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 7).toISOString(),
   },
 ];
 
