@@ -18,9 +18,15 @@ const meta = {
         type: { summary: 'string' },
       },
     },
+    labelClassName: {
+      control: 'text',
+      description: '라벨 텍스트 크기 등 추가 스타일 지정',
+      order: 2,
+      table: { type: { summary: 'string' } },
+    },
     placeholder: {
       control: 'text',
-      order: 2,
+      order: 3,
       table: {
         type: { summary: 'string' },
       },
@@ -28,28 +34,28 @@ const meta = {
     options: {
       control: 'object',
       description: '{ value, label }[] 형태의 배열',
-      order: 3,
+      order: 4,
       table: {
         type: { summary: '{ value: string; label: string }[]' },
       },
     },
     disabled: {
       control: 'boolean',
-      order: 4,
+      order: 5,
       table: {
         type: { summary: 'boolean' },
       },
     },
     required: {
       control: 'boolean',
-      order: 5,
+      order: 6,
       table: {
         type: { summary: 'boolean' },
       },
     },
     error: {
       control: 'text',
-      order: 6,
+      order: 7,
       table: {
         type: { summary: 'string' },
       },
@@ -71,6 +77,7 @@ export default meta;
 export const Default = {
   args: {
     label: '등급',
+    labelClassName: 'text-noto-18-regular',
     name: 'grade',
     placeholder: '등급을 선택해 주세요',
     options: SAMPLE_OPTIONS,
