@@ -3,7 +3,7 @@
 import { createContext, useContext, useEffect } from 'react';
 import { useToast } from '@/hooks/common/useToast';
 import { Toast } from '@/components/ui/Toast';
-import { setToastHandler } from '@/lib/toastService';
+import { setToastHandler } from '@/lib/toast/toastService';
 
 const ToastContext = createContext(null);
 
