@@ -5,6 +5,7 @@ import { VisibleIcon, InvisibleIcon } from '@/icons';
 
 export const Input = ({
   label,
+  labelClassName = 'lg:text-noto-20-bold text-noto-16-bold',
   name,
   type = 'text',
   value,
@@ -29,7 +30,7 @@ export const Input = ({
       {label && (
         <label
           htmlFor={inputId}
-          className={`${disabled ? 'text-gray-400' : 'text-white'}`}
+          className={`${labelClassName} ${disabled ? 'text-gray-400' : 'text-white'}`}
         >
           {label}
         </label>

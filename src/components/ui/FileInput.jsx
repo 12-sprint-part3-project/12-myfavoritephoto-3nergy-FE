@@ -3,7 +3,12 @@
 import { useId, useState } from 'react';
 import { CloseIcon } from '@/icons';
 
-export const FileInput = ({ label, name, onChange }) => {
+export const FileInput = ({
+  label,
+  labelClassName = 'lg:text-noto-20-bold text-noto-16-bold',
+  name,
+  onChange,
+}) => {
   const uid = useId();
   const inputId = `${name}-${uid}`;
   const [fileName, setFileName] = useState('');
@@ -25,7 +30,7 @@ export const FileInput = ({ label, name, onChange }) => {
   return (
     <div className="flex flex-col gap-[.625rem]">
       {label && (
-        <label htmlFor={inputId} className="text-white">
+        <label htmlFor={inputId} className={`${labelClassName} text-white`}>
           {label}
         </label>
       )}
@@ -69,4 +74,3 @@ export const FileInput = ({ label, name, onChange }) => {
     </div>
   );
 };
-

@@ -5,6 +5,7 @@ import { ChevronDownIcon } from '@/icons';
 
 export const Select = ({
   label,
+  labelClassName = 'lg:text-noto-20-bold text-noto-16-bold',
   name,
   value,
   placeholder,
@@ -23,7 +24,7 @@ export const Select = ({
       {label && (
         <label
           htmlFor={selectId}
-          className={`${disabled ? 'text-gray-400' : 'text-white'}`}
+          className={`${labelClassName} ${disabled ? 'text-gray-400' : 'text-white'}`}
         >
           {label}
         </label>
@@ -40,7 +41,7 @@ export const Select = ({
           {...rest}
           className={`text-noto-14-regular md:text-noto-16-regular h-[3.4375rem] w-full appearance-none rounded-xs border bg-black px-5 outline-none disabled:text-gray-300 md:h-[3.75rem] ${
             value ? 'text-white' : 'text-gray-200'
-          } ${error ? 'border-red focus:border-red' : 'border-white focus:border-main'}`}
+          } ${error ? 'border-red focus:border-red' : 'focus:border-main border-white'}`}
         >
           {placeholder && (
             <option value="" disabled hidden>
@@ -69,4 +70,3 @@ export const Select = ({
     </div>
   );
 };
-
