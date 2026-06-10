@@ -29,7 +29,9 @@ export const CounterInput = ({
       <label htmlFor={id} className={`text-white ${labelClassName}`}>
         {label}
       </label>
-      <div className="flex items-center gap-[0.94rem] lg:gap-[1.25rem]">
+      <div
+        className={`flex items-center gap-[0.94rem] lg:gap-[1.25rem] ${showMaxLabel ? 'lg:w-[245px]' : ''}`}
+      >
         <div
           id={id}
           className="flex h-[45px] min-w-[144px] items-center justify-between rounded-sm border border-gray-200 bg-black px-[0.8175rem] py-[0.625rem] lg:h-[50px] lg:min-w-[176px] lg:py-[0.8125rem]"
