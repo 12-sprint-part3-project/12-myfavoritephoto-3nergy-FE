@@ -18,12 +18,19 @@ export const ExchangeCard = ({
   onReject,
 }) => {
   const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
-  const { textColor, label: gradeLabel } = GRADE_STYLE[grade] ?? {};
+  const [isAcceptModalOpen, setIsAcceptModalOpen] = useState(false);
 
   const handleReject = () => {
     setIsRejectModalOpen(false);
     if (onReject) onReject();
   };
+
+  const handleAccept = () => {
+    setIsAcceptModalOpen(false);
+    if (onAccept) onAccept();
+  };
+
+  const { textColor, label: gradeLabel } = GRADE_STYLE[grade] ?? {};
 
   return (
     <>
@@ -83,7 +90,7 @@ export const ExchangeCard = ({
               variant="primary"
               size="sm"
               className="text-noto-12-bold md:text-noto-16-medium lg:text-noto-18-bold"
-              onClick={onAccept}
+              onClick={() => setIsAcceptModalOpen(true)}
             >
               승인<span className="hidden md:inline">하기</span>
             </Button>
@@ -99,6 +106,17 @@ export const ExchangeCard = ({
           onClick={handleReject}
         >
           [{gradeLabel} | {name}] 카드와의 교환을 거절하시겠습니까?
+        </BasicModal>
+      )}
+
+      {isAcceptModalOpen && (
+        <BasicModal
+          title="교환 제시 승인"
+          buttonText="승인하기"
+          onClose={() => setIsAcceptModalOpen(false)}
+          onClick={handleAccept}
+        >
+          [{gradeLabel} | {name}] 카드와의 교환을 승인하시겠습니까?
         </BasicModal>
       )}
     </>
