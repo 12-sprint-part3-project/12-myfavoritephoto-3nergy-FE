@@ -3,7 +3,7 @@
 import { BottomSheet } from '@/components/ui/BottomSheet';
 import { Modal } from '@/components/ui/Modal';
 import { Overlay } from '@/components/ui/Overlay';
-import { useIsDesktop } from '@/hooks/useIsDesktop';
+import { useIsDesktop } from '@/hooks/common/useIsDesktop';
 
 export const ResponsiveModal = ({ onClose, footer, children }) => {
   // lg(1024px) 이상이면 true
