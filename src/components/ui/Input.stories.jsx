@@ -9,6 +9,11 @@ export default {
       control: 'select',
       options: ['text', 'email', 'password'],
     },
+    labelClassName: {
+      control: 'text',
+      description: 'label 텍스트 스타일',
+      table: { type: { summary: 'string' } },
+    },
     disabled: { control: 'boolean' },
     required: { control: 'boolean' },
   },
