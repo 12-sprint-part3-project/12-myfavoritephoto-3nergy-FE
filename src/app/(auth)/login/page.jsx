@@ -60,7 +60,7 @@ const LoginPage = () => {
 
       <form
         onSubmit={handleSubmit}
-        autocomplete="off"
+        autoComplete="off"
         className="flex w-full flex-col gap-5"
         noValidate
       >
