@@ -24,14 +24,14 @@ export const SellerButtons = ({ sale }) => {
       <div className="flex flex-col gap-[1.25rem]">
         <Button
           size="thick"
-          className="text-noto-20-bold"
+          className="text-noto-18-bold lg:text-noto-20-bold"
           onClick={() => setShowEditModal(true)}
         >
           수정하기
         </Button>
         <Button
           size="thick"
-          className="text-noto-20-bold"
+          className="text-noto-18-bold lg:text-noto-20-bold"
           variant="secondary"
           onClick={() => setShowCancelModal(true)}
         >
