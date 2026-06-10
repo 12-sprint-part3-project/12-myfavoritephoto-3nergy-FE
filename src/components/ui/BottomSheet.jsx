@@ -50,7 +50,7 @@ export const BottomSheet = ({ onClose, footer, children }) => {
         transform: `translateY(${dragY}px)`,
         transition: dragY === 0 ? 'transform 0.3s ease' : 'none',
       }}
-      className="flex max-h-[90vh] w-full flex-col rounded-t-[1.25rem] bg-gray-500 px-[1.25rem]"
+      className="flex max-h-[95vh] w-full flex-col rounded-t-[1.25rem] bg-gray-500 px-[1.25rem]"
     >
       {/* 드래그 핸들 */}
       <div
