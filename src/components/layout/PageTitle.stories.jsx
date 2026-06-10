@@ -30,6 +30,11 @@ const meta = {
       control: 'select',
       options: ['title-lg', 'title-md', 'heading', 'subheading'],
       order: 1,
+      description: `제목 계층을 구분합니다.
+- **title-lg**: 모바일·태블릿 48px / PC 62px
+- **title-md**: 모바일·태블릿 40px / PC 46px
+- **heading**: 모바일 24px / 태블릿 32px / PC 40px (섹션 제목)
+- **subheading**: 모바일·태블릿 22px / PC 28px (서브 섹션 제목)`,
       table: {
         type: { summary: 'title-lg | title-md | heading | subheading' },
       },
@@ -92,6 +97,19 @@ export const Default = {
 };
 
 export const AllVariants = {
+  parameters: {
+    docs: {
+      source: {
+        code: `
+    <div className="flex flex-col gap-8">
+      <PageTitle variant="title-lg" title="마켓 플레이스" />
+      <PageTitle variant="title-md" title="포토카드 생성" />
+      <PageTitle variant="heading" title="우리집 앞마당" />
+      <PageTitle variant="subheading" title="교환 희망 정보" />
+    </div>`,
+      },
+    },
+  },
   render: () => (
     <div className="flex flex-col gap-8">
       <PageTitle variant="title-lg" title="마켓 플레이스" />
