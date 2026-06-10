@@ -1,14 +1,15 @@
 import { QueryClient, MutationCache } from '@tanstack/react-query';
 import { getErrorHandler } from '@/constants/errorHandler';
+import { QUERY_CONFIG } from '@/constants/queryConfig';
 import { clearToken } from '@/utils/token';
-import { showGlobalToast } from '@/lib/toastService';
+import { showGlobalToast } from '@/lib/toast/toastService';
 
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       retry: false, // 실패 시 재시도 안함
-      staleTime: 1000 * 60, // 1분 간 재요청하지 않음
-      gcTime: 1000 * 60 * 5, // 5분 후 캐시 삭제
+      staleTime: QUERY_CONFIG.staleTime.DEFAULT, // 1분 간 재요청하지 않음
+      gcTime: QUERY_CONFIG.gcTime.DEFAULT, // 5분 후 캐시 삭제
       refetchOnWindowFocus: false, // 탭 다시 포커스 시 재요청하지 않음
     },
   },
