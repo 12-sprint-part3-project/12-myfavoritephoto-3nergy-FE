@@ -1,4 +1,3 @@
-// constants/queryKeys.js
 export const QUERY_KEYS = {
   // 유저
   me: ['me'],
