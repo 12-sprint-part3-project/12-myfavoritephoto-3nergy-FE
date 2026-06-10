@@ -2,10 +2,16 @@
 
 import { useState } from 'react';
 import { Button } from '@/components/ui/Button';
+import { BasicModal } from '@/components/ui/BasicModal';
 
 export const SellerButtons = ({ sale }) => {
   const [showEditModal, setShowEditModal] = useState(false);
-  const [showStopModal, setShowStopModal] = useState(false);
+  const [showCancelModal, setShowCancelModal] = useState(false);
+
+  const handleCancelSale = () => {
+    setShowCancelModal(false);
+    // TODO: 판매 중단 API 연동
+  };
 
   return (
     <>
@@ -21,20 +27,29 @@ export const SellerButtons = ({ sale }) => {
           size="thick"
           className="text-noto-20-bold"
           variant="secondary"
-          onClick={() => setShowStopModal(true)}
+          onClick={() => setShowCancelModal(true)}
         >
           판매 내리기
         </Button>
       </div>
 
       {/*
-            {showEditModal && (
+      {showEditModal && (
         <SaleEditModal onClose={() => setShowEditModal(false)} />
       )}
-      {showStopModal && (
-        <StopSaleModal onClose={() => setShowStopModal(false)} />
-      )}
       */}
+
+      {/* 판매 내리기 확인 모달 */}
+      {showCancelModal && (
+        <BasicModal
+          title="포토카드 판매 내리기"
+          buttonText="판매 내리기"
+          onClose={() => setShowCancelModal(false)}
+          onClick={handleCancelSale}
+        >
+          정말로 판매를 중단하시겠습니까?
+        </BasicModal>
+      )}
     </>
   );
 };
