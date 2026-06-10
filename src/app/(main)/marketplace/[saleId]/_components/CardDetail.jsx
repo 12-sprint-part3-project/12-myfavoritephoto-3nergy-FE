@@ -13,7 +13,9 @@ export const CardDetail = ({ sale, children }) => {
           className="h-auto w-full"
         />
       </div>
-      <div className="flex flex-1 flex-col">{children}</div>
+      <div className="flex flex-1 flex-col md:max-w-[342px] lg:max-w-[440px]">
+        {children}
+      </div>
     </div>
   );
 };
