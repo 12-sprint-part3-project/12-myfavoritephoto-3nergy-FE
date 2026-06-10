@@ -10,6 +10,7 @@ export const CounterInput = ({
   max,
   label,
   showMaxLabel = false,
+  labelClassName,
 }) => {
   const id = useId(); // 라벨-인풋 연결용
 
@@ -25,7 +26,7 @@ export const CounterInput = ({
 
   return (
     <div className="flex w-full items-center justify-between">
-      <label htmlFor={id} className="text-noto-14-regular text-white">
+      <label htmlFor={id} className={`text-white ${labelClassName}`}>
         {label}
       </label>
       <div className="flex items-center gap-[0.94rem] lg:gap-[1.25rem]">
