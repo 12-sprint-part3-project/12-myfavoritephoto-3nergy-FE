@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
+import { APP_NAME } from '@/constants/app';
 import { AlarmIcon, CaretLeftIcon, MenuIcon } from '@/icons';
 import { NotificationMenu } from '@/components/layout/GNB/NotificationMenu';
 
@@ -37,7 +38,7 @@ export const GNB = ({
           <Link href="/">
             <Image
               src="/logo.svg"
-              alt="최애의포토"
+              alt={APP_NAME}
               width={111}
               height={20}
               unoptimized
@@ -129,7 +130,7 @@ export const GNB = ({
             <Link href="/">
               <Image
                 src="/logo.svg"
-                alt="최애의포토"
+                alt={APP_NAME}
                 width={83}
                 height={15}
                 unoptimized
