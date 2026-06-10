@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { BasicModal } from '@/components/ui/BasicModal';
+import { SaleEditModal } from '@/app/(main)/marketplace/[saleId]/_components/SaleEditModal';
 
 export const SellerButtons = ({ sale }) => {
   const [showEditModal, setShowEditModal] = useState(false);
@@ -11,6 +12,11 @@ export const SellerButtons = ({ sale }) => {
   const handleCancelSale = () => {
     setShowCancelModal(false);
     // TODO: 판매 중단 API 연동
+  };
+
+  const handlewEditSale = () => {
+    setShowEditModal(false);
+    // TODO: 판매 수정 API 연동
   };
 
   return (
@@ -33,11 +39,14 @@ export const SellerButtons = ({ sale }) => {
         </Button>
       </div>
 
-      {/*
+      {/* 포토카드 정보 수정 모달 */}
       {showEditModal && (
-        <SaleEditModal onClose={() => setShowEditModal(false)} />
+        <SaleEditModal
+          onClose={() => setShowEditModal(false)}
+          sale={sale}
+          onSubmit={handlewEditSale}
+        />
       )}
-      */}
 
       {/* 판매 내리기 확인 모달 */}
       {showCancelModal && (
