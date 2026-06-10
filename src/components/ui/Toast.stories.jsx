@@ -1,7 +1,6 @@
-import { useToast } from '@/hooks/common/useToast';
 import { Button } from './Button';
 import { Toast } from './Toast';
-import { ToastContainer } from './ToastContainer';
+import { ToastProvider, useToastContext } from '@/context/ToastContext';
 
 const meta = {
   title: 'UI/Toast',
@@ -11,7 +10,7 @@ const meta = {
     docs: {
       description: {
         component:
-          '사용자에게 짧은 피드백 메시지를 제공하는 Toast 컴포넌트입니다. useToast 훅과 함께 사용합니다.',
+          '사용자에게 짧은 피드백 메시지를 제공하는 Toast 컴포넌트입니다. ToastProvider와 useToastContext를 통해 전역으로 사용할 수 있습니다.',
       },
     },
   },
@@ -44,16 +43,11 @@ export const Default = {
 };
 
 function ToastWithTrigger({ message }) {
-  const { isVisible, message: toastMessage, showToast } = useToast();
+  const { showToast } = useToastContext();
 
   return (
     <>
-      <Button onClick={() => showToast(message)} className="w-[10rem]">
-        Toast 실행
-      </Button>
-      <ToastContainer>
-        <Toast message={toastMessage} isVisible={isVisible} />
-      </ToastContainer>
+      <Button onClick={() => showToast(message)}>Toast 실행</Button>
     </>
   );
 }
@@ -66,20 +60,20 @@ export const Interactive = {
     docs: {
       source: {
         code: `
-          const { open, message, showToast } = useToast();
+const { showToast } = useToastContext();
 
-          <>
-            <Button onClick={() => showToast('이번달 모든 생성 기회를 소진했어요')}>
-              Toast 실행
-            </Button>
-
-            <ToastContainer>
-              <Toast message={message} open={open} />
-            </ToastContainer>
-          </>
+<Button
+  onClick={() => showToast('이번달 모든 생성 기회를 소진했어요')}
+>
+  Toast 실행
+</Button>
         `,
       },
     },
   },
-  render: (args) => <ToastWithTrigger {...args} />,
+  render: (args) => (
+    <ToastProvider>
+      <ToastWithTrigger {...args} />
+    </ToastProvider>
+  ),
 };
