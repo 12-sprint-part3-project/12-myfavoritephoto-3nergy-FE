@@ -41,7 +41,8 @@ const meta = {
     },
     className: {
       control: 'text',
-      description: '너비는 className으로 직접 지정 (예: w-full, w-[10rem])',
+      description:
+        '너비 및 폰트는 className으로 직접 지정 (예: w-[10rem], text-noto-16-bold)',
       order: 5,
       table: {
         type: { summary: 'string' },
@@ -57,7 +58,7 @@ export const Primary = {
     children: '확인',
     variant: 'primary',
     size: 'md',
-    className: 'w-[10rem]',
+    className: 'w-[10rem] text-noto-16-bold',
   },
 };
 
@@ -66,7 +67,7 @@ export const Secondary = {
     children: '교환하기',
     variant: 'secondary',
     size: 'md',
-    className: 'w-[10rem]',
+    className: 'w-[10rem] text-noto-16-bold',
   },
 };
 
@@ -76,7 +77,7 @@ export const Disabled = {
     variant: 'primary',
     size: 'md',
     disabled: true,
-    className: 'w-[10rem]',
+    className: 'w-[10rem] text-noto-16-bold',
   },
 };
 
@@ -84,7 +85,7 @@ export const AllSizes = {
   args: {
     variant: 'primary',
     disabled: false,
-    className: 'w-[27.5rem]',
+    className: 'w-[27.5rem] text-noto-16-bold',
   },
 
   render: function Render(args) {
