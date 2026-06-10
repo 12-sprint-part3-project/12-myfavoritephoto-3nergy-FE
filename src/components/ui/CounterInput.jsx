@@ -29,6 +29,18 @@ export const CounterInput = ({
       <label htmlFor={id} className={`text-white ${labelClassName}`}>
         {label}
       </label>
+
+      {/* 실제 접근성용 hidden input */}
+      <input
+        id={id}
+        type="number"
+        value={value}
+        readOnly
+        aria-hidden="true"
+        tabIndex={-1}
+        className="sr-only"
+      />
+
       <div
         className={`flex items-center gap-[0.94rem] lg:gap-[1.25rem] ${showMaxLabel ? 'lg:w-[245px]' : ''}`}
       >
