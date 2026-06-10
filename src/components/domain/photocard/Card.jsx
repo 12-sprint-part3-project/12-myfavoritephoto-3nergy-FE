@@ -3,7 +3,7 @@
 import { GRADE_STYLE } from '@/constants/card';
 import SoldoutIcon from '@/icons/soldout.svg';
 import Image from 'next/image';
-import APP_NAME from '@/constants/app';
+import { APP_NAME } from '@/constants/app';
 
 const STATUS_LABEL = {
   SALE: '판매 중',
