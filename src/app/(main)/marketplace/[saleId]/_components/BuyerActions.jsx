@@ -3,10 +3,16 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { CounterInput } from '@/components/ui/CounterInput';
+import { BasicModal } from '@/components/ui/BasicModal';
 
 export const BuyerActions = ({ sale }) => {
   const [value, setValue] = useState(1);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+
+  const handlePurchase = () => {
+    setShowConfirmModal(false);
+    // TODO: 구매 API 연동
+  };
 
   const totalPrice = value * sale.price;
 
@@ -36,6 +42,8 @@ export const BuyerActions = ({ sale }) => {
           </span>
         </div>
       </div>
+
+      {/* 구매 버튼 */}
       <div className="mt-10 lg:mt-[5rem]">
         <Button
           size="thick"
@@ -46,11 +54,17 @@ export const BuyerActions = ({ sale }) => {
         </Button>
       </div>
 
-      {/*
       {showConfirmModal && (
-        <BuyConfirmModal onClose={() => setShowConfirmModal(false)} />
+        <BasicModal
+          title="포토카드 구매"
+          buttonText="구매하기"
+          onClose={() => setShowConfirmModal(false)}
+          onClick={handlePurchase}
+        >
+          [{sale.photocard.grade} | {sale.photocard.name}] {value}장을
+          구매하시겠습니까?
+        </BasicModal>
       )}
-      */}
     </div>
   );
 };
