@@ -133,7 +133,7 @@ export const SaleEditForm = ({ sale, onCancel, onSubmit }) => {
       </div>
 
       {/* 수정/취소 버튼 */}
-      <div className="flex gap-2">
+      <div className="mb-[3.75rem] flex gap-2 lg:mb-0">
         <Button
           variant="secondary"
           className="text-noto-16-bold lg:text-noto-18-bold w-full"
