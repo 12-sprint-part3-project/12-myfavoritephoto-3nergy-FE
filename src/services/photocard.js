@@ -1,0 +1,12 @@
+import { fetchWithAuth } from '@/lib/api/fetchWithAuth';
+
+// 포토카드 목록 조회
+export const getPhotocards = (params = {}) =>
+  fetchWithAuth(`/api/photocards?${new URLSearchParams(params)}`);
+
+// 포토카드 생성
+export const createPhotocard = (body) =>
+  fetchWithAuth('/api/photocards', {
+    method: 'POST',
+    body: JSON.stringify(body),
+  });
