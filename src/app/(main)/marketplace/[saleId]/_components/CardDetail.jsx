@@ -10,7 +10,7 @@ export const CardDetail = ({ sale, children }) => {
           width={0}
           height={0}
           sizes="100vw"
-          className="h-auto w-full"
+          className="block h-auto w-full"
         />
       </div>
       <div className="flex flex-1 flex-col md:max-w-[342px] lg:max-w-[440px]">

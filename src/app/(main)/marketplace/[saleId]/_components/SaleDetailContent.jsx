@@ -35,12 +35,14 @@ export const SaleDetailContent = ({ sale }) => {
         )}
       </CardDetail>
 
-      {/* 소유 여부에 따라 UI 분기: 판매자(교환 제시 목록) / 구매자(교환 희망 정보, 교환 버튼) */}
-      {isSeller ? (
-        <TradeListSection sale={sale} />
-      ) : (
-        <TradeOfferSection sale={sale} />
-      )}
+      <div className="mt-[7.5rem]">
+        {/* 소유 여부에 따라 UI 분기: 판매자(교환 제시 목록) / 구매자(교환 희망 정보, 교환 버튼) */}
+        {isSeller ? (
+          <TradeListSection sale={sale} />
+        ) : (
+          <TradeOfferSection sale={sale} />
+        )}
+      </div>
     </>
   );
 };
