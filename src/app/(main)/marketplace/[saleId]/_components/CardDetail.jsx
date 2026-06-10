@@ -7,8 +7,10 @@ export const CardDetail = ({ sale, children }) => {
         <Image
           src={sale.photocard.imageUrl}
           alt={`${sale.photocard.name} 사진`}
-          width={100}
-          height={100}
+          width={0}
+          height={0}
+          sizes="100vw"
+          className="h-auto w-full"
         />
       </div>
       <div className="flex flex-1 flex-col">{children}</div>
