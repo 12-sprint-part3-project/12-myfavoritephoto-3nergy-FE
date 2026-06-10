@@ -1,6 +1,7 @@
-import { QueryClient } from '@tanstack/react-query';
+import { QueryClient, MutationCache } from '@tanstack/react-query';
 import { getErrorHandler } from '@/constants/errorHandler';
 import { clearToken } from '@/utils/token';
+import { showGlobalToast } from '@/lib/toastService';
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -39,8 +40,7 @@ export const queryClient = new QueryClient({
       }
 
       if (action === 'toast') {
-        // TODO: 커스텀 토스트 훅 연동 예정
-        console.error(message ?? error?.message);
+        showGlobalToast(message ?? error?.message);
       }
     },
   }),
