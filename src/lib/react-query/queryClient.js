@@ -2,7 +2,7 @@ import { QueryClient, MutationCache } from '@tanstack/react-query';
 import { getErrorHandler } from '@/constants/errorHandler';
 import { QUERY_CONFIG } from '@/constants/queryConfig';
 import { clearToken } from '@/utils/token';
-import { showGlobalToast } from '@/lib/toastService';
+import { showGlobalToast } from '@/lib/toast/toastService';
 
 export const queryClient = new QueryClient({
   defaultOptions: {
