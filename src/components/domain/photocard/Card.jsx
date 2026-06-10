@@ -3,11 +3,12 @@
 import { GRADE_STYLE } from '@/constants/card';
 import SoldoutIcon from '@/icons/soldout.svg';
 import Image from 'next/image';
-// import APP_NAME from '@/constants/app';
+import APP_NAME from '@/constants/app';
 
 const STATUS_LABEL = {
   SALE: '판매 중',
   TRADE_PENDING: '교환 제시 대기 중',
+  SOLD_OUT: '매진',
 };
 
 export const Card = ({
@@ -24,9 +25,7 @@ export const Card = ({
   status, // 'SALE' | 'SOLD_OUT' — mysales, marketplace 공통 / 'TRADE_PENDING' - mysales 만
 }) => {
   const { textColor, label: gradeLabel } = GRADE_STYLE[grade] ?? {};
-  const isSoldOut =
-    (type === 'marketplace' && status === 'SOLD_OUT') ||
-    (type === 'mysales' && status === 'SOLD_OUT');
+  const isSoldOut = status === 'SOLD_OUT';
 
   return (
     <article className="flex flex-col bg-gray-500 p-[.625rem] md:p-5 md:pb-[1.875rem] lg:p-10">
@@ -38,7 +37,7 @@ export const Card = ({
           height={400}
           className={`h-full w-full object-cover ${isSoldOut ? 'opacity-30' : ''}`}
         />
-        {type === 'mysales' && status !== 'SOLD_OUT' && (
+        {type === 'mysales' && !isSoldOut && (
           <span
             className={`md:text-noto-14-regular lg:text-noto-16-regular text-noto-10-regular absolute top-[.3125rem] left-[.3125rem] rounded-xs bg-black/50 px-2 py-1 md:top-[.625rem] md:left-[.625rem] lg:px-[.625rem] ${status === 'SALE' ? 'text-white' : 'text-main'}`}
           >
@@ -50,7 +49,7 @@ export const Card = ({
             <div className="w-[46.67%]">
               <SoldoutIcon className="text-red h-auto w-full" />
             </div>
-            <span className="sr-only">매진</span>
+            <span className="sr-only">{STATUS_LABEL[status]}</span>
           </div>
         )}
       </div>
@@ -123,21 +122,8 @@ export const Card = ({
         </dl>
       </div>
 
-      <div className="hidden md:mt-[44px] md:flex md:items-center md:justify-center lg:mt-[47px]">
-        {/** TODO:
-         * 로고 이미지 작업 전 텍스트로 대체
-         * 이미지 교체 시 텍스트 로고 제거
-         */}
-        <p className="font-baskin-base text-baskin-18-bold h-[18px] w-[100px] text-center leading-none text-white">
-          최애<span className="text-main">의</span>포토
-        </p>
-        {/* <Image 
-          src="/logo.svg"
-          alt={APP_NAME}
-          width={100}
-          height={18}
-          optimized
-        /> */}
+      <div className="hidden md:mt-[44px] md:flex md:justify-center lg:mt-[47px]">
+        <Image src="/logo.svg" alt={APP_NAME} width={100} height={18} />
       </div>
     </article>
   );
