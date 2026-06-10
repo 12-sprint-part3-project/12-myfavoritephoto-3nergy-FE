@@ -42,8 +42,8 @@ const LoginPage = () => {
         <Image
           src="/logo.svg"
           alt={APP_NAME}
-          width={331}
-          height={60}
+          width={189}
+          height={35}
           unoptimized
           className="block md:hidden"
         />
@@ -51,8 +51,8 @@ const LoginPage = () => {
           src="/logo.svg"
           alt=""
           aria-hidden="true"
-          width={139}
-          height={25}
+          width={331}
+          height={60}
           unoptimized
           className="hidden md:block"
         />
