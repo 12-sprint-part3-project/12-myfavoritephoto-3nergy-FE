@@ -16,7 +16,7 @@ export const ResponsiveModal = ({ onClose, footer, children }) => {
         <Modal
           onClose={onClose}
           footer={footer}
-          className="mx-4 w-full max-w-[72.5rem] px-[1.875rem] py-[3.75rem]"
+          className="mx-4 w-full max-w-[72.5rem] bg-gray-500 px-[1.875rem] py-[3.75rem]"
         >
           {children}
         </Modal>
