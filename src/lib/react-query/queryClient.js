@@ -5,7 +5,10 @@ import { clearToken } from '@/utils/token';
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      retry: false,
+      retry: false, // 실패 시 재시도 안함
+      staleTime: 1000 * 60, // 1분 간 재요청하지 않음
+      gcTime: 1000 * 60 * 5, // 5분 후 캐시 삭제
+      refetchOnWindowFocus: false, // 탭 다시 포커스 시 재요청하지 않음
     },
     mutations: {
       onError: (error) => {
