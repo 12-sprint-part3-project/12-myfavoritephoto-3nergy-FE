@@ -49,7 +49,6 @@ const SignupPage = () => {
       email: form.email,
       nickname: form.nickname,
       password: form.password,
-      passwordConfirm: form.passwordConfirm,
     });
   };
 
