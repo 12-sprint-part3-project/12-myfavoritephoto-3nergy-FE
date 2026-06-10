@@ -29,7 +29,7 @@ export const Textarea = ({
         onChange={onChange}
         placeholder={placeholder}
         {...rest}
-        className="text-noto-14-regular md:text-noto-16-regular focus:border-main h-[10rem] w-full resize-none overflow-y-auto rounded-xs border border-white bg-black p-5 text-white outline-none placeholder:text-gray-200 md:h-[11.25rem]"
+        className="text-noto-14-regular md:text-noto-16-regular focus:border-main placeholder:text-noto-14-light md:placeholder:text-noto-16-light h-[10rem] w-full resize-none overflow-y-auto rounded-xs border border-white bg-black p-5 text-white outline-none placeholder:text-gray-200 md:h-[11.25rem]"
       />
     </div>
   );
