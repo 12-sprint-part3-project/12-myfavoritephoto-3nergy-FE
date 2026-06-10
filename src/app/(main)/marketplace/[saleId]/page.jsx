@@ -35,7 +35,7 @@ export default async function page({ params }) {
     photocard: {
       id: 1,
       name: 'IVE 포토카드',
-      imageUrl: 'https://example.com/image.png',
+      imageUrl: 'https://picsum.photos/seed/trade1/400/400',
       description: '앨범 포토카드입니다.',
       grade: 'LEGENDARY',
       genre: '인물',
