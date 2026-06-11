@@ -1,7 +1,8 @@
 'use client';
 
 import { useAuth } from '@/context/AuthContext';
-//import { useMe } from '@/hooks/queries/useMe';
+import { useMe } from '@/hooks/auth/useMe';
+import { useSaleDetail } from '@/hooks/sale/useSaleDetail';
 import { CardDetail } from '@/app/(main)/marketplace/[saleId]/_components/CardDetail';
 import { CardInfo } from '@/app/(main)/marketplace/[saleId]/_components/CardInfo';
 import { SellerTradeInfo } from '@/app/(main)/marketplace/[saleId]/_components/SellerTradeInfo';
@@ -10,13 +11,18 @@ import { BuyerActions } from '@/app/(main)/marketplace/[saleId]/_components/Buye
 import { TradeListSection } from '@/app/(main)/marketplace/[saleId]/_components/TradeListSection';
 import { TradeOfferSection } from '@/app/(main)/marketplace/[saleId]/_components/TradeOfferSection';
 
-export const SaleDetailContent = ({ sale }) => {
-  //const { accessToken } = useAuth();
-  //const { data: me } = useMe();
+export const SaleDetailContent = ({ saleId }) => {
+  const { accessToken } = useAuth();
+  const { data: me } = useMe();
+  const { data: sale, isLoading, error } = useSaleDetail(saleId);
 
-  //const isSeller = accessToken && sale?.sellerUuid === me?.uuid;
+  const isSeller = !!accessToken && sale?.seller?.uuid === me?.uuid;
 
-  const isSeller = false;
+  // TODO: 스켈레톤 UI로 교체
+  if (isLoading) return <div className="text-white">로딩 중...</div>;
+
+  // TODO: 에러 컴포넌트로 교체
+  if (error) return <div className="text-white">에러가 발생했습니다.</div>;
 
   return (
     <>
