@@ -3,7 +3,7 @@ import { GENRE, GRADE_STYLE } from './card';
 export const FILTER_TAB_CONFIG = {
   grade: {
     label: '등급',
-    options: Object.values(GRADE_STYLE).map((grade) => grade.label),
+    options: Object.keys(GRADE_STYLE),
   },
   genre: {
     label: '장르',
