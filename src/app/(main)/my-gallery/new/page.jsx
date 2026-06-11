@@ -1,5 +1,5 @@
 import { PageTitle } from '@/components/layout/PageTitle';
-import { CreatePhotocardForm } from './_components/CreatePhotocardForm';
+import { CreatePhotocardForm } from '@/app/(main)/my-gallery/new/_components/CreatePhotocardForm';
 
 export const metadata = {
   title: '포토카드 생성',
