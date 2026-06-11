@@ -16,7 +16,7 @@ export const useLogout = () => {
 
   return useMutation({
     mutationFn: logout,
-    onSuccess: handleLoggedOut,
-    onError: handleLoggedOut,
+    // 로그아웃 API 성공/실패 여부와 관계없이 클라이언트 상태는 항상 초기화
+    onSettled: handleLoggedOut,
   });
 };
