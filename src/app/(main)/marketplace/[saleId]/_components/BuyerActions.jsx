@@ -1,17 +1,26 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/Button';
 import { CounterInput } from '@/components/ui/CounterInput';
 import { BasicModal } from '@/components/ui/BasicModal';
 
 export const BuyerActions = ({ sale }) => {
+  const router = useRouter();
   const [value, setValue] = useState(1);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   const handlePurchase = () => {
     setShowConfirmModal(false);
+
     // TODO: 구매 API 연동
+    const MOCK_SUCCESS = false;
+
+    const status = MOCK_SUCCESS ? 'success' : 'failure';
+    router.push(
+      `/marketplace/${sale.saleId}/result?status=${status}&quantity=${value}`,
+    );
   };
 
   const totalPrice = value * sale.price;
