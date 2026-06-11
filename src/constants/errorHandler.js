@@ -35,6 +35,14 @@ export const ERROR_HANDLER = {
     message: '로그인에 실패했습니다. 잠시 후 다시 시도해주세요.',
     action: 'toast',
   },
+
+  // 회원가입 시 입력 필드 자체에 인라인으로 표시 → 전역 토스트 X
+  EMAIL_ALREADY_EXISTS: {
+    action: 'field',
+  },
+  NICKNAME_ALREADY_EXISTS: {
+    action: 'field',
+  },
 };
 
 export const getErrorHandler = (code) => {

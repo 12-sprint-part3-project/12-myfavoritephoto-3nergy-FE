@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import { useSignup } from '@/hooks/auth/useSignup';
@@ -17,6 +17,15 @@ const SignupPage = () => {
   });
   const [errors, setErrors] = useState({});
   const { mutate: signup, isPending, error } = useSignup();
+
+  // 이메일/닉네임 중복 에러는 전역 토스트 대신 해당 인풋 아래에 인라인으로 표시
+  useEffect(() => {
+    if (error?.code === 'EMAIL_ALREADY_EXISTS') {
+      setErrors((prev) => ({ ...prev, email: error.message }));
+    } else if (error?.code === 'NICKNAME_ALREADY_EXISTS') {
+      setErrors((prev) => ({ ...prev, nickname: error.message }));
+    }
+  }, [error]);
 
   const validate = () => {
     const next = {};
@@ -117,9 +126,12 @@ const SignupPage = () => {
           error={errors.passwordConfirm}
         />
 
-        {error && (
-          <p className="text-noto-14-regular text-red">{error.message}</p>
-        )}
+        {error &&
+          !['EMAIL_ALREADY_EXISTS', 'NICKNAME_ALREADY_EXISTS'].includes(
+            error.code,
+          ) && (
+            <p className="text-noto-14-regular text-red">{error.message}</p>
+          )}
 
         <div className="mt-2 flex flex-col gap-4">
           <Button
