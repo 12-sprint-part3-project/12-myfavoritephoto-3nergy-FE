@@ -7,7 +7,11 @@ const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 export const fetchClient = async (endpoint, options = {}) => {
   const accessToken = getToken();
 
-  const response = await fetch(`${BASE_URL}${endpoint}`, {
+  const url = endpoint.startsWith('/api/auth')
+    ? endpoint // BASE_URL 없이
+    : `${BASE_URL}${endpoint}`;
+
+  const response = await fetch(url, {
     ...options,
     credentials: 'include', // httpOnly 쿠키의 Refresh Token 자동 전송
     headers: {
