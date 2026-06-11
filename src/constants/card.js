@@ -37,3 +37,8 @@ export const GENRE = {
 export const CARD_GRADE_OPTIONS = Object.entries(GRADE_STYLE).map(
   ([value, { label }]) => ({ value, label }),
 );
+
+export const GENRE_OPTIONS = Object.entries(GENRE).map(([value, label]) => ({
+  value,
+  label,
+}));
