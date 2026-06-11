@@ -2,11 +2,26 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import { useSignup } from '@/hooks/auth/useSignup';
 import { APP_NAME } from '@/constants/app';
+
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const NICKNAME_REGEX = /^[가-힣a-zA-Z0-9_-]+$/;
+const PASSWORD_UPPERCASE_REGEX = /[A-Z]/;
+const PASSWORD_SPECIAL_CHAR_REGEX = /[!@#$%^&*(),.?":{}|<>_\-+=[\]\\/;']/;
+const RESERVED_NICKNAMES = [
+  'system',
+  'admin',
+  'administrator',
+  'root',
+  'null',
+  'undefined',
+  '관리자',
+  '운영자',
+];
 
 const SignupPage = () => {
   const [form, setForm] = useState({
@@ -16,28 +31,53 @@ const SignupPage = () => {
     passwordConfirm: '',
   });
   const [errors, setErrors] = useState({});
-  const { mutate: signup, isPending, error } = useSignup();
+  const { mutate: signup, isPending } = useSignup();
 
-  // 이메일/닉네임 중복 에러는 전역 토스트 대신 해당 인풋 아래에 인라인으로 표시
-  useEffect(() => {
-    if (error?.code === 'EMAIL_ALREADY_EXISTS') {
-      setErrors((prev) => ({ ...prev, email: error.message }));
-    } else if (error?.code === 'NICKNAME_ALREADY_EXISTS') {
-      setErrors((prev) => ({ ...prev, nickname: error.message }));
+  const validateField = (name, values) => {
+    switch (name) {
+      case 'email':
+        if (!values.email) return '이메일을 입력해 주세요.';
+        if (!EMAIL_REGEX.test(values.email))
+          return '이메일 형식이 올바르지 않습니다.';
+        return '';
+
+      case 'nickname':
+        if (!values.nickname) return '닉네임을 입력해 주세요.';
+        if (values.nickname.length < 2 || values.nickname.length > 10)
+          return '닉네임은 2자 이상 10자 이하로 입력해 주세요.';
+        if (!NICKNAME_REGEX.test(values.nickname))
+          return '닉네임은 한글, 영문, 숫자, -, _ 만 사용할 수 있습니다.';
+        if (RESERVED_NICKNAMES.includes(values.nickname.toLowerCase()))
+          return '이미 사용 중인 닉네임입니다.';
+        return '';
+
+      case 'password':
+        if (!values.password) return '비밀번호를 입력해 주세요.';
+        if (values.password.length < 8)
+          return '비밀번호는 8자 이상이어야 합니다.';
+        if (!PASSWORD_UPPERCASE_REGEX.test(values.password))
+          return '비밀번호는 대문자를 1자 이상 포함해야 합니다.';
+        if (!PASSWORD_SPECIAL_CHAR_REGEX.test(values.password))
+          return '비밀번호는 특수문자를 1자 이상 포함해야 합니다.';
+        return '';
+
+      case 'passwordConfirm':
+        if (!values.passwordConfirm) return '비밀번호를 한번 더 입력해 주세요.';
+        if (values.password !== values.passwordConfirm)
+          return '비밀번호가 일치하지 않습니다.';
+        return '';
+
+      default:
+        return '';
     }
-  }, [error]);
+  };
 
-  const validate = () => {
+  const validate = (values) => {
     const next = {};
-    if (!form.email) next.email = '이메일을 입력해 주세요.';
-    if (!form.nickname) next.nickname = '닉네임을 입력해 주세요.';
-    if (!form.password) next.password = '비밀번호를 입력해 주세요.';
-    else if (form.password.length < 8)
-      next.password = '비밀번호는 8자 이상이어야 합니다.';
-    if (!form.passwordConfirm)
-      next.passwordConfirm = '비밀번호를 한번 더 입력해 주세요.';
-    else if (form.password !== form.passwordConfirm)
-      next.passwordConfirm = '비밀번호가 일치하지 않습니다.';
+    ['email', 'nickname', 'password', 'passwordConfirm'].forEach((name) => {
+      const message = validateField(name, values);
+      if (message) next[name] = message;
+    });
     return next;
   };
 
@@ -47,18 +87,30 @@ const SignupPage = () => {
     setErrors((prev) => ({ ...prev, [name]: '' }));
   };
 
+  const handleBlur = (e) => {
+    const { name } = e.target;
+    setErrors((prev) => ({ ...prev, [name]: validateField(name, form) }));
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    const validationErrors = validate();
+    const validationErrors = validate(form);
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
     }
-    signup({
-      email: form.email,
-      nickname: form.nickname,
-      password: form.password,
-    });
+    signup(
+      { email: form.email, nickname: form.nickname, password: form.password },
+      {
+        onError: (err) => {
+          if (err.code === 'EMAIL_ALREADY_EXISTS') {
+            setErrors((prev) => ({ ...prev, email: err.message }));
+          } else if (err.code === 'NICKNAME_ALREADY_EXISTS') {
+            setErrors((prev) => ({ ...prev, nickname: err.message }));
+          }
+        },
+      },
+    );
   };
 
   return (
@@ -96,6 +148,7 @@ const SignupPage = () => {
           value={form.email}
           placeholder="이메일을 입력해 주세요"
           onChange={handleChange}
+          onBlur={handleBlur}
           error={errors.email}
         />
         <Input
@@ -105,6 +158,7 @@ const SignupPage = () => {
           value={form.nickname}
           placeholder="닉네임을 입력해 주세요"
           onChange={handleChange}
+          onBlur={handleBlur}
           error={errors.nickname}
         />
         <Input
@@ -114,6 +168,7 @@ const SignupPage = () => {
           value={form.password}
           placeholder="8자 이상 입력해 주세요"
           onChange={handleChange}
+          onBlur={handleBlur}
           error={errors.password}
         />
         <Input
@@ -123,15 +178,9 @@ const SignupPage = () => {
           value={form.passwordConfirm}
           placeholder="비밀번호를 한번 더 입력해 주세요"
           onChange={handleChange}
+          onBlur={handleBlur}
           error={errors.passwordConfirm}
         />
-
-        {error &&
-          !['EMAIL_ALREADY_EXISTS', 'NICKNAME_ALREADY_EXISTS'].includes(
-            error.code,
-          ) && (
-            <p className="text-noto-14-regular text-red">{error.message}</p>
-          )}
 
         <div className="mt-2 flex flex-col gap-4">
           <Button
