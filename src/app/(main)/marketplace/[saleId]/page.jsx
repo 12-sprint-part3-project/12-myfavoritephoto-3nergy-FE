@@ -57,7 +57,6 @@ export default async function page({ params }) {
           breadcrumb="마켓플레이스"
           title="우리집 앞마당"
           hideBreadcrumbOnMobile
-          className="hidden md:block"
         />
       </div>
       <SaleDetailContent sale={sale} />
