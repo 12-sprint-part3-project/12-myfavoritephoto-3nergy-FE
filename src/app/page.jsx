@@ -37,7 +37,6 @@ export default function Page() {
             </Button>
           </Link>
 
-          {/* TODO: sm/md 전용 이미지 추가 시 breakpoint별로 src 분기 */}
           <div className="relative mt-[2.5rem] aspect-[375/199] w-full sm:mt-[3rem] sm:aspect-[744/352] lg:mt-[0.625rem] lg:aspect-[1917/765]">
             <Image
               src="/images/landing/landing-hero-lg.svg"
@@ -60,7 +59,6 @@ export default function Page() {
             포인트로 안전하게 교환하세요
           </p>
 
-          {/* TODO: sm/md 전용 이미지 추가 시 breakpoint별로 src 분기 */}
           <div className="relative mt-[1.5rem] aspect-[375/440] w-full sm:mt-[2rem] sm:aspect-[744/707] lg:aspect-[1068/518]">
             <Image
               src="/images/landing/landing-trade-lg.svg"
@@ -83,7 +81,6 @@ export default function Page() {
             실시간 알림으로 놓치지 마세요
           </p>
 
-          {/* TODO: sm/md 전용 이미지 추가 시 breakpoint별로 src 분기 */}
           <div className="relative mt-[1.5rem] aspect-[375/519] w-full sm:mt-[2rem] sm:aspect-[744/776] lg:aspect-[1068/518]">
             <Image
               src="/images/landing/landing-notification-lg.svg"
@@ -106,7 +103,6 @@ export default function Page() {
             포인트를 획득하세요
           </p>
 
-          {/* TODO: sm/md 전용 이미지 추가 시 breakpoint별로 src 분기 */}
           <div className="relative mt-[1.5rem] aspect-[375/390] w-full sm:mt-[2rem] sm:aspect-[744/667] lg:aspect-[889/570]">
             <Image
               src="/images/landing/landing-random-box-lg.svg"
