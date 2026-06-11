@@ -8,15 +8,36 @@ import { Button } from '@/components/ui/Button';
 import { useLogin } from '@/hooks/auth/useLogin';
 import { APP_NAME } from '@/constants/app';
 
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 const LoginPage = () => {
   const [form, setForm] = useState({ email: '', password: '' });
   const [errors, setErrors] = useState({});
   const { mutate: login, isPending, error } = useLogin();
 
-  const validate = () => {
+  const validateField = (name, values) => {
+    switch (name) {
+      case 'email':
+        if (!values.email) return '이메일을 입력해 주세요.';
+        if (!EMAIL_REGEX.test(values.email))
+          return '이메일 형식이 올바르지 않습니다.';
+        return '';
+
+      case 'password':
+        if (!values.password) return '비밀번호를 입력해 주세요.';
+        return '';
+
+      default:
+        return '';
+    }
+  };
+
+  const validate = (values) => {
     const next = {};
-    if (!form.email) next.email = '이메일을 입력해 주세요.';
-    if (!form.password) next.password = '비밀번호를 입력해 주세요.';
+    ['email', 'password'].forEach((name) => {
+      const message = validateField(name, values);
+      if (message) next[name] = message;
+    });
     return next;
   };
 
@@ -26,9 +47,14 @@ const LoginPage = () => {
     setErrors((prev) => ({ ...prev, [name]: '' }));
   };
 
+  const handleBlur = (e) => {
+    const { name } = e.target;
+    setErrors((prev) => ({ ...prev, [name]: validateField(name, form) }));
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    const validationErrors = validate();
+    const validationErrors = validate(form);
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
@@ -71,6 +97,7 @@ const LoginPage = () => {
           value={form.email}
           placeholder="이메일을 입력해 주세요"
           onChange={handleChange}
+          onBlur={handleBlur}
           error={errors.email}
         />
         <Input
@@ -80,6 +107,7 @@ const LoginPage = () => {
           value={form.password}
           placeholder="비밀번호를 입력해 주세요"
           onChange={handleChange}
+          onBlur={handleBlur}
           error={errors.password}
         />
 
