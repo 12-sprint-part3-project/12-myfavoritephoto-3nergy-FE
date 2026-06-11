@@ -2,12 +2,15 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useUpdateSale } from '@/hooks/sale/useUpdateSale';
 import { Button } from '@/components/ui/Button';
 import { BasicModal } from '@/components/ui/BasicModal';
 import { SaleEditModal } from '@/app/(main)/marketplace/[saleId]/_components/SaleEditModal';
 import { useIsMobile } from '@/hooks/common/useResponsive';
 
 export const SellerButtons = ({ sale }) => {
+  const { mutate: updateSale, isPending } = useUpdateSale(sale.saleId);
+
   const router = useRouter();
   const isMobile = useIsMobile();
 
@@ -19,9 +22,10 @@ export const SellerButtons = ({ sale }) => {
     // TODO: 판매 중단 API 연동
   };
 
-  const handlewEditSale = () => {
-    setShowEditModal(false);
-    // TODO: 판매 수정 API 연동
+  const handlewEditSale = (formData) => {
+    updateSale(formData, {
+      onSuccess: () => setShowEditModal(false),
+    });
   };
 
   // 수정하기 버튼 클릭 시 모바일이면 페이지 이동, 태블릿/pc면 모달
@@ -59,6 +63,7 @@ export const SellerButtons = ({ sale }) => {
           onClose={() => setShowEditModal(false)}
           sale={sale}
           onSubmit={handlewEditSale}
+          isPending={isPending}
         />
       )}
 

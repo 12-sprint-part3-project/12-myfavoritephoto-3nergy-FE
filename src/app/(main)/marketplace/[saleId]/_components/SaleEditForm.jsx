@@ -1,6 +1,10 @@
 import Image from 'next/image';
 import { useState } from 'react';
-import { GRADE_STYLE, CARD_GRADE_OPTIONS, GENRE } from '@/constants/card';
+import {
+  GRADE_STYLE,
+  CARD_GRADE_OPTIONS,
+  GENRE_OPTIONS,
+} from '@/constants/card';
 import { Button } from '@/components/ui/Button';
 import { Select } from '@/components/ui/Select';
 import { Textarea } from '@/components/ui/Textarea';
@@ -9,7 +13,7 @@ import { PriceInput } from '@/components/ui/PriceInput';
 import { PageTitle } from '@/components/layout/PageTitle';
 import { validatePrice, validateDescription } from '@/utils/validators';
 
-export const SaleEditForm = ({ sale, onCancel, onSubmit }) => {
+export const SaleEditForm = ({ sale, onCancel, onSubmit, isPending }) => {
   const [remainingQuantity, setRemainingQuantity] = useState(
     sale.remainingQuantity,
   );
@@ -68,7 +72,7 @@ export const SaleEditForm = ({ sale, onCancel, onSubmit }) => {
     }
 
     onSubmit?.({
-      remainingQuantity,
+      quantity: remainingQuantity,
       price,
       desiredGrade,
       desiredGenre,
@@ -164,7 +168,7 @@ export const SaleEditForm = ({ sale, onCancel, onSubmit }) => {
                 name="desiredGenre"
                 value={desiredGenre}
                 onChange={(e) => setDesiredGenre(e.target.value)}
-                options={GENRE}
+                options={GENRE_OPTIONS}
                 labelClassName="text-noto-16-bold lg:text-noto-20-bold"
               />
             </div>
@@ -197,9 +201,9 @@ export const SaleEditForm = ({ sale, onCancel, onSubmit }) => {
         <Button
           type="submit"
           className="text-noto-16-bold lg:text-noto-18-bold w-full"
-          disabled={!isFormValid}
+          disabled={!isFormValid || isPending}
         >
-          수정하기
+          {isPending ? '수정 중...' : '수정하기'}
         </Button>
       </div>
     </form>
