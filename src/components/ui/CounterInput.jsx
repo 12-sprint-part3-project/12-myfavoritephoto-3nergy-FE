@@ -10,6 +10,7 @@ export const CounterInput = ({
   max,
   label,
   showMaxLabel = false,
+  labelClassName,
 }) => {
   const id = useId(); // 라벨-인풋 연결용
 
@@ -25,10 +26,24 @@ export const CounterInput = ({
 
   return (
     <div className="flex w-full items-center justify-between">
-      <label htmlFor={id} className="text-noto-14-regular text-white">
+      <label htmlFor={id} className={`text-white ${labelClassName}`}>
         {label}
       </label>
-      <div className="flex items-center gap-[0.94rem] lg:gap-[1.25rem]">
+
+      {/* 실제 접근성용 hidden input */}
+      <input
+        id={id}
+        type="number"
+        value={value}
+        readOnly
+        aria-hidden="true"
+        tabIndex={-1}
+        className="sr-only"
+      />
+
+      <div
+        className={`flex items-center gap-[0.94rem] lg:gap-[1.25rem] ${showMaxLabel ? 'lg:w-[245px]' : ''}`}
+      >
         <div
           id={id}
           className="flex h-[45px] min-w-[144px] items-center justify-between rounded-sm border border-gray-200 bg-black px-[0.8175rem] py-[0.625rem] lg:h-[50px] lg:min-w-[176px] lg:py-[0.8125rem]"

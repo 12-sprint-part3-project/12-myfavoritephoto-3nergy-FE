@@ -9,7 +9,7 @@ const meta = {
     docs: {
       description: {
         component:
-          '교환 제시 카드 컴포넌트입니다. 교환 요청자의 포토카드 정보와 설명, 승인/거절 버튼이 표시됩니다. 거절 버튼 클릭 시 확인 모달이 열립니다.',
+          '교환 제시 카드 컴포넌트입니다. 교환 요청자의 포토카드 정보와 설명, 승인/거절 버튼이 표시됩니다. 승인/거절 버튼 클릭 시 확인 모달이 열립니다.',
       },
       story: {
         inline: true,
@@ -67,7 +67,7 @@ const meta = {
     },
     onAccept: {
       action: 'accepted',
-      description: '승인 버튼 클릭 핸들러',
+      description: '승인 모달에서 승인하기 버튼 클릭 시 호출되는 핸들러',
       table: { type: { summary: '() => void' } },
     },
     onReject: {

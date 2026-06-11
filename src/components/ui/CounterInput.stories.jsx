@@ -40,6 +40,15 @@ const meta = {
         defaultValue: { summary: 'false' },
       },
     },
+    labelClassName: {
+      control: 'text',
+      description:
+        '라벨의 폰트 사이즈, 굵기 등 className으로 직접 지정 (예: text-noto-16-bold)',
+      order: 5,
+      table: {
+        type: { summary: 'string' },
+      },
+    },
   },
 };
 
@@ -63,6 +72,7 @@ const [value, setValue] = useState(1);
   onChange={setValue}
   min={1}
   max={3}
+  labelClassName="text-noto-14-regular"
 />`,
       },
     },
@@ -71,6 +81,7 @@ const [value, setValue] = useState(1);
     label: '구매 수량',
     min: 1,
     max: 3,
+    labelClassName: 'text-noto-14-regular',
   },
   render: (args) => <CounterInputWithState {...args} />,
 };
@@ -93,6 +104,7 @@ const [value, setValue] = useState(1);
   min={1}
   max={3}
   showMaxLabel
+  labelClassName="text-noto-14-regular"
 />`,
       },
     },
@@ -102,6 +114,7 @@ const [value, setValue] = useState(1);
     min: 1,
     max: 3,
     showMaxLabel: true,
+    labelClassName: 'text-noto-14-regular',
   },
   render: (args) => <CounterInputWithState {...args} />,
 };

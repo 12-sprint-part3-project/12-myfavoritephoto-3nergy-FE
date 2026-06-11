@@ -1,0 +1,51 @@
+import { GRADE_STYLE } from '@/constants/card';
+
+export const CardInfo = ({ sale }) => {
+  return (
+    <div className="flex w-full flex-col">
+      {/* 등급, 장르, 판매자 닉네임 */}
+      <div className="text-noto-18-bold lg:text-noto-24-bold flex justify-between border-b border-gray-400 pb-[1.875rem]">
+        <div className="flex gap-[0.62rem] lg:gap-[0.9375rem]">
+          <span className={GRADE_STYLE[sale.photocard.grade]?.textColor}>
+            {GRADE_STYLE[sale.photocard.grade]?.label}
+          </span>
+          <span className="text-gray-400">|</span>
+          <span className="text-gray-300">{sale.photocard.genre}</span>
+        </div>
+        <span className="border-b border-white text-white">
+          {sale.seller.nickname}
+        </span>
+      </div>
+      {/* 설명 */}
+      <div className="border-b border-gray-400 py-[1.875rem]">
+        <p className="text-noto-16-regular lg:text-noto-18-regular text-white">
+          {sale.photocard.description}
+        </p>
+      </div>
+      {/* 가격, 잔여 */}
+      <div className="border-b border-gray-400 py-[1.875rem]">
+        <div className="flex items-center justify-between pb-[0.62rem]">
+          <span className="text-noto-18-regular lg:text-noto-20-regular text-gray-300">
+            가격
+          </span>
+          <span className="text-noto-20-bold lg:text-noto-24-bold text-white">
+            {sale.price}P
+          </span>
+        </div>
+        <div className="flex items-center justify-between">
+          <span className="text-noto-18-regular lg:text-noto-20-regular text-gray-300">
+            잔여
+          </span>
+          <div className="flex items-center gap-[0.3125rem]">
+            <span className="text-noto-20-bold lg:text-noto-24-bold text-white">
+              {sale.remainingQuantity}
+            </span>
+            <span className="text-noto-20-regular lg:text-noto-24-regular text-gray-300">
+              /{sale.quantity}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};

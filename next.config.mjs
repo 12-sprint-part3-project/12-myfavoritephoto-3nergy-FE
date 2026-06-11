@@ -2,6 +2,14 @@ import { svgrOptions } from './svgr.config.js';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**',
+      },
+    ],
+  },
   webpack(config) {
     // 기존 webpack 규칙 중 SVG를 처리하는 규칙을 찾음
     const fileLoaderRule = config.module.rules.find((rule) =>
