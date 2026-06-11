@@ -48,7 +48,7 @@ export const Button = ({
       type={type}
       onClick={onClick}
       disabled={disabled}
-      className={`flex cursor-pointer items-center justify-center rounded-xs ${variantStyles[variant]} ${sizeStyles[size]} ${disabledStyles[variant]} ${interactionStyles[variant]} ${focusStyles[variant]} ${className ?? ''} `}
+      className={`text-noto-16-bold flex cursor-pointer items-center justify-center rounded-xs ${variantStyles[variant]} ${sizeStyles[size]} ${disabledStyles[variant]} ${interactionStyles[variant]} ${focusStyles[variant]} ${className ?? ''} `}
     >
       {children}
     </button>
