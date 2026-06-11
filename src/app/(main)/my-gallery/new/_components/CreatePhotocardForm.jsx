@@ -9,6 +9,7 @@ import { Textarea } from '@/components/ui/Textarea';
 import { Button } from '@/components/ui/Button';
 import { CARD_GRADE_OPTIONS, GENRE, GRADE_STYLE } from '@/constants/card';
 import { useCreatePhotocard } from '@/hooks/photocard/useCreatePhotocard';
+import { uploadImage } from '@/services/image';
 import { CloseIcon } from '@/icons';
 
 const GENRE_OPTIONS = Object.entries(GENRE).map(([value, label]) => ({
@@ -25,6 +26,7 @@ export const CreatePhotocardForm = () => {
   const router = useRouter();
   const { mutate, isPending } = useCreatePhotocard();
   const [step, setStep] = useState('form');
+  const [isUploading, setIsUploading] = useState(false);
 
   const [form, setForm] = useState({
     name: '',
@@ -86,7 +88,7 @@ export const CreatePhotocardForm = () => {
     return errs;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const errs = validate();
     if (Object.keys(errs).length > 0) {
@@ -94,7 +96,17 @@ export const CreatePhotocardForm = () => {
       return;
     }
 
-    // TODO: API 명세서에 따르면 imageUrl 은... url 로 넘겨줘야하는데 첨부 이미지를 어디에서 관리할지...?
+    let imageUrl;
+    try {
+      setIsUploading(true);
+      imageUrl = await uploadImage(form.imageFile);
+    } catch {
+      setStep('error');
+      return;
+    } finally {
+      setIsUploading(false);
+    }
+
     mutate(
       {
         name: form.name,
@@ -102,7 +114,7 @@ export const CreatePhotocardForm = () => {
         genre: form.genre,
         price: Number(form.price),
         totalQuantity: Number(form.totalQuantity),
-        imageUrl: form.imageFile.name,
+        imageUrl,
         description: form.description,
       },
       {
@@ -160,7 +172,7 @@ export const CreatePhotocardForm = () => {
       className="mx-auto mt-[20px] w-full max-w-[520px] md:mt-[80px]"
     >
       <fieldset
-        disabled={isPending}
+        disabled={isUploading || isPending}
         className="flex flex-col gap-10 border-0 p-0 md:gap-[3.75rem]"
       >
         <Input
@@ -228,7 +240,7 @@ export const CreatePhotocardForm = () => {
         type="submit"
         size="lg"
         className="mt-10 w-full md:mt-[3.75rem]"
-        disabled={isPending}
+        disabled={isUploading || isPending}
       >
         생성하기
       </Button>
