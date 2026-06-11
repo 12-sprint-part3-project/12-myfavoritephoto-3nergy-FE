@@ -1,11 +1,9 @@
 import { setToken } from '@/utils/token';
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
-
 // httpOnly 쿠키의 Refresh Token으로 Access Token 재발급
 // 재발급 성공 시 localStorage에 저장
 export const refreshAccessToken = async () => {
-  const response = await fetch(`${BASE_URL}/api/auth/refresh`, {
+  const response = await fetch(`/api/auth/refresh`, {
     method: 'POST',
     credentials: 'include', // httpOnly 쿠키 자동 전송
   });
