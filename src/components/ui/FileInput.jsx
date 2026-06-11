@@ -35,7 +35,7 @@ export const FileInput = ({
         </label>
       )}
 
-      <div className="flex gap-[.625rem]">
+      <div className="flex flex-wrap gap-[.625rem]">
         <div className="relative flex h-[3.4375rem] flex-1 items-center overflow-hidden rounded-xs border border-white bg-black px-5 md:h-[3.75rem]">
           <span
             className={`text-noto-14-regular md:text-noto-16-regular min-w-0 flex-1 truncate ${fileName ? 'text-white' : 'text-gray-200'}`}
