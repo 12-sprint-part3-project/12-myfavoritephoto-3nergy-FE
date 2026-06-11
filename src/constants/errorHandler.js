@@ -35,6 +35,13 @@ export const ERROR_HANDLER = {
     message: '로그인에 실패했습니다. 잠시 후 다시 시도해주세요.',
     action: 'toast',
   },
+
+  EMAIL_ALREADY_EXISTS: {
+    action: 'field',
+  },
+  NICKNAME_ALREADY_EXISTS: {
+    action: 'field',
+  },
 };
 
 export const getErrorHandler = (code) => {
