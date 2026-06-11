@@ -1,53 +1,14 @@
 import { PageTitle } from '@/components/layout/PageTitle';
-import { getSaleDetail } from '@/services/sales';
 import { SaleDetailContent } from '@/app/(main)/marketplace/[saleId]/_components/SaleDetailContent';
 
-/*
-// TODO: API 연동 
-// 동적 메타데이터 변경
-export async function generateMetadata({ params }) {
-  const card = await getCardDetail(params.saleId);
-
-  return {
-    title: card.name,
-    description: `${card.name} 포토카드 | ${card.grade} 등급 | 최애의 포토에서 구매하세요.`,
-    keywords: ['포토카드', card.name, card.grade, '구매'],
-    openGraph: {
-      title: card.name,
-      description: `${card.name} 포토카드 | ${card.grade} 등급 | 최애의 포토에서 구매하세요.`,
-      images: [{ url: card.imageUrl, width: 1200, height: 630 }],
-    },
-  };
-}
-*/
+export const metadata = {
+  title: '포토카드 상세 페이지',
+  description: '내가 보유한 포토카드를 확인하세요.',
+  keywords: ['최애의 포토에서 구매하세요'],
+};
 
 export default async function page({ params }) {
-  //const sale = await getSaleDetail(params.saleId);
-
-  const sale = {
-    saleId: 1,
-    price: 1000,
-    quantity: 3, // 총 판매 수량
-    remainingQuantity: 2, // 남은 수량
-    status: 'SALE',
-    createdAt: '2026-06-02T08:30:00.000Z',
-    updatedAt: '2026-06-02T08:30:00.000Z',
-    photocard: {
-      id: 1,
-      name: 'IVE 포토카드',
-      imageUrl: 'https://picsum.photos/seed/trade1/400/400',
-      description: '앨범 포토카드입니다.',
-      grade: 'LEGENDARY',
-      genre: '인물',
-    },
-    seller: {
-      uuid: '9c6b1c7e-7e4a-4c5a-9f6d-8c3f2b1a1234',
-      nickname: '홍길동',
-    },
-    desiredGrade: 'RARE',
-    desiredGenre: '풍경',
-    desiredDescription: '희망 교환 조건입니다.',
-  };
+  const { saleId } = await params;
 
   return (
     <div className="pt-[1.25rem] pb-[40px] md:pt-[2.5rem] md:pb-[60px] lg:pt-[3.75rem] xl:pb-[180px]">
@@ -59,7 +20,7 @@ export default async function page({ params }) {
           hideBreadcrumbOnMobile
         />
       </div>
-      <SaleDetailContent sale={sale} />
+      <SaleDetailContent saleId={saleId} />
     </div>
   );
 }
