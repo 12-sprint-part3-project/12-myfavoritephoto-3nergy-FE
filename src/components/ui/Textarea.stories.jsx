@@ -18,6 +18,14 @@ const meta = {
         type: { summary: 'string' },
       },
     },
+    labelClassName: {
+      control: 'text',
+      description: 'label 텍스트 스타일',
+      order: 3,
+      table: {
+        type: { summary: 'string' },
+      },
+    },
   },
   tags: ['autodocs'],
 };
