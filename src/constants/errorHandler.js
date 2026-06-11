@@ -36,7 +36,6 @@ export const ERROR_HANDLER = {
     action: 'toast',
   },
 
-  // 회원가입 시 입력 필드 자체에 인라인으로 표시 → 전역 토스트 X
   EMAIL_ALREADY_EXISTS: {
     action: 'field',
   },
