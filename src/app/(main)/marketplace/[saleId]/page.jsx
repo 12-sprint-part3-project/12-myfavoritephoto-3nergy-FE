@@ -50,8 +50,8 @@ export default async function page({ params }) {
   };
 
   return (
-    <div className="pb-[40px] md:pb-[60px] xl:pb-[180px]">
-      <div className="pb-[1.63rem] md:pb-[3rem] lg:pb-[4.36rem]">
+    <div className="pt-[1.25rem] pb-[40px] md:pt-[2.5rem] md:pb-[60px] lg:pt-[3.75rem] xl:pb-[180px]">
+      <div className="mb-[1.63rem] md:mb-[3rem] lg:mb-[4.36rem]">
         <PageTitle
           variant="heading"
           breadcrumb="마켓플레이스"
