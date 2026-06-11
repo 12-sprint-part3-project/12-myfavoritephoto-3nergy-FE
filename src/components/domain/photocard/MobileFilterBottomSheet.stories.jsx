@@ -4,10 +4,10 @@ import { MobileFilterBottomSheet } from './MobileFilterBottomSheet';
 
 const MOCK_COUNTS = {
   grade: {
-    COMMON: 12,
-    RARE: 21,
-    SUPER_RARE: 34,
-    LEGENDARY: 5,
+    common: 12,
+    rare: 21,
+    super_rare: 34,
+    legendary: 5,
   },
   genre: {
     여행: 21,

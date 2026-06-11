@@ -1,11 +1,13 @@
+import { GENRE, GRADE_STYLE } from './card';
+
 export const FILTER_TAB_CONFIG = {
   grade: {
     label: '등급',
-    options: ['COMMON', 'RARE', 'SUPER_RARE', 'LEGENDARY'],
+    options: Object.values(GRADE_STYLE).map((grade) => grade.label),
   },
   genre: {
     label: '장르',
-    options: ['여행', '풍경', '인물', '사료'],
+    options: Object.values(GENRE),
   },
   soldOut: {
     label: '매진 여부',
