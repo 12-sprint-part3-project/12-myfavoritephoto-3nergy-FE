@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { useState } from 'react';
-import { GRADE_STYLE, CARD_GRADE_OPTIONS } from '@/constants/card';
+import { GRADE_STYLE, CARD_GRADE_OPTIONS, GENRE } from '@/constants/card';
 import { Button } from '@/components/ui/Button';
 import { Select } from '@/components/ui/Select';
 import { Textarea } from '@/components/ui/Textarea';
@@ -9,24 +9,6 @@ import { PriceInput } from '@/components/ui/PriceInput';
 import { PageTitle } from '@/components/layout/PageTitle';
 import { validatePrice, validateDescription } from '@/utils/validators';
 
-const GENRE_OPTIONS = [
-  {
-    label: '풍경',
-    value: 'landscape',
-  },
-  {
-    label: '특전',
-    value: 'special',
-  },
-  {
-    label: '앨범',
-    value: 'album',
-  },
-  {
-    label: '콘서트',
-    value: 'concert',
-  },
-];
 export const SaleEditForm = ({ sale, onCancel, onSubmit }) => {
   const [remainingQuantity, setRemainingQuantity] = useState(
     sale.remainingQuantity,
@@ -182,7 +164,7 @@ export const SaleEditForm = ({ sale, onCancel, onSubmit }) => {
                 name="desiredGenre"
                 value={desiredGenre}
                 onChange={(e) => setDesiredGenre(e.target.value)}
-                options={GENRE_OPTIONS}
+                options={GENRE}
                 labelClassName="text-noto-16-bold lg:text-noto-20-bold"
               />
             </div>
