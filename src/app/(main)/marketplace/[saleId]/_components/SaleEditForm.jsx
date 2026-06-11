@@ -7,6 +7,7 @@ import { Textarea } from '@/components/ui/Textarea';
 import { CounterInput } from '@/components/ui/CounterInput';
 import { PriceInput } from '@/components/ui/PriceInput';
 import { PageTitle } from '@/components/layout/PageTitle';
+import { validatePrice, validateDescription } from '@/utils/validators';
 
 const GENRE_OPTIONS = [
   {
@@ -27,12 +28,70 @@ const GENRE_OPTIONS = [
   },
 ];
 export const SaleEditForm = ({ sale, onCancel, onSubmit }) => {
-  const [quantity, setQuantity] = useState(1);
-  const [price, setPrice] = useState('');
+  const [remainingQuantity, setRemainingQuantity] = useState(
+    sale.remainingQuantity,
+  );
+  const [price, setPrice] = useState(sale.price);
+  const [desiredGrade, setDesiredGrade] = useState(sale.desiredGrade ?? '');
+  const [desiredGenre, setDesiredGenre] = useState(sale.desiredGenre ?? '');
+  const [desiredDescription, setDesiredDescription] = useState(
+    sale.desiredDescription ?? '',
+  );
+
+  const [errors, setErrors] = useState({
+    price: '',
+    description: '',
+  });
+
+  const [touched, setTouched] = useState({
+    price: false,
+    description: false,
+  });
+
+  const handleBlur = (field, validator, value) => {
+    setTouched((prev) => ({
+      ...prev,
+      [field]: true,
+    }));
+
+    setErrors((prev) => ({
+      ...prev,
+      [field]: validator(value),
+    }));
+  };
+
+  const isFormValid =
+    !validatePrice(price) && !validateDescription(desiredDescription);
+
+  const validateForm = () => {
+    const newErrors = {
+      price: validatePrice(price),
+      description: validateDescription(desiredDescription),
+    };
+
+    setErrors(newErrors);
+
+    return !Object.values(newErrors).some(Boolean);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit?.({ quantity, price });
+
+    if (!validateForm()) {
+      setTouched({
+        price: true,
+        description: true,
+      });
+      return;
+    }
+
+    onSubmit?.({
+      remainingQuantity,
+      price,
+      desiredGrade,
+      desiredGenre,
+      desiredDescription,
+    });
   };
 
   return (
@@ -77,11 +136,11 @@ export const SaleEditForm = ({ sale, onCancel, onSubmit }) => {
           {/* 총 판매 수량, 장당 가격 */}
           <div className="flex flex-col gap-[1.25rem]">
             <CounterInput
-              label="총 판매 수량"
+              label="남은 판매 수량"
               showMaxLabel
               labelClassName="text-noto-18-regular lg:text-noto-20-regular"
-              value={quantity}
-              onChange={setQuantity}
+              value={remainingQuantity}
+              onChange={setRemainingQuantity}
               min={1}
               max={sale.remainingQuantity}
             />
@@ -90,6 +149,8 @@ export const SaleEditForm = ({ sale, onCancel, onSubmit }) => {
               value={price}
               onChange={setPrice}
               labelClassName="text-noto-18-regular lg:text-noto-20-regular"
+              error={touched.price ? errors.price : ''}
+              onBlur={() => handleBlur('price', validatePrice, price)}
             />
           </div>
         </div>
@@ -109,6 +170,8 @@ export const SaleEditForm = ({ sale, onCancel, onSubmit }) => {
               <Select
                 label="등급"
                 name="desiredGrade"
+                value={desiredGrade}
+                onChange={(e) => setDesiredGrade(e.target.value)}
                 options={CARD_GRADE_OPTIONS}
                 labelClassName="text-noto-16-bold lg:text-noto-20-bold"
               />
@@ -117,6 +180,8 @@ export const SaleEditForm = ({ sale, onCancel, onSubmit }) => {
               <Select
                 label="장르"
                 name="desiredGenre"
+                value={desiredGenre}
+                onChange={(e) => setDesiredGenre(e.target.value)}
                 options={GENRE_OPTIONS}
                 labelClassName="text-noto-16-bold lg:text-noto-20-bold"
               />
@@ -126,8 +191,14 @@ export const SaleEditForm = ({ sale, onCancel, onSubmit }) => {
           <Textarea
             label="교환 희망 설명"
             name="desiredDescription"
+            value={desiredDescription}
+            onChange={(e) => setDesiredDescription(e.target.value)}
             placeholder="교환 희망 설명을 입력해 주세요"
             labelClassName="text-noto-16-bold lg:text-noto-20-bold"
+            onBlur={() =>
+              handleBlur('description', validateDescription, desiredDescription)
+            }
+            error={touched.description ? errors.description : ''}
           />
         </div>
       </div>
@@ -144,6 +215,7 @@ export const SaleEditForm = ({ sale, onCancel, onSubmit }) => {
         <Button
           type="submit"
           className="text-noto-16-bold lg:text-noto-18-bold w-full"
+          disabled={!isFormValid}
         >
           수정하기
         </Button>
