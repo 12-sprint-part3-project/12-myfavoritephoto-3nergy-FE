@@ -121,7 +121,7 @@ const SignupPage = () => {
           <p className="text-noto-14-regular text-red">{error.message}</p>
         )}
 
-        <div className="mt-2 flex flex-col gap-[0.625rem]">
+        <div className="mt-2 flex flex-col gap-4">
           <Button
             type="submit"
             variant="primary"
@@ -129,32 +129,28 @@ const SignupPage = () => {
             disabled={isPending}
             className="w-full"
           >
-            <span className="text-noto-16-bold">가입하기</span>
+            <span className="text-noto-18-bold">가입하기</span>
           </Button>
-          <Button
+          <button
             type="button"
-            variant="secondary"
-            size="lg"
-            className="w-full"
+            className="text-noto-18-regular flex h-[3.4375rem] w-full cursor-pointer items-center justify-center gap-3 rounded-xs border border-gray-300 bg-white text-black transition-all duration-150 hover:bg-gray-100 active:bg-gray-200 md:h-[3.75rem]"
             onClick={() => {}}
           >
-            <span className="flex items-center gap-3">
-              <Image
-                src="/google.svg"
-                alt="Google"
-                width={22}
-                height={22}
-                unoptimized
-              />
-              <span className="text-noto-16-regular">Google로 시작하기</span>
-            </span>
-          </Button>
+            <Image
+              src="/google.svg"
+              alt="Google"
+              width={22}
+              height={22}
+              unoptimized
+            />
+            Google로 시작하기
+          </button>
         </div>
       </form>
 
-      <p className="text-noto-14-regular text-gray-300">
+      <p className="text-noto-16-regular text-gray-300">
         이미 최애의 포토 회원이신가요?{' '}
-        <Link href="/login" className="text-main hover:brightness-90">
+        <Link href="/login" className="text-main underline hover:brightness-90">
           로그인하기
         </Link>
       </p>
