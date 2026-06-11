@@ -8,37 +8,15 @@ import { Button } from '@/components/ui/Button';
 import { useLogin } from '@/hooks/auth/useLogin';
 import { APP_NAME } from '@/constants/app';
 
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const INVALID_CREDENTIALS_MESSAGE = '이메일 또는 비밀번호가 일치하지 않습니다.';
-
 const LoginPage = () => {
   const [form, setForm] = useState({ email: '', password: '' });
   const [errors, setErrors] = useState({});
-  const { mutate: login, isPending } = useLogin();
+  const { mutate: login, isPending, error } = useLogin();
 
-  const validateField = (name, values) => {
-    switch (name) {
-      case 'email':
-        if (!values.email) return '이메일을 입력해 주세요.';
-        if (!EMAIL_REGEX.test(values.email))
-          return '이메일 형식이 올바르지 않습니다.';
-        return '';
-
-      case 'password':
-        if (!values.password) return '비밀번호를 입력해 주세요.';
-        return '';
-
-      default:
-        return '';
-    }
-  };
-
-  const validate = (values) => {
+  const validate = () => {
     const next = {};
-    ['email', 'password'].forEach((name) => {
-      const message = validateField(name, values);
-      if (message) next[name] = message;
-    });
+    if (!form.email) next.email = '이메일을 입력해 주세요.';
+    if (!form.password) next.password = '비밀번호를 입력해 주세요.';
     return next;
   };
 
@@ -48,33 +26,14 @@ const LoginPage = () => {
     setErrors((prev) => ({ ...prev, [name]: '' }));
   };
 
-  const handleBlur = (e) => {
-    const { name } = e.target;
-    setErrors((prev) => ({ ...prev, [name]: validateField(name, form) }));
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    const validationErrors = validate(form);
+    const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
     }
-
-    login(
-      { email: form.email, password: form.password },
-      {
-        onError: (err) => {
-          if (['USER_NOT_FOUND', 'INVALID_PASSWORD'].includes(err.code)) {
-            setErrors((prev) => ({
-              ...prev,
-              email: INVALID_CREDENTIALS_MESSAGE,
-              password: INVALID_CREDENTIALS_MESSAGE,
-            }));
-          }
-        },
-      },
-    );
+    login({ email: form.email, password: form.password });
   };
 
   return (
@@ -112,7 +71,6 @@ const LoginPage = () => {
           value={form.email}
           placeholder="이메일을 입력해 주세요"
           onChange={handleChange}
-          onBlur={handleBlur}
           error={errors.email}
         />
         <Input
@@ -122,9 +80,12 @@ const LoginPage = () => {
           value={form.password}
           placeholder="비밀번호를 입력해 주세요"
           onChange={handleChange}
-          onBlur={handleBlur}
           error={errors.password}
         />
+
+        {error && (
+          <p className="text-noto-14-regular text-red">{error.message}</p>
+        )}
 
         <div className="mt-2 flex flex-col gap-4">
           <Button

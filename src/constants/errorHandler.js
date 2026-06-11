@@ -35,15 +35,6 @@ export const ERROR_HANDLER = {
     message: '로그인에 실패했습니다. 잠시 후 다시 시도해주세요.',
     action: 'toast',
   },
-
-  // 로그인 실패 시 입력 필드 아래 인라인으로 표시 → 전역 토스트 X
-  // 이메일 존재 여부 노출 방지를 위해 동일한 메시지로 처리
-  USER_NOT_FOUND: {
-    action: 'field',
-  },
-  INVALID_PASSWORD: {
-    action: 'field',
-  },
 };
 
 export const getErrorHandler = (code) => {
