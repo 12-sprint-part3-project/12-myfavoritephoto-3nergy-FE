@@ -17,10 +17,11 @@ export const AuthProvider = ({ children }) => {
   const router = useRouter();
 
   // 액세스 토큰 메모리 상태 (localStorage에서 초기값 복원)
-  const [accessToken, setAccessToken] = useState(() => {
-    if (typeof window === 'undefined') return null;
-    return getToken();
-  });
+  const [accessToken, setAccessToken] = useState(null);
+
+  useEffect(() => {
+    setAccessToken(getToken());
+  }, []);
 
   // 로그인 모달 타입: null | 'session-expired' | 'login-required'
   const [loginModalType, setLoginModalType] = useState(null);
