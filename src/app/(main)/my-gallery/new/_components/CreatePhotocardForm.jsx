@@ -18,8 +18,8 @@ const GENRE_OPTIONS = Object.entries(GENRE).map(([value, label]) => ({
 
 /**
  * 포토카드 생성 폼 컴포넌트
- * @description 이름, 등급, 장르, 가격, 총 발행량, 사진, 설명을 입력받아 포토카드를 생성한다.
- *   생성 결과에 따라 성공/실패 화면을 표시하며, 마이갤러리 이동 버튼을 제공한다.
+ * 이름, 등급, 장르, 가격, 총 발행량, 사진, 설명을 입력받아 포토카드를 생성한다.
+ * 생성 결과에 따라 성공/실패 화면을 표시하며, 마이갤러리 이동 버튼을 제공한다.
  */
 export const CreatePhotocardForm = () => {
   const router = useRouter();
@@ -94,6 +94,7 @@ export const CreatePhotocardForm = () => {
       return;
     }
 
+    // TODO: API 명세서에 따르면 imageUrl 은... url 로 넘겨줘야하는데 첨부 이미지를 어디에서 관리할지...?
     mutate(
       {
         name: form.name,
@@ -116,34 +117,36 @@ export const CreatePhotocardForm = () => {
     const gradeLabel = GRADE_STYLE[form.grade]?.label ?? '';
 
     return (
-      <div className="relative w-full">
-        <button
-          type="button"
-          className="absolute top-0 right-0 cursor-pointer text-white"
-          onClick={() => router.push('/my-gallery')}
-          aria-label="닫기"
-        >
-          <CloseIcon />
-        </button>
-        <div className="flex min-h-[calc(100dvh-12rem)] flex-col items-center justify-center gap-10 text-center">
-          <h1 className="font-baskin-base text-baskin-24-bold md:text-baskin-40-bold lg:text-baskin-46-bold text-white">
-            포토카드 생성{' '}
-            <span className={isSuccess ? 'text-main' : 'text-gray-300'}>
-              {isSuccess ? '성공' : '실패'}
-            </span>
-          </h1>
-          <p className="text-noto-16-bold md:text-noto-20-bold text-white">
-            [{gradeLabel} | {form.name}] 포토카드 생성에{' '}
-            {isSuccess ? '성공했습니다!' : '실패했습니다.'}
-          </p>
-          <Button
-            variant="secondary"
-            size="lg"
-            className="w-full max-w-[440px]"
+      <div className="relative flex w-full items-center justify-center">
+        <div className="relative min-h-screen w-full max-w-[920px]">
+          <button
+            type="button"
+            className="absolute top-0 right-0 cursor-pointer text-white"
             onClick={() => router.push('/my-gallery')}
+            aria-label="닫기"
           >
-            {isSuccess ? '마이갤러리에서 확인하기' : '마이갤러리로 돌아가기'}
-          </Button>
+            <CloseIcon />
+          </button>
+          <div className="flex flex-col items-center justify-center gap-10 text-center">
+            <h1 className="font-baskin-base text-baskin-24-bold md:text-baskin-40-bold lg:text-baskin-46-bold text-white">
+              포토카드 생성{' '}
+              <span className={isSuccess ? 'text-main' : 'text-gray-300'}>
+                {isSuccess ? '성공' : '실패'}
+              </span>
+            </h1>
+            <p className="text-noto-16-bold md:text-noto-20-bold text-white">
+              [{gradeLabel} | {form.name}] 포토카드 생성에{' '}
+              {isSuccess ? '성공했습니다!' : '실패했습니다.'}
+            </p>
+            <Button
+              variant="secondary"
+              size="lg"
+              className="w-full max-w-[440px]"
+              onClick={() => router.push('/my-gallery')}
+            >
+              {isSuccess ? '마이갤러리에서 확인하기' : '마이갤러리로 돌아가기'}
+            </Button>
+          </div>
         </div>
       </div>
     );
