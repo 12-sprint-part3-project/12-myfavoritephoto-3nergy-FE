@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 
 // 로그인 필수 페이지 경로
-const PROTECTED_PATHS = ['/my-gallery', '/my-sales'];
+const PROTECTED_PATHS = ['/my-gallery', '/my-sales', '/marketplace'];
 const AUTH_PATHS = ['/login', '/signup'];
 
 export function middleware(request) {
@@ -14,7 +14,10 @@ export function middleware(request) {
   }
 
   // 비로그인 상태에서 로그인 필수 페이지 접근 시 로그인으로 redirect
-  if (PROTECTED_PATHS.includes(pathname) && !refreshToken) {
+  if (
+    PROTECTED_PATHS.some((path) => pathname.startsWith(path)) &&
+    !refreshToken
+  ) {
     return NextResponse.redirect(new URL('/login', request.url));
   }
 
