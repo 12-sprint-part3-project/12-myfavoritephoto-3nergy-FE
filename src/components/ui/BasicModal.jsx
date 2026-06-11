@@ -31,7 +31,7 @@ export const BasicModal = ({
             {children}
           </p>
           <Button
-            className="w-[7.5rem] md:w-[8.75rem] lg:w-[10.625rem]"
+            className="text-noto-16-bold lg:text-noto-18-bold w-[7.5rem] md:w-[8.75rem] lg:w-[10.625rem]"
             onClick={onClick}
           >
             {buttonText}

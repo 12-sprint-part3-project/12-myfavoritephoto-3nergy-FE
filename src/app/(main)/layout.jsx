@@ -1,11 +1,18 @@
 'use client';
 
-import { GNB } from '@/components/layout/GNB/GNB';
+import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { useMe } from '@/hooks/user/useMe';
 import { useLogout } from '@/hooks/auth/useLogout';
+import { GNB } from '@/components/layout/GNB/GNB';
+import { getGnbConfig } from '@/components/layout/GNB/gnb.config';
 
 export default function MainLayout({ children }) {
+  const pathname = usePathname();
+  const router = useRouter();
+
+  const config = getGnbConfig(pathname);
+
   const { accessToken } = useAuth();
   const isAuthenticated = Boolean(accessToken);
   const { data: user } = useMe();
@@ -17,8 +24,11 @@ export default function MainLayout({ children }) {
         isAuthenticated={isAuthenticated}
         user={user}
         onLogout={() => logout()}
+        pageTitle={config?.title ?? null}
+        onBack={() => router.back()}
       />
-      <main className="mx-auto w-full max-w-[1480px] px-[15px] pt-[20px] md:px-[20px] md:pt-[40px] xl:pt-[60px]">
+
+      <main className="mx-auto w-full max-w-[1480px] px-[0.9375rem] pt-[1.25rem] md:px-[1.25rem] md:pt-[2.5rem] xl:pt-[3.75rem]">
         {children}
       </main>
     </div>

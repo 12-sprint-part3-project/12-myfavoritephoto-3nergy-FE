@@ -3,7 +3,7 @@
 import { BottomSheet } from '@/components/ui/BottomSheet';
 import { Modal } from '@/components/ui/Modal';
 import { Overlay } from '@/components/ui/Overlay';
-import { useIsDesktop } from '@/hooks/common/useIsDesktop';
+import { useIsDesktop } from '@/hooks/common/useResponsive';
 
 export const ResponsiveModal = ({ onClose, footer, children }) => {
   // lg(1024px) 이상이면 true
@@ -16,16 +16,12 @@ export const ResponsiveModal = ({ onClose, footer, children }) => {
         <Modal
           onClose={onClose}
           footer={footer}
-          className="mx-4 w-full max-w-[72.5rem] px-[1.875rem] py-[3.75rem]"
+          className="mx-4 w-full max-w-[72.5rem] bg-gray-500 px-[1.875rem] py-[3.75rem]"
         >
           {children}
         </Modal>
       ) : (
-        <BottomSheet
-          onClose={onClose}
-          footer={footer}
-          className="text-gray-300"
-        >
+        <BottomSheet onClose={onClose} footer={footer}>
           {children}
         </BottomSheet>
       )}
