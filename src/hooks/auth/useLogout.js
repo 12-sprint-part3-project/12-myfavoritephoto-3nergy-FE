@@ -8,7 +8,6 @@ export const useLogout = () => {
   const queryClient = useQueryClient();
   const { logout: authLogout } = useAuth();
 
-  // 로그아웃 API 성공/실패 여부와 상관없이 클라이언트 인증 상태는 정리
   const handleLoggedOut = () => {
     authLogout();
     queryClient.clear();
