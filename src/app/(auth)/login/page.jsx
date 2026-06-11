@@ -9,11 +9,12 @@ import { useLogin } from '@/hooks/auth/useLogin';
 import { APP_NAME } from '@/constants/app';
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const INVALID_CREDENTIALS_MESSAGE = '이메일 또는 비밀번호가 일치하지 않습니다.';
 
 const LoginPage = () => {
   const [form, setForm] = useState({ email: '', password: '' });
   const [errors, setErrors] = useState({});
-  const { mutate: login, isPending, error } = useLogin();
+  const { mutate: login, isPending } = useLogin();
 
   const validateField = (name, values) => {
     switch (name) {
@@ -59,7 +60,21 @@ const LoginPage = () => {
       setErrors(validationErrors);
       return;
     }
-    login({ email: form.email, password: form.password });
+
+    login(
+      { email: form.email, password: form.password },
+      {
+        onError: (err) => {
+          if (['USER_NOT_FOUND', 'INVALID_PASSWORD'].includes(err.code)) {
+            setErrors((prev) => ({
+              ...prev,
+              email: INVALID_CREDENTIALS_MESSAGE,
+              password: INVALID_CREDENTIALS_MESSAGE,
+            }));
+          }
+        },
+      },
+    );
   };
 
   return (
@@ -110,10 +125,6 @@ const LoginPage = () => {
           onBlur={handleBlur}
           error={errors.password}
         />
-
-        {error && (
-          <p className="text-noto-14-regular text-red">{error.message}</p>
-        )}
 
         <div className="mt-2 flex flex-col gap-4">
           <Button
