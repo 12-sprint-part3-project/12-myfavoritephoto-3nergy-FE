@@ -1,8 +1,8 @@
 'use client';
 
-import { GRADE_STYLE } from '@/constants/card';
-import SoldoutIcon from '@/icons/soldout.svg';
 import Image from 'next/image';
+import { SoldoutIcon } from '@/icons';
+import { GRADE_STYLE } from '@/constants/card';
 import { APP_NAME } from '@/constants/app';
 
 const STATUS_LABEL = {
