@@ -19,6 +19,7 @@ export const SaleEditForm = ({
   onSubmit,
   isPending,
   quantityError: externalQuantityError,
+  onQuantityChange,
 }) => {
   const [quantity, setQuantity] = useState(sale.remainingQuantity);
   const [price, setPrice] = useState(sale.price);
@@ -135,7 +136,10 @@ export const SaleEditForm = ({
               label="총 판매 수량"
               labelClassName="text-noto-18-regular lg:text-noto-20-regular"
               value={quantity}
-              onChange={setQuantity}
+              onChange={(val) => {
+                setQuantity(val);
+                onQuantityChange?.();
+              }}
               min={1}
               max={10}
               error={externalQuantityError}

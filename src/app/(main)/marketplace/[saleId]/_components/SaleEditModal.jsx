@@ -9,9 +9,8 @@ export const SaleEditModal = ({
   onSubmit,
   isPending,
   quantityError,
+  onQuantityChange,
 }) => {
-  console.log('quantityError:', quantityError);
-
   return (
     <ResponsiveModal onClose={onClose} className="max-h-[80vh] w-[35rem] p-10">
       <SaleEditForm
@@ -20,6 +19,7 @@ export const SaleEditModal = ({
         onSubmit={onSubmit}
         isPending={isPending}
         quantityError={quantityError}
+        onQuantityChange={onQuantityChange}
       />
     </ResponsiveModal>
   );

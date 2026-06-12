@@ -13,6 +13,7 @@ export const SellerButtons = ({ sale }) => {
     mutate: updateSale,
     isPending,
     error: updateError,
+    reset,
   } = useUpdateSale(sale.saleId);
 
   const router = useRouter();
@@ -34,7 +35,6 @@ export const SellerButtons = ({ sale }) => {
       onSuccess: () => setShowEditModal(false),
     });
   };
-  console.log('updateError:', updateError);
 
   // 수정하기 버튼 클릭 시 모바일이면 페이지 이동, 태블릿/pc면 모달
   const handleEditClick = () => {
@@ -77,6 +77,7 @@ export const SellerButtons = ({ sale }) => {
               ? updateError.message
               : ''
           }
+          onQuantityChange={reset}
         />
       )}
 

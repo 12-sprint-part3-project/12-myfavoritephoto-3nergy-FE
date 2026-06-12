@@ -12,6 +12,7 @@ export const SaleEditContent = ({ saleId }) => {
     mutate: updateSale,
     isPending,
     error: updateError,
+    reset,
   } = useUpdateSale(saleId);
 
   // TODO: 스켈레톤 UI로 교체
@@ -33,6 +34,7 @@ export const SaleEditContent = ({ saleId }) => {
       quantityError={
         updateError?.code === 'NOT_ENOUGH_QUANTITY' ? updateError.message : ''
       }
+      onQuantityChange={reset}
     />
   );
 };
