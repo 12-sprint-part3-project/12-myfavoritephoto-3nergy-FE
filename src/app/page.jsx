@@ -53,68 +53,74 @@ export default function Page() {
         </section>
 
         {/* 포인트 거래 섹션 */}
-        <section className="bg-black px-[0.9375rem] py-[3.75rem] sm:px-[2.5rem] sm:py-[5rem] lg:px-[26.75rem] lg:pt-[8.625rem] lg:pb-[2.1875rem]">
-          <h2 className="text-noto-20-bold sm:text-noto-24-bold lg:text-noto-32-bold text-white">
-            포인트로 <span className="text-main">안전하게 거래</span>하세요
-          </h2>
-          <p className="text-noto-14-regular sm:text-noto-16-regular lg:text-noto-18-regular mt-[0.75rem] text-gray-300 lg:mt-[0.875rem]">
-            내 포토카드를 포인트로 팔고, 원하는 포토카드를
-            <br />
-            포인트로 안전하게 교환하세요
-          </p>
+        <section className="bg-black px-[0.9375rem] py-[3.75rem] sm:px-[2.5rem] sm:py-[5rem] lg:pt-[8.625rem] lg:pb-[2.1875rem]">
+          <div className="mx-auto w-full max-w-[66.75rem]">
+            <h2 className="text-noto-20-bold sm:text-noto-24-bold lg:text-noto-32-bold text-white">
+              포인트로 <span className="text-main">안전하게 거래</span>하세요
+            </h2>
+            <p className="text-noto-14-regular sm:text-noto-16-regular lg:text-noto-18-regular mt-[0.75rem] text-gray-300 lg:mt-[0.875rem]">
+              내 포토카드를 포인트로 팔고, 원하는 포토카드를
+              <br />
+              포인트로 안전하게 교환하세요
+            </p>
 
-          <div className="relative mt-[1.5rem] aspect-[375/440] w-full sm:mt-[2rem] sm:aspect-[744/707] lg:aspect-[1068/518]">
-            <Image
-              src="/images/landing/landing-trade-lg.png"
-              alt="포인트 거래 미리보기"
-              fill
-              unoptimized
-              className="object-contain"
-            />
+            <div className="relative mt-[1.5rem] aspect-[375/440] w-full sm:mt-[2rem] sm:aspect-[744/707] lg:aspect-[1068/518]">
+              <Image
+                src="/images/landing/landing-trade-lg.png"
+                alt="포인트 거래 미리보기"
+                fill
+                unoptimized
+                className="object-contain"
+              />
+            </div>
           </div>
         </section>
 
         {/* 알림 섹션 */}
-        <section className="bg-black px-[0.9375rem] py-[3.75rem] sm:px-[2.5rem] sm:py-[5rem] lg:px-[26.75rem] lg:pt-[8.625rem] lg:pb-[2.1875rem]">
-          <h2 className="text-noto-20-bold sm:text-noto-24-bold lg:text-noto-32-bold text-white">
-            알림으로 보다 <span className="text-blue">빨라진 거래</span>
-          </h2>
-          <p className="text-noto-14-regular sm:text-noto-16-regular lg:text-noto-18-regular mt-[0.75rem] text-gray-300 lg:mt-[0.875rem]">
-            교환 제안부터 판매 완료까지,
-            <br />
-            실시간 알림으로 놓치지 마세요
-          </p>
+        <section className="bg-black px-[0.9375rem] py-[3.75rem] sm:px-[2.5rem] sm:py-[5rem] lg:pt-[8.625rem] lg:pb-[2.1875rem]">
+          <div className="mx-auto w-full max-w-[66.75rem]">
+            <h2 className="text-noto-20-bold sm:text-noto-24-bold lg:text-noto-32-bold text-white">
+              알림으로 보다 <span className="text-blue">빨라진 거래</span>
+            </h2>
+            <p className="text-noto-14-regular sm:text-noto-16-regular lg:text-noto-18-regular mt-[0.75rem] text-gray-300 lg:mt-[0.875rem]">
+              교환 제안부터 판매 완료까지,
+              <br />
+              실시간 알림으로 놓치지 마세요
+            </p>
 
-          <div className="relative mt-[1.5rem] aspect-[375/519] w-full sm:mt-[2rem] sm:aspect-[744/776] lg:aspect-[1068/518]">
-            <Image
-              src="/images/landing/landing-notification-lg.png"
-              alt="알림 미리보기"
-              fill
-              unoptimized
-              className="object-contain"
-            />
+            <div className="relative mt-[1.5rem] aspect-[375/519] w-full sm:mt-[2rem] sm:aspect-[744/776] lg:aspect-[1068/518]">
+              <Image
+                src="/images/landing/landing-notification-lg.png"
+                alt="알림 미리보기"
+                fill
+                unoptimized
+                className="object-contain"
+              />
+            </div>
           </div>
         </section>
 
         {/* 랜덤박스 섹션 */}
-        <section className="bg-black px-[0.9375rem] py-[3.75rem] sm:px-[2.5rem] sm:py-[5rem] lg:px-[26.75rem] lg:pt-[8.625rem] lg:pb-[2.1875rem]">
-          <h2 className="text-noto-20-bold sm:text-noto-24-bold lg:text-noto-32-bold text-white">
-            랜덤 상자로 <span className="text-main">포인트</span> 받자! 🎉
-          </h2>
-          <p className="text-noto-14-regular sm:text-noto-16-regular lg:text-noto-18-regular mt-[0.75rem] text-gray-300 lg:mt-[0.875rem]">
-            한 시간마다 주어지는 랜덤 상자를 열고,
-            <br />
-            포인트를 획득하세요
-          </p>
+        <section className="bg-black px-[0.9375rem] py-[3.75rem] sm:px-[2.5rem] sm:py-[5rem] lg:pt-[8.625rem] lg:pb-[2.1875rem]">
+          <div className="mx-auto w-full max-w-[66.75rem]">
+            <h2 className="text-noto-20-bold sm:text-noto-24-bold lg:text-noto-32-bold text-white">
+              랜덤 상자로 <span className="text-main">포인트</span> 받자! 🎉
+            </h2>
+            <p className="text-noto-14-regular sm:text-noto-16-regular lg:text-noto-18-regular mt-[0.75rem] text-gray-300 lg:mt-[0.875rem]">
+              한 시간마다 주어지는 랜덤 상자를 열고,
+              <br />
+              포인트를 획득하세요
+            </p>
 
-          <div className="relative mt-[1.5rem] aspect-[375/390] w-full sm:mt-[2rem] sm:aspect-[744/667] lg:aspect-[889/570]">
-            <Image
-              src="/images/landing/landing-random-box-lg.png"
-              alt="랜덤박스 미리보기"
-              fill
-              unoptimized
-              className="object-contain"
-            />
+            <div className="relative mt-[1.5rem] aspect-[375/390] w-full sm:mt-[2rem] sm:aspect-[744/667] lg:aspect-[889/570]">
+              <Image
+                src="/images/landing/landing-random-box-lg.png"
+                alt="랜덤박스 미리보기"
+                fill
+                unoptimized
+                className="object-contain"
+              />
+            </div>
           </div>
         </section>
 
