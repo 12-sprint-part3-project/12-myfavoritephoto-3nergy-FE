@@ -29,15 +29,28 @@ export const SaleDetailContent = ({ saleId }) => {
     return <div className="text-white">에러가 발생했습니다.</div>;
   }
 
+  const isCanceled = sale.status === 'CANCELED';
+  const isSoldOut = sale.status === 'SOLD_OUT';
+
   return (
     <>
       {/* 카드이미지 || 카드정보 레이아웃 */}
       <CardDetail sale={sale}>
         {/* 공통 카드 정보 (등급, 장르, 닉네임, 설명, 가격, 잔여) */}
         <CardInfo sale={sale} />
-        {sale.status === 'CANCELED' ? (
+        {isCanceled ? (
           <div className="flex flex-col items-center gap-4 pt-[3.75rem] text-white">
             <p className="text-noto-20-bold">판매가 종료된 상품입니다.</p>
+            <Link
+              href="/marketplace"
+              className="text-noto-16-regular text-gray-300 underline hover:text-white"
+            >
+              마켓플레이스로 돌아가기
+            </Link>
+          </div>
+        ) : isSoldOut ? (
+          <div className="flex flex-col items-center gap-4 pt-[3.75rem] text-white">
+            <p className="text-noto-20-bold">품절된 상품입니다.</p>
             <Link
               href="/marketplace"
               className="text-noto-16-regular text-gray-300 underline hover:text-white"
@@ -55,7 +68,7 @@ export const SaleDetailContent = ({ saleId }) => {
         )}
       </CardDetail>
 
-      {sale.status !== 'CANCELED' && (
+      {!isCanceled && !isSoldOut && (
         <div className="mt-[7.5rem]">
           {isSeller ? (
             <TradeListSection sale={sale} />
