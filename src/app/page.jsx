@@ -32,14 +32,18 @@ export default function Page() {
           </h1>
 
           <Link href="/marketplace" className="mt-[1.5rem] sm:mt-[2rem]">
-            <Button variant="primary" size="lg" className="w-[14.125rem]">
+            <Button
+              variant="primary"
+              size="lg"
+              className="text-noto-16-bold w-[14.125rem]"
+            >
               최애 찾으러 가기
             </Button>
           </Link>
 
           <div className="relative mt-[2.5rem] aspect-[375/199] w-full sm:mt-[3rem] sm:aspect-[744/352] lg:mt-[0.625rem] lg:aspect-[1917/765]">
             <Image
-              src="/images/landing/landing-hero-lg.svg"
+              src="/images/landing/landing-hero-lg.png"
               alt="마켓플레이스 미리보기"
               fill
               unoptimized
@@ -61,7 +65,7 @@ export default function Page() {
 
           <div className="relative mt-[1.5rem] aspect-[375/440] w-full sm:mt-[2rem] sm:aspect-[744/707] lg:aspect-[1068/518]">
             <Image
-              src="/images/landing/landing-trade-lg.svg"
+              src="/images/landing/landing-trade-lg.png"
               alt="포인트 거래 미리보기"
               fill
               unoptimized
@@ -83,7 +87,7 @@ export default function Page() {
 
           <div className="relative mt-[1.5rem] aspect-[375/519] w-full sm:mt-[2rem] sm:aspect-[744/776] lg:aspect-[1068/518]">
             <Image
-              src="/images/landing/landing-notification-lg.svg"
+              src="/images/landing/landing-notification-lg.png"
               alt="알림 미리보기"
               fill
               unoptimized
@@ -105,7 +109,7 @@ export default function Page() {
 
           <div className="relative mt-[1.5rem] aspect-[375/390] w-full sm:mt-[2rem] sm:aspect-[744/667] lg:aspect-[889/570]">
             <Image
-              src="/images/landing/landing-random-box-lg.svg"
+              src="/images/landing/landing-random-box-lg.png"
               alt="랜덤박스 미리보기"
               fill
               unoptimized
@@ -118,7 +122,7 @@ export default function Page() {
         <section className="from-pink to-purple flex flex-col items-center bg-gradient-to-br px-[0.9375rem] py-[3.75rem] text-center sm:py-[5rem] lg:py-[6.25rem]">
           <div className="relative aspect-[151/178] w-[6rem] -rotate-6 sm:w-[7.5rem]">
             <Image
-              src="/images/landing/landing-card-lg.svg"
+              src="/images/landing/landing-card-lg.png"
               alt=""
               aria-hidden="true"
               fill
@@ -132,7 +136,11 @@ export default function Page() {
           </h2>
 
           <Link href="/marketplace" className="mt-[1.5rem] sm:mt-[2rem]">
-            <Button variant="primary" size="lg" className="w-[14.125rem]">
+            <Button
+              variant="primary"
+              size="lg"
+              className="text-noto-16-bold w-[14.125rem]"
+            >
               최애 찾으러 가기
             </Button>
           </Link>
