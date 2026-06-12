@@ -13,10 +13,14 @@ import { PriceInput } from '@/components/ui/PriceInput';
 import { PageTitle } from '@/components/layout/PageTitle';
 import { validatePrice, validateDescription } from '@/utils/validators';
 
-export const SaleEditForm = ({ sale, onCancel, onSubmit, isPending }) => {
-  const [remainingQuantity, setRemainingQuantity] = useState(
-    sale.remainingQuantity,
-  );
+export const SaleEditForm = ({
+  sale,
+  onCancel,
+  onSubmit,
+  isPending,
+  quantityError: externalQuantityError,
+}) => {
+  const [quantity, setQuantity] = useState(sale.remainingQuantity);
   const [price, setPrice] = useState(sale.price);
   const [desiredGrade, setDesiredGrade] = useState(sale.desiredGrade ?? '');
   const [desiredGenre, setDesiredGenre] = useState(sale.desiredGenre ?? '');
@@ -47,7 +51,9 @@ export const SaleEditForm = ({ sale, onCancel, onSubmit, isPending }) => {
   };
 
   const isFormValid =
-    !validatePrice(price) && !validateDescription(desiredDescription);
+    !validatePrice(price) &&
+    !validateDescription(desiredDescription) &&
+    !externalQuantityError;
 
   const validateForm = () => {
     const newErrors = {
@@ -59,6 +65,8 @@ export const SaleEditForm = ({ sale, onCancel, onSubmit, isPending }) => {
 
     return !Object.values(newErrors).some(Boolean);
   };
+
+  const soldQuantity = sale.quantity - sale.remainingQuantity;
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -72,7 +80,7 @@ export const SaleEditForm = ({ sale, onCancel, onSubmit, isPending }) => {
     }
 
     onSubmit?.({
-      quantity: remainingQuantity,
+      quantity: quantity + soldQuantity,
       price,
       desiredGrade,
       desiredGenre,
@@ -121,14 +129,16 @@ export const SaleEditForm = ({ sale, onCancel, onSubmit, isPending }) => {
 
           {/* 총 판매 수량, 장당 가격 */}
           <div className="flex flex-col gap-[1.25rem]">
+            {/* NOTE: 현재로선 해당 카드의 총 판매 가능한 수량을 알기 어려운 상태라, 카드 최대 발행 수량(10장)을 max로 설정함 */}
+            {/* NOTE: 판매 수량이 보유 수량 초과 시 백엔드에서 에러 처리 */}
             <CounterInput
-              label="남은 판매 수량"
-              showMaxLabel
+              label="총 판매 수량"
               labelClassName="text-noto-18-regular lg:text-noto-20-regular"
-              value={remainingQuantity}
-              onChange={setRemainingQuantity}
+              value={quantity}
+              onChange={setQuantity}
               min={1}
-              max={sale.remainingQuantity}
+              max={10}
+              error={externalQuantityError}
             />
             <PriceInput
               label="장당 가격"

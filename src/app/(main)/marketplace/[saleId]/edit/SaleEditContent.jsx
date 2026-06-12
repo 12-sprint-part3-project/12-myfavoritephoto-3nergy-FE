@@ -8,7 +8,11 @@ import { SaleEditForm } from '@/app/(main)/marketplace/[saleId]/_components/Sale
 export const SaleEditContent = ({ saleId }) => {
   const router = useRouter();
   const { data: sale, isLoading, error } = useSaleDetail(saleId);
-  const { mutate: updateSale, isPending } = useUpdateSale(saleId);
+  const {
+    mutate: updateSale,
+    isPending,
+    error: updateError,
+  } = useUpdateSale(saleId);
 
   // TODO: 스켈레톤 UI로 교체
   if (isLoading) return <div className="text-white">로딩 중...</div>;
@@ -26,6 +30,9 @@ export const SaleEditContent = ({ saleId }) => {
           onSuccess: () => router.back(),
         });
       }}
+      quantityError={
+        updateError?.code === 'NOT_ENOUGH_QUANTITY' ? updateError.message : ''
+      }
     />
   );
 };

@@ -9,7 +9,11 @@ import { SaleEditModal } from '@/app/(main)/marketplace/[saleId]/_components/Sal
 import { useIsMobile } from '@/hooks/common/useResponsive';
 
 export const SellerButtons = ({ sale }) => {
-  const { mutate: updateSale, isPending } = useUpdateSale(sale.saleId);
+  const {
+    mutate: updateSale,
+    isPending,
+    error: updateError,
+  } = useUpdateSale(sale.saleId);
 
   const router = useRouter();
   const isMobile = useIsMobile();
@@ -18,8 +22,11 @@ export const SellerButtons = ({ sale }) => {
   const [showCancelModal, setShowCancelModal] = useState(false);
 
   const handleCancelSale = () => {
-    setShowCancelModal(false);
-    // TODO: 판매 중단 API 연동
+    /*
+    cancelSale(sale.saleId, {
+      onSuccess: () => setShowCancelModal(false),
+    });
+    */
   };
 
   const handlewEditSale = (formData) => {
@@ -27,6 +34,7 @@ export const SellerButtons = ({ sale }) => {
       onSuccess: () => setShowEditModal(false),
     });
   };
+  console.log('updateError:', updateError);
 
   // 수정하기 버튼 클릭 시 모바일이면 페이지 이동, 태블릿/pc면 모달
   const handleEditClick = () => {
@@ -64,6 +72,11 @@ export const SellerButtons = ({ sale }) => {
           sale={sale}
           onSubmit={handlewEditSale}
           isPending={isPending}
+          quantityError={
+            updateError?.code === 'NOT_ENOUGH_QUANTITY'
+              ? updateError.message
+              : ''
+          }
         />
       )}
 
