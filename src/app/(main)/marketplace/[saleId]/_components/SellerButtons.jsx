@@ -2,19 +2,24 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useToastContext } from '@/context/ToastContext';
 import { useUpdateSale } from '@/hooks/sale/useUpdateSale';
+import { useCancelSale } from '@/hooks/sale/useCancelSale';
 import { Button } from '@/components/ui/Button';
 import { BasicModal } from '@/components/ui/BasicModal';
 import { SaleEditModal } from '@/app/(main)/marketplace/[saleId]/_components/SaleEditModal';
 import { useIsMobile } from '@/hooks/common/useResponsive';
 
 export const SellerButtons = ({ sale }) => {
+  const { showToast } = useToastContext();
+
   const {
     mutate: updateSale,
     isPending,
     error: updateError,
     reset,
   } = useUpdateSale(sale.saleId);
+  const { mutate: cancelSale } = useCancelSale();
 
   const router = useRouter();
   const isMobile = useIsMobile();
@@ -23,11 +28,12 @@ export const SellerButtons = ({ sale }) => {
   const [showCancelModal, setShowCancelModal] = useState(false);
 
   const handleCancelSale = () => {
-    /*
     cancelSale(sale.saleId, {
-      onSuccess: () => setShowCancelModal(false),
+      onSuccess: () => {
+        setShowCancelModal(false);
+        showToast('포토카드 판매를 내렸습니다.');
+      },
     });
-    */
   };
 
   const handlewEditSale = (formData) => {
