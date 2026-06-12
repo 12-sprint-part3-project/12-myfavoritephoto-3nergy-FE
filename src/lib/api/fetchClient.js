@@ -13,6 +13,7 @@ export const fetchClient = async (endpoint, options = {}) => {
 
   const response = await fetch(url, {
     ...options,
+    cache: 'no-store',
     credentials: 'include', // httpOnly 쿠키의 Refresh Token 자동 전송
     headers: {
       'Content-Type': 'application/json',

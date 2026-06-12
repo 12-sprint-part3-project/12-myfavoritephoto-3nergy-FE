@@ -2,7 +2,8 @@
 
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
-//import { useMe } from '@/hooks/user/useMe';
+import { useMe } from '@/hooks/user/useMe';
+import { useLogout } from '@/hooks/auth/useLogout';
 import { GNB } from '@/components/layout/GNB/GNB';
 import { getGnbConfig } from '@/components/layout/GNB/gnb.config';
 
@@ -12,26 +13,22 @@ export default function MainLayout({ children }) {
 
   const config = getGnbConfig(pathname);
 
-  const { accessToken, logout } = useAuth();
-
-  /*
-  // TODO: 내 정보 조회 API 연동
-  const { data: user } = useMe({
-    enabled: !!accessToken,
-  });
-  */
+  const { accessToken } = useAuth();
+  const isAuthenticated = Boolean(accessToken);
+  const { data: user } = useMe();
+  const { mutate: logout } = useLogout();
 
   return (
-    <div className="flex flex-col">
-      {/* TODO: user={user} 추가 */}
+    <div className="flex min-h-screen flex-col">
       <GNB
-        isAuthenticated={!!accessToken}
-        onLogout={logout}
+        isAuthenticated={isAuthenticated}
+        user={user}
+        onLogout={() => logout()}
         pageTitle={config?.title ?? null}
         onBack={() => router.back()}
       />
 
-      <main className="mx-auto w-full max-w-[1480px] px-[0.9375rem] md:px-[1.25rem]">
+      <main className="mx-auto w-full max-w-[1480px] px-[0.9375rem] pt-[1.25rem] md:px-[1.25rem] md:pt-[2.5rem] xl:pt-[3.75rem]">
         {children}
       </main>
     </div>
