@@ -19,3 +19,4 @@ export { default as PlusIcon } from './plus.svg';
 export { default as ProfileIcon } from './profile.svg';
 export { default as SearchIcon } from './search.svg';
 export { default as VisibleIcon } from './visible.svg';
+export { default as SoldoutIcon } from './soldout.svg';
