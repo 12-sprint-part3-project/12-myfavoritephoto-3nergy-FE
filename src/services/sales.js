@@ -26,7 +26,7 @@ export const updateSale = (saleId, body) =>
   });
 
 // 판매 중단
-export const stopSale = (saleId) =>
+export const cancelSale = (saleId) =>
   fetchWithAuth(`/api/sales/${saleId}/cancel`, {
     method: 'PATCH',
   });
