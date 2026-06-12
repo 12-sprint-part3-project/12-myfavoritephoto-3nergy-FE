@@ -19,6 +19,10 @@ export const queryClient = new QueryClient({
       const { action, message } = getErrorHandler(error?.code);
 
       // error의 action에 따라 분기 처리
+      if (action === 'field') {
+        return;
+      }
+
       if (action === 'session-expired') {
         // 토큰 정리 후 AuthProvider에 세션 만료 알림
         clearToken();
