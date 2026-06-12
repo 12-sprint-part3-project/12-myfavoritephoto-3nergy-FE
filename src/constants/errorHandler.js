@@ -42,6 +42,9 @@ export const ERROR_HANDLER = {
   NICKNAME_ALREADY_EXISTS: {
     action: 'field',
   },
+  NOT_ENOUGH_QUANTITY: {
+    action: 'field',
+  },
 };
 
 export const getErrorHandler = (code) => {
