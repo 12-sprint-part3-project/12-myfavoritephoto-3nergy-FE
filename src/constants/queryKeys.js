@@ -1,31 +1,36 @@
 export const QUERY_KEYS = {
   // 유저
-  me: ['me'],
+  me: () => ['me'],
 
   // 알림
   notifications: {
-    all: ['notifications'],
+    all: () => ['notifications'],
   },
 
   // 포토카드
   photocards: {
-    all: ['photocards'],
-    detail: (id) => ['photocards', id],
+    all: () => ['photocards'],
+    list: (params) => ['photocards', 'list', params],
+    detail: (id) => ['photocards', 'detail', id],
   },
 
   // 판매 (마켓플레이스)
   sales: {
-    all: ['sales'],
-    detail: (id) => ['sales', id],
+    all: () => ['sales'],
+    lists: () => ['sales', 'list'],
+    list: (params) => ['sales', 'list', params],
+    detail: (id) => ['sales', 'detail', id],
   },
 
   // 나의 판매 카드
   mySales: {
-    all: ['mySales'],
+    all: () => ['mySales'],
+    list: (params) => ['mySales', 'list', params],
   },
 
   // 보유 카드 (마이갤러리)
   myGallery: {
-    all: ['myGallery'],
+    all: () => ['myGallery'],
+    list: (params) => ['myGallery', 'list', params],
   },
 };
