@@ -1,5 +1,7 @@
 import Image from 'next/image';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useCreateSale } from '@/hooks/sale/useCreateSale';
 import {
   GRADE_STYLE,
   CARD_GRADE_OPTIONS,
@@ -14,18 +16,15 @@ import { PageTitle } from '@/components/layout/PageTitle';
 import { validatePrice, validateDescription } from '@/utils/validators';
 
 export const SaleRegisterForm = ({ photocard, onBack }) => {
+  const router = useRouter();
+
+  const { mutate: createSale, isPending } = useCreateSale();
+
   const [quantity, setQuantity] = useState(1);
   const [price, setPrice] = useState(0);
-  const [desiredGrade, setDesiredGrade] = useState(
-    photocard.desiredGrade ?? '',
-  );
-  const [desiredGenre, setDesiredGenre] = useState(
-    photocard.desiredGenre ?? '',
-  );
-  const [desiredDescription, setDesiredDescription] = useState(
-    photocard.desiredDescription ?? '',
-  );
-
+  const [desiredGrade, setDesiredGrade] = useState(CARD_GRADE_OPTIONS[0].value);
+  const [desiredGenre, setDesiredGenre] = useState(GENRE_OPTIONS[0].value);
+  const [desiredDescription, setDesiredDescription] = useState('');
   const [errors, setErrors] = useState({
     price: '',
     description: '',
@@ -51,39 +50,45 @@ export const SaleRegisterForm = ({ photocard, onBack }) => {
   const isFormValid =
     !validatePrice(price) && !validateDescription(desiredDescription);
 
-  /*
   const validateForm = () => {
     const newErrors = {
       price: validatePrice(price),
       description: validateDescription(desiredDescription),
     };
-
     setErrors(newErrors);
-
     return !Object.values(newErrors).some(Boolean);
   };
-*/
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    /*
     if (!validateForm()) {
-      setTouched({
-        price: true,
-        description: true,
-      });
+      setTouched({ price: true, description: true });
       return;
     }
 
-    onSubmit?.({
-      remainingQuantity,
-      price,
-      desiredGrade,
-      desiredGenre,
-      desiredDescription,
-    });
-    */
+    createSale(
+      {
+        photocardId: photocard.id,
+        price,
+        quantity,
+        desiredGrade,
+        desiredGenre,
+        desiredDescription,
+      },
+      {
+        onSuccess: () => {
+          router.push(
+            `/marketplace/create/result?status=success&name=${photocard.name}&grade=${photocard.grade}&quantity=${quantity}`,
+          );
+        },
+        onError: () => {
+          router.push(
+            `/marketplace/create/result?status=failed&name=${photocard.name}&grade=${photocard.grade}&quantity=${quantity}`,
+          );
+        },
+      },
+    );
   };
 
   return (
@@ -207,9 +212,9 @@ export const SaleRegisterForm = ({ photocard, onBack }) => {
         <Button
           type="submit"
           className="text-noto-16-bold lg:text-noto-18-bold w-full"
-          disabled={!isFormValid}
+          disabled={!isFormValid || isPending}
         >
-          판매하기
+          {isPending ? '등록 중...' : '판매하기'}
         </Button>
       </div>
     </form>

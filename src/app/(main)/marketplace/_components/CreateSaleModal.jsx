@@ -5,7 +5,7 @@ import { ResponsiveModal } from '@/components/ui/ResponsiveModal';
 import { SaleRegisterForm } from '@/app/(main)/marketplace/_components/SaleRegisterForm';
 import { PhotocardSelectList } from '@/app/(main)/marketplace/_components/PhotocardSelectList';
 
-export const CreateSaleModal = ({ onClose, sale, onSubmit }) => {
+export const CreateSaleModal = ({ onClose }) => {
   const [selectedCard, setSelectedCard] = useState(null);
 
   return (

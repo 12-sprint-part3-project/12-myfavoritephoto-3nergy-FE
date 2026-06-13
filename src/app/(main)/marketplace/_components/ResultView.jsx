@@ -13,24 +13,24 @@ export const ResultView = ({
   const router = useRouter();
 
   return (
-    <div className="flex flex-col items-center justify-center gap-10 text-center">
-      <h1 className="font-baskin-base text-baskin-24-bold md:text-baskin-40-bold text-white">
+    <section className="flex flex-col items-center justify-center text-center">
+      <h1 className="font-baskin-base text-baskin-30-bold md:text-baskin-36-bold md:text-baskin-40-bold lg:text-baskin-46-bold mb-[1.87rem] text-white md:mb-[2.5rem]">
         {title}
         <span className={isSuccess ? 'text-main' : 'text-gray-300'}>
-          {isSuccess ? '성공' : '실패'}
+          {isSuccess ? ' 성공' : ' 실패'}
         </span>
       </h1>
-      <p className="text-noto-16-bold md:text-noto-20-bold text-white">
+      <p className="lg:text-noto-20-bold text-noto-16-bold md:text-noto-20-bold mb-[3.12rem] text-white md:mb-[3.75rem]">
         {description}
       </p>
       <Button
         variant="secondary"
         size="lg"
-        className="w-full lg:min-w-[440px]"
+        className="text-noto-16-bold lg:text-noto-18-bold w-full md:w-auto lg:min-w-[440px]"
         onClick={() => router.push(href)}
       >
         {buttonText}
       </Button>
-    </div>
+    </section>
   );
 };
