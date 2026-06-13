@@ -50,7 +50,7 @@ export const FilterDropdown = ({
       <button
         type="button"
         onClick={() => setIsOpen((prev) => !prev)}
-        className="text-noto-16-regular hidden cursor-pointer items-center gap-1 text-gray-300 transition-colors hover:text-white md:flex"
+        className="text-noto-16-regular hidden cursor-pointer items-center gap-1 text-gray-200 transition-colors hover:text-white md:flex"
       >
         <span>{selectedOption ? selectedOption.label : label}</span>
         <ChevronDownIcon
