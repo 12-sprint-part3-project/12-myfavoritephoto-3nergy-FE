@@ -4,7 +4,7 @@ import { getPhotocards } from '@/services/photocard';
 
 export const usePhotocards = (params = {}) => {
   return useQuery({
-    queryKey: QUERY_KEYS.photocards.all(params),
+    queryKey: QUERY_KEYS.photocards.list(params),
     queryFn: () => getPhotocards(params),
     select: (res) => ({
       photocards: res.data.photocards,
