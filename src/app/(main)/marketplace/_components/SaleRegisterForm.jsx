@@ -1,7 +1,5 @@
 import Image from 'next/image';
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { useCreateSale } from '@/hooks/sale/useCreateSale';
+import { useSaleRegisterForm } from '@/hooks/sale/useSaleRegisterForm';
 import {
   GRADE_STYLE,
   CARD_GRADE_OPTIONS,
@@ -16,83 +14,16 @@ import { PageTitle } from '@/components/layout/PageTitle';
 import { validatePrice, validateDescription } from '@/utils/validators';
 
 export const SaleRegisterForm = ({ photocard, onBack }) => {
-  const router = useRouter();
-
-  const { mutate: createSale, isPending } = useCreateSale();
-
-  const [form, setForm] = useState({
-    quantity: 1,
-    price: 0,
-    desiredGrade: CARD_GRADE_OPTIONS[0].value,
-    desiredGenre: GENRE_OPTIONS[0].value,
-    desiredDescription: '',
-  });
-
-  const handleChange = (field, value) => {
-    setForm((prev) => ({ ...prev, [field]: value }));
-  };
-
-  const [errors, setErrors] = useState({
-    price: '',
-    description: '',
-  });
-
-  const [touched, setTouched] = useState({
-    price: false,
-    description: false,
-  });
-
-  const handleBlur = (field, validator, value) => {
-    setTouched((prev) => ({
-      ...prev,
-      [field]: true,
-    }));
-
-    setErrors((prev) => ({
-      ...prev,
-      [field]: validator(value),
-    }));
-  };
-
-  const isFormValid =
-    !validatePrice(form.price) && !validateDescription(form.desiredDescription);
-
-  const validateForm = () => {
-    const newErrors = {
-      price: validatePrice(form.price),
-      description: validateDescription(form.desiredDescription),
-    };
-    setErrors(newErrors);
-    return !Object.values(newErrors).some(Boolean);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    if (!validateForm()) {
-      setTouched({ price: true, description: true });
-      return;
-    }
-
-    createSale(
-      {
-        photocardId: photocard.id,
-        ...form,
-      },
-      {
-        onSuccess: () => {
-          router.push(
-            `/marketplace/create/result?status=success&name=${encodeURIComponent(photocard.name)}&grade=${photocard.grade}&quantity=${form.quantity}`,
-          );
-        },
-        onError: (error) => {
-          router.push(
-            `/marketplace/create/result?status=failed&name=${encodeURIComponent(photocard.name)}&grade=${photocard.grade}&quantity=${form.quantity}&message=${encodeURIComponent(error.message)}`,
-          );
-        },
-      },
-    );
-  };
+  const {
+    form,
+    errors,
+    touched,
+    isPending,
+    handleChange,
+    handleBlur,
+    handleSubmit,
+    isFormValid,
+  } = useSaleRegisterForm(photocard);
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col">
