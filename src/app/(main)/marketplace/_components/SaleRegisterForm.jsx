@@ -20,11 +20,18 @@ export const SaleRegisterForm = ({ photocard, onBack }) => {
 
   const { mutate: createSale, isPending } = useCreateSale();
 
-  const [quantity, setQuantity] = useState(1);
-  const [price, setPrice] = useState(0);
-  const [desiredGrade, setDesiredGrade] = useState('');
-  const [desiredGenre, setDesiredGenre] = useState(GENRE_OPTIONS[0].value);
-  const [desiredDescription, setDesiredDescription] = useState('');
+  const [form, setForm] = useState({
+    quantity: 1,
+    price: 0,
+    desiredGrade: CARD_GRADE_OPTIONS[0].value,
+    desiredGenre: GENRE_OPTIONS[0].value,
+    desiredDescription: '',
+  });
+
+  const handleChange = (field, value) => {
+    setForm((prev) => ({ ...prev, [field]: value }));
+  };
+
   const [errors, setErrors] = useState({
     price: '',
     description: '',
@@ -48,12 +55,12 @@ export const SaleRegisterForm = ({ photocard, onBack }) => {
   };
 
   const isFormValid =
-    !validatePrice(price) && !validateDescription(desiredDescription);
+    !validatePrice(form.price) && !validateDescription(form.desiredDescription);
 
   const validateForm = () => {
     const newErrors = {
-      price: validatePrice(price),
-      description: validateDescription(desiredDescription),
+      price: validatePrice(form.price),
+      description: validateDescription(form.desiredDescription),
     };
     setErrors(newErrors);
     return !Object.values(newErrors).some(Boolean);
@@ -70,21 +77,17 @@ export const SaleRegisterForm = ({ photocard, onBack }) => {
     createSale(
       {
         photocardId: photocard.id,
-        price,
-        quantity,
-        desiredGrade,
-        desiredGenre,
-        desiredDescription,
+        ...form,
       },
       {
         onSuccess: () => {
           router.push(
-            `/marketplace/create/result?status=success&name=${encodeURIComponent(photocard.name)}&grade=${photocard.grade}&quantity=${quantity}`,
+            `/marketplace/create/result?status=success&name=${encodeURIComponent(photocard.name)}&grade=${photocard.grade}&quantity=${form.quantity}`,
           );
         },
         onError: (error) => {
           router.push(
-            `/marketplace/create/result?status=failed&name=${encodeURIComponent(photocard.name)}&grade=${photocard.grade}&quantity=${quantity}&message=${encodeURIComponent(error.message)}`,
+            `/marketplace/create/result?status=failed&name=${encodeURIComponent(photocard.name)}&grade=${photocard.grade}&quantity=${form.quantity}&message=${encodeURIComponent(error.message)}`,
           );
         },
       },
@@ -136,18 +139,18 @@ export const SaleRegisterForm = ({ photocard, onBack }) => {
               label="총 판매 수량"
               showMaxLabel
               labelClassName="text-noto-18-regular lg:text-noto-20-regular"
-              value={quantity}
-              onChange={setQuantity}
+              value={form.quantity}
+              onChange={(val) => handleChange('quantity', val)}
               min={1}
               max={photocard.quantity}
             />
             <PriceInput
               label="장당 가격"
-              value={price}
-              onChange={setPrice}
+              value={form.price}
+              onChange={(val) => handleChange('price', val)}
               labelClassName="text-noto-18-regular lg:text-noto-20-regular"
               error={touched.price ? errors.price : ''}
-              onBlur={() => handleBlur('price', validatePrice, price)}
+              onBlur={() => handleBlur('price', validatePrice, form.price)}
             />
           </div>
         </div>
@@ -167,8 +170,8 @@ export const SaleRegisterForm = ({ photocard, onBack }) => {
               <Select
                 label="등급"
                 name="desiredGrade"
-                value={desiredGrade}
-                onChange={(e) => setDesiredGrade(e.target.value)}
+                value={form.desiredGrade}
+                onChange={(e) => handleChange('desiredGrade', e.target.value)}
                 options={CARD_GRADE_OPTIONS}
                 labelClassName="text-noto-16-bold lg:text-noto-20-bold"
               />
@@ -177,8 +180,8 @@ export const SaleRegisterForm = ({ photocard, onBack }) => {
               <Select
                 label="장르"
                 name="desiredGenre"
-                value={desiredGenre}
-                onChange={(e) => setDesiredGenre(e.target.value)}
+                value={form.desiredGenre}
+                onChange={(e) => handleChange('desiredGenre', e.target.value)}
                 options={GENRE_OPTIONS}
                 labelClassName="text-noto-16-bold lg:text-noto-20-bold"
               />
@@ -188,12 +191,16 @@ export const SaleRegisterForm = ({ photocard, onBack }) => {
           <Textarea
             label="교환 희망 설명"
             name="desiredDescription"
-            value={desiredDescription}
-            onChange={(e) => setDesiredDescription(e.target.value)}
+            value={form.desiredDescription}
+            onChange={(e) => handleChange('desiredDescription', e.target.value)}
             placeholder="교환 희망 설명을 입력해 주세요"
             labelClassName="text-noto-16-bold lg:text-noto-20-bold"
             onBlur={() =>
-              handleBlur('description', validateDescription, desiredDescription)
+              handleBlur(
+                'description',
+                validateDescription,
+                form.desiredDescription,
+              )
             }
             error={touched.description ? errors.description : ''}
           />
