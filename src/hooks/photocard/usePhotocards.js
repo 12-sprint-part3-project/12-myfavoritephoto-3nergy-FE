@@ -1,0 +1,14 @@
+import { useQuery } from '@tanstack/react-query';
+import { QUERY_KEYS } from '@/constants/queryKeys';
+import { getPhotocards } from '@/services/photocard';
+
+export const usePhotocards = (params = {}) => {
+  return useQuery({
+    queryKey: QUERY_KEYS.photocards.all(params),
+    queryFn: () => getPhotocards(params),
+    select: (res) => ({
+      photocards: res.data.photocards,
+      meta: res.meta,
+    }),
+  });
+};
