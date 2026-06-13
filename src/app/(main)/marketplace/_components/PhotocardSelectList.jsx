@@ -64,10 +64,9 @@ export const PhotocardSelectList = ({ onSelect }) => {
     <div className="w-full">
       <PageTitle
         breadcrumb="마이갤러리"
-        hideBorderOnMobile
         title="나의 포토카드 판매하기"
         variant="title-md"
-        className="mb-[1.875rem] md:mb-[1.25rem]"
+        className="hidden md:mb-[1.25rem] md:block"
       />
 
       {/* 검색 + 정렬 */}
