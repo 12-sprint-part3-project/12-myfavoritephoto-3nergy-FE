@@ -57,10 +57,18 @@ const meta = {
       table: { type: { summary: '(value: string) => void' } },
     },
     onMobileClick: {
+      control: false,
       action: 'mobileClicked',
       order: 5,
-      description: '모바일에서 필터 아이콘 클릭 시 호출 (바텀시트 오픈용)',
+      description: '모바일에서 필터 버튼 클릭 시 호출 (바텀시트 오픈용)',
       table: { type: { summary: '() => void' } },
+    },
+    mobileButtonClassName: {
+      control: 'text',
+      description:
+        '모바일 필터 버튼에 적용되는 className. 미지정 시 h-[35px] w-[35px] 적용',
+      order: 6,
+      table: { type: { summary: 'string' } },
     },
   },
 };
