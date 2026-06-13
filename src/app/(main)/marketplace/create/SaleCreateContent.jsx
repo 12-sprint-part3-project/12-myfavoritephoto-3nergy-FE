@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { SaleRegisterForm } from '@/app/(main)/marketplace/_components/SaleRegisterForm';
 import { PhotocardSelectList } from '@/app/(main)/marketplace/_components/PhotocardSelectList';
 
 export const SaleCreateContent = () => {
@@ -9,7 +10,10 @@ export const SaleCreateContent = () => {
   return (
     <>
       {selectedCard ? (
-        <div>판매 정보 입력 (TODO)</div>
+        <SaleRegisterForm
+          photocard={selectedCard}
+          onBack={() => setSelectedCard(null)}
+        />
       ) : (
         <PhotocardSelectList onSelect={(card) => setSelectedCard(card)} />
       )}
