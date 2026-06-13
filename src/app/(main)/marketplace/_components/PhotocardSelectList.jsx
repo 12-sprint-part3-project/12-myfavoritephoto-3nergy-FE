@@ -5,6 +5,7 @@ import { PageTitle } from '@/components/layout/PageTitle';
 import { SearchBar } from '@/components/ui/SearchBar';
 import { Card } from '@/components/domain/photocard/Card';
 import { FilterDropdown } from '@/components/domain/photocard/FilterDropdown';
+import { EmptyPhotocardList } from '@/app/(main)/marketplace/_components/EmptyPhotocardList';
 
 export const PhotocardSelectList = ({ onSelect }) => {
   const [params, setParams] = useState({
@@ -16,7 +17,7 @@ export const PhotocardSelectList = ({ onSelect }) => {
     pageSize: 20,
   });
 
-  const { data, isLoading, isFetching, error } = usePhotocards(params);
+  const { data, isLoading, error } = usePhotocards(params);
 
   // TODO: 스켈레톤 UI로 교체
   if (isLoading) {
@@ -29,8 +30,9 @@ export const PhotocardSelectList = ({ onSelect }) => {
   }
 
   const gradeOptions = [{ value: '', label: '전체' }, ...CARD_GRADE_OPTIONS];
-
   const genreOptions = [{ value: '', label: '전체' }, ...GENRE_OPTIONS];
+
+  const isFiltered = params.keyword || params.grade || params.genre;
 
   return (
     <div className="w-full">
@@ -81,26 +83,30 @@ export const PhotocardSelectList = ({ onSelect }) => {
       </div>
 
       {/* 카드 그리드 */}
-      <ul className="grid w-full grid-cols-2 gap-[0.3125rem] md:gap-[1.25rem] xl:gap-[2.5rem]">
-        {data.photocards.map((card) => (
-          <li key={card.id}>
-            <button className="w-full" onClick={() => onSelect(card)}>
-              <Card
-                type="marketplace"
-                name={card.name}
-                imageUrl={card.imageUrl}
-                grade={card.grade}
-                genre={card.genre}
-                price={card.price}
-                totalQuantity={card.quantity}
-                remainingQuantity={card.remainingQuantity}
-                owner={card.ownerNickname}
-                status="SALE"
-              />
-            </button>
-          </li>
-        ))}
-      </ul>
+      {data.photocards.length === 0 ? (
+        <EmptyPhotocardList isFiltered={isFiltered} />
+      ) : (
+        <ul className="grid w-full grid-cols-2 gap-[0.3125rem] md:gap-[1.25rem] xl:gap-[2.5rem]">
+          {data.photocards.map((card) => (
+            <li key={card.id}>
+              <button className="w-full" onClick={() => onSelect(card)}>
+                <Card
+                  type="marketplace"
+                  name={card.name}
+                  imageUrl={card.imageUrl}
+                  grade={card.grade}
+                  genre={card.genre}
+                  price={card.price}
+                  totalQuantity={card.quantity}
+                  remainingQuantity={card.remainingQuantity}
+                  owner={card.ownerNickname}
+                  status="SALE"
+                />
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };
