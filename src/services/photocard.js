@@ -1,6 +1,6 @@
 import { fetchWithAuth } from '@/lib/api/fetchWithAuth';
 
-// 포토카드 목록 조회
+// 보유 포토카드 목록 조회
 export const getPhotocards = (params = {}) =>
   fetchWithAuth(`/api/photocards?${new URLSearchParams(params)}`);
 
