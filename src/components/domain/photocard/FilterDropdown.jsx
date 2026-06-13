@@ -9,6 +9,7 @@ export const FilterDropdown = ({
   value,
   onChange,
   onMobileClick,
+  mobileButtonClassName,
 }) => {
   const isControlled = value !== undefined;
   const [internalSelected, setInternalSelected] = useState(null);
@@ -41,7 +42,7 @@ export const FilterDropdown = ({
       <button
         type="button"
         onClick={onMobileClick}
-        className="flex h-[2.1875rem] w-[2.1875rem] cursor-pointer items-center justify-center rounded-xs border border-white md:hidden"
+        className={`flex cursor-pointer items-center justify-center rounded-xs border border-white md:hidden ${mobileButtonClassName ?? 'h-[2.1875rem] w-[2.1875rem]'}`}
       >
         <FilterIcon className="h-[0.91rem] w-[0.91rem] text-white" />
       </button>
