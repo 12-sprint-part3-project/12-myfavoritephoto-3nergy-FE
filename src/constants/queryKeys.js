@@ -17,6 +17,7 @@ export const QUERY_KEYS = {
   // 판매 (마켓플레이스)
   sales: {
     all: () => ['sales'],
+    lists: () => ['sales', 'list'],
     list: (params) => ['sales', 'list', params],
     detail: (id) => ['sales', 'detail', id],
   },
