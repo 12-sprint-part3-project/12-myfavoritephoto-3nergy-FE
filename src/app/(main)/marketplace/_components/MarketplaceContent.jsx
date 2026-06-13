@@ -21,6 +21,9 @@ const METHOD_OPTIONS = [
   { value: '판매', label: '판매' },
 ];
 
+const gradeOptions = [{ value: '', label: '전체' }, ...CARD_GRADE_OPTIONS];
+const genreOptions = [{ value: '', label: '전체' }, ...GENRE_OPTIONS];
+
 const FILTER_TABS = ['grade', 'genre', 'method'];
 
 const PAGE_SIZE = 18;
@@ -325,7 +328,7 @@ export const MarketplaceContent = () => {
           <div className="flex items-center gap-3 md:gap-6 lg:gap-[2.8125rem]">
             <FilterDropdown
               label="등급"
-              options={CARD_GRADE_OPTIONS}
+              options={gradeOptions}
               value={filters.grade}
               onChange={handleFilterChange('grade')}
               onMobileClick={() => setIsFilterOpen(true)}
@@ -333,7 +336,7 @@ export const MarketplaceContent = () => {
             <div className="hidden md:block">
               <FilterDropdown
                 label="장르"
-                options={GENRE_OPTIONS}
+                options={genreOptions}
                 value={filters.genre}
                 onChange={handleFilterChange('genre')}
               />
