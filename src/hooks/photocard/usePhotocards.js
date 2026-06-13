@@ -6,6 +6,7 @@ export const usePhotocards = (params = {}) => {
   return useQuery({
     queryKey: QUERY_KEYS.photocards.list(params),
     queryFn: () => getPhotocards(params),
+    placeholderData: (previousData) => previousData,
     select: (res) => ({
       photocards: res.data.photocards,
       meta: res.meta,
