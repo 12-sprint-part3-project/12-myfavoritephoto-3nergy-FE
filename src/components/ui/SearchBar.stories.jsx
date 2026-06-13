@@ -21,7 +21,7 @@ export const Default = {
 };
 
 export const WithWrapper = {
-  name: '너비 조절 예시',
+  name: 'Width Control Example',
   render: () => (
     <div className="w-[320px]">
       <SearchBar />
