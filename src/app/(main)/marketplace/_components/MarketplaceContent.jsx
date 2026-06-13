@@ -25,7 +25,6 @@ const FILTER_TABS = ['grade', 'genre', 'method'];
 
 const PAGE_SIZE = 18;
 
-// 목업 데이터 — API 연동 전까지 임시 사용
 const MOCK_CARDS = [
   {
     id: 1,
@@ -248,7 +247,6 @@ const MOCK_CARDS = [
   imageUrl: `https://picsum.photos/seed/photocard-${card.id}/400/400`,
 }));
 
-// 필터별 전체 카드 기준 개수 (선택 안내용 — API 연동 전까지 단순 합산 값)
 const countByOption = (cards, key, options) =>
   options.reduce((acc, { value }) => {
     acc[value] = cards.filter((card) => card[key] === value).length;
