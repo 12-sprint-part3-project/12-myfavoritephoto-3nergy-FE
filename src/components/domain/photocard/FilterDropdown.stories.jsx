@@ -32,6 +32,12 @@ const meta = {
       values: [{ name: 'dark', value: '#0f0f0f' }],
     },
     viewport: { defaultViewport: 'tablet' },
+    docs: {
+      description: {
+        component:
+          'PC/태블릿에서는 드롭다운, 모바일에서는 필터 아이콘 버튼으로 표시됩니다. `onMobileClick`으로 바텀시튼 오픈 핸들러를 전달합니다.',
+      },
+    },
   },
   argTypes: {
     label: {
@@ -100,6 +106,35 @@ export const GradeWithSelected = {
 export const MobileWithBottomSheet = {
   parameters: {
     viewport: { defaultViewport: 'mobile1' },
+    docs: {
+      description: {
+        story: '모바일에서 필터 버튼 클릭 시 바텀시트와 연동하는 예시입니다.',
+      },
+      source: {
+        code: `
+    const [open, setOpen] = useState(false);
+    const [appliedSelection, setAppliedSelection] = useState({});
+    return (
+      <>
+        <FilterDropdown
+          label="등급"
+          options={GRADE_OPTIONS}
+          onMobileClick={() => setOpen(true)}
+        />
+        {open && (
+          <MobileFilterBottomSheet
+            tabs={['grade', 'genre', 'soldOut']}
+            onClose={() => setOpen(false)}
+            onApply={(selection) => setAppliedSelection(selection)}
+            counts={MOCK_COUNTS}
+            totalPhotos={72}
+            initialSelection={appliedSelection}
+          />
+        )}
+      </>
+        `,
+      },
+    },
   },
   render: () => {
     const [open, setOpen] = useState(false);
