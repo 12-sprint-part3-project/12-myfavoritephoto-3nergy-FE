@@ -1,12 +1,11 @@
-import { fetchClient } from '@/lib/api/fetchClient';
 import { fetchWithAuth } from '@/lib/api/fetchWithAuth';
 
 // 판매 목록 조회
 export const getSales = (params = {}) =>
-  fetchClient(`/api/sales?${new URLSearchParams(params)}`);
+  fetchWithAuth(`/api/sales?${new URLSearchParams(params)}`);
 
 // 판매 상세 조회
-export const getSaleDetail = (saleId) => fetchClient(`/api/sales/${saleId}`);
+export const getSaleDetail = (saleId) => fetchWithAuth(`/api/sales/${saleId}`);
 
 // 나의 판매 목록 조회
 export const getMySales = (params = {}) =>
@@ -27,7 +26,7 @@ export const updateSale = (saleId, body) =>
   });
 
 // 판매 중단
-export const stopSale = (saleId) =>
+export const cancelSale = (saleId) =>
   fetchWithAuth(`/api/sales/${saleId}/cancel`, {
     method: 'PATCH',
   });

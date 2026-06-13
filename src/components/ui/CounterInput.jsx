@@ -11,6 +11,7 @@ export const CounterInput = ({
   label,
   showMaxLabel = false,
   labelClassName,
+  error,
 }) => {
   const id = useId(); // 라벨-인풋 연결용
 
@@ -25,67 +26,74 @@ export const CounterInput = ({
   };
 
   return (
-    <div className="flex w-full items-center justify-between">
-      <label htmlFor={id} className={`text-white ${labelClassName}`}>
-        {label}
-      </label>
+    <div className="flex w-full flex-col gap-1">
+      <div className="flex w-full items-center justify-between">
+        <label htmlFor={id} className={`text-white ${labelClassName}`}>
+          {label}
+        </label>
 
-      {/* 실제 접근성용 hidden input */}
-      <input
-        id={id}
-        type="number"
-        value={value}
-        readOnly
-        aria-hidden="true"
-        tabIndex={-1}
-        className="sr-only"
-      />
-
-      <div
-        className={`flex items-center gap-[0.94rem] lg:gap-[1.25rem] ${showMaxLabel ? 'lg:w-[245px]' : ''}`}
-      >
-        <div
+        {/* 실제 접근성용 hidden input */}
+        <input
           id={id}
-          className="flex h-[45px] min-w-[144px] items-center justify-between rounded-sm border border-gray-200 bg-black px-[0.8175rem] py-[0.625rem] lg:h-[50px] lg:min-w-[176px] lg:py-[0.8125rem]"
-        >
-          <button
-            type="button"
-            onClick={handleDecrement}
-            disabled={value <= min}
-            aria-label="수량 감소"
-          >
-            <MinusIcon
-              className={
-                value <= min ? 'cursor-not-allowed text-gray-400' : 'text-white'
-              }
-            />
-          </button>
-          <span className="text-noto-18-regular lg:text-noto-20-regular text-white">
-            {value}
-          </span>
-          <button
-            type="button"
-            onClick={handleIncrement}
-            disabled={value >= max}
-            aria-label="수량 증가"
-          >
-            <PlusIcon
-              className={
-                value >= max ? 'cursor-not-allowed text-gray-400' : 'text-white'
-              }
-            />
-          </button>
-        </div>
+          type="number"
+          value={value}
+          readOnly
+          aria-hidden="true"
+          tabIndex={-1}
+          className="sr-only"
+        />
 
-        {showMaxLabel && (
-          <div className="flex flex-col">
-            <span className="text-noto-18-bold text-white">/{max}</span>
-            <span className="text-noto-12-regular text-gray-200">
-              최대 {max}장
+        <div
+          className={`flex items-center gap-[0.94rem] lg:gap-[1.25rem] ${showMaxLabel ? 'lg:w-[245px]' : ''}`}
+        >
+          <div
+            id={id}
+            className={`flex h-[45px] min-w-[144px] items-center justify-between rounded-sm border ${error ? 'border-red focus:border-red' : 'focus:border-main border-gray-200'} bg-black px-[0.8175rem] py-[0.625rem] lg:h-[50px] lg:min-w-[176px] lg:py-[0.8125rem]`}
+          >
+            <button
+              type="button"
+              onClick={handleDecrement}
+              disabled={value <= min}
+              aria-label="수량 감소"
+            >
+              <MinusIcon
+                className={
+                  value <= min
+                    ? 'cursor-not-allowed text-gray-400'
+                    : 'text-white'
+                }
+              />
+            </button>
+            <span className="text-noto-18-regular lg:text-noto-20-regular text-white">
+              {value}
             </span>
+            <button
+              type="button"
+              onClick={handleIncrement}
+              disabled={value >= max}
+              aria-label="수량 증가"
+            >
+              <PlusIcon
+                className={
+                  value >= max
+                    ? 'cursor-not-allowed text-gray-400'
+                    : 'text-white'
+                }
+              />
+            </button>
           </div>
-        )}
+
+          {showMaxLabel && (
+            <div className="flex flex-col">
+              <span className="text-noto-18-bold text-white">/{max}</span>
+              <span className="text-noto-12-regular text-gray-200">
+                최대 {max}장
+              </span>
+            </div>
+          )}
+        </div>
       </div>
+      {error && <p className="text-noto-14-regular text-red">{error}</p>}
     </div>
   );
 };
