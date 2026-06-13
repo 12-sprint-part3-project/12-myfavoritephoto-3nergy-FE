@@ -10,10 +10,14 @@ export const parseRoute = (pathname) => {
 };
 
 export const getGnbConfig = (pathname) => {
-  const { root, action } = parseRoute(pathname);
+  const { root, id, action } = parseRoute(pathname);
 
   if (root === 'marketplace' && action === 'edit') {
     return { title: '수정하기' };
+  }
+
+  if (root === 'marketplace' && id === 'create') {
+    return { title: '나의 포토카드 판매하기' };
   }
 
   if (root === 'marketplace') {
