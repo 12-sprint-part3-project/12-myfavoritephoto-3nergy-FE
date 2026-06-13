@@ -23,8 +23,13 @@ export const CardList = ({ photocards = [] }) => {
           />
         ))
       ) : (
-        <div className="text-center text-white">
-          적용된 조건과 일치하는 카드가 없습니다.
+        <div className="flex h-[20rem] flex-col items-center justify-center">
+          <p className="text-noto-20-regular text-gray-300">
+            검색 결과가 없습니다.
+          </p>
+          <p className="text-noto-16-regular mt-2 text-gray-300">
+            다른 검색어나 필터를 선택해보세요.
+          </p>
         </div>
       )}
     </div>

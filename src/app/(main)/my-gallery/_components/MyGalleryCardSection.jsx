@@ -46,13 +46,16 @@ export const MyGalleryCardSection = () => {
             onChange={handleFilterChange('grade')}
             onMobileClick={() => {}}
             options={gradeOptions}
+            mobileButtonClassName="h-[2.8125rem] w-[2.8125rem]"
           />
-          <FilterDropdown
-            label="장르"
-            onChange={handleFilterChange('genre')}
-            onMobileClick={() => {}}
-            options={genreOptions}
-          />
+          <div className="hidden md:block">
+            <FilterDropdown
+              label="장르"
+              onChange={handleFilterChange('genre')}
+              onMobileClick={() => {}}
+              options={genreOptions}
+            />
+          </div>
         </div>
         <div className="w-full md:w-[200px] lg:w-[320px]">
           <SearchBar
