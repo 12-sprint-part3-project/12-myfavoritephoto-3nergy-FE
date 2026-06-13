@@ -8,7 +8,7 @@ export const useMe = () => {
   const { accessToken } = useAuth();
 
   return useQuery({
-    queryKey: QUERY_KEYS.me,
+    queryKey: QUERY_KEYS.me(),
     queryFn: getMe,
     select: (data) => data.user,
     enabled: Boolean(accessToken),
