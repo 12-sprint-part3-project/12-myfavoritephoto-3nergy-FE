@@ -10,6 +10,7 @@ export default function SaleCreateResultPage() {
   const name = searchParams.get('name');
   const grade = searchParams.get('grade');
   const quantity = searchParams.get('quantity');
+  const message = searchParams.get('message');
 
   const isSuccess = status === 'success';
 
@@ -24,6 +25,7 @@ export default function SaleCreateResultPage() {
             ? '나의 판매 포토카드에서 확인하기'
             : '마켓플레이스로 돌아가기'
         }
+        subDescription={message}
         href={isSuccess ? '/my-sales' : '/marketplace'}
       />
     </div>

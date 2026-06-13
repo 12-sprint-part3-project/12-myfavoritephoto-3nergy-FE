@@ -9,6 +9,7 @@ export const ResultView = ({
   description,
   buttonText,
   href,
+  subDescription,
 }) => {
   const router = useRouter();
 
@@ -20,9 +21,17 @@ export const ResultView = ({
           {isSuccess ? ' 성공' : ' 실패'}
         </span>
       </h1>
-      <p className="lg:text-noto-20-bold text-noto-16-bold md:text-noto-20-bold mb-[3.12rem] text-white md:mb-[3.75rem]">
-        {description}
-      </p>
+      <div className="mb-[3.12rem] flex flex-col gap-4 md:mb-[3.75rem]">
+        <p className="text-noto-16-bold md:text-noto-20-bold text-white">
+          {description}
+        </p>
+        {subDescription && (
+          <p class="text-noto-14-regular md:text-noto-18-regular text-red">
+            {subDescription}
+          </p>
+        )}
+      </div>
+
       <Button
         variant="secondary"
         size="lg"

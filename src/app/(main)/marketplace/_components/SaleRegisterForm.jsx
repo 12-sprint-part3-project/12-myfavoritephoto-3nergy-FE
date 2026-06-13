@@ -22,7 +22,7 @@ export const SaleRegisterForm = ({ photocard, onBack }) => {
 
   const [quantity, setQuantity] = useState(1);
   const [price, setPrice] = useState(0);
-  const [desiredGrade, setDesiredGrade] = useState(CARD_GRADE_OPTIONS[0].value);
+  const [desiredGrade, setDesiredGrade] = useState('');
   const [desiredGenre, setDesiredGenre] = useState(GENRE_OPTIONS[0].value);
   const [desiredDescription, setDesiredDescription] = useState('');
   const [errors, setErrors] = useState({
@@ -79,12 +79,12 @@ export const SaleRegisterForm = ({ photocard, onBack }) => {
       {
         onSuccess: () => {
           router.push(
-            `/marketplace/create/result?status=success&name=${photocard.name}&grade=${photocard.grade}&quantity=${quantity}`,
+            `/marketplace/create/result?status=success&name=${encodeURIComponent(photocard.name)}&grade=${photocard.grade}&quantity=${quantity}`,
           );
         },
-        onError: () => {
+        onError: (error) => {
           router.push(
-            `/marketplace/create/result?status=failed&name=${photocard.name}&grade=${photocard.grade}&quantity=${quantity}`,
+            `/marketplace/create/result?status=failed&name=${encodeURIComponent(photocard.name)}&grade=${photocard.grade}&quantity=${quantity}&message=${encodeURIComponent(error.message)}`,
           );
         },
       },

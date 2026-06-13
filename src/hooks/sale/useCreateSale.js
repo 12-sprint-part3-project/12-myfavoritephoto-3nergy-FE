@@ -6,6 +6,7 @@ export const useCreateSale = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
+    mutationKey: ['createSale'],
     mutationFn: createSale,
     onSuccess: () => {
       queryClient.invalidateQueries({
