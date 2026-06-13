@@ -44,7 +44,7 @@ export const FilterDropdown = ({
         onClick={onMobileClick}
         className={`flex cursor-pointer items-center justify-center rounded-xs border border-white md:hidden ${mobileButtonClassName ?? 'h-[2.1875rem] w-[2.1875rem]'}`}
       >
-        <FilterIcon className="h-[0.91rem] w-[0.91rem] text-white" />
+        <FilterIcon width={20} height={20} />
       </button>
 
       {/* PC/태블릿: 드롭다운 */}
