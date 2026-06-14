@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
 import { useMe } from '@/hooks/user/useMe';
 import { useSaleDetail } from '@/hooks/sale/useSaleDetail';
+import { PageTitle } from '@/components/layout/PageTitle';
 import { CardDetail } from '@/app/(main)/marketplace/[saleId]/_components/CardDetail';
 import { CardInfo } from '@/app/(main)/marketplace/[saleId]/_components/CardInfo';
 import { SellerTradeInfo } from '@/app/(main)/marketplace/[saleId]/_components/SellerTradeInfo';
@@ -34,6 +35,14 @@ export const SaleDetailContent = ({ saleId }) => {
 
   return (
     <>
+      <div className="mb-[1.63rem] md:mb-[3rem] lg:mb-[4.36rem]">
+        <PageTitle
+          variant="heading"
+          breadcrumb="마켓플레이스"
+          title={sale?.photocard?.name}
+          hideBreadcrumbOnMobile
+        />
+      </div>
       {/* 카드이미지 || 카드정보 레이아웃 */}
       <CardDetail sale={sale}>
         {/* 공통 카드 정보 (등급, 장르, 닉네임, 설명, 가격, 잔여) */}
