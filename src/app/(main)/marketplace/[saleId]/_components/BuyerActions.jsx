@@ -55,7 +55,7 @@ export const BuyerActions = ({ sale }) => {
               {totalPrice.toLocaleString()}P
             </span>
             <span className="text-noto-18-regular lg:text-noto-20-regular text-gray-300">
-              ({sale.remainingQuantity}장)
+              ({value}장)
             </span>
           </span>
         </div>
