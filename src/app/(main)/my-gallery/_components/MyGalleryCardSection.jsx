@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { CARD_GRADE_OPTIONS, GENRE_OPTIONS } from '@/constants/card';
+import { CARD_GRADE_OPTIONS, GENRE_OPTIONS, PAGE_SIZE } from '@/constants/card';
 import { usePhotocards } from '@/hooks/photocard/usePhotocards';
 import { Pagination } from '@/components/ui/Pagination';
 import { SearchBar } from '@/components/ui/SearchBar';
@@ -26,6 +26,7 @@ export const MyGalleryCardSection = () => {
     keyword: debouncedKeyword,
     ...filter,
     page,
+    pageSize: PAGE_SIZE,
   });
 
   const gradeOptions = [{ value: '', label: '전체' }, ...CARD_GRADE_OPTIONS];
@@ -36,6 +37,8 @@ export const MyGalleryCardSection = () => {
     // 필터 변경 시 결과 수가 달라져 현재 페이지가 범위를 벗어날 수 있으므로 1페이지로 초기화
     setPage(1);
   };
+
+  // console.log(data?.meta);
 
   return (
     <>
@@ -76,7 +79,7 @@ export const MyGalleryCardSection = () => {
           <CardList photocards={data.data.photocards} />
           <Pagination
             totalPages={data.meta.totalPages}
-            currentPage={data.meta.page}
+            currentPage={page}
             onPageChange={setPage}
           />
         </>

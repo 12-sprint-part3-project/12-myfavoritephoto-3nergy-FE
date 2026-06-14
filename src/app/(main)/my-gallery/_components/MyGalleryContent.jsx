@@ -5,10 +5,14 @@ import { usePhotocards } from '@/hooks/photocard/usePhotocards';
 import GradeBadgeList from '@/components/domain/photocard/GradeBadgeList';
 import { OwnedCardsInfo } from '@/app/(main)/my-gallery/_components/OwnedCardsInfo';
 import { MyGalleryCardSection } from '@/app/(main)/my-gallery/_components/MyGalleryCardSection';
+import { PAGE_SIZE } from '@/constants/card';
 
 export const MyGalleryContent = () => {
   const { data: me } = useMe();
-  const { data, isLoading, error } = usePhotocards({ page: 1 });
+  const { data, isLoading, error } = usePhotocards({
+    page: 1,
+    pageSize: PAGE_SIZE,
+  });
 
   // TODO: 스켈레톤 UI로 교체
   if (isLoading) return <div className="text-white">로딩 중...</div>;
