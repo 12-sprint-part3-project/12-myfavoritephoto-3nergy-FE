@@ -3,11 +3,12 @@
 import { useEffect, useRef } from 'react';
 import CloseIcon from '@/icons/close.svg';
 
-export const Modal = ({ onClose, footer, className, children }) => {
+// ref: 외부에서 스크롤 컨테이너에 접근이 필요한 경우 전달 (예: 무한스크롤 IntersectionObserver root)
+export const Modal = ({ onClose, footer, className, children, ref }) => {
   const closeBtnRef = useRef(null);
 
   useEffect(() => {
-    // 모달 열릴 때 close button으로 focus 이동
+    // 모달 열릴 때 닫기 버튼으로 포커스 이동 (접근성)
     closeBtnRef.current?.focus();
   }, []);
 
@@ -32,8 +33,10 @@ export const Modal = ({ onClose, footer, className, children }) => {
         />
       </button>
 
-      {/* 스크롤 영역 */}
-      <div className="custom-scrollbar flex-1 overflow-y-auto">{children}</div>
+      {/* 스크롤 영역: ref를 달아 외부에서 IntersectionObserver root로 사용 가능 */}
+      <div ref={ref} className="custom-scrollbar flex-1 overflow-y-auto">
+        {children}
+      </div>
 
       {/* 하단 고정 버튼 영역 */}
       {footer && <div className="shrink-0">{footer}</div>}

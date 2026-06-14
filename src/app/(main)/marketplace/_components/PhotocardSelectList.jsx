@@ -1,4 +1,4 @@
-import { useState, useRef, useMemo, useEffect } from 'react';
+import { useState, useRef, useMemo, useEffect, useCallback } from 'react';
 import { usePhotocards } from '@/hooks/photocard/usePhotocards';
 import { CARD_GRADE_OPTIONS, GENRE_OPTIONS } from '@/constants/card';
 import { PageTitle } from '@/components/layout/PageTitle';
@@ -8,19 +8,25 @@ import { MobileFilterBottomSheet } from '@/components/domain/photocard/MobileFil
 import { FilterDropdown } from '@/components/domain/photocard/FilterDropdown';
 import { EmptyPhotocardList } from '@/app/(main)/marketplace/_components/EmptyPhotocardList';
 
-export const PhotocardSelectList = ({ onSelect }) => {
+export const PhotocardSelectList = ({ onSelect, scrollContainerRef }) => {
   const [params, setParams] = useState({
     keyword: '',
     grade: '',
     genre: '',
     sort: 'latest',
-    page: 1,
     pageSize: 20,
   });
 
-  const { data, isLoading, error } = usePhotocards(params);
-  console.log(data);
+  const {
+    data,
+    isLoading,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = usePhotocards(params);
 
+  // gradeCounts 배열을 { grade: count } 형태로 변환
   const counts = useMemo(() => {
     if (!data) return {};
     const grade = Object.fromEntries(
@@ -29,9 +35,37 @@ export const PhotocardSelectList = ({ onSelect }) => {
     return { grade };
   }, [data]);
 
+  const observerRef = useRef(null); // 스크롤 감지 타겟 ref
+  const containerRef = useRef(null);
+
+  const handleObserver = useCallback(
+    (entries) => {
+      // 감지 타겟이 뷰포트에 들어오고 다음 페이지가 있으면 fetchNextPage 호출
+      if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
+        fetchNextPage();
+      }
+    },
+    [hasNextPage, isFetchingNextPage, fetchNextPage],
+  );
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(handleObserver, {
+      // root: 모달/바텀시트 스크롤 컨테이너 기준으로 감지
+      // undefined면 뷰포트 기준 (모바일 페이지에서는 모달이 없으므로 scrollContainerRef도 없음)
+      root: scrollContainerRef?.current ?? null,
+      threshold: 0.5,
+    });
+    if (observerRef.current) {
+      observer.observe(observerRef.current);
+    }
+    return () => observer.disconnect();
+  }, [handleObserver, scrollContainerRef]);
+
+  // 바텀시트에 넘길 초기 counts, totalCount 저장
   const [initialCounts, setInitialCounts] = useState(null);
   const [initialTotal, setInitialTotal] = useState(null);
 
+  // 필터 적용 후 API 재호출 시 counts가 바뀌는 걸 방지하고자 최초 로드 시 한 번만 저장
   useEffect(() => {
     if (data && !initialCounts) {
       setInitialCounts(counts);
@@ -57,7 +91,7 @@ export const PhotocardSelectList = ({ onSelect }) => {
   }
 
   return (
-    <div className="w-full">
+    <div ref={containerRef} className="w-full">
       <PageTitle
         breadcrumb="마이갤러리"
         title="나의 포토카드 판매하기"
@@ -71,20 +105,17 @@ export const PhotocardSelectList = ({ onSelect }) => {
           <SearchBar
             value={params.keyword}
             onChange={(e) =>
-              setParams((prev) => ({
-                ...prev,
-                keyword: e.target.value,
-                page: 1,
-              }))
+              setParams((prev) => ({ ...prev, keyword: e.target.value }))
             }
           />
         </div>
         <div className="order-1 flex gap-[1.5625rem] md:order-2 lg:gap-[2.8125rem]">
+          {/* 모바일: 아이콘 클릭 시 바텀시트 오픈 / 태블릿, PC: 드롭다운 */}
           <FilterDropdown
             label="등급"
             value={params.grade}
             onChange={(value) =>
-              setParams((prev) => ({ ...prev, grade: value, page: 1 }))
+              setParams((prev) => ({ ...prev, grade: value }))
             }
             onMobileClick={() => setIsFilterOpen(true)}
             options={gradeOptions}
@@ -95,7 +126,7 @@ export const PhotocardSelectList = ({ onSelect }) => {
               label="장르"
               value={params.genre}
               onChange={(value) =>
-                setParams((prev) => ({ ...prev, genre: value, page: 1 }))
+                setParams((prev) => ({ ...prev, genre: value }))
               }
               options={genreOptions}
             />
@@ -103,13 +134,12 @@ export const PhotocardSelectList = ({ onSelect }) => {
         </div>
       </div>
 
-      {/* 바텀시트 */}
+      {/* 모바일 필터 바텀시트 */}
       {isFilterOpen && (
         <MobileFilterBottomSheet
           tabs={['grade', 'genre']}
           onClose={() => setIsFilterOpen(false)}
           onApply={(selected) => {
-            console.log('selected:', selected);
             setParams((prev) => ({
               ...prev,
               grade: selected.grade ?? '',
@@ -147,6 +177,12 @@ export const PhotocardSelectList = ({ onSelect }) => {
             </li>
           ))}
         </ul>
+      )}
+
+      {/* 무한스크롤 감지 타겟 */}
+      <div ref={observerRef} className="h-4" />
+      {isFetchingNextPage && (
+        <div className="py-4 text-center text-white">로딩 중...</div>
       )}
     </div>
   );
