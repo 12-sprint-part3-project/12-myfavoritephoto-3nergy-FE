@@ -6,6 +6,7 @@ export const usePurchaseSale = (saleId) => {
   const queryClient = useQueryClient();
 
   return useMutation({
+    mutationKey: ['purchaseSale'],
     mutationFn: (quantity) => purchaseSale(saleId, quantity),
     onSuccess: () => {
       queryClient.invalidateQueries({

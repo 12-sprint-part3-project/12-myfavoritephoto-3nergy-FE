@@ -26,7 +26,7 @@ export const BuyerActions = ({ sale }) => {
       },
       onError: (error) => {
         router.push(
-          `/marketplace/${sale.saleId}/purchase/result?status=success&name=${encodeURIComponent(sale?.photocard?.name)}&grade=${sale?.photocard?.grade}&quantity=${value}`,
+          `/marketplace/${sale.saleId}/purchase/result?status=failure&name=${encodeURIComponent(sale?.photocard?.name)}&grade=${sale?.photocard?.grade}&quantity=${value}&message=${encodeURIComponent(error.message)}`,
         );
       },
     });

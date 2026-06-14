@@ -16,8 +16,10 @@ export const queryClient = new QueryClient({
 
   mutationCache: new MutationCache({
     onError: (error, _variables, _context, mutation) => {
-      // createSale mutation은 컴포넌트에서 직접 처리
-      if (mutation.options.mutationKey?.[0] === 'createSale') {
+      const mutationKey = mutation.options.mutationKey?.[0];
+
+      // 결과 페이지에서 직접 에러 처리하는 mutation은 전역 에러 핸들러에서 제외
+      if (mutationKey === 'createSale' || mutationKey === 'purchaseSale') {
         return;
       }
 
