@@ -32,7 +32,7 @@ export const cancelSale = (saleId) =>
   });
 
 // 구매
-export const purchasePhotocard = (saleId, body) =>
+export const purchaseSale = (saleId, body) =>
   fetchWithAuth(`/api/sales/${saleId}/purchase`, {
     method: 'POST',
     body: JSON.stringify(body),
