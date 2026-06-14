@@ -32,6 +32,16 @@ export const MySalesCardSection = () => {
 
   const gradeOptions = [{ value: '', label: '전체' }, ...CARD_GRADE_OPTIONS];
   const genreOptions = [{ value: '', label: '전체' }, ...GENRE_OPTIONS];
+  const methodOptions = [
+    { value: '', label: '전체' },
+    { value: 'SALE', label: '판매' },
+    { value: 'TRADE', label: '교환' },
+  ];
+  const isSoldOutOptions = [
+    { value: '', label: '전체' },
+    { value: 'true', label: '매진' },
+    { value: 'false', label: '판매/교환중' },
+  ];
 
   const handleFilterChange = (key) => (value) => {
     setFilter((prev) => ({ ...prev, [key]: value }));
@@ -39,7 +49,7 @@ export const MySalesCardSection = () => {
     setPage(1);
   };
 
-  // console.log(data?.meta);
+  //   console.log(data);
 
   return (
     <>
@@ -58,6 +68,22 @@ export const MySalesCardSection = () => {
               onChange={handleFilterChange('genre')}
               onMobileClick={() => {}}
               options={genreOptions}
+            />
+          </div>
+          <div className="hidden md:block">
+            <FilterDropdown
+              label="판매 방법"
+              onChange={handleFilterChange('saleMethod')}
+              onMobileClick={() => {}}
+              options={methodOptions}
+            />
+          </div>
+          <div className="hidden md:block">
+            <FilterDropdown
+              label="매진여부"
+              onChange={handleFilterChange('isSoldOut')}
+              onMobileClick={() => {}}
+              options={isSoldOutOptions}
             />
           </div>
         </div>
