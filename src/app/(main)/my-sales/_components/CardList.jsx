@@ -12,14 +12,15 @@ export const CardList = ({ sales = [] }) => {
         sales.map((item) => (
           <Card
             key={item.id}
-            type="mygallery"
+            type="mysales"
             imageUrl={item.imageUrl}
             name={item.name}
             grade={item.grade}
             genre={GENRE[item.genre]}
             owner={item.ownerNickname}
             price={item.price}
-            quantity={item.remainingQuantity}
+            remainingQuantity={item.remainingQuantity}
+            status={item.displayStatus}
           />
         ))
       ) : (
