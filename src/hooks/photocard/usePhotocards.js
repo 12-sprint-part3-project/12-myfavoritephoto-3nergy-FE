@@ -10,6 +10,7 @@ export const usePhotocards = (params = {}) => {
     select: (res) => ({
       photocards: res.data.photocards,
       meta: res.meta,
+      gradeCounts: res.data.gradeCounts,
     }),
   });
 };

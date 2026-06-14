@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useState, useRef, useMemo, useEffect } from 'react';
 import { usePhotocards } from '@/hooks/photocard/usePhotocards';
 import { CARD_GRADE_OPTIONS, GENRE_OPTIONS } from '@/constants/card';
 import { PageTitle } from '@/components/layout/PageTitle';
 import { SearchBar } from '@/components/ui/SearchBar';
 import { Card } from '@/components/domain/photocard/Card';
+import { MobileFilterBottomSheet } from '@/components/domain/photocard/MobileFilterBottomSheet';
 import { FilterDropdown } from '@/components/domain/photocard/FilterDropdown';
 import { EmptyPhotocardList } from '@/app/(main)/marketplace/_components/EmptyPhotocardList';
 
@@ -18,6 +19,32 @@ export const PhotocardSelectList = ({ onSelect }) => {
   });
 
   const { data, isLoading, error } = usePhotocards(params);
+  console.log(data);
+
+  const counts = useMemo(() => {
+    if (!data) return {};
+    const grade = Object.fromEntries(
+      (data.gradeCounts ?? []).map(({ grade, count }) => [grade, count]),
+    );
+    return { grade };
+  }, [data]);
+
+  const [initialCounts, setInitialCounts] = useState(null);
+  const [initialTotal, setInitialTotal] = useState(null);
+
+  useEffect(() => {
+    if (data && !initialCounts) {
+      setInitialCounts(counts);
+      setInitialTotal(data.meta.totalCount);
+    }
+  }, [data, counts, initialCounts]);
+
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+
+  const gradeOptions = [{ value: '', label: '전체' }, ...CARD_GRADE_OPTIONS];
+  const genreOptions = [{ value: '', label: '전체' }, ...GENRE_OPTIONS];
+
+  const isFiltered = params.keyword || params.grade || params.genre;
 
   // TODO: 스켈레톤 UI로 교체
   if (isLoading) {
@@ -28,11 +55,6 @@ export const PhotocardSelectList = ({ onSelect }) => {
   if (error) {
     return <div className="text-white">에러가 발생했습니다.</div>;
   }
-
-  const gradeOptions = [{ value: '', label: '전체' }, ...CARD_GRADE_OPTIONS];
-  const genreOptions = [{ value: '', label: '전체' }, ...GENRE_OPTIONS];
-
-  const isFiltered = params.keyword || params.grade || params.genre;
 
   return (
     <div className="w-full">
@@ -64,7 +86,7 @@ export const PhotocardSelectList = ({ onSelect }) => {
             onChange={(value) =>
               setParams((prev) => ({ ...prev, grade: value, page: 1 }))
             }
-            onMobileClick={() => {}}
+            onMobileClick={() => setIsFilterOpen(true)}
             options={gradeOptions}
             mobileButtonClassName="h-[2.8125rem] w-[2.8125rem]"
           />
@@ -75,12 +97,31 @@ export const PhotocardSelectList = ({ onSelect }) => {
               onChange={(value) =>
                 setParams((prev) => ({ ...prev, genre: value, page: 1 }))
               }
-              onMobileClick={() => {}}
               options={genreOptions}
             />
           </div>
         </div>
       </div>
+
+      {/* 바텀시트 */}
+      {isFilterOpen && (
+        <MobileFilterBottomSheet
+          tabs={['grade', 'genre']}
+          onClose={() => setIsFilterOpen(false)}
+          onApply={(selected) => {
+            console.log('selected:', selected);
+            setParams((prev) => ({
+              ...prev,
+              grade: selected.grade ?? '',
+              genre: selected.genre ?? '',
+
+              page: 1,
+            }));
+          }}
+          counts={initialCounts}
+          totalPhotos={initialTotal}
+        />
+      )}
 
       {/* 카드 그리드 */}
       {data.photocards.length === 0 ? (

@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/Button';
 import { CounterInput } from '@/components/ui/CounterInput';
 import { BasicModal } from '@/components/ui/BasicModal';
+import { GRADE_STYLE } from '@/constants/card';
 
 export const BuyerActions = ({ sale }) => {
   const router = useRouter();
@@ -70,8 +71,9 @@ export const BuyerActions = ({ sale }) => {
           onClose={() => setShowConfirmModal(false)}
           onClick={handlePurchase}
         >
-          [{sale.photocard.grade} | {sale.photocard.name}] {value}장을
-          구매하시겠습니까?
+          [{GRADE_STYLE[sale.photocard.grade]?.label} | {sale.photocard.name}]{' '}
+          <br />
+          {value}장을 구매하시겠습니까?
         </BasicModal>
       )}
     </div>

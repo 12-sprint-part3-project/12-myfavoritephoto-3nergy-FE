@@ -7,7 +7,7 @@ export const FILTER_TAB_CONFIG = {
   },
   genre: {
     label: '장르',
-    options: Object.values(GENRE),
+    options: Object.keys(GENRE), // Object.values → Object.keys로 변경
   },
   soldOut: {
     label: '매진 여부',
