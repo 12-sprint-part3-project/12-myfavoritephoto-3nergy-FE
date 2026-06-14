@@ -8,6 +8,7 @@ export const CardList = ({ sales = [] }) => {
     <div
       className={`grid gap-[5px] pt-[20px] md:gap-[20px] md:pt-[60px] lg:gap-[80px] lg:py-[60px] ${sales.length > 0 ? 'grid-cols-2 lg:grid-cols-3' : 'grid-cols-1'}`}
     >
+      {/* TODO: 판매중 상태인 카드는 상세페이지로 넘어갈 수 있게 처리 */}
       {sales.length > 0 ? (
         sales.map((item) => (
           <Card
