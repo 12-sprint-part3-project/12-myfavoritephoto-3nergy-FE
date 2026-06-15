@@ -8,22 +8,18 @@ import { FilterDropdown } from '@/components/domain/photocard/FilterDropdown';
 import { SortDropdown } from '@/components/domain/photocard/SortDropdown';
 import { MobileFilterBottomSheet } from '@/components/domain/photocard/MobileFilterBottomSheet';
 import { CreateSaleButton } from '@/app/(main)/marketplace/_components/CreateSaleButton';
-import { CARD_GRADE_OPTIONS, GENRE } from '@/constants/card';
-
-const GENRE_OPTIONS = Object.values(GENRE).map((label) => ({
-  value: label,
-  label,
-}));
-
-const METHOD_OPTIONS = [
-  { value: '교환', label: '교환' },
-  { value: '판매', label: '판매' },
-];
+import {
+  CARD_GRADE_OPTIONS,
+  CARD_GENRE_OPTIONS,
+  SALE_STATUS_OPTIONS,
+  GENRE,
+} from '@/constants/card';
 
 const gradeOptions = [{ value: '', label: '전체' }, ...CARD_GRADE_OPTIONS];
-const genreOptions = [{ value: '', label: '전체' }, ...GENRE_OPTIONS];
+const genreOptions = [{ value: '', label: '전체' }, ...CARD_GENRE_OPTIONS];
+const soldOutOptions = [{ value: '', label: '전체' }, ...SALE_STATUS_OPTIONS];
 
-const FILTER_TABS = ['grade', 'genre', 'method'];
+const FILTER_TABS = ['grade', 'genre', 'soldOut'];
 
 const PAGE_SIZE = 18;
 
@@ -38,7 +34,7 @@ const BASE_CARDS = [
     remainingQuantity: 0,
     totalQuantity: 5,
     status: 'SOLD_OUT',
-    method: '판매',
+    method: 'SALE',
   },
   {
     id: 2,
@@ -50,7 +46,7 @@ const BASE_CARDS = [
     remainingQuantity: 2,
     totalQuantity: 5,
     status: 'SALE',
-    method: '교환',
+    method: 'TRADE',
   },
   {
     id: 3,
@@ -62,7 +58,7 @@ const BASE_CARDS = [
     remainingQuantity: 2,
     totalQuantity: 5,
     status: 'SALE',
-    method: '판매',
+    method: 'SALE',
   },
   {
     id: 4,
@@ -74,7 +70,7 @@ const BASE_CARDS = [
     remainingQuantity: 1,
     totalQuantity: 3,
     status: 'SALE',
-    method: '교환',
+    method: 'TRADE',
   },
   {
     id: 5,
@@ -86,7 +82,7 @@ const BASE_CARDS = [
     remainingQuantity: 0,
     totalQuantity: 4,
     status: 'SOLD_OUT',
-    method: '판매',
+    method: 'SALE',
   },
   {
     id: 6,
@@ -98,7 +94,7 @@ const BASE_CARDS = [
     remainingQuantity: 5,
     totalQuantity: 5,
     status: 'SALE',
-    method: '교환',
+    method: 'TRADE',
   },
   {
     id: 7,
@@ -110,7 +106,7 @@ const BASE_CARDS = [
     remainingQuantity: 1,
     totalQuantity: 2,
     status: 'SALE',
-    method: '판매',
+    method: 'SALE',
   },
   {
     id: 8,
@@ -122,7 +118,7 @@ const BASE_CARDS = [
     remainingQuantity: 0,
     totalQuantity: 2,
     status: 'SOLD_OUT',
-    method: '교환',
+    method: 'TRADE',
   },
   {
     id: 9,
@@ -134,7 +130,7 @@ const BASE_CARDS = [
     remainingQuantity: 3,
     totalQuantity: 5,
     status: 'SALE',
-    method: '판매',
+    method: 'SALE',
   },
   {
     id: 10,
@@ -146,7 +142,7 @@ const BASE_CARDS = [
     remainingQuantity: 4,
     totalQuantity: 5,
     status: 'SALE',
-    method: '교환',
+    method: 'TRADE',
   },
   {
     id: 11,
@@ -158,7 +154,7 @@ const BASE_CARDS = [
     remainingQuantity: 2,
     totalQuantity: 5,
     status: 'SALE',
-    method: '판매',
+    method: 'SALE',
   },
   {
     id: 12,
@@ -170,7 +166,7 @@ const BASE_CARDS = [
     remainingQuantity: 1,
     totalQuantity: 3,
     status: 'SALE',
-    method: '교환',
+    method: 'TRADE',
   },
   {
     id: 13,
@@ -182,7 +178,7 @@ const BASE_CARDS = [
     remainingQuantity: 0,
     totalQuantity: 4,
     status: 'SOLD_OUT',
-    method: '판매',
+    method: 'SALE',
   },
   {
     id: 14,
@@ -194,7 +190,7 @@ const BASE_CARDS = [
     remainingQuantity: 5,
     totalQuantity: 5,
     status: 'SALE',
-    method: '교환',
+    method: 'TRADE',
   },
   {
     id: 15,
@@ -206,7 +202,7 @@ const BASE_CARDS = [
     remainingQuantity: 1,
     totalQuantity: 2,
     status: 'SALE',
-    method: '판매',
+    method: 'SALE',
   },
   {
     id: 16,
@@ -218,7 +214,7 @@ const BASE_CARDS = [
     remainingQuantity: 2,
     totalQuantity: 3,
     status: 'SALE',
-    method: '교환',
+    method: 'TRADE',
   },
   {
     id: 17,
@@ -230,7 +226,7 @@ const BASE_CARDS = [
     remainingQuantity: 3,
     totalQuantity: 5,
     status: 'SALE',
-    method: '판매',
+    method: 'SALE',
   },
   {
     id: 18,
@@ -242,7 +238,7 @@ const BASE_CARDS = [
     remainingQuantity: 4,
     totalQuantity: 5,
     status: 'SALE',
-    method: '교환',
+    method: 'TRADE',
   },
 ];
 
@@ -254,7 +250,7 @@ const EXTRA_OWNERS = [
   '콜렉터',
   '최애지킴이',
 ];
-const EXTRA_METHODS = ['교환', '판매'];
+const EXTRA_METHODS = ['TRADE', 'SALE'];
 const GRADE_VALUES = CARD_GRADE_OPTIONS.map((option) => option.value);
 const GENRE_VALUES = Object.values(GENRE);
 
@@ -290,15 +286,15 @@ const countByOption = (cards, key, options) =>
 
 const FILTER_COUNTS = {
   grade: countByOption(MOCK_CARDS, 'grade', CARD_GRADE_OPTIONS),
-  genre: countByOption(MOCK_CARDS, 'genre', GENRE_OPTIONS),
-  method: countByOption(MOCK_CARDS, 'method', METHOD_OPTIONS),
+  genre: countByOption(MOCK_CARDS, 'genre', CARD_GENRE_OPTIONS),
+  soldOut: countByOption(MOCK_CARDS, 'status', SALE_STATUS_OPTIONS),
 };
 
 export const MarketplaceContent = () => {
   const [filters, setFilters] = useState({
     grade: null,
     genre: null,
-    method: null,
+    soldOut: null,
   });
   const [sort, setSort] = useState('low-price');
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
@@ -324,7 +320,7 @@ export const MarketplaceContent = () => {
   const filteredCards = MOCK_CARDS.filter((card) => {
     if (filters.grade && card.grade !== filters.grade) return false;
     if (filters.genre && card.genre !== filters.genre) return false;
-    if (filters.method && card.method !== filters.method) return false;
+    if (filters.soldOut && card.status !== filters.soldOut) return false;
     if (
       searchKeyword &&
       !card.name.toLowerCase().includes(searchKeyword.trim().toLowerCase())
@@ -396,10 +392,10 @@ export const MarketplaceContent = () => {
             </div>
             <div className="hidden md:block">
               <FilterDropdown
-                label="판매방법"
-                options={METHOD_OPTIONS}
-                value={filters.method}
-                onChange={handleFilterChange('method')}
+                label="매진여부"
+                options={soldOutOptions}
+                value={filters.soldOut}
+                onChange={handleFilterChange('soldOut')}
               />
             </div>
           </div>
