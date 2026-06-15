@@ -30,8 +30,6 @@ export const PhotocardSelectList = ({
     isFetchingNextPage,
   } = usePhotocardSelectList(params);
 
-  console.log(data);
-
   // gradeCounts 배열을 { grade: count } 형태로 변환
   const counts = useMemo(() => {
     if (!data) return {};
@@ -172,16 +170,14 @@ export const PhotocardSelectList = ({
             <li key={card.id}>
               <button className="w-full" onClick={() => onSelect(card)}>
                 <Card
-                  type="marketplace"
+                  type="mygallery"
                   name={card.name}
                   imageUrl={card.imageUrl}
                   grade={card.grade}
                   genre={card.genre}
                   price={card.price}
-                  totalQuantity={card.quantity}
-                  remainingQuantity={card.remainingQuantity}
+                  quantity={card.quantity}
                   owner={card.ownerNickname}
-                  status="SALE"
                 />
               </button>
             </li>

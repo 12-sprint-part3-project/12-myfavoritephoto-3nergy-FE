@@ -28,16 +28,14 @@ export const TradeOfferForm = ({ sale, photocard, onBack }) => {
       <div className="flex flex-col gap-[7.5rem] md:flex-row md:gap-[1.25rem] lg:gap-[2.5rem]">
         <div className="md:mb-0 md:flex-1">
           <Card
-            type="marketplace"
+            type="mygallery"
             name={photocard.name}
             imageUrl={photocard.imageUrl}
             grade={photocard.grade}
             genre={photocard.genre}
             price={photocard.price}
-            totalQuantity={photocard.quantity}
-            remainingQuantity={photocard.remainingQuantity}
+            quantity={photocard.quantity}
             owner={photocard.ownerNickname}
-            status="SALE"
           />
         </div>
 
@@ -58,14 +56,14 @@ export const TradeOfferForm = ({ sale, photocard, onBack }) => {
           <div className="mb-[2.5rem] flex gap-[0.94rem] md:mb-0 md:gap-[1.25rem]">
             <Button
               variant="secondary"
-              className="text-noto-16-bold lg:text-noto-18-bold w-full"
+              className="w-full text-noto-16-bold lg:text-noto-18-bold"
               onClick={onBack}
             >
               취소하기
             </Button>
             <Button
               type="submit"
-              className="text-noto-16-bold lg:text-noto-18-bold w-full"
+              className="w-full text-noto-16-bold lg:text-noto-18-bold"
               disabled={!description || isPending}
             >
               {isPending ? '제안 중...' : '교환하기'}
