@@ -9,6 +9,7 @@ import { SearchBar } from '@/components/ui/SearchBar';
 import { FilterDropdown } from '@/components/domain/photocard/FilterDropdown';
 import { CardList } from '@/app/(main)/my-gallery/_components/CardList';
 import { MobileFilterBottomSheet } from '@/components/domain/photocard/MobileFilterBottomSheet';
+import { useDebounce } from '@/hooks/common/useDebounce';
 
 export const MyGalleryCardSection = () => {
   const pageSize = usePageSize(); // 분기별 pageSize 불러올 hook
@@ -17,14 +18,9 @@ export const MyGalleryCardSection = () => {
   /** NOTE: 실시간 검색으로 구현된 상태다보니 디바운싱 처리를 위해 넣어둠
    * 추후 submit 방식으로 바꾸는 것에 대해 고민
    */
-  const [debouncedKeyword, setDebouncedKeyword] = useState('');
+  const debouncedKeyword = useDebounce(keyword, 500);
   const [filter, setFilter] = useState({ grade: '', genre: '' });
   const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    const timer = setTimeout(() => setDebouncedKeyword(keyword), 500);
-    return () => clearTimeout(timer);
-  }, [keyword]);
 
   const { data, isLoading, error } = usePhotocards({
     keyword: debouncedKeyword,
