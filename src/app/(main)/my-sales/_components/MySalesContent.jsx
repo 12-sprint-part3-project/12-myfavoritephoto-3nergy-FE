@@ -16,8 +16,6 @@ export const MySalesContent = () => {
   // TODO: 에러 컴포넌트로 교체
   if (error) return <div className="text-white">에러가 발생했습니다.</div>;
 
-  //   console.log(data);
-
   const { gradeCounts: grades } = data.data;
   const allCardsCnt = data.meta.totalCount;
 

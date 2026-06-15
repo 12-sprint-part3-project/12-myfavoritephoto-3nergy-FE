@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
   CARD_GENRE_OPTIONS,
   CARD_GRADE_OPTIONS,
