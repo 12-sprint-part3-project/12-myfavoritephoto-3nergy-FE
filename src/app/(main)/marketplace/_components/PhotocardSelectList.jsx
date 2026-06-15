@@ -1,5 +1,5 @@
 import { useState, useRef, useMemo, useEffect, useCallback } from 'react';
-import { usePhotocards } from '@/hooks/photocard/usePhotocards';
+import { usePhotocardSelectList } from '@/hooks/photocard/usePhotocardSelectList';
 import { CARD_GRADE_OPTIONS, GENRE_OPTIONS } from '@/constants/card';
 import { PageTitle } from '@/components/layout/PageTitle';
 import { SearchBar } from '@/components/ui/SearchBar';
@@ -24,7 +24,7 @@ export const PhotocardSelectList = ({ onSelect, scrollContainerRef }) => {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-  } = usePhotocards(params);
+  } = usePhotocardSelectList(params);
 
   // gradeCounts 배열을 { grade: count } 형태로 변환
   const counts = useMemo(() => {

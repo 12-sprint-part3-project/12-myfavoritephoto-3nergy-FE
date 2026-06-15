@@ -2,7 +2,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { QUERY_KEYS } from '@/constants/queryKeys';
 import { getPhotocards } from '@/services/photocard';
 
-export const usePhotocards = (params = {}) => {
+export const usePhotocardSelectList = (params = {}) => {
   return useInfiniteQuery({
     queryKey: QUERY_KEYS.photocards.list(params),
 
