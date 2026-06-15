@@ -2,50 +2,10 @@
 
 import { PageTitle } from '@/components/layout/PageTitle';
 import { ExchangeCard } from '@/components/domain/photocard/ExchangeCard';
-// import { useTrades } from '@/hooks/trades/useTrades';
+import { useTrades } from '@/hooks/trade/useTrades';
 
 export const TradeListSection = ({ sale }) => {
-  /* 
-  // NOTE: API 연동 
-  const { data: trades, isLoading } = useTrades(); // PENDING 필터링은 select에서 수행
-  
-  if (isLoading) {
-    return <Spinner />;
-  }
-  */
-
-  const trades = [
-    {
-      id: 1,
-      status: 'PENDING',
-      offeredCard: {
-        id: 12,
-        name: '노을 지는 한강',
-        imageUrl: 'https://picsum.photos/seed/trade1/400/400',
-        grade: 'RARE',
-        genre: '풍경',
-        price: 12,
-        description: '한강에서 직접 찍은 노을 사진입니다.',
-      },
-      proposer: { uuid: 'uuid-1', nickname: '하늘보리' },
-      createdAt: '2026-06-02T08:30:00.000Z',
-    },
-    {
-      id: 2,
-      status: 'PENDING',
-      offeredCard: {
-        id: 14,
-        name: '제주 바다',
-        imageUrl: 'https://picsum.photos/seed/trade3/400/400',
-        grade: 'LEGENDARY',
-        genre: '풍경',
-        price: 20,
-        description: '제주 바다 사진입니다.',
-      },
-      proposer: { uuid: 'uuid-3', nickname: '바다여행자' },
-      createdAt: '2026-05-30T08:30:00.000Z',
-    },
-  ];
+  const { data: trades, isLoading, error } = useTrades(sale.saleId);
 
   const handleAccept = (tradeId) => {
     // TODO: API 연동
@@ -54,6 +14,16 @@ export const TradeListSection = ({ sale }) => {
   const handleReject = (tradeId) => {
     // TODO: API 연동
   };
+
+  // TODO: 스켈레톤 UI로 교체
+  if (isLoading) {
+    return <div className="text-white">로딩 중...</div>;
+  }
+
+  // TODO: 에러 컴포넌트로 교체
+  if (error) {
+    return <div className="text-white">에러가 발생했습니다.</div>;
+  }
 
   return (
     <>
