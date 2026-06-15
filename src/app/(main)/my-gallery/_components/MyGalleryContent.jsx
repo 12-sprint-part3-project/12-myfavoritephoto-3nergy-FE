@@ -1,7 +1,6 @@
 'use client';
 
 import { useMe } from '@/hooks/user/useMe';
-import { usePageSize } from '@/hooks/common/usePageSize';
 import { usePhotocards } from '@/hooks/photocard/usePhotocards';
 import GradeBadgeList from '@/components/domain/photocard/GradeBadgeList';
 import { OwnedCardsInfo } from '@/app/(main)/my-gallery/_components/OwnedCardsInfo';

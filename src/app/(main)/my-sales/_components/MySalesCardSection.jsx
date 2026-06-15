@@ -1,46 +1,48 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { CARD_GRADE_OPTIONS, GENRE_OPTIONS, PAGE_SIZE } from '@/constants/card';
+import {
+  CARD_GENRE_OPTIONS,
+  CARD_GRADE_OPTIONS,
+  SALE_METHOD_OPTIONS,
+  SALE_STATUS_OPTIONS,
+} from '@/constants/card';
+import { usePageSize } from '@/hooks/common/usePageSize';
 import { useMySales } from '@/hooks/sale/useMySales';
 import { Pagination } from '@/components/ui/Pagination';
 import { SearchBar } from '@/components/ui/SearchBar';
 import { FilterDropdown } from '@/components/domain/photocard/FilterDropdown';
 import { CardList } from '@/app/(main)/my-sales/_components/CardList';
+import { useDebounce } from '@/hooks/common/useDebounce';
+import { MobileFilterBottomSheet } from '@/components/domain/photocard/MobileFilterBottomSheet';
 
 export const MySalesCardSection = () => {
-  const PAGE_SIZE = 20; // 마이갤러리 먼저 merge 후 삭제
+  const pageSize = usePageSize(); // 분기별 pageSize hook
   const [page, setPage] = useState(1);
   const [keyword, setKeyword] = useState('');
   /** NOTE: 실시간 검색으로 구현된 상태다보니 디바운싱 처리를 위해 넣어둠
    * 추후 submit 방식으로 바꾸는 것에 대해 고민
    */
-  const [debouncedKeyword, setDebouncedKeyword] = useState('');
+  const debouncedKeyword = useDebounce(keyword, 500);
   const [filter, setFilter] = useState({ grade: '', genre: '' });
-
-  useEffect(() => {
-    const timer = setTimeout(() => setDebouncedKeyword(keyword), 500);
-    return () => clearTimeout(timer);
-  }, [keyword]);
+  const [open, setOpen] = useState(false);
 
   const { data, isLoading, error } = useMySales({
     keyword: debouncedKeyword,
     ...filter,
     page,
-    pageSize: PAGE_SIZE,
+    pageSize,
   });
 
   const gradeOptions = [{ value: '', label: '전체' }, ...CARD_GRADE_OPTIONS];
-  const genreOptions = [{ value: '', label: '전체' }, ...GENRE_OPTIONS];
-  const methodOptions = [
-    { value: '', label: '전체' },
-    { value: 'SALE', label: '판매' },
-    { value: 'TRADE', label: '교환' },
-  ];
+  const genreOptions = [{ value: '', label: '전체' }, ...CARD_GENRE_OPTIONS];
+  const methodOptions = [{ value: '', label: '전체' }, ...SALE_METHOD_OPTIONS];
   const isSoldOutOptions = [
     { value: '', label: '전체' },
-    { value: 'false', label: '판매 중' },
-    { value: 'true', label: '판매 완료' },
+    ...SALE_STATUS_OPTIONS.map(({ value, label }) => ({
+      value: value === 'SOLD_OUT' ? 'true' : 'false',
+      label,
+    })),
   ];
 
   const handleFilterChange = (key) => (value) => {
@@ -49,7 +51,7 @@ export const MySalesCardSection = () => {
     setPage(1);
   };
 
-  //   console.log(data);
+  const allCardsCnt = data?.meta.totalCount; // 총 보유 카드 수량
 
   return (
     <>
@@ -58,10 +60,19 @@ export const MySalesCardSection = () => {
           <FilterDropdown
             label="등급"
             onChange={handleFilterChange('grade')}
-            onMobileClick={() => {}}
+            onMobileClick={() => setOpen((prev) => !prev)}
             options={gradeOptions}
             mobileButtonClassName="h-[2.8125rem] w-[2.8125rem]"
           />
+          {open && (
+            <MobileFilterBottomSheet
+              tabs={['grade', 'genre', 'method', 'soldOut']}
+              onClose={() => setOpen((prev) => !prev)}
+              onApply={(selection) => setFilter(selection)}
+              initialSelection={filter}
+              totalPhotos={allCardsCnt}
+            />
+          )}
           <div className="hidden md:block">
             <FilterDropdown
               label="장르"

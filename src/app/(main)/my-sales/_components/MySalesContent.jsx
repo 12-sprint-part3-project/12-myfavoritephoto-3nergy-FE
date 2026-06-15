@@ -7,12 +7,8 @@ import { OwnedCardsInfo } from '@/app/(main)/my-sales/_components/OwnedCardsInfo
 import { MySalesCardSection } from '@/app/(main)/my-sales/_components/MySalesCardSection';
 
 export const MySalesContent = () => {
-  const PAGE_SIZE = 20; // 마이갤러리 먼저 merge 후 삭제
   const { data: me } = useMe();
-  const { data, isLoading, error } = useMySales({
-    page: 1,
-    pageSize: PAGE_SIZE,
-  });
+  const { data, isLoading, error } = useMySales();
 
   // TODO: 스켈레톤 UI로 교체
   if (isLoading) return <div className="text-white">로딩 중...</div>;
@@ -23,7 +19,7 @@ export const MySalesContent = () => {
   //   console.log(data);
 
   const { gradeCounts: grades } = data.data;
-  const allCardsCnt = grades.reduce((acc, g) => acc + g.count, 0);
+  const allCardsCnt = data.meta.totalCount;
 
   return (
     <>

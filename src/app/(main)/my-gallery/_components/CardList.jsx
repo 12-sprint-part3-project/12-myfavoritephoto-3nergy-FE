@@ -2,7 +2,6 @@
 
 import { Card } from '@/components/domain/photocard/Card';
 import { EmptyPhotocardList } from '@/components/domain/photocard/EmptyPhotocardList';
-import { GENRE } from '@/constants/card';
 
 export const CardList = ({ photocards = [] }) => {
   return (
@@ -17,7 +16,7 @@ export const CardList = ({ photocards = [] }) => {
             imageUrl={item.imageUrl}
             name={item.name}
             grade={item.grade}
-            genre={GENRE[item.genre]}
+            genre={item.genre}
             owner={item.ownerNickname}
             price={item.price}
             quantity={item.quantity}
