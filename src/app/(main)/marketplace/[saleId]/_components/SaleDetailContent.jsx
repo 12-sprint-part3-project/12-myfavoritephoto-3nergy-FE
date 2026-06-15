@@ -80,7 +80,10 @@ export const SaleDetailContent = ({ saleId }) => {
       {!isCanceled && !isSoldOut && (
         <div className="mt-[7.5rem]">
           {isSeller ? (
-            <TradeListSection sale={sale} />
+            <div className="flex flex-col gap-[2.88rem] md:gap-[3rem] lg:gap-[4.38rem]">
+              <PageTitle title="교환 제시 목록" variant="heading" />
+              <TradeListSection sale={sale} />
+            </div>
           ) : (
             <TradeOfferSection sale={sale} />
           )}
