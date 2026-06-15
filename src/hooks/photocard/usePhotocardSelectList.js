@@ -1,4 +1,4 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, keepPreviousData } from '@tanstack/react-query';
 import { QUERY_KEYS } from '@/constants/queryKeys';
 import { getPhotocards } from '@/services/photocard';
 
@@ -19,7 +19,7 @@ export const usePhotocardSelectList = (params = {}) => {
     },
 
     // 필터/검색 변경 시 이전 데이터를 유지해 깜빡임 방지
-    placeholderData: (previousData) => previousData,
+    placeholderData: keepPreviousData,
 
     select: (res) => ({
       photocards: res.pages.flatMap((p) => p.data.photocards),
