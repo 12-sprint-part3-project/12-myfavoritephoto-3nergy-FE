@@ -1,6 +1,6 @@
-import { useState, useRef, useMemo, useEffect, useCallback } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { usePhotocardSelectList } from '@/hooks/photocard/usePhotocardSelectList';
-import { usePhotocardTotalCount } from '@/hooks/photocard/usePhotocardTotalCount';
+import { usePhotocardSelectFilter } from '@/hooks/photocard/usePhotocardSelectFilter';
 import { CARD_GRADE_OPTIONS, CARD_GENRE_OPTIONS } from '@/constants/card';
 import { PageTitle } from '@/components/layout/PageTitle';
 import { SearchBar } from '@/components/ui/SearchBar';
@@ -18,6 +18,9 @@ export const PhotocardSelectList = ({ onSelect, scrollContainerRef }) => {
     pageSize: 20,
   });
 
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+
+  // 포토카드 목록 조회 (무한스크롤)
   const {
     data,
     isLoading,
@@ -27,20 +30,14 @@ export const PhotocardSelectList = ({ onSelect, scrollContainerRef }) => {
     isFetchingNextPage,
   } = usePhotocardSelectList(params);
 
-  // gradeCounts/genreCounts 배열을 { [key]: count } 형태로 변환
-  // 바텀시트 항목별 개수 표시에 사용
-  const counts = useMemo(() => {
-    if (!data) {
-      return {};
-    }
-    const grade = Object.fromEntries(
-      (data.gradeCounts ?? []).map(({ grade, count }) => [grade, count]),
-    );
-    const genre = Object.fromEntries(
-      (data.genreCounts ?? []).map(({ genre, count }) => [genre, count]),
-    );
-    return { grade, genre };
-  }, [data]);
+  // 바텀시트 필터 선택 상태 및 개수 계산
+  const {
+    draftSelection,
+    setDraftSelection,
+    initialCounts,
+    displayCount,
+    isCountLoading,
+  } = usePhotocardSelectFilter(data);
 
   const observerRef = useRef(null); // 스크롤 감지 타겟 ref
   const containerRef = useRef(null);
@@ -67,48 +64,6 @@ export const PhotocardSelectList = ({ onSelect, scrollContainerRef }) => {
     }
     return () => observer.disconnect();
   }, [handleObserver, scrollContainerRef]);
-
-  // 바텀시트에 넘길 항목별 개수(counts)와 전체 개수(initialTotal)
-  const [initialCounts, setInitialCounts] = useState(null);
-  const [initialTotal, setInitialTotal] = useState(null);
-
-  // 필터 적용 후 API 재호출 시 값이 바뀌는 걸 방지하고자 최초 로드 시 한 번만 저장
-  useEffect(() => {
-    if (data && !initialCounts) {
-      setInitialCounts(counts);
-      setInitialTotal(data.meta.totalCount);
-    }
-  }, [data, counts, initialCounts]);
-
-  // 바텀시트 내 선택 상태를 상위 컴포넌트에서 관리: 선택 변경 시 displayCount를 즉시 계산하거나 API 호출
-  const [draftSelection, setDraftSelection] = useState({
-    grade: null,
-    genre: null,
-  });
-
-  const selectedGrade = draftSelection.grade;
-  const selectedGenre = draftSelection.genre;
-
-  // 등급과 장르 둘 다 선택된 경우에만 API를 호출해 실제 교집합 totalCount를 가져옴
-  const bothSelected = !!(selectedGrade && selectedGenre);
-
-  const { data: filteredCount, isLoading: isCountLoading } =
-    usePhotocardTotalCount({
-      grade: selectedGrade ?? '',
-      genre: selectedGenre ?? '',
-      enabled: bothSelected,
-    });
-
-  // 확인 버튼에 표시할 개수 계산
-  const displayCount = bothSelected
-    ? filteredCount // 둘 다 선택: API 결과
-    : selectedGrade
-      ? counts?.grade?.[selectedGrade] // 등급만 선택: counts에서 바로 (API 호출 불필요)
-      : selectedGenre
-        ? counts?.genre?.[selectedGenre] // 장르만 선택: counts에서 바로 (API 호출 불필요)
-        : data?.meta?.totalCount; // 아무것도 선택 안 함: 전체
-
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const gradeOptions = [{ value: '', label: '전체' }, ...CARD_GRADE_OPTIONS];
   const genreOptions = [{ value: '', label: '전체' }, ...CARD_GENRE_OPTIONS];
