@@ -11,7 +11,7 @@ export const useMyPoints = () => {
   return useQuery({
     queryKey: QUERY_KEYS.point.me(),
     queryFn: getMyPoints,
-    select: (data) => data.points,
+    select: (data) => data.point,
     enabled: Boolean(accessToken),
     staleTime: MINUTE,
   });

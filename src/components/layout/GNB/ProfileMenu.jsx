@@ -3,7 +3,7 @@
 import Link from 'next/link';
 
 const NAV_LINKS = [
-  { label: '마켓플레이스', href: '/maketplace' },
+  { label: '마켓플레이스', href: '/marketplace' },
   { label: '마이갤러리', href: '/my-gallery' },
   { label: '판매 중인 포토카드', href: '/my-sales' },
 ];
@@ -25,7 +25,7 @@ export const ProfileMenu = ({ user, onLogout, onClose }) => {
 
       <div className="fixed top-0 left-0 z-50 flex h-screen w-[16.25rem] flex-col bg-gray-500 sm:top-[4.375rem] sm:right-[2.5rem] sm:left-auto sm:h-auto lg:top-[5rem] lg:right-[13.75rem]">
         <div className="border-b border-gray-400/50 px-5 pt-[2.6875rem] pb-5 sm:pt-5">
-          <p className="text-noto-18-bold mb-5 text-white sm:mb-2">
+          <p className="mb-5 text-noto-18-bold text-white sm:mb-2">
             안녕하세요, {user?.nickname}님!
           </p>
           <div className="flex items-center justify-between">
@@ -43,7 +43,7 @@ export const ProfileMenu = ({ user, onLogout, onClose }) => {
             <Link
               key={href}
               href={href}
-              className="text-noto-14-bold hover:text-main text-white transition-colors"
+              className="text-noto-14-bold text-white transition-colors hover:text-main"
               onClick={onClose}
             >
               {label}
@@ -55,7 +55,7 @@ export const ProfileMenu = ({ user, onLogout, onClose }) => {
           <button
             type="button"
             onClick={onLogout}
-            className="text-noto-14-regular cursor-pointer text-gray-300 transition-colors hover:text-white"
+            className="cursor-pointer text-noto-14-regular text-gray-300 transition-colors hover:text-white"
           >
             로그아웃
           </button>
