@@ -1,4 +1,4 @@
-import { CARD_GRADE_OPTIONS, GENRE_OPTIONS } from '@/constants/card';
+import { CARD_GRADE_OPTIONS, CARD_GENRE_OPTIONS } from '@/constants/card';
 import { Select } from '@/components/ui/Select';
 import { Textarea } from '@/components/ui/Textarea';
 import { PageTitle } from '@/components/layout/PageTitle';
@@ -38,7 +38,7 @@ export const TradeInfoForm = ({
               name="desiredGenre"
               value={desiredGenre}
               onChange={onGenreChange}
-              options={GENRE_OPTIONS}
+              options={CARD_GENRE_OPTIONS}
               labelClassName="text-noto-16-bold lg:text-noto-20-bold"
             />
           </div>
