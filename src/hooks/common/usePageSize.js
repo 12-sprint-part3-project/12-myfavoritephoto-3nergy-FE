@@ -1,4 +1,4 @@
-import { useMediaQuery } from '@/hooks/common/useMediaQuery';
+import { useIsDesktop } from '@/hooks/common/useResponsive';
 
 const PAGE_SIZE = {
   desktop: 15, // 3 x 5
@@ -6,7 +6,7 @@ const PAGE_SIZE = {
 };
 
 export function usePageSize() {
-  const isDesktop = useMediaQuery('(min-width: 768px)');
+  const isDesktop = useIsDesktop();
 
   return isDesktop ? PAGE_SIZE.desktop : PAGE_SIZE.mobile;
 }
