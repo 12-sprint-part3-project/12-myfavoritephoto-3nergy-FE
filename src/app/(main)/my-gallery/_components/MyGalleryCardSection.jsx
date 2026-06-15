@@ -1,16 +1,17 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { CARD_GRADE_OPTIONS, GENRE_OPTIONS, PAGE_SIZE } from '@/constants/card';
+import { CARD_GRADE_OPTIONS, CARD_GENRE_OPTIONS } from '@/constants/card';
 import { usePhotocards } from '@/hooks/photocard/usePhotocards';
 import { usePageSize } from '@/hooks/common/usePageSize';
 import { Pagination } from '@/components/ui/Pagination';
 import { SearchBar } from '@/components/ui/SearchBar';
 import { FilterDropdown } from '@/components/domain/photocard/FilterDropdown';
 import { CardList } from '@/app/(main)/my-gallery/_components/CardList';
+import { MobileFilterBottomSheet } from '@/components/domain/photocard/MobileFilterBottomSheet';
 
 export const MyGalleryCardSection = () => {
-  const pageSize = usePageSize();
+  const pageSize = usePageSize(); // 분기별 pageSize 불러올 hook
   const [page, setPage] = useState(1);
   const [keyword, setKeyword] = useState('');
   /** NOTE: 실시간 검색으로 구현된 상태다보니 디바운싱 처리를 위해 넣어둠
@@ -18,6 +19,7 @@ export const MyGalleryCardSection = () => {
    */
   const [debouncedKeyword, setDebouncedKeyword] = useState('');
   const [filter, setFilter] = useState({ grade: '', genre: '' });
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => setDebouncedKeyword(keyword), 500);
@@ -32,7 +34,7 @@ export const MyGalleryCardSection = () => {
   });
 
   const gradeOptions = [{ value: '', label: '전체' }, ...CARD_GRADE_OPTIONS];
-  const genreOptions = [{ value: '', label: '전체' }, ...GENRE_OPTIONS];
+  const genreOptions = [{ value: '', label: '전체' }, ...CARD_GENRE_OPTIONS];
 
   const handleFilterChange = (key) => (value) => {
     setFilter((prev) => ({ ...prev, [key]: value }));
@@ -47,10 +49,18 @@ export const MyGalleryCardSection = () => {
           <FilterDropdown
             label="등급"
             onChange={handleFilterChange('grade')}
-            onMobileClick={() => {}}
+            onMobileClick={() => setOpen((prev) => !prev)}
             options={gradeOptions}
             mobileButtonClassName="h-[2.8125rem] w-[2.8125rem]"
           />
+          {open && (
+            <MobileFilterBottomSheet
+              tabs={['grade', 'genre']}
+              onClose={() => setOpen((prev) => !prev)}
+              onApply={(selection) => setFilter(selection)}
+              initialSelection={filter}
+            />
+          )}
           <div className="hidden md:block">
             <FilterDropdown
               label="장르"
