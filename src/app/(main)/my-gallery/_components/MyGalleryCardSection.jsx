@@ -42,6 +42,8 @@ export const MyGalleryCardSection = () => {
     setPage(1);
   };
 
+  const allCardsCnt = data?.meta.totalCount; // 총 보유 카드 수량
+
   return (
     <>
       <div className="mt-[15px] flex gap-[10px] md:mt-[20px] md:flex-row-reverse md:justify-end md:gap-[30px] lg:gap-[60px]">
@@ -59,6 +61,7 @@ export const MyGalleryCardSection = () => {
               onClose={() => setOpen((prev) => !prev)}
               onApply={(selection) => setFilter(selection)}
               initialSelection={filter}
+              totalPhotos={allCardsCnt}
             />
           )}
           <div className="hidden md:block">
