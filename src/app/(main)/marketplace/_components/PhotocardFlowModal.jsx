@@ -14,7 +14,7 @@ export const PhotocardFlowModal = ({ pageTitle, onClose, children }) => {
     <ResponsiveModal
       ref={scrollContainerRef}
       onClose={onClose}
-      className="max-h-[80vh] w-[35rem] p-10"
+      className="max-h-[80vh] lg:px-[7.5rem] lg:py-[3.75rem]"
     >
       {/* 포토카드 선택 → 폼 작성으로 단계 전환 */}
       {selectedCard ? (
