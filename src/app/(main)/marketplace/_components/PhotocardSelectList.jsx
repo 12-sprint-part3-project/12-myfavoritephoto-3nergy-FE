@@ -93,7 +93,7 @@ export const PhotocardSelectList = ({ onSelect, scrollContainerRef }) => {
   return (
     <div ref={containerRef} className="w-full">
       <PageTitle
-        breadcrumb="마이갤러리"
+        breadcrumb="마켓플레이스"
         title="나의 포토카드 판매하기"
         variant="title-md"
         className="hidden md:mb-[1.25rem] md:block"
