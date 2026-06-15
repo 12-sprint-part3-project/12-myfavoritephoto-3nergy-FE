@@ -34,7 +34,7 @@ export const ExchangeCard = ({
 
   return (
     <>
-      <article className="flex flex-col bg-gray-500 p-[.625rem] md:p-5 md:pb-[1.5625rem] lg:p-10">
+      <article className="flex flex-col border border-white/10 bg-gray-500 p-[.625rem] md:p-5 md:pb-[1.5625rem] lg:p-10">
         <div className="relative aspect-4/3 overflow-hidden">
           <Image
             src={imageUrl}
