@@ -1,4 +1,4 @@
-import { fetchClient } from './fetchClient';
+import { fetchClient } from '@/lib/api/fetchClient';
 import { refreshAccessToken } from '@/lib/auth/refreshToken';
 import { getErrorHandler } from '@/constants/errorHandler';
 

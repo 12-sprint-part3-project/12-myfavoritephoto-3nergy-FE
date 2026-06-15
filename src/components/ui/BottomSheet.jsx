@@ -2,7 +2,8 @@
 
 import { useState, useRef } from 'react';
 
-export const BottomSheet = ({ onClose, footer, children }) => {
+// ref: 외부에서 스크롤 컨테이너에 접근이 필요한 경우 전달 (예: 무한스크롤 IntersectionObserver root)
+export const BottomSheet = ({ onClose, footer, children, ref }) => {
   const sheetRef = useRef(null);
   const startYRef = useRef(null);
   const [dragY, setDragY] = useState(0);
@@ -65,8 +66,10 @@ export const BottomSheet = ({ onClose, footer, children }) => {
         <div className="h-[0.375rem] w-[3rem] rounded-[3.125rem] bg-gray-400" />
       </div>
 
-      {/* 스크롤 영역 */}
-      <div className="custom-scrollbar flex-1 overflow-y-auto">{children}</div>
+      {/* 스크롤 영역: ref를 달아 외부에서 IntersectionObserver root로 사용 가능 */}
+      <div ref={ref} className="custom-scrollbar flex-1 overflow-y-auto">
+        {children}
+      </div>
 
       {/* 하단 고정 버튼 영역 */}
       {footer && <div className="shrink-0 pb-[3.75rem]">{footer}</div>}

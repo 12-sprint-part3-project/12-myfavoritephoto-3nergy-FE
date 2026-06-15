@@ -1,3 +1,5 @@
+import { normalizeKey } from '@/utils/normalizeKey';
+
 export const QUERY_KEYS = {
   // 유저
   me: () => ['me'],
@@ -11,7 +13,7 @@ export const QUERY_KEYS = {
   photocards: {
     all: () => ['photocards'],
     list: (params) => ['photocards', 'list', params],
-    detail: (id) => ['photocards', 'detail', id],
+    detail: (id) => ['photocards', 'detail', normalizeKey.id(id)],
   },
 
   // 판매 (마켓플레이스)
@@ -19,7 +21,7 @@ export const QUERY_KEYS = {
     all: () => ['sales'],
     lists: () => ['sales', 'list'],
     list: (params) => ['sales', 'list', params],
-    detail: (id) => ['sales', 'detail', id],
+    detail: (id) => ['sales', 'detail', normalizeKey.id(id)],
   },
 
   // 나의 판매 카드

@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
-import { useMe } from '@/hooks/auth/useMe';
+import { useMe } from '@/hooks/user/useMe';
 import { useSaleDetail } from '@/hooks/sale/useSaleDetail';
 import { CardDetail } from '@/app/(main)/marketplace/[saleId]/_components/CardDetail';
 import { CardInfo } from '@/app/(main)/marketplace/[saleId]/_components/CardInfo';

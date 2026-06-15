@@ -8,7 +8,10 @@ export const useUpdateSale = (saleId) => {
   return useMutation({
     mutationFn: (body) => updateSale(saleId, body),
     onSuccess: () => {
-      queryClient.invalidateQueries(QUERY_KEYS.sales.detail(saleId));
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.sales.detail(saleId),
+      });
+      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.sales.lists() }); // 가격 수정 시 가격순 정렬 목록 캐시도 갱신 필요
     },
   });
 };
