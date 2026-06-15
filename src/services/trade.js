@@ -1,8 +1,9 @@
 import { fetchWithAuth } from '@/lib/api/fetchWithAuth';
 
 // 교환 제안 조회
-export const getTrades = (saleId) =>
-  fetchWithAuth(`/api/sales/${saleId}/trades`);
+export const getTrades = (saleId) => fetchWithAuth(`/api/trades/${saleId}`);
+
+// 교환 제안
 
 // 교환 제안
 export const createTrades = (body) =>

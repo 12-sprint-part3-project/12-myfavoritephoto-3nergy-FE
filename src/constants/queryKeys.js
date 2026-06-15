@@ -28,6 +28,12 @@ export const QUERY_KEYS = {
     detail: (id) => ['sales', 'detail', normalizeKey.id(id)],
   },
 
+  // 교환
+  trades: {
+    all: () => ['trades'],
+    bySale: (saleId) => ['trades', 'bySale', normalizeKey.id(saleId)],
+  },
+
   // 나의 판매 카드
   mySales: {
     all: () => ['mySales'],
