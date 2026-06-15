@@ -7,15 +7,9 @@ import { Select } from '@/components/ui/Select';
 import { FileInput } from '@/components/ui/FileInput';
 import { Textarea } from '@/components/ui/Textarea';
 import { Button } from '@/components/ui/Button';
-import { CARD_GRADE_OPTIONS, GENRE, GRADE_STYLE } from '@/constants/card';
+import { CARD_GENRE_OPTIONS, CARD_GRADE_OPTIONS } from '@/constants/card';
 import { useCreatePhotocard } from '@/hooks/photocard/useCreatePhotocard';
 import { uploadImage } from '@/services/image';
-import { CloseIcon } from '@/icons';
-
-const GENRE_OPTIONS = Object.entries(GENRE).map(([value, label]) => ({
-  value,
-  label,
-}));
 
 /**
  * 포토카드 생성 폼 컴포넌트
@@ -24,8 +18,7 @@ const GENRE_OPTIONS = Object.entries(GENRE).map(([value, label]) => ({
  */
 export const CreatePhotocardForm = () => {
   const router = useRouter();
-  const { mutate, isPending } = useCreatePhotocard();
-  const [step, setStep] = useState('form');
+  const { mutate: createPhotocard, isPending } = useCreatePhotocard();
   const [isUploading, setIsUploading] = useState(false);
 
   const [form, setForm] = useState({
@@ -37,7 +30,7 @@ export const CreatePhotocardForm = () => {
     imageFile: null,
     description: '',
   });
-  const [errors, setErrors] = useState({});
+  const [validateData, setValidateData] = useState({});
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -46,7 +39,8 @@ export const CreatePhotocardForm = () => {
     if (name === 'price')
       next = value.replace(/\D/g, '').replace(/^0+(?=\d)/, '');
     setForm((prev) => ({ ...prev, [name]: next }));
-    if (errors[name]) setErrors((prev) => ({ ...prev, [name]: '' }));
+    if (validateData[name])
+      setValidateData((prev) => ({ ...prev, [name]: '' }));
   };
 
   const handlePriceKeyDown = (e) => {
@@ -58,12 +52,13 @@ export const CreatePhotocardForm = () => {
         ? ''
         : form.price.slice(0, -1);
     setForm((prev) => ({ ...prev, price: next }));
-    if (errors.price) setErrors((prev) => ({ ...prev, price: '' }));
+    if (validateData.price) setValidateData((prev) => ({ ...prev, price: '' }));
   };
 
   const handleFileChange = (file) => {
     setForm((prev) => ({ ...prev, imageFile: file }));
-    if (errors.imageFile) setErrors((prev) => ({ ...prev, imageFile: '' }));
+    if (validateData.imageFile)
+      setValidateData((prev) => ({ ...prev, imageFile: '' }));
   };
 
   const validate = () => {
@@ -92,7 +87,7 @@ export const CreatePhotocardForm = () => {
     e.preventDefault();
     const errs = validate();
     if (Object.keys(errs).length > 0) {
-      setErrors(errs);
+      setValidateData(errs);
       return;
     }
 
@@ -107,7 +102,7 @@ export const CreatePhotocardForm = () => {
       setIsUploading(false);
     }
 
-    mutate(
+    createPhotocard(
       {
         name: form.name,
         grade: form.grade,
@@ -118,51 +113,19 @@ export const CreatePhotocardForm = () => {
         description: form.description,
       },
       {
-        onSuccess: () => setStep('success'),
-        onError: () => setStep('error'),
+        onSuccess: () => {
+          router.push(
+            `/my-gallery/new/result?status=success&name=${encodeURIComponent(form.name)}&grade=${form.grade}`,
+          );
+        },
+        onError: () => {
+          router.push(
+            `/my-gallery/new/result?status=failure&name=${encodeURIComponent(form.name)}&grade=${form.grade}`,
+          );
+        },
       },
     );
   };
-
-  if (step !== 'form') {
-    const isSuccess = step === 'success';
-    const gradeLabel = GRADE_STYLE[form.grade]?.label ?? '';
-
-    return (
-      <div className="relative flex w-full items-center justify-center">
-        <div className="relative min-h-screen w-full max-w-[920px]">
-          <button
-            type="button"
-            className="absolute top-0 right-0 cursor-pointer text-white"
-            onClick={() => router.push('/my-gallery')}
-            aria-label="닫기"
-          >
-            <CloseIcon />
-          </button>
-          <div className="flex flex-col items-center justify-center gap-10 text-center">
-            <h1 className="font-baskin-base text-baskin-24-bold md:text-baskin-40-bold lg:text-baskin-46-bold text-white">
-              포토카드 생성{' '}
-              <span className={isSuccess ? 'text-main' : 'text-gray-300'}>
-                {isSuccess ? '성공' : '실패'}
-              </span>
-            </h1>
-            <p className="text-noto-16-bold md:text-noto-20-bold text-white">
-              [{gradeLabel} | {form.name}] 포토카드 생성에{' '}
-              {isSuccess ? '성공했습니다!' : '실패했습니다.'}
-            </p>
-            <Button
-              variant="secondary"
-              size="lg"
-              className="w-full max-w-[440px]"
-              onClick={() => router.push('/my-gallery')}
-            >
-              {isSuccess ? '마이갤러리에서 확인하기' : '마이갤러리로 돌아가기'}
-            </Button>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <form
@@ -181,7 +144,7 @@ export const CreatePhotocardForm = () => {
           value={form.name}
           placeholder="포토카드 이름을 입력해 주세요"
           onChange={handleChange}
-          error={errors.name}
+          error={validateData.name}
         />
         <Select
           label="등급"
@@ -190,16 +153,16 @@ export const CreatePhotocardForm = () => {
           options={CARD_GRADE_OPTIONS}
           placeholder="등급을 선택해 주세요"
           onChange={handleChange}
-          error={errors.grade}
+          error={validateData.grade}
         />
         <Select
           label="장르"
           name="genre"
           value={form.genre}
-          options={GENRE_OPTIONS}
+          options={CARD_GENRE_OPTIONS}
           placeholder="장르를 선택해 주세요"
           onChange={handleChange}
-          error={errors.genre}
+          error={validateData.genre}
         />
         <Input
           label="가격"
@@ -208,7 +171,7 @@ export const CreatePhotocardForm = () => {
           placeholder="가격을 입력해 주세요"
           onChange={handleChange}
           onKeyDown={handlePriceKeyDown}
-          error={errors.price}
+          error={validateData.price}
         />
         <Input
           label="총 발행량"
@@ -216,7 +179,7 @@ export const CreatePhotocardForm = () => {
           value={form.totalQuantity}
           placeholder="총 발행량을 입력해 주세요"
           onChange={handleChange}
-          error={errors.totalQuantity}
+          error={validateData.totalQuantity}
         />
         <div className="flex flex-col gap-[.625rem]">
           <FileInput
@@ -224,8 +187,10 @@ export const CreatePhotocardForm = () => {
             name="imageUrl"
             onChange={handleFileChange}
           />
-          {errors.imageFile && (
-            <p className="text-noto-16-light text-red">{errors.imageFile}</p>
+          {validateData.imageFile && (
+            <p className="text-noto-16-light text-red">
+              {validateData.imageFile}
+            </p>
           )}
         </div>
         <Textarea
