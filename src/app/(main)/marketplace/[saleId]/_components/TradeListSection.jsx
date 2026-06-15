@@ -1,6 +1,5 @@
 'use client';
 
-import { PageTitle } from '@/components/layout/PageTitle';
 import { ExchangeCard } from '@/components/domain/photocard/ExchangeCard';
 import { useTrades } from '@/hooks/trade/useTrades';
 
