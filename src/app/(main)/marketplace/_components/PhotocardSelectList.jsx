@@ -28,11 +28,16 @@ export const PhotocardSelectList = ({ onSelect, scrollContainerRef }) => {
 
   // gradeCounts 배열을 { grade: count } 형태로 변환
   const counts = useMemo(() => {
-    if (!data) return {};
+    if (!data) {
+      return {};
+    }
     const grade = Object.fromEntries(
       (data.gradeCounts ?? []).map(({ grade, count }) => [grade, count]),
     );
-    return { grade };
+    const genre = Object.fromEntries(
+      (data.genreCounts ?? []).map(({ genre, count }) => [genre, count]),
+    );
+    return { grade, genre };
   }, [data]);
 
   const observerRef = useRef(null); // 스크롤 감지 타겟 ref
