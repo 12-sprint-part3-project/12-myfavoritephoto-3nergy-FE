@@ -4,10 +4,8 @@ import { fetchWithAuth } from '@/lib/api/fetchWithAuth';
 export const getTrades = (saleId) => fetchWithAuth(`/api/trades/${saleId}`);
 
 // 교환 제안
-
-// 교환 제안
-export const createTrades = (body) =>
-  fetchWithAuth(`/api/trades`, {
+export const createTrade = (saleId, body) =>
+  fetchWithAuth(`/api/trades/${saleId}`, {
     method: 'POST',
     body: JSON.stringify(body),
   });
