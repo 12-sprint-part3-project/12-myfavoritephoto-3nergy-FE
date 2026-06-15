@@ -1,4 +1,4 @@
-import { GENRE, GRADE_STYLE } from './card';
+import { GRADE_STYLE, GENRE, SALE_STATUS, SALE_METHOD } from './card';
 
 export const FILTER_TAB_CONFIG = {
   grade: {
@@ -7,14 +7,14 @@ export const FILTER_TAB_CONFIG = {
   },
   genre: {
     label: '장르',
-    options: Object.keys(GENRE), // Object.values → Object.keys로 변경
+    options: Object.keys(GENRE),
   },
   soldOut: {
     label: '매진 여부',
-    options: ['판매 중', '판매 완료'],
+    options: Object.keys(SALE_STATUS),
   },
   method: {
     label: '판매 방법',
-    options: ['교환', '판매'],
+    options: Object.keys(SALE_METHOD),
   },
 };

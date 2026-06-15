@@ -1,6 +1,6 @@
 import { useState, useRef, useMemo, useEffect, useCallback } from 'react';
 import { usePhotocardSelectList } from '@/hooks/photocard/usePhotocardSelectList';
-import { CARD_GRADE_OPTIONS, GENRE_OPTIONS } from '@/constants/card';
+import { CARD_GRADE_OPTIONS, CARD_GENRE_OPTIONS } from '@/constants/card';
 import { PageTitle } from '@/components/layout/PageTitle';
 import { SearchBar } from '@/components/ui/SearchBar';
 import { Card } from '@/components/domain/photocard/Card';
@@ -76,7 +76,7 @@ export const PhotocardSelectList = ({ onSelect, scrollContainerRef }) => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const gradeOptions = [{ value: '', label: '전체' }, ...CARD_GRADE_OPTIONS];
-  const genreOptions = [{ value: '', label: '전체' }, ...GENRE_OPTIONS];
+  const genreOptions = [{ value: '', label: '전체' }, ...CARD_GENRE_OPTIONS];
 
   const isFiltered = params.keyword || params.grade || params.genre;
 

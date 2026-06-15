@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useCreateSale } from '@/hooks/sale/useCreateSale';
-import { CARD_GRADE_OPTIONS, GENRE_OPTIONS } from '@/constants/card';
+import { CARD_GRADE_OPTIONS, CARD_GENRE_OPTIONS } from '@/constants/card';
 import { validatePrice, validateDescription } from '@/utils/validators';
 
 export const useSaleRegisterForm = (photocard) => {
@@ -12,7 +12,7 @@ export const useSaleRegisterForm = (photocard) => {
     quantity: 1,
     price: 0,
     desiredGrade: CARD_GRADE_OPTIONS[0].value,
-    desiredGenre: GENRE_OPTIONS[0].value,
+    desiredGenre: CARD_GENRE_OPTIONS[0].value,
     desiredDescription: '',
   });
 
