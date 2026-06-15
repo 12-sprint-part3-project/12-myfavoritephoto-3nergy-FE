@@ -4,6 +4,10 @@ export const QUERY_KEYS = {
   // 유저
   me: () => ['me'],
 
+  point: {
+    me: () => ['point', 'me'],
+  },
+
   // 알림
   notifications: {
     all: () => ['notifications'],

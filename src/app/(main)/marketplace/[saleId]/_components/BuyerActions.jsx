@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { usePurchaseSale } from '@/hooks/sale/usePurchaseSale';
 import { Button } from '@/components/ui/Button';
 import { CounterInput } from '@/components/ui/CounterInput';
 import { BasicModal } from '@/components/ui/BasicModal';
@@ -12,16 +13,23 @@ export const BuyerActions = ({ sale }) => {
   const [value, setValue] = useState(1);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
 
+  const { mutate: purchaseSale, isPending } = usePurchaseSale(sale.saleId);
+
   const handlePurchase = () => {
     setShowConfirmModal(false);
 
-    // TODO: 구매 API 연동
-    const MOCK_SUCCESS = false;
-
-    const status = MOCK_SUCCESS ? 'success' : 'failure';
-    router.push(
-      `/marketplace/${sale.saleId}/result?status=${status}&quantity=${value}`,
-    );
+    purchaseSale(value, {
+      onSuccess: () => {
+        router.push(
+          `/marketplace/${sale.saleId}/purchase/result?status=success&name=${encodeURIComponent(sale?.photocard?.name)}&grade=${sale?.photocard?.grade}&quantity=${value}`,
+        );
+      },
+      onError: (error) => {
+        router.push(
+          `/marketplace/${sale.saleId}/purchase/result?status=failure&name=${encodeURIComponent(sale?.photocard?.name)}&grade=${sale?.photocard?.grade}&quantity=${value}&message=${encodeURIComponent(error.message)}`,
+        );
+      },
+    });
   };
 
   const totalPrice = value * sale.price;
@@ -47,7 +55,7 @@ export const BuyerActions = ({ sale }) => {
               {totalPrice.toLocaleString()}P
             </span>
             <span className="text-noto-18-regular lg:text-noto-20-regular text-gray-300">
-              ({sale.remainingQuantity}장)
+              ({value}장)
             </span>
           </span>
         </div>
@@ -59,8 +67,9 @@ export const BuyerActions = ({ sale }) => {
           size="thick"
           className="text-noto-18-bold lg:text-noto-20-bold w-full"
           onClick={() => setShowConfirmModal(true)}
+          disabled={isPending}
         >
-          포토카드 구매하기
+          {isPending ? '구매 중...' : '포토카드 구매하기'}
         </Button>
       </div>
 
