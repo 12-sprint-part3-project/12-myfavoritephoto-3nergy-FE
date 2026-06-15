@@ -8,8 +8,14 @@ export const getSales = (params = {}) =>
 export const getSaleDetail = (saleId) => fetchWithAuth(`/api/sales/${saleId}`);
 
 // 나의 판매 목록 조회
-export const getMySales = (params = {}) =>
-  fetchWithAuth(`/api/sales/me?${new URLSearchParams(params)}`);
+export const getMySales = (params = {}) => {
+  const filtered = Object.fromEntries(
+    Object.entries(params).filter(
+      ([_, v]) => v !== '' && v !== null && v !== undefined,
+    ),
+  );
+  return fetchWithAuth(`/api/sales/me?${new URLSearchParams(filtered)}`);
+};
 
 // 판매 등록
 export const createSale = (body) =>

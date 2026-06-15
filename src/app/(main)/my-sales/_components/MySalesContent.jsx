@@ -1,14 +1,14 @@
 'use client';
 
 import { useMe } from '@/hooks/user/useMe';
-import { usePhotocards } from '@/hooks/photocard/usePhotocards';
+import { useMySales } from '@/hooks/sale/useMySales';
 import GradeBadgeList from '@/components/domain/photocard/GradeBadgeList';
-import { OwnedCardsInfo } from '@/app/(main)/my-gallery/_components/OwnedCardsInfo';
-import { MyGalleryCardSection } from '@/app/(main)/my-gallery/_components/MyGalleryCardSection';
+import { OwnedCardsInfo } from '@/app/(main)/my-sales/_components/OwnedCardsInfo';
+import { MySalesCardSection } from '@/app/(main)/my-sales/_components/MySalesCardSection';
 
-export const MyGalleryContent = () => {
+export const MySalesContent = () => {
   const { data: me } = useMe();
-  const { data, isLoading, error } = usePhotocards();
+  const { data, isLoading, error } = useMySales();
 
   // TODO: 스켈레톤 UI로 교체
   if (isLoading) return <div className="text-white">로딩 중...</div>;
@@ -17,7 +17,7 @@ export const MyGalleryContent = () => {
   if (error) return <div className="text-white">에러가 발생했습니다.</div>;
 
   const { gradeCounts: grades } = data.data;
-  const allCardsCnt = data.meta.totalCount; // 총 보유 카드 수량
+  const allCardsCnt = data.meta.totalCount;
 
   return (
     <>
@@ -26,7 +26,7 @@ export const MyGalleryContent = () => {
         <GradeBadgeList grades={grades} />
       </div>
 
-      <MyGalleryCardSection />
+      <MySalesCardSection />
     </>
   );
 };
