@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import { GRADE_STYLE } from '@/constants/card';
+import { GRADE_STYLE, GENRE } from '@/constants/card';
 import { Button } from '@/components/ui/Button';
 import { BasicModal } from '@/components/ui/BasicModal';
 
@@ -59,7 +59,7 @@ export const ExchangeCard = ({
                   {gradeLabel}
                 </span>
                 <span className="text-noto-10-regular md:text-noto-16-regular pb-[2px] text-gray-300 before:mx-[5px] before:text-gray-400 before:content-['|'] md:pb-1 before:md:mx-[10px]">
-                  {genre}
+                  {GENRE[genre]}
                 </span>
               </div>
               <span className="text-noto-10-regular md:text-noto-16-regular pb-[2px] text-gray-300 before:mx-[5px] before:hidden before:text-gray-400 before:content-['|'] md:pb-1 before:lg:mx-[10px] before:lg:inline-block">

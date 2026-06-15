@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { SoldoutIcon } from '@/icons';
-import { GRADE_STYLE } from '@/constants/card';
+import { GRADE_STYLE, GENRE } from '@/constants/card';
 import { APP_NAME } from '@/constants/app';
 
 const STATUS_LABEL = {
@@ -67,7 +67,7 @@ export const Card = ({
               {gradeLabel}
             </span>
             <span className="text-noto-10-regular md:text-noto-16-regular pb-[2px] text-gray-300 before:mx-[5px] before:text-gray-400 before:content-['|'] md:pb-1 before:md:mx-[10px]">
-              {genre}
+              {GENRE[genre]}
             </span>
           </div>
           <span className="text-noto-10-regular md:text-noto-16-regular pb-[2px] text-white underline md:pb-1">
