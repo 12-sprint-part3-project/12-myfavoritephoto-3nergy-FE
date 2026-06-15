@@ -1,9 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { PageTitle } from '@/components/layout/PageTitle';
 import { SearchBar } from '@/components/ui/SearchBar';
-import { Pagination } from '@/components/ui/Pagination';
 import { Card } from '@/components/domain/photocard/Card';
 import { FilterDropdown } from '@/components/domain/photocard/FilterDropdown';
 import { SortDropdown } from '@/components/domain/photocard/SortDropdown';
@@ -28,7 +27,7 @@ const FILTER_TABS = ['grade', 'genre', 'method'];
 
 const PAGE_SIZE = 18;
 
-const MOCK_CARDS = [
+const BASE_CARDS = [
   {
     id: 1,
     name: '우리집 앞마당',
@@ -245,7 +244,40 @@ const MOCK_CARDS = [
     status: 'SALE',
     method: '교환',
   },
-].map((card) => ({
+];
+
+const EXTRA_OWNERS = [
+  '랄스타',
+  '랍스타',
+  '프로여행러',
+  '미쓰손',
+  '콜렉터',
+  '최애지킴이',
+];
+const EXTRA_METHODS = ['교환', '판매'];
+const GRADE_VALUES = CARD_GRADE_OPTIONS.map((option) => option.value);
+const GENRE_VALUES = Object.values(GENRE);
+
+const EXTRA_CARDS = Array.from({ length: 30 }, (_, index) => {
+  const id = BASE_CARDS.length + 1 + index;
+  const totalQuantity = (index % 5) + 1;
+  const remainingQuantity = index % 4 === 0 ? 0 : (index % totalQuantity) + 1;
+
+  return {
+    id,
+    name: `목업 포토카드 ${id}`,
+    grade: GRADE_VALUES[index % GRADE_VALUES.length],
+    genre: GENRE_VALUES[index % GENRE_VALUES.length],
+    owner: EXTRA_OWNERS[index % EXTRA_OWNERS.length],
+    price: (index % 9) + 2,
+    remainingQuantity,
+    totalQuantity,
+    status: remainingQuantity === 0 ? 'SOLD_OUT' : 'SALE',
+    method: EXTRA_METHODS[index % EXTRA_METHODS.length],
+  };
+});
+
+const MOCK_CARDS = [...BASE_CARDS, ...EXTRA_CARDS].map((card) => ({
   ...card,
   imageUrl: `https://picsum.photos/seed/photocard-${card.id}/400/400`,
 }));
@@ -269,18 +301,24 @@ export const MarketplaceContent = () => {
     method: null,
   });
   const [sort, setSort] = useState('low-price');
-  const [currentPage, setCurrentPage] = useState(1);
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [searchKeyword, setSearchKeyword] = useState('');
+  const observerTargetRef = useRef(null);
 
   const handleFilterChange = (key) => (value) => {
-    setFilters((prev) => ({ ...prev, [key]: value }));
-    setCurrentPage(1);
+    setFilters((prev) => ({ ...prev, [key]: value === '' ? null : value }));
+    setVisibleCount(PAGE_SIZE);
   };
 
   const handleSearchChange = (e) => {
     setSearchKeyword(e.target.value);
-    setCurrentPage(1);
+    setVisibleCount(PAGE_SIZE);
+  };
+
+  const handleSortChange = (value) => {
+    setSort(value);
+    setVisibleCount(PAGE_SIZE);
   };
 
   const filteredCards = MOCK_CARDS.filter((card) => {
@@ -301,11 +339,26 @@ export const MarketplaceContent = () => {
     return a.price - b.price; // low-price (기본값)
   });
 
-  const totalPages = Math.max(1, Math.ceil(sortedCards.length / PAGE_SIZE));
-  const pagedCards = sortedCards.slice(
-    (currentPage - 1) * PAGE_SIZE,
-    currentPage * PAGE_SIZE,
-  );
+  const visibleCards = sortedCards.slice(0, visibleCount);
+  const hasMore = visibleCount < sortedCards.length;
+
+  useEffect(() => {
+    if (!hasMore) return;
+
+    const target = observerTargetRef.current;
+    if (!target) return;
+
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setVisibleCount((prev) =>
+          Math.min(prev + PAGE_SIZE, sortedCards.length),
+        );
+      }
+    });
+
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, [hasMore, sortedCards.length]);
 
   return (
     <div className="pb-[5.5rem] md:pb-[110px] xl:pb-[140px]">
@@ -353,23 +406,19 @@ export const MarketplaceContent = () => {
 
           <SortDropdown
             value={sort}
-            onChange={setSort}
+            onChange={handleSortChange}
             className="w-[8.75rem] shrink-0 md:w-[11.25rem]"
           />
         </div>
       </div>
 
       <div className="mt-5 grid grid-cols-2 gap-[5px] md:mt-[1.875rem] md:gap-[20px] lg:grid-cols-3 lg:gap-[80px]">
-        {pagedCards.map((card) => (
+        {visibleCards.map((card) => (
           <Card key={card.id} type="marketplace" {...card} />
         ))}
       </div>
 
-      <Pagination
-        totalPages={totalPages}
-        currentPage={currentPage}
-        onPageChange={setCurrentPage}
-      />
+      {hasMore && <div ref={observerTargetRef} className="h-1" />}
 
       {isFilterOpen && (
         <MobileFilterBottomSheet
@@ -379,7 +428,7 @@ export const MarketplaceContent = () => {
           onClose={() => setIsFilterOpen(false)}
           onApply={(selection) => {
             setFilters((prev) => ({ ...prev, ...selection }));
-            setCurrentPage(1);
+            setVisibleCount(PAGE_SIZE);
           }}
         />
       )}
