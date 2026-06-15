@@ -1,28 +1,22 @@
-//import { useSaleRegisterForm } from '@/hooks/trade/useTradeOfferForm';
+import { useTradeOfferForm } from '@/hooks/trade/useTradeOfferForm';
 import { Button } from '@/components/ui/Button';
 import { Textarea } from '@/components/ui/Textarea';
-import { CounterInput } from '@/components/ui/CounterInput';
-import { PriceInput } from '@/components/ui/PriceInput';
 import { PageTitle } from '@/components/layout/PageTitle';
-import { validatePrice, validateDescription } from '@/utils/validators';
 import { Card } from '@/components/domain/photocard/Card';
 
-export const TradeOfferForm = ({ photocard, onBack }) => {
-  /*
+export const TradeOfferForm = ({ sale, photocard, onBack }) => {
   const {
-    form,
-    errors,
+    description,
+    setDescription,
+    error,
     touched,
     isPending,
-    handleChange,
     handleBlur,
     handleSubmit,
-    isFormValid,
-  } = useTradeOfferForm(photocard);
-*/
+  } = useTradeOfferForm(photocard, sale);
 
   return (
-    <form className="flex flex-col">
+    <form onSubmit={handleSubmit} className="flex flex-col">
       <PageTitle
         breadcrumb="포토카드 교환하기"
         hideBreadcrumbOnMobile
@@ -52,18 +46,12 @@ export const TradeOfferForm = ({ photocard, onBack }) => {
           <Textarea
             label="교환 제시 내용"
             name="description"
-            /*
-            value={form.description}
-            onChange={(e) => handleChange('description', e.target.value)}
-            */
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
             placeholder="교환 제시 내용을 입력해 주세요"
             labelClassName="text-noto-16-bold lg:text-noto-20-bold"
-            /*
-            onBlur={() =>
-              handleBlur('description', validateDescription, form.description)
-            }
-            error={touched.description ? errors.description : ''}
-            */
+            onBlur={handleBlur}
+            error={touched ? error : ''}
           />
 
           {/* 수정/취소 버튼 */}
@@ -78,9 +66,9 @@ export const TradeOfferForm = ({ photocard, onBack }) => {
             <Button
               type="submit"
               className="text-noto-16-bold lg:text-noto-18-bold w-full"
-              /*disabled={!isFormValid || isPending}*/
+              disabled={!description || isPending}
             >
-              교환하기
+              {isPending ? '제안 중...' : '교환하기'}
             </Button>
           </div>
         </div>

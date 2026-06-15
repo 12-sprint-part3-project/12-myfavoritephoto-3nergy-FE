@@ -68,7 +68,10 @@ export const TradeOfferSection = ({ sale }) => {
       </div>
 
       {showTradeModalOpen && (
-        <TradeOfferModal onClose={() => setShowTradeModalOpen(false)} />
+        <TradeOfferModal
+          sale={sale}
+          onClose={() => setShowTradeModalOpen(false)}
+        />
       )}
     </>
   );

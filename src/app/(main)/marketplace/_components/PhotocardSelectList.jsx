@@ -30,6 +30,8 @@ export const PhotocardSelectList = ({
     isFetchingNextPage,
   } = usePhotocardSelectList(params);
 
+  console.log(data);
+
   // gradeCounts 배열을 { grade: count } 형태로 변환
   const counts = useMemo(() => {
     if (!data) return {};

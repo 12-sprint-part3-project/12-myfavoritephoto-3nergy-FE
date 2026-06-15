@@ -6,10 +6,11 @@ export const metadata = {
   keywords: ['포토카드 교환', '교환 제안', '마켓플레이스'],
 };
 
-export default function TradeOfferPage() {
+export default async function TradeOfferPage({ params }) {
+  const { saleId } = await params;
   return (
     <>
-      <TradeOfferContent />
+      <TradeOfferContent saleId={saleId} />
     </>
   );
 }
