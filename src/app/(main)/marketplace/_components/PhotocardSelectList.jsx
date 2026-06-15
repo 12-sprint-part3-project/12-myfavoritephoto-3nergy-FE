@@ -8,7 +8,11 @@ import { MobileFilterBottomSheet } from '@/components/domain/photocard/MobileFil
 import { FilterDropdown } from '@/components/domain/photocard/FilterDropdown';
 import { EmptyPhotocardList } from '@/components/domain/photocard/EmptyPhotocardList';
 
-export const PhotocardSelectList = ({ onSelect, scrollContainerRef }) => {
+export const PhotocardSelectList = ({
+  pageTitle,
+  onSelect,
+  scrollContainerRef,
+}) => {
   const [params, setParams] = useState({
     keyword: '',
     grade: '',
@@ -94,7 +98,7 @@ export const PhotocardSelectList = ({ onSelect, scrollContainerRef }) => {
     <div ref={containerRef} className="w-full">
       <PageTitle
         breadcrumb="마켓플레이스"
-        title="나의 포토카드 판매하기"
+        title={pageTitle}
         variant="title-md"
         className="hidden md:mb-[1.25rem] md:block"
       />
