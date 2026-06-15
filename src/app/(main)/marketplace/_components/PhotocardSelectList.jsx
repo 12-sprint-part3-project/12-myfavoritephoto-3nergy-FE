@@ -6,7 +6,7 @@ import { SearchBar } from '@/components/ui/SearchBar';
 import { Card } from '@/components/domain/photocard/Card';
 import { MobileFilterBottomSheet } from '@/components/domain/photocard/MobileFilterBottomSheet';
 import { FilterDropdown } from '@/components/domain/photocard/FilterDropdown';
-import { EmptyPhotocardList } from '@/app/(main)/marketplace/_components/EmptyPhotocardList';
+import { EmptyPhotocardList } from '@/components/domain/photocard/EmptyPhotocardList';
 
 export const PhotocardSelectList = ({ onSelect, scrollContainerRef }) => {
   const [params, setParams] = useState({
@@ -155,7 +155,11 @@ export const PhotocardSelectList = ({ onSelect, scrollContainerRef }) => {
 
       {/* 카드 그리드 */}
       {data.photocards.length === 0 ? (
-        <EmptyPhotocardList isFiltered={isFiltered} />
+        <EmptyPhotocardList
+          isFiltered={isFiltered}
+          emptyTitle="판매 가능한 포토카드가 없습니다."
+          emptyDescription="마이갤러리에서 포토카드를 생성해보세요."
+        />
       ) : (
         <ul className="grid w-full grid-cols-2 gap-[0.3125rem] md:gap-[1.25rem] xl:gap-[2.5rem]">
           {data.photocards.map((card) => (

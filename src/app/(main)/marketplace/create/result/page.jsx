@@ -1,11 +1,13 @@
 'use client';
 
-import { useSearchParams } from 'next/navigation';
-import { ResultView } from '@/app/(main)/marketplace/_components/ResultView';
+import { useSearchParams, useRouter } from 'next/navigation';
+import { ResultView } from '@/components/feedback/ResultView';
 import { GRADE_STYLE } from '@/constants/card';
 
 export default function SaleCreateResultPage() {
   const searchParams = useSearchParams();
+  const router = useRouter();
+
   const status = searchParams.get('status');
   const name = searchParams.get('name');
   const grade = searchParams.get('grade');
@@ -26,7 +28,11 @@ export default function SaleCreateResultPage() {
             : '마켓플레이스로 돌아가기'
         }
         subDescription={message}
-        href={isSuccess ? '/my-sales' : '/marketplace'}
+        onClick={
+          isSuccess
+            ? () => router.push('/my-sales')
+            : () => router.push('/marketplace')
+        }
       />
     </div>
   );
