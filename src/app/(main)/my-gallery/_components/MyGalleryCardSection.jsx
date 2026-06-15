@@ -3,12 +3,14 @@
 import { useEffect, useState } from 'react';
 import { CARD_GRADE_OPTIONS, GENRE_OPTIONS, PAGE_SIZE } from '@/constants/card';
 import { usePhotocards } from '@/hooks/photocard/usePhotocards';
+import { usePageSize } from '@/hooks/common/usePageSize';
 import { Pagination } from '@/components/ui/Pagination';
 import { SearchBar } from '@/components/ui/SearchBar';
 import { FilterDropdown } from '@/components/domain/photocard/FilterDropdown';
 import { CardList } from '@/app/(main)/my-gallery/_components/CardList';
 
 export const MyGalleryCardSection = () => {
+  const pageSize = usePageSize();
   const [page, setPage] = useState(1);
   const [keyword, setKeyword] = useState('');
   /** NOTE: 실시간 검색으로 구현된 상태다보니 디바운싱 처리를 위해 넣어둠
@@ -26,7 +28,7 @@ export const MyGalleryCardSection = () => {
     keyword: debouncedKeyword,
     ...filter,
     page,
-    pageSize: PAGE_SIZE,
+    pageSize,
   });
 
   const gradeOptions = [{ value: '', label: '전체' }, ...CARD_GRADE_OPTIONS];
@@ -37,8 +39,6 @@ export const MyGalleryCardSection = () => {
     // 필터 변경 시 결과 수가 달라져 현재 페이지가 범위를 벗어날 수 있으므로 1페이지로 초기화
     setPage(1);
   };
-
-  // console.log(data?.meta);
 
   return (
     <>
