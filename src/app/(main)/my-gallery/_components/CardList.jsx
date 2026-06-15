@@ -1,6 +1,7 @@
 'use client';
 
 import { Card } from '@/components/domain/photocard/Card';
+import { EmptyPhotocardList } from '@/components/domain/photocard/EmptyPhotocardList';
 import { GENRE } from '@/constants/card';
 
 export const CardList = ({ photocards = [] }) => {
@@ -23,14 +24,7 @@ export const CardList = ({ photocards = [] }) => {
           />
         ))
       ) : (
-        <div className="flex h-[20rem] flex-col items-center justify-center">
-          <p className="text-noto-20-regular text-gray-300">
-            검색 결과가 없습니다.
-          </p>
-          <p className="text-noto-16-regular mt-2 text-gray-300">
-            다른 검색어나 필터를 선택해보세요.
-          </p>
-        </div>
+        <EmptyPhotocardList isFiltered={true} />
       )}
     </div>
   );
