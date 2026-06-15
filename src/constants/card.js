@@ -1,5 +1,3 @@
-export const PAGE_SIZE = 20;
-
 export const GRADE_STYLE = {
   common: {
     label: 'COMMON',
