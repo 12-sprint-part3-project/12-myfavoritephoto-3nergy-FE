@@ -1,6 +1,10 @@
-import { ResultView } from '@/app/(main)/marketplace/[saleId]/result/_components/ResultView';
+import { useSearchParams, useRouter } from 'next/navigation';
+import { ResultView } from '@/components/feedback/ResultView';
 
 export default async function ResultPage({ params, searchParams }) {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
   const { status, quantity } = await searchParams;
   const isSuccess = status === 'success';
 
@@ -17,7 +21,11 @@ export default async function ResultPage({ params, searchParams }) {
         buttonText={
           isSuccess ? '마이갤러리에서 확인하기' : '마켓플레이스로 돌아가기'
         }
-        href={isSuccess ? '/my-gallery' : `/marketplace`}
+        onClick={
+          isSuccess
+            ? () => router.push('/my-sales')
+            : () => router.push('/marketplace')
+        }
       />
     </div>
   );

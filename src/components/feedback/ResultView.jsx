@@ -1,6 +1,5 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/Button';
 
 export const ResultView = ({
@@ -8,11 +7,9 @@ export const ResultView = ({
   isSuccess,
   description,
   buttonText,
-  href,
+  onClick,
   subDescription,
 }) => {
-  const router = useRouter();
-
   return (
     <section className="flex flex-col items-center justify-center text-center">
       <h1 className="font-baskin-base text-baskin-30-bold md:text-baskin-36-bold md:text-baskin-40-bold lg:text-baskin-46-bold mb-[1.87rem] text-white md:mb-[2.5rem]">
@@ -26,7 +23,7 @@ export const ResultView = ({
           {description}
         </p>
         {subDescription && (
-          <p class="text-noto-14-regular md:text-noto-18-regular text-red">
+          <p className="text-noto-14-regular md:text-noto-18-regular text-red">
             {subDescription}
           </p>
         )}
@@ -35,8 +32,8 @@ export const ResultView = ({
       <Button
         variant="secondary"
         size="lg"
-        className="text-noto-16-bold lg:text-noto-18-bold w-full md:w-auto lg:min-w-[440px]"
-        onClick={() => router.push(href)}
+        className="text-noto-16-bold lg:text-noto-18-bold w-full px-10 md:w-auto lg:min-w-[440px]"
+        onClick={onClick}
       >
         {buttonText}
       </Button>
