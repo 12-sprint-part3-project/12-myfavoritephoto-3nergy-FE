@@ -39,8 +39,8 @@ export const MySalesCardSection = () => {
   ];
   const isSoldOutOptions = [
     { value: '', label: '전체' },
-    { value: 'true', label: '매진' },
-    { value: 'false', label: '판매/교환중' },
+    { value: 'false', label: '판매 중' },
+    { value: 'true', label: '판매 완료' },
   ];
 
   const handleFilterChange = (key) => (value) => {
