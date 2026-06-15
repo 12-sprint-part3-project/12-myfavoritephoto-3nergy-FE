@@ -3,7 +3,7 @@ import { useSaleRegisterForm } from '@/hooks/sale/useSaleRegisterForm';
 import {
   GRADE_STYLE,
   CARD_GRADE_OPTIONS,
-  GENRE_OPTIONS,
+  CARD_GENRE_OPTIONS,
 } from '@/constants/card';
 import { Button } from '@/components/ui/Button';
 import { Select } from '@/components/ui/Select';
@@ -113,7 +113,7 @@ export const SaleRegisterForm = ({ photocard, onBack }) => {
                 name="desiredGenre"
                 value={form.desiredGenre}
                 onChange={(e) => handleChange('desiredGenre', e.target.value)}
-                options={GENRE_OPTIONS}
+                options={CARD_GENRE_OPTIONS}
                 labelClassName="text-noto-16-bold lg:text-noto-20-bold"
               />
             </div>

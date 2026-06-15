@@ -3,7 +3,7 @@ import { useState } from 'react';
 import {
   GRADE_STYLE,
   CARD_GRADE_OPTIONS,
-  GENRE_OPTIONS,
+  CARD_GENRE_OPTIONS,
 } from '@/constants/card';
 import { Button } from '@/components/ui/Button';
 import { Select } from '@/components/ui/Select';
@@ -182,7 +182,7 @@ export const SaleEditForm = ({
                 name="desiredGenre"
                 value={desiredGenre}
                 onChange={(e) => setDesiredGenre(e.target.value)}
-                options={GENRE_OPTIONS}
+                options={CARD_GENRE_OPTIONS}
                 labelClassName="text-noto-16-bold lg:text-noto-20-bold"
               />
             </div>
