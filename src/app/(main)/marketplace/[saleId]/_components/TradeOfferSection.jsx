@@ -1,9 +1,10 @@
 'use client';
 
 import { useState } from 'react';
+import { GRADE_STYLE } from '@/constants/card';
 import { Button } from '@/components/ui/Button';
 import { PageTitle } from '@/components/layout/PageTitle';
-import { GRADE_STYLE } from '@/constants/card';
+import { TradeOfferModal } from '@/app/(main)/marketplace/[saleId]/_components/TradeOfferModal';
 
 export const TradeOfferSection = ({ sale }) => {
   const [showTradeModalOpen, setShowTradeModalOpen] = useState(false);
@@ -53,11 +54,10 @@ export const TradeOfferSection = ({ sale }) => {
           </Button>
         </div>
       </div>
-      {/*
-        {showTradeModalOpen && (
-          <TradeModal onClose={() => setShowTradeModalOpen(false)} />
-        )}
-      */}
+
+      {showTradeModalOpen && (
+        <TradeOfferModal onClose={() => setShowTradeModalOpen(false)} />
+      )}
     </>
   );
 };
