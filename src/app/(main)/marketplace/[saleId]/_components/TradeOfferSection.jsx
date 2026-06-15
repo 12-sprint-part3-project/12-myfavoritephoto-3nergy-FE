@@ -1,13 +1,25 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useIsMobile } from '@/hooks/common/useResponsive';
 import { GRADE_STYLE } from '@/constants/card';
 import { Button } from '@/components/ui/Button';
 import { PageTitle } from '@/components/layout/PageTitle';
 import { TradeOfferModal } from '@/app/(main)/marketplace/[saleId]/_components/TradeOfferModal';
 
 export const TradeOfferSection = ({ sale }) => {
+  const router = useRouter();
+  const isMobile = useIsMobile();
   const [showTradeModalOpen, setShowTradeModalOpen] = useState(false);
+
+  const handleCreateClick = () => {
+    if (isMobile) {
+      router.push(`/marketplace/${sale.saleId}/trade`);
+    } else {
+      setShowTradeModalOpen(true);
+    }
+  };
 
   return (
     <>
@@ -20,7 +32,7 @@ export const TradeOfferSection = ({ sale }) => {
             <div className="hidden md:block">
               <Button
                 size="lg"
-                onClick={() => setShowTradeModalOpen(true)}
+                onClick={handleCreateClick}
                 className="text-noto-16-bold lg:text-noto-18-bold w-full md:w-[342px] lg:w-[440px]"
               >
                 포토카드 교환하기
@@ -47,7 +59,7 @@ export const TradeOfferSection = ({ sale }) => {
         <div className="md:hidden">
           <Button
             size="lg"
-            onClick={() => setShowTradeModalOpen(true)}
+            onClick={handleCreateClick}
             className="text-noto-16-bold w-full"
           >
             포토카드 교환하기
