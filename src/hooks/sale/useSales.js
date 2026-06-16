@@ -32,7 +32,7 @@ export const useSales = (params = {}) => {
     placeholderData: keepPreviousData,
 
     select: (res) => ({
-      sales: res.pages.flatMap((p) => p.data),
+      sales: res.pages.flatMap((p) => p.data.sales),
       meta: res.pages.at(-1).meta,
     }),
   });
