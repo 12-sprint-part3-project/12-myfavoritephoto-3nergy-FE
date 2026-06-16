@@ -147,7 +147,7 @@ export const MySalesCardSection = () => {
 
       {!isLoading && !error && data && (
         <>
-          <CardList sales={data.data.mySales} />
+          <CardList sales={data.mySales} />
           <Pagination
             totalPages={data.meta.totalPages}
             currentPage={page}

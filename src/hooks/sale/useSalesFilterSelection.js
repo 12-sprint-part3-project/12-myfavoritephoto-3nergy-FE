@@ -14,6 +14,5 @@ export const useSalesFilterSelection = (data) => {
     countKeyMap: {
       saleStatusCounts: 'soldOut',
     },
-    totalCount: data?.meta?.totalCount,
   });
 };

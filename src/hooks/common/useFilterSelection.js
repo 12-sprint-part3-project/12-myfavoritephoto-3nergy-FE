@@ -14,7 +14,6 @@ export const useFilterSelection = (data, tabs, options = {}) => {
     totalCountQueryKey,
     totalCountQueryFn,
     countKeyMap = {},
-    totalCount,
   } = options;
 
   const resolvedCountKeyMap = useMemo(
@@ -94,7 +93,7 @@ export const useFilterSelection = (data, tabs, options = {}) => {
     ? filteredCount
     : selectedCount === 1
       ? counts?.[selectedEntries[0]]?.[draftSelection[selectedEntries[0]]]
-      : (totalCount ?? data?.meta?.totalCount);
+      : data?.meta?.totalCount;
 
   return {
     draftSelection,

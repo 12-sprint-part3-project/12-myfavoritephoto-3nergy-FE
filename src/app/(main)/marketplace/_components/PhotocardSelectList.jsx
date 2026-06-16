@@ -34,6 +34,8 @@ export const PhotocardSelectList = ({
     isFetchingNextPage,
   } = usePhotocardSelectList(params);
 
+  console.log(data);
+
   const {
     draftSelection,
     setDraftSelection,
