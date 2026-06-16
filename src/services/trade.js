@@ -5,7 +5,7 @@ export const getTrades = (saleId) => fetchWithAuth(`/api/trades/${saleId}`);
 
 // 내가 제시한 교환 목록 조회
 export const getMyTradeOffer = (saleId) =>
-  fetchWithAuth(`/api/trades/${saleId}`);
+  fetchWithAuth(`/api/trades/${saleId}/me`);
 
 // 교환 제안
 export const createTrade = (saleId, body) =>
