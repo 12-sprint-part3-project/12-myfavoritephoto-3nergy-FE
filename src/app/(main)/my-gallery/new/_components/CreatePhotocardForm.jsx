@@ -10,6 +10,13 @@ import { Button } from '@/components/ui/Button';
 import { CARD_GENRE_OPTIONS, CARD_GRADE_OPTIONS } from '@/constants/card';
 import { useCreatePhotocard } from '@/hooks/photocard/useCreatePhotocard';
 import { uploadImage } from '@/services/image';
+import {
+  validateCardName,
+  validateGenre,
+  validateGrade,
+  validatePrice,
+  validateQuantity,
+} from '@/utils/validators';
 
 /**
  * 포토카드 생성 폼 컴포넌트
@@ -61,24 +68,20 @@ export const CreatePhotocardForm = () => {
       setValidateData((prev) => ({ ...prev, imageFile: '' }));
   };
 
+  // TODO: 이 부분도 중복패턴이 보여서 리팩토링을 하는게 나을지 몇개 안되는데 그냥 놔둘지...
   const validate = () => {
     const errs = {};
-    if (!form.name.trim()) errs.name = '포토카드 이름을 입력해 주세요.';
-    if (!form.grade) errs.grade = '등급을 선택해 주세요.';
-    if (!form.genre) errs.genre = '장르를 선택해 주세요.';
+    errs.name = validateCardName(form.name);
+    errs.grade = validateGrade(form.grade);
+    errs.genre = validateGenre(form.genre);
 
     const price = Number(form.price);
-    if (!form.price) errs.price = '가격을 입력해 주세요.';
-    else if (!Number.isFinite(price) || price <= 0)
-      errs.price = '가격은 0보다 커야 합니다.';
+    errs.price = validatePrice(price);
 
     const qty = Number(form.totalQuantity);
-    if (!form.totalQuantity || qty === 0)
-      errs.totalQuantity = '최소 1장은 등록해야 합니다.';
-    else if (qty > 10)
-      errs.totalQuantity = '총 발행량은 10장 이하로 선택 가능합니다.';
+    errs.totalQuantity = validateQuantity(qty);
 
-    if (!form.imageFile) errs.imageFile = '사진을 업로드해 주세요.';
+    errs.imageFile = validateImgFile(form.imageFile);
 
     return errs;
   };
