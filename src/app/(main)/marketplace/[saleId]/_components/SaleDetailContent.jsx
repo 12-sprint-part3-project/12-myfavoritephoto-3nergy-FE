@@ -11,7 +11,7 @@ import { SellerTradeInfo } from '@/app/(main)/marketplace/[saleId]/_components/S
 import { SellerButtons } from '@/app/(main)/marketplace/[saleId]/_components/SellerButtons';
 import { BuyerActions } from '@/app/(main)/marketplace/[saleId]/_components/BuyerActions';
 import { TradeListSection } from '@/app/(main)/marketplace/[saleId]/_components/TradeListSection';
-import { TradeOfferSection } from '@/app/(main)/marketplace/[saleId]/_components/TradeOfferSection';
+import { BuyerTradeSection } from '@/app/(main)/marketplace/[saleId]/_components/BuyerTradeSection';
 
 export const SaleDetailContent = ({ saleId }) => {
   const { accessToken } = useAuth();
@@ -85,7 +85,7 @@ export const SaleDetailContent = ({ saleId }) => {
               <TradeListSection sale={sale} />
             </div>
           ) : (
-            <TradeOfferSection sale={sale} />
+            <BuyerTradeSection sale={sale} />
           )}
         </div>
       )}

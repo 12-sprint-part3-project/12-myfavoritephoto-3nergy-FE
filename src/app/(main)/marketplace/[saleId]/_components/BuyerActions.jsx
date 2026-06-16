@@ -47,14 +47,14 @@ export const BuyerActions = ({ sale }) => {
           max={sale.remainingQuantity}
         />
         <div className="flex justify-between">
-          <span className="text-noto-18-regular lg:text-noto-20-regular text-white">
+          <span className="text-noto-18-regular text-white lg:text-noto-20-regular">
             총 가격
           </span>
           <span className="flex items-end gap-[0.62rem]">
-            <span className="text-noto-20-bold lg:text-noto-24-bold text-white">
+            <span className="text-noto-20-bold text-white lg:text-noto-24-bold">
               {totalPrice.toLocaleString()}P
             </span>
-            <span className="text-noto-18-regular lg:text-noto-20-regular text-gray-300">
+            <span className="text-noto-18-regular text-gray-300 lg:text-noto-20-regular">
               ({value}장)
             </span>
           </span>
@@ -65,7 +65,7 @@ export const BuyerActions = ({ sale }) => {
       <div className="mt-10 lg:mt-[5rem]">
         <Button
           size="thick"
-          className="text-noto-18-bold lg:text-noto-20-bold w-full"
+          className="w-full text-noto-18-bold lg:text-noto-20-bold"
           onClick={() => setShowConfirmModal(true)}
           disabled={isPending}
         >
