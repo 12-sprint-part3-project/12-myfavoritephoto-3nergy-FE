@@ -2,16 +2,19 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { PageTitle } from '@/components/layout/PageTitle';
 import { SearchBar } from '@/components/ui/SearchBar';
 import { Spinner } from '@/components/ui/Spinner';
+import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/domain/photocard/Card';
 import { FilterDropdown } from '@/components/domain/photocard/FilterDropdown';
 import { SortDropdown } from '@/components/domain/photocard/SortDropdown';
 import { MobileFilterBottomSheet } from '@/components/domain/photocard/MobileFilterBottomSheet';
 import { EmptyPhotocardList } from '@/components/domain/photocard/EmptyPhotocardList';
-import { CreateSaleButton } from '@/app/(main)/marketplace/_components/CreateSaleButton';
+import { CreateSaleModal } from '@/app/(main)/marketplace/_components/CreateSaleModal';
 import { useSales } from '@/hooks/sale/useSales';
+import { useIsMobile } from '@/hooks/common/useResponsive';
 import {
   CARD_GRADE_OPTIONS,
   CARD_GENRE_OPTIONS,
@@ -48,6 +51,9 @@ const mapSaleToCard = (sale) => ({
 });
 
 export const MarketplaceContent = () => {
+  const router = useRouter();
+  const isMobile = useIsMobile();
+  const [showCreateModal, setShowCreateModal] = useState(false);
   const [filters, setFilters] = useState({
     grade: null,
     genre: null,
@@ -57,6 +63,14 @@ export const MarketplaceContent = () => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [searchKeyword, setSearchKeyword] = useState('');
   const observerTargetRef = useRef(null);
+
+  const handleCreateClick = () => {
+    if (isMobile) {
+      router.push('/marketplace/create');
+    } else {
+      setShowCreateModal(true);
+    }
+  };
 
   const handleFilterChange = (key) => (value) => {
     setFilters((prev) => ({ ...prev, [key]: value === '' ? null : value }));
@@ -108,8 +122,10 @@ export const MarketplaceContent = () => {
         variant="title-lg"
         title="마켓플레이스"
         actions={
-          <div className="hidden md:inline-flex">
-            <CreateSaleButton />
+          <div className="hidden w-[27.5rem] md:block">
+            <Button size="lg" className="w-full text-noto-18-bold" onClick={handleCreateClick}>
+              나의 포토카드 판매하기
+            </Button>
           </div>
         }
       />
@@ -188,8 +204,14 @@ export const MarketplaceContent = () => {
       )}
 
       <div className="fixed inset-x-0 bottom-0 z-10 bg-black p-[0.9375rem] md:hidden">
-        <CreateSaleButton />
+        <Button size="lg" className="w-full text-noto-18-bold" onClick={handleCreateClick}>
+          나의 포토카드 판매하기
+        </Button>
       </div>
+
+      {showCreateModal && (
+        <CreateSaleModal onClose={() => setShowCreateModal(false)} />
+      )}
     </div>
   );
 };
