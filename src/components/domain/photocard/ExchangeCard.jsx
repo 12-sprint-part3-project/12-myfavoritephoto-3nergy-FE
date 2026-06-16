@@ -18,6 +18,7 @@ export const ExchangeCard = ({
   onReject,
   variant = 'seller', // 'seller' | 'buyer'
   onCancel,
+  isPending = false,
 }) => {
   const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
   const [isAcceptModalOpen, setIsAcceptModalOpen] = useState(false);
@@ -34,8 +35,7 @@ export const ExchangeCard = ({
   };
 
   const handleCancel = () => {
-    setIsCancelModalOpen(false);
-    if (onCancel) onCancel();
+    if (onCancel) onCancel(() => setIsCancelModalOpen(false));
   };
 
   const { textColor, label: gradeLabel } = GRADE_STYLE[grade] ?? {};
@@ -144,8 +144,10 @@ export const ExchangeCard = ({
         <BasicModal
           title="교환 제시 취소"
           buttonText="취소하기"
+          loadingText="취소 중..."
           onClose={() => setIsCancelModalOpen(false)}
           onClick={handleCancel}
+          isLoading={isPending}
         >
           [{gradeLabel} | {name}] 교환 제시를 취소하시겠습니까?
         </BasicModal>

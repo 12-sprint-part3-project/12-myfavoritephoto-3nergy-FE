@@ -93,6 +93,14 @@ const meta = {
         '취소 모달에서 취소하기 버튼 클릭 시 호출되는 핸들러 (buyer variant 전용)',
       table: { type: { summary: '() => void' } },
     },
+    isPending: {
+      control: 'boolean',
+      description: '액션 처리 중 상태. 모달 버튼 비활성화 및 로딩 텍스트 표시',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' },
+      },
+    },
   },
 };
 
@@ -130,6 +138,21 @@ export const BuyerVariant = {
       description: {
         story:
           '구매자가 자신이 제시한 교환을 확인하는 카드입니다. 취소하기 버튼이 표시됩니다.',
+      },
+    },
+  },
+};
+
+export const BuyerVariantPending = {
+  args: {
+    ...baseArgs,
+    variant: 'buyer',
+    isPending: true,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: '취소 요청 처리 중인 상태입니다. 모달 버튼이 비활성화됩니다.',
       },
     },
   },
