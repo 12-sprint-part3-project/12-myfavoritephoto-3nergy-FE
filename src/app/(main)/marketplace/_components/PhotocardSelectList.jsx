@@ -1,7 +1,8 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
+import { CARD_GRADE_OPTIONS, CARD_GENRE_OPTIONS } from '@/constants/card';
+import { useDebounce } from '@/hooks/common/useDebounce';
 import { usePhotocardSelectList } from '@/hooks/photocard/usePhotocardSelectList';
 import { usePhotocardFilterSelection } from '@/hooks/photocard/usePhotocardFilterSelection';
-import { CARD_GRADE_OPTIONS, CARD_GENRE_OPTIONS } from '@/constants/card';
 import { PageTitle } from '@/components/layout/PageTitle';
 import { SearchBar } from '@/components/ui/SearchBar';
 import { Card } from '@/components/domain/photocard/Card';
@@ -22,6 +23,8 @@ export const PhotocardSelectList = ({
     pageSize: 20,
   });
 
+  const debouncedKeyword = useDebounce(params.keyword, 300);
+
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   // 포토카드 목록 조회 (무한스크롤)
@@ -32,9 +35,10 @@ export const PhotocardSelectList = ({
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-  } = usePhotocardSelectList(params);
-
-  console.log(data);
+  } = usePhotocardSelectList({
+    ...params,
+    keyword: debouncedKeyword,
+  });
 
   const {
     draftSelection,
