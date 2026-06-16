@@ -1,7 +1,5 @@
 import { useState, useMemo, useEffect } from 'react';
 import { useTotalCount } from '@/hooks/common/useTotalCount';
-import { QUERY_KEYS } from '@/constants/queryKeys';
-import { getPhotocards } from '@/services/photocard';
 
 const COUNT_KEY_MAP = {
   gradeCounts: 'grade',
@@ -62,13 +60,12 @@ export const useFilterSelection = (data, tabs, options = {}) => {
 
   const resolvedQueryKey = totalCountQueryKey
     ? totalCountQueryKey({ ...apiParams, page: 1, pageSize: 1 })
-    : QUERY_KEYS.photocards.list({ ...apiParams, page: 1, pageSize: 1 });
+    : [];
 
   const resolvedQueryFn = totalCountQueryFn
     ? () => totalCountQueryFn({ ...apiParams, page: 1, pageSize: 1 })
-    : () => getPhotocards({ ...apiParams, page: 1, pageSize: 1 });
+    : () => null;
 
-  // 2개 이상 선택 시 실제 교집합 totalCount를 API로 조회
   const { data: filteredCount, isLoading: isCountLoading } = useTotalCount(
     resolvedQueryKey,
     resolvedQueryFn,
