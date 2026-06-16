@@ -9,13 +9,13 @@ export const useCreateTrade = (saleId) => {
     mutationKey: ['createTrade'],
     mutationFn: (body) => createTrade(saleId, body),
     onSuccess: () => {
-      queryClient.invalidateQueries({
+      queryClient.refetchQueries({
         queryKey: QUERY_KEYS.trades.bySale(saleId),
       });
-      queryClient.invalidateQueries({
+      queryClient.refetchQueries({
         queryKey: QUERY_KEYS.trades.myOffer(saleId),
       });
-      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.mySales.all() });
+      queryClient.refetchQueries({ queryKey: QUERY_KEYS.mySales.all() });
     },
   });
 };
