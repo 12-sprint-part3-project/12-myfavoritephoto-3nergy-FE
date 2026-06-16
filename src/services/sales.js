@@ -1,8 +1,14 @@
 import { fetchWithAuth } from '@/lib/api/fetchWithAuth';
 
 // 판매 목록 조회
-export const getSales = (params = {}) =>
-  fetchWithAuth(`/api/sales?${new URLSearchParams(params)}`);
+export const getSales = (params = {}) => {
+  const filtered = Object.fromEntries(
+    Object.entries(params).filter(
+      ([_, v]) => v !== '' && v !== null && v !== undefined,
+    ),
+  );
+  return fetchWithAuth(`/api/sales?${new URLSearchParams(filtered)}`);
+};
 
 // 판매 상세 조회
 export const getSaleDetail = (saleId) => fetchWithAuth(`/api/sales/${saleId}`);
