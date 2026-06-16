@@ -9,10 +9,10 @@ export const useSalesFilterSelection = (data) => {
     mapToApiParams: (selection) => ({
       grade: selection.grade ?? '',
       genre: selection.genre ?? '',
-      status: selection.soldOut ?? '', // soldOut → status 변환
+      status: selection.soldOut ?? '',
     }),
     countKeyMap: {
-      saleStatusCounts: 'soldOut', // soldOut 탭 키에 맞춤
+      saleStatusCounts: 'soldOut',
     },
     totalCount: data?.meta?.totalCount,
   });
