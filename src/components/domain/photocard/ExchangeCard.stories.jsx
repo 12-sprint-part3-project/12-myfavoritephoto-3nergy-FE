@@ -27,6 +27,16 @@ const meta = {
     ),
   ],
   argTypes: {
+    variant: {
+      control: 'radio',
+      options: ['seller', 'buyer'],
+      description:
+        '카드 variant. seller는 승인/거절, buyer는 취소하기 버튼 표시',
+      table: {
+        type: { summary: "'seller' | 'buyer'" },
+        defaultValue: { summary: 'seller' },
+      },
+    },
     imageUrl: {
       control: 'text',
       description: '카드 이미지 URL',
@@ -67,12 +77,20 @@ const meta = {
     },
     onAccept: {
       action: 'accepted',
-      description: '승인 모달에서 승인하기 버튼 클릭 시 호출되는 핸들러',
+      description:
+        '승인 모달에서 승인하기 버튼 클릭 시 호출되는 핸들러 (seller variant 전용)',
       table: { type: { summary: '() => void' } },
     },
     onReject: {
       action: 'rejected',
-      description: '거절 모달에서 거절하기 버튼 클릭 시 호출되는 핸들러',
+      description:
+        '거절 모달에서 거절하기 버튼 클릭 시 호출되는 핸들러 (seller variant 전용)',
+      table: { type: { summary: '() => void' } },
+    },
+    onCancel: {
+      action: 'canceled',
+      description:
+        '취소 모달에서 취소하기 버튼 클릭 시 호출되는 핸들러 (buyer variant 전용)',
       table: { type: { summary: '() => void' } },
     },
   },
@@ -83,20 +101,35 @@ export default meta;
 const baseArgs = {
   imageUrl: 'https://picsum.photos/seed/exchange/400/400',
   name: '노을 지는 한강',
-  grade: 'RARE',
-  genre: '풍경',
+  grade: 'rare',
+  genre: 'landscape',
   owner: '하늘보리',
   price: 12,
   description: '한강에서 직접 찍은 노을 사진입니다.',
 };
 
-export const Default = {
+export const SellerVariant = {
   args: { ...baseArgs },
   parameters: {
     docs: {
       description: {
         story:
           '교환 제시 카드입니다. 제안된 포토카드 정보와 설명, 승인/거절 버튼이 표시됩니다.',
+      },
+    },
+  },
+};
+
+export const BuyerVariant = {
+  args: {
+    ...baseArgs,
+    variant: 'buyer',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          '구매자가 자신이 제시한 교환을 확인하는 카드입니다. 취소하기 버튼이 표시됩니다.',
       },
     },
   },
