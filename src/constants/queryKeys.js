@@ -31,7 +31,8 @@ export const QUERY_KEYS = {
   // 교환
   trades: {
     all: () => ['trades'],
-    bySale: (saleId) => ['trades', 'bySale', normalizeKey.id(saleId)],
+    bySale: (saleId) => ['trades', 'bySale', normalizeKey.id(saleId)], // 판매자: 받은 교환 목록
+    myOffer: (saleId) => ['trades', 'myOffer', normalizeKey.id(saleId)], // 구매자: 내가 제시한 교환
   },
 
   // 나의 판매 카드
