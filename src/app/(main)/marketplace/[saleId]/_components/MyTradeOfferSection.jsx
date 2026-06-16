@@ -49,16 +49,11 @@ export const MyTradeOfferSection = ({ offers }) => {
       <PageTitle title="내가 제시한 교환 목록" variant="heading" />
 
       <ul className="grid grid-cols-2 gap-[0.3125rem] md:gap-[1.25rem] xl:grid-cols-3 xl:gap-[5rem]">
-        {mockMyTradeOffers.map((offer) => (
-          <li key={offer.tradeId}>
+        {offers.map((offer) => (
+          <li key={offer.id}>
             <ExchangeCard
-              description={offer.description}
-              genre={offer.genre}
-              grade={offer.grade}
-              imageUrl={offer.imageUrl}
-              name={offer.name}
-              owner={offer.nickname}
-              price={offer.price}
+              {...offer.offeredCard} // description, genre, grade, imageUrl, name, price
+              owner={offer.receiver.nickname}
               variant="buyer"
               onCancel={() => handleCancle(offer.tradeId)}
             />
