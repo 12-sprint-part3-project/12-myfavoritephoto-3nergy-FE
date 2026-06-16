@@ -41,7 +41,6 @@ export const PhotocardSelectList = ({
     initialCounts,
     displayCount,
     isCountLoading,
-    multiSelected,
   } = useFilterSelection(data, ['grade', 'genre']);
 
   const observerRef = useRef(null); // 스크롤 감지 타겟 ref
@@ -139,7 +138,7 @@ export const PhotocardSelectList = ({
           onDraftChange={setDraftSelection}
           totalPhotos={displayCount}
           // 장르와 필터 모두 선택된 경우에만 API 호출 중 로딩 표시
-          isCountLoading={multiSelected && isCountLoading}
+          isCountLoading={isCountLoading}
           onApply={(selected) => {
             setParams((prev) => ({
               ...prev,
