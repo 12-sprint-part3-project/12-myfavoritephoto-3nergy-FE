@@ -10,20 +10,24 @@ export const CardList = ({ sales = [] }) => {
     >
       {/* TODO: 판매중 상태인 카드는 상세페이지로 넘어갈 수 있게 처리 */}
       {sales.length > 0 ? (
-        sales.map((item) => (
-          <Card
-            key={item.id}
-            type="mysales"
-            imageUrl={item.imageUrl}
-            name={item.name}
-            grade={item.grade}
-            genre={item.genre}
-            owner={item.ownerNickname}
-            price={item.price}
-            remainingQuantity={item.remainingQuantity}
-            status={item.displayStatus}
-          />
-        ))
+        sales.map((item) => {
+          console.log(item);
+
+          return (
+            <Card
+              key={item.saleMethod === 'SALE' ? item.saleId : item.tradeId}
+              type="mysales"
+              imageUrl={item.imageUrl}
+              name={item.name}
+              grade={item.grade}
+              genre={item.genre}
+              owner={item.nickname}
+              price={item.price}
+              remainingQuantity={item.remainingQuantity}
+              status={item.displayStatus}
+            />
+          );
+        })
       ) : (
         <EmptyPhotocardList isFiltered={true} />
       )}
