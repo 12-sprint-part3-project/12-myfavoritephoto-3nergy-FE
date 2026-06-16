@@ -2,23 +2,12 @@ import { useInfiniteQuery, keepPreviousData } from '@tanstack/react-query';
 import { QUERY_KEYS } from '@/constants/queryKeys';
 import { getSales } from '@/services/sales';
 
-// null/undefined/빈 문자열 값 제거 (URLSearchParams에 불필요한 쿼리 포함 방지)
-const cleanParams = (params) =>
-  Object.fromEntries(
-    Object.entries(params).filter(
-      ([, value]) => value !== null && value !== undefined && value !== '',
-    ),
-  );
-
 export const useSales = (params = {}) => {
-  const cleanedParams = cleanParams(params);
-
   return useInfiniteQuery({
-    queryKey: QUERY_KEYS.sales.list(cleanedParams),
+    queryKey: QUERY_KEYS.sales.list(params),
 
     // pageParam: 현재 페이지 번호 (초기값 1, getNextPageParam에서 결정)
-    queryFn: ({ pageParam = 1 }) =>
-      getSales({ ...cleanedParams, page: pageParam }),
+    queryFn: ({ pageParam = 1 }) => getSales({ ...params, page: pageParam }),
 
     initialPageParam: 1,
 
@@ -34,6 +23,9 @@ export const useSales = (params = {}) => {
     select: (res) => ({
       sales: res.pages.flatMap((p) => p.data.sales),
       meta: res.pages.at(-1).meta,
+      gradeCounts: res.pages[0].data.gradeCounts,
+      genreCounts: res.pages[0].data.genreCounts,
+      saleStatusCounts: res.pages[0].data.saleStatusCounts,
     }),
   });
 };

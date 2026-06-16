@@ -12,5 +12,14 @@ export const useMySales = (filter) => {
     queryKey: QUERY_KEYS.mySales.list(filter),
     queryFn: () => getMySales(filter),
     placeholderData: keepPreviousData,
+    select: (res) => ({
+      ...res,
+      mySales: res.data.mySales,
+      gradeCounts: res.data.gradeCounts,
+      genreCounts: res.data.genreCounts,
+      saleStatusCounts: res.data.saleStatusCounts,
+      saleMethodCounts: res.data.saleMethodCounts,
+      meta: res.meta,
+    }),
   });
 };

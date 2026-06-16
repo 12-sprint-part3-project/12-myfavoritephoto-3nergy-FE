@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { usePhotocardSelectList } from '@/hooks/photocard/usePhotocardSelectList';
-import { useFilterSelection } from '@/hooks/photocard/useFilterSelection';
+import { usePhotocardFilterSelection } from '@/hooks/photocard/usePhotocardFilterSelection';
 import { CARD_GRADE_OPTIONS, CARD_GENRE_OPTIONS } from '@/constants/card';
 import { PageTitle } from '@/components/layout/PageTitle';
 import { SearchBar } from '@/components/ui/SearchBar';
@@ -34,15 +34,15 @@ export const PhotocardSelectList = ({
     isFetchingNextPage,
   } = usePhotocardSelectList(params);
 
-  // 바텀시트 필터 선택 상태 및 개수 계산
+  console.log(data);
+
   const {
     draftSelection,
     setDraftSelection,
     initialCounts,
     displayCount,
     isCountLoading,
-    multiSelected,
-  } = useFilterSelection(data, ['grade', 'genre']);
+  } = usePhotocardFilterSelection(data);
 
   const observerRef = useRef(null); // 스크롤 감지 타겟 ref
   const containerRef = useRef(null);
@@ -139,7 +139,7 @@ export const PhotocardSelectList = ({
           onDraftChange={setDraftSelection}
           totalPhotos={displayCount}
           // 장르와 필터 모두 선택된 경우에만 API 호출 중 로딩 표시
-          isCountLoading={multiSelected && isCountLoading}
+          isCountLoading={isCountLoading}
           onApply={(selected) => {
             setParams((prev) => ({
               ...prev,

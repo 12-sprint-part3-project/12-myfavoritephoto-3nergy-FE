@@ -9,6 +9,7 @@ import {
 } from '@/constants/card';
 import { usePageSize } from '@/hooks/common/usePageSize';
 import { useMySales } from '@/hooks/sale/useMySales';
+import { useMySalesFilterSelection } from '@/hooks/sale/useMySalesFilterSelection';
 import { Pagination } from '@/components/ui/Pagination';
 import { SearchBar } from '@/components/ui/SearchBar';
 import { FilterDropdown } from '@/components/domain/photocard/FilterDropdown';
@@ -24,7 +25,12 @@ export const MySalesCardSection = () => {
    * 추후 submit 방식으로 바꾸는 것에 대해 고민
    */
   const debouncedKeyword = useDebounce(keyword, 500);
-  const [filter, setFilter] = useState({ grade: '', genre: '' });
+  const [filter, setFilter] = useState({
+    grade: '',
+    genre: '',
+    saleMethod: '',
+    isSoldOut: '',
+  });
   const [open, setOpen] = useState(false);
 
   const { data, isLoading, error } = useMySales({
@@ -33,6 +39,14 @@ export const MySalesCardSection = () => {
     page,
     pageSize,
   });
+
+  const {
+    draftSelection,
+    setDraftSelection,
+    initialCounts,
+    displayCount,
+    isCountLoading,
+  } = useMySalesFilterSelection(data);
 
   const gradeOptions = [{ value: '', label: '전체' }, ...CARD_GRADE_OPTIONS];
   const genreOptions = [{ value: '', label: '전체' }, ...CARD_GENRE_OPTIONS];
@@ -68,11 +82,30 @@ export const MySalesCardSection = () => {
             <MobileFilterBottomSheet
               tabs={['grade', 'genre', 'method', 'soldOut']}
               onClose={() => setOpen((prev) => !prev)}
-              onApply={(selection) => setFilter(selection)}
-              initialSelection={filter}
-              totalPhotos={allCardsCnt}
+              // draftSelection을 상위에서 관리해 선택 변경 시 displayCount 즉시 계산
+              draftSelection={draftSelection}
+              onDraftChange={setDraftSelection}
+              totalPhotos={displayCount}
+              onApply={(selection) => {
+                setFilter({
+                  grade: selection.grade ?? '',
+                  genre: selection.genre ?? '',
+                  saleMethod: selection.method ?? '',
+                  isSoldOut:
+                    selection.soldOut === 'SOLD_OUT'
+                      ? true
+                      : selection.soldOut === 'SALE'
+                        ? false
+                        : '',
+                });
+                setPage(1);
+              }}
+              isCountLoading={isCountLoading}
+              counts={initialCounts}
+              displayCount={displayCount}
             />
           )}
+
           <div className="hidden md:block">
             <FilterDropdown
               label="장르"
@@ -114,7 +147,7 @@ export const MySalesCardSection = () => {
 
       {!isLoading && !error && data && (
         <>
-          <CardList sales={data.data.mySales} />
+          <CardList sales={data.mySales} />
           <Pagination
             totalPages={data.meta.totalPages}
             currentPage={page}
