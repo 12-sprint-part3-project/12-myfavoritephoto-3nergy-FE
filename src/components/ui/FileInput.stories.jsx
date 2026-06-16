@@ -38,3 +38,10 @@ export const Default = {
     name: 'photo',
   },
 };
+
+export const Error = {
+  args: {
+    label: '사진 업로드',
+    error: '사진을 업로드해 주세요.',
+  },
+};

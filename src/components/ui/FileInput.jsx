@@ -8,6 +8,7 @@ export const FileInput = ({
   labelClassName = 'lg:text-noto-20-bold text-noto-16-bold',
   name,
   onChange,
+  error,
 }) => {
   const uid = useId();
   const inputId = `${name}-${uid}`;
@@ -36,9 +37,11 @@ export const FileInput = ({
       )}
 
       <div className="flex flex-wrap gap-[.625rem]">
-        <div className="relative flex h-[3.4375rem] flex-1 items-center overflow-hidden rounded-xs border border-white bg-black px-5 md:h-[3.75rem]">
+        <div
+          className={`relative flex h-[3.4375rem] flex-1 items-center overflow-hidden rounded-xs border bg-black px-5 md:h-[3.75rem] ${error ? 'border-red focus:border-red' : 'border-white focus:border-main'}`}
+        >
           <span
-            className={`text-noto-14-regular md:text-noto-16-regular min-w-0 flex-1 truncate ${fileName ? 'text-white' : 'text-gray-200'}`}
+            className={`min-w-0 flex-1 truncate text-noto-14-regular md:text-noto-16-regular ${fileName ? 'text-white' : 'text-gray-200'}`}
           >
             {fileName || '사진 업로드'}
           </span>
@@ -56,7 +59,7 @@ export const FileInput = ({
 
         <label
           htmlFor={inputId}
-          className="text-noto-14-regular md:text-noto-16-regular border-main text-main flex h-[3.4375rem] shrink-0 cursor-pointer items-center rounded-xs border bg-black px-7 md:h-[3.75rem]"
+          className="flex h-[3.4375rem] shrink-0 cursor-pointer items-center rounded-xs border border-main bg-black px-7 text-noto-14-regular text-main md:h-[3.75rem] md:text-noto-16-regular"
         >
           파일 선택
         </label>
@@ -71,6 +74,8 @@ export const FileInput = ({
           className="hidden"
         />
       </div>
+
+      {error && <p className="text-noto-16-light text-red">{error}</p>}
     </div>
   );
 };
