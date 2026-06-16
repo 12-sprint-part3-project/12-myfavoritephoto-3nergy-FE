@@ -18,9 +18,9 @@ import {
   SALE_STATUS_OPTIONS,
 } from '@/constants/card';
 
-const gradeOptions = [{ value: '', label: '전체' }, ...CARD_GRADE_OPTIONS];
-const genreOptions = [{ value: '', label: '전체' }, ...CARD_GENRE_OPTIONS];
-const soldOutOptions = [{ value: '', label: '전체' }, ...SALE_STATUS_OPTIONS];
+const GRADE_OPTIONS = [{ value: '', label: '전체' }, ...CARD_GRADE_OPTIONS];
+const GENRE_OPTIONS = [{ value: '', label: '전체' }, ...CARD_GENRE_OPTIONS];
+const SOLD_OUT_OPTIONS = [{ value: '', label: '전체' }, ...SALE_STATUS_OPTIONS];
 
 const FILTER_TABS = ['grade', 'genre', 'soldOut'];
 
@@ -123,7 +123,7 @@ export const MarketplaceContent = () => {
           <div className="flex items-center gap-3 md:gap-6 lg:gap-[2.8125rem]">
             <FilterDropdown
               label="등급"
-              options={gradeOptions}
+              options={GRADE_OPTIONS}
               value={filters.grade}
               onChange={handleFilterChange('grade')}
               onMobileClick={() => setIsFilterOpen(true)}
@@ -131,7 +131,7 @@ export const MarketplaceContent = () => {
             <div className="hidden md:block">
               <FilterDropdown
                 label="장르"
-                options={genreOptions}
+                options={GENRE_OPTIONS}
                 value={filters.genre}
                 onChange={handleFilterChange('genre')}
               />
@@ -139,7 +139,7 @@ export const MarketplaceContent = () => {
             <div className="hidden md:block">
               <FilterDropdown
                 label="매진여부"
-                options={soldOutOptions}
+                options={SOLD_OUT_OPTIONS}
                 value={filters.soldOut}
                 onChange={handleFilterChange('soldOut')}
               />
