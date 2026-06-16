@@ -12,5 +12,12 @@ export const usePhotocards = (filter) => {
     queryKey: QUERY_KEYS.myGallery.list(filter),
     queryFn: () => getPhotocards(filter),
     placeholderData: keepPreviousData,
+    select: (res) => ({
+      ...res,
+      photocards: res.data.photocards,
+      gradeCounts: res.data.gradeCounts,
+      genreCounts: res.data.genreCounts,
+      meta: res.meta,
+    }),
   });
 };
