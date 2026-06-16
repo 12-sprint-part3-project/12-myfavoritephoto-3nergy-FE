@@ -1,17 +1,44 @@
 'use client';
 
-import { ExchangeCard } from '@/components/domain/photocard/ExchangeCard';
+import { useToastContext } from '@/context/ToastContext';
 import { useTrades } from '@/hooks/trade/useTrades';
+import { useAcceptTrade } from '@/hooks/trade/useAcceptTrade';
+import { useRejectTrade } from '@/hooks/trade/useRejectTrade';
+import { ExchangeCard } from '@/components/domain/photocard/ExchangeCard';
 
 export const TradeListSection = ({ sale }) => {
   const { data: trades, isLoading, error } = useTrades(sale.saleId);
+  const { mutate: acceptTrade, isPending: isAcceptPending } = useAcceptTrade(
+    sale.saleId,
+  );
+  const { mutate: rejectTrade, isPending: isRejectPending } = useRejectTrade(
+    sale.saleId,
+  );
 
-  const handleAccept = (tradeId) => {
-    // TODO: API 연동
+  const { showToast } = useToastContext();
+
+  const handleAccept = (tradeId, closeModal) => {
+    acceptTrade(tradeId, {
+      onSuccess: () => {
+        closeModal();
+        showToast('교환 제시를 수락했습니다.');
+      },
+      onError: () => {
+        closeModal();
+      },
+    });
   };
 
-  const handleReject = (tradeId) => {
-    // TODO: API 연동
+  const handleReject = (tradeId, closeModal) => {
+    rejectTrade(tradeId, {
+      onSuccess: () => {
+        closeModal();
+        showToast('교환 제시를 거절했습니다.');
+      },
+      onError: () => {
+        closeModal();
+      },
+    });
   };
 
   // TODO: 스켈레톤 UI로 교체
@@ -27,7 +54,7 @@ export const TradeListSection = ({ sale }) => {
   if (trades?.length === 0) {
     return (
       <p className="text-noto-20-regular text-gray-300">
-        아직 교환 제안이 없습니다.
+        받은 교환 제안이 없습니다.
       </p>
     );
   }
@@ -37,15 +64,11 @@ export const TradeListSection = ({ sale }) => {
       {trades?.map((trade) => (
         <li key={trade.id}>
           <ExchangeCard
-            description={trade.offeredCard.description}
-            genre={trade.offeredCard.genre}
-            grade={trade.offeredCard.grade}
-            imageUrl={trade.offeredCard.imageUrl}
-            name={trade.offeredCard.name}
+            {...trade.offeredCard} // description, genre, grade, imageUrl, name, price
             owner={trade.proposer.nickname}
-            price={trade.offeredCard.price}
-            onAccept={() => handleAccept(trade.id)}
-            onReject={() => handleReject(trade.id)}
+            isPending={isAcceptPending || isRejectPending}
+            onAccept={(closeModal) => handleAccept(trade.id, closeModal)}
+            onReject={(closeModal) => handleReject(trade.id, closeModal)}
           />
         </li>
       ))}
