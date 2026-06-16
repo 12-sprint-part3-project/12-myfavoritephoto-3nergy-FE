@@ -2,7 +2,6 @@ import { useQuery } from '@tanstack/react-query';
 import { useAuth } from '@/context/AuthContext';
 import { getMyPoints } from '@/services/point';
 import { QUERY_KEYS } from '@/constants/queryKeys';
-import { MINUTE } from '@/constants/time';
 
 // 보유 포인트 조회
 export const useMyPoints = () => {
@@ -13,6 +12,5 @@ export const useMyPoints = () => {
     queryFn: getMyPoints,
     select: (data) => data.point,
     enabled: Boolean(accessToken),
-    staleTime: MINUTE,
   });
 };

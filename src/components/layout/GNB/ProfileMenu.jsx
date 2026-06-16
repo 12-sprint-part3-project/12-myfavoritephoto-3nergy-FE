@@ -1,11 +1,12 @@
 'use client';
 
 import Link from 'next/link';
+import { ROUTES } from '@/constants/routes';
 
 const NAV_LINKS = [
-  { label: '마켓플레이스', href: '/marketplace' },
-  { label: '마이갤러리', href: '/my-gallery' },
-  { label: '판매 중인 포토카드', href: '/my-sales' },
+  { label: '마켓플레이스', href: ROUTES.marketplace },
+  { label: '마이갤러리', href: ROUTES.myGallery },
+  { label: '판매 중인 포토카드', href: ROUTES.mySales },
 ];
 
 export const ProfileMenu = ({ user, onLogout, onClose }) => {
