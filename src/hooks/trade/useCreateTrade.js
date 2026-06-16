@@ -12,6 +12,10 @@ export const useCreateTrade = (saleId) => {
       queryClient.invalidateQueries({
         queryKey: QUERY_KEYS.trades.bySale(saleId),
       });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.trades.myOffer(saleId),
+      });
+      queryClient.refetchQueries({ queryKey: QUERY_KEYS.mySales.all() });
     },
   });
 };

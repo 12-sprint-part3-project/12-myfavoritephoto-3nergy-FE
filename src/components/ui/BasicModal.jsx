@@ -9,6 +9,8 @@ export const BasicModal = ({
   onClose,
   onClick,
   buttonText = '확인',
+  loadingText = '처리 중...',
+  isLoading = false,
   children,
 }) => {
   return (
@@ -20,21 +22,22 @@ export const BasicModal = ({
         <div className="flex flex-col items-center justify-center">
           <h2
             id="modal-title"
-            className="text-noto-18-bold lg:text-noto-20-regular mb-10 text-white"
+            className="mb-10 text-noto-18-bold text-white lg:text-noto-20-regular"
           >
             {title}
           </h2>
           <p
             id="modal-description"
-            className="text-noto-14-regular lg:text-noto-18-regular mb-[3.75rem] text-center break-keep text-gray-300"
+            className="mb-[3.75rem] text-center text-noto-14-regular break-keep text-gray-300 lg:text-noto-18-regular"
           >
             {children}
           </p>
           <Button
-            className="text-noto-16-bold lg:text-noto-18-bold w-[7.5rem] md:w-[8.75rem] lg:w-[10.625rem]"
+            className="w-[7.5rem] text-noto-16-bold md:w-[8.75rem] lg:w-[10.625rem] lg:text-noto-18-bold"
             onClick={onClick}
+            disabled={isLoading}
           >
-            {buttonText}
+            {isLoading ? loadingText : buttonText}
           </Button>
         </div>
       </Modal>

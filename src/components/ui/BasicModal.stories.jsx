@@ -25,6 +25,23 @@ const meta = {
         defaultValue: { summary: '확인' },
       },
     },
+    loadingText: {
+      control: 'text',
+      description: '로딩 상태 버튼 텍스트. isLoading이 true일 때 표시됩니다.',
+      table: {
+        type: { summary: 'string' },
+        defaultValue: { summary: '처리 중...' },
+      },
+    },
+    isLoading: {
+      control: 'boolean',
+      description:
+        '로딩 상태. true일 때 버튼이 비활성화되고 loadingText로 변경됩니다.',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' },
+      },
+    },
     onClose: {
       control: false,
       description: '모달 닫기 핸들러',
@@ -51,7 +68,13 @@ const meta = {
 
 export default meta;
 
-function BasicModalWithTrigger({ title, buttonText, children }) {
+function BasicModalWithTrigger({
+  title,
+  buttonText,
+  loadingText,
+  isLoading,
+  children,
+}) {
   const [open, setOpen] = useState(false);
   return (
     <>
@@ -62,6 +85,8 @@ function BasicModalWithTrigger({ title, buttonText, children }) {
         <BasicModal
           title={title}
           buttonText={buttonText}
+          loadingText={loadingText}
+          isLoading={isLoading}
           onClose={() => setOpen(false)}
           onClick={() => setOpen(false)}
         >
@@ -71,6 +96,7 @@ function BasicModalWithTrigger({ title, buttonText, children }) {
     </>
   );
 }
+
 export const Default = {
   args: {
     title: '모달 제목',
@@ -98,7 +124,40 @@ const [open, setOpen] = useState(false);
     },
   },
   render: (args) => (
-    <BasicModalWithTrigger title={args.title} buttonText={args.buttonText}>
+    <BasicModalWithTrigger
+      title={args.title}
+      buttonText={args.buttonText}
+      loadingText={args.loadingText}
+      isLoading={args.isLoading}
+    >
+      {args.children}
+    </BasicModalWithTrigger>
+  ),
+};
+
+export const Loading = {
+  args: {
+    title: '교환 제시 취소',
+    buttonText: '취소하기',
+    loadingText: '취소 중...',
+    isLoading: true,
+    children: '[RARE | 노을 지는 한강] 교환 제시를 취소하시겠습니까?',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'API 처리 중인 상태입니다. 버튼이 비활성화되고 loadingText가 표시됩니다.',
+      },
+    },
+  },
+  render: (args) => (
+    <BasicModalWithTrigger
+      title={args.title}
+      buttonText={args.buttonText}
+      loadingText={args.loadingText}
+      isLoading={args.isLoading}
+    >
       {args.children}
     </BasicModalWithTrigger>
   ),
