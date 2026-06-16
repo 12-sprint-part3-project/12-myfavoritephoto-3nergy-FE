@@ -1,5 +1,6 @@
-import { useState, useRef, useMemo, useEffect, useCallback } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { usePhotocardSelectList } from '@/hooks/photocard/usePhotocardSelectList';
+import { useFilterSelection } from '@/hooks/photocard/useFilterSelection';
 import { CARD_GRADE_OPTIONS, CARD_GENRE_OPTIONS } from '@/constants/card';
 import { PageTitle } from '@/components/layout/PageTitle';
 import { SearchBar } from '@/components/ui/SearchBar';
@@ -21,6 +22,9 @@ export const PhotocardSelectList = ({
     pageSize: 20,
   });
 
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+
+  // 포토카드 목록 조회 (무한스크롤)
   const {
     data,
     isLoading,
@@ -30,14 +34,15 @@ export const PhotocardSelectList = ({
     isFetchingNextPage,
   } = usePhotocardSelectList(params);
 
-  // gradeCounts 배열을 { grade: count } 형태로 변환
-  const counts = useMemo(() => {
-    if (!data) return {};
-    const grade = Object.fromEntries(
-      (data.gradeCounts ?? []).map(({ grade, count }) => [grade, count]),
-    );
-    return { grade };
-  }, [data]);
+  // 바텀시트 필터 선택 상태 및 개수 계산
+  const {
+    draftSelection,
+    setDraftSelection,
+    initialCounts,
+    displayCount,
+    isCountLoading,
+    multiSelected,
+  } = useFilterSelection(data, ['grade', 'genre']);
 
   const observerRef = useRef(null); // 스크롤 감지 타겟 ref
   const containerRef = useRef(null);
@@ -55,7 +60,7 @@ export const PhotocardSelectList = ({
   useEffect(() => {
     const observer = new IntersectionObserver(handleObserver, {
       // root: 모달/바텀시트 스크롤 컨테이너 기준으로 감지
-      // undefined면 뷰포트 기준 (모바일 페이지에서는 모달이 없으므로 scrollContainerRef도 없음)
+      // scrollContainerRef가 없으면 (모바일 페이지) 뷰포트 기준으로 감지
       root: scrollContainerRef?.current ?? null,
       threshold: 0.5,
     });
@@ -64,20 +69,6 @@ export const PhotocardSelectList = ({
     }
     return () => observer.disconnect();
   }, [handleObserver, scrollContainerRef]);
-
-  // 바텀시트에 넘길 초기 counts, totalCount 저장
-  const [initialCounts, setInitialCounts] = useState(null);
-  const [initialTotal, setInitialTotal] = useState(null);
-
-  // 필터 적용 후 API 재호출 시 counts가 바뀌는 걸 방지하고자 최초 로드 시 한 번만 저장
-  useEffect(() => {
-    if (data && !initialCounts) {
-      setInitialCounts(counts);
-      setInitialTotal(data.meta.totalCount);
-    }
-  }, [data, counts, initialCounts]);
-
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const gradeOptions = [{ value: '', label: '전체' }, ...CARD_GRADE_OPTIONS];
   const genreOptions = [{ value: '', label: '전체' }, ...CARD_GENRE_OPTIONS];
@@ -103,7 +94,7 @@ export const PhotocardSelectList = ({
         className="hidden md:mb-[1.25rem] md:block"
       />
 
-      {/* 검색 + 정렬 */}
+      {/* 검색 + 필터 */}
       <div className="flex items-center gap-[0.63rem] pb-[1.25rem] md:gap-[1.875rem] md:pb-[2.5rem] lg:gap-[3.75rem]">
         <div className="order-2 w-full md:order-1 md:w-auto lg:w-[320px]">
           <SearchBar
@@ -143,17 +134,22 @@ export const PhotocardSelectList = ({
         <MobileFilterBottomSheet
           tabs={['grade', 'genre']}
           onClose={() => setIsFilterOpen(false)}
+          // draftSelection을 상위에서 관리해 선택 변경 시 displayCount 즉시 계산
+          draftSelection={draftSelection}
+          onDraftChange={setDraftSelection}
+          totalPhotos={displayCount}
+          // 장르와 필터 모두 선택된 경우에만 API 호출 중 로딩 표시
+          isCountLoading={multiSelected && isCountLoading}
           onApply={(selected) => {
             setParams((prev) => ({
               ...prev,
               grade: selected.grade ?? '',
               genre: selected.genre ?? '',
-
-              page: 1,
             }));
           }}
+          // 필터 적용 후에도 초기 기준 개수 유지
           counts={initialCounts}
-          totalPhotos={initialTotal}
+          displayCount={displayCount}
         />
       )}
 

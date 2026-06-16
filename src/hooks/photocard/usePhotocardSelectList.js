@@ -25,6 +25,7 @@ export const usePhotocardSelectList = (params = {}) => {
       photocards: res.pages.flatMap((p) => p.data.photocards),
       meta: res.pages.at(-1).meta,
       gradeCounts: res.pages[0].data.gradeCounts,
+      genreCounts: res.pages[0].data.genreCounts,
     }),
   });
 };
