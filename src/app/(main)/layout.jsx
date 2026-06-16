@@ -3,6 +3,7 @@
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { useMe } from '@/hooks/user/useMe';
+import { useMyPoints } from '@/hooks/point/useMyPoints';
 import { useLogout } from '@/hooks/auth/useLogout';
 import { GNB } from '@/components/layout/GNB/GNB';
 import { getGnbConfig } from '@/components/layout/GNB/gnb.config';
@@ -16,13 +17,14 @@ export default function MainLayout({ children }) {
   const { accessToken } = useAuth();
   const isAuthenticated = Boolean(accessToken);
   const { data: user } = useMe();
+  const { data: points } = useMyPoints();
   const { mutate: logout } = useLogout();
 
   return (
     <div className="flex min-h-screen flex-col">
       <GNB
         isAuthenticated={isAuthenticated}
-        user={user}
+        user={user ? { ...user, points } : user}
         onLogout={() => logout()}
         pageTitle={config?.title ?? null}
         onBack={() => router.back()}
