@@ -12,13 +12,13 @@ export const CardList = ({ sales = [] }) => {
       {sales.length > 0 ? (
         sales.map((item) => (
           <Card
-            key={item.id}
+            key={item.saleMethod === 'SALE' ? item.saleId : item.tradeId}
             type="mysales"
             imageUrl={item.imageUrl}
             name={item.name}
             grade={item.grade}
             genre={item.genre}
-            owner={item.ownerNickname}
+            owner={item.nickname}
             price={item.price}
             remainingQuantity={item.remainingQuantity}
             status={item.displayStatus}
