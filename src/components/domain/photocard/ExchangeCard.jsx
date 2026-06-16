@@ -25,8 +25,7 @@ export const ExchangeCard = ({
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
 
   const handleReject = () => {
-    setIsRejectModalOpen(false);
-    if (onReject) onReject();
+    if (onReject) onReject(() => setIsRejectModalOpen(false));
   };
 
   const handleAccept = () => {
@@ -121,8 +120,10 @@ export const ExchangeCard = ({
         <BasicModal
           title="교환 제시 거절"
           buttonText="거절하기"
+          loadingText="거절 중..."
           onClose={() => setIsRejectModalOpen(false)}
           onClick={handleReject}
+          isLoading={isPending}
         >
           [{gradeLabel} | {name}] 카드와의 교환을 거절하시겠습니까?
         </BasicModal>

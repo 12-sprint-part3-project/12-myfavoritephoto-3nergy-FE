@@ -3,16 +3,22 @@
 import { useToastContext } from '@/context/ToastContext';
 import { useTrades } from '@/hooks/trade/useTrades';
 import { useAcceptTrade } from '@/hooks/trade/useAcceptTrade';
+import { useRejectTrade } from '@/hooks/trade/useRejectTrade';
 import { ExchangeCard } from '@/components/domain/photocard/ExchangeCard';
 
 export const TradeListSection = ({ sale }) => {
   const { data: trades, isLoading, error } = useTrades(sale.saleId);
-  const { mutate: AcceptTrade, isPending } = useAcceptTrade(sale.saleId);
+  const { mutate: acceptTrade, isPending: isAcceptPending } = useAcceptTrade(
+    sale.saleId,
+  );
+  const { mutate: rejectTrade, isPending: isRejectPending } = useRejectTrade(
+    sale.saleId,
+  );
 
   const { showToast } = useToastContext();
 
   const handleAccept = (tradeId, closeModal) => {
-    AcceptTrade(tradeId, {
+    acceptTrade(tradeId, {
       onSuccess: () => {
         closeModal();
         showToast('교환 제시를 수락했습니다.');
@@ -23,8 +29,16 @@ export const TradeListSection = ({ sale }) => {
     });
   };
 
-  const handleReject = (tradeId) => {
-    // TODO: API 연동
+  const handleReject = (tradeId, closeModal) => {
+    rejectTrade(tradeId, {
+      onSuccess: () => {
+        closeModal();
+        showToast('교환 제시를 거절했습니다.');
+      },
+      onError: () => {
+        closeModal();
+      },
+    });
   };
 
   // TODO: 스켈레톤 UI로 교체
@@ -52,9 +66,9 @@ export const TradeListSection = ({ sale }) => {
           <ExchangeCard
             {...trade.offeredCard} // description, genre, grade, imageUrl, name, price
             owner={trade.proposer.nickname}
+            isPending={isAcceptPending || isRejectPending}
             onAccept={(closeModal) => handleAccept(trade.id, closeModal)}
-            isPending={isPending}
-            onReject={() => handleReject(trade.id)}
+            onReject={(closeModal) => handleReject(trade.id, closeModal)}
           />
         </li>
       ))}
