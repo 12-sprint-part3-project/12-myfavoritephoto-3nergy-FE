@@ -54,7 +54,7 @@ export const TradeListSection = ({ sale }) => {
   if (trades?.length === 0) {
     return (
       <p className="text-noto-20-regular text-gray-300">
-        아직 교환 제안이 없습니다.
+        받은 교환 제안이 없습니다.
       </p>
     );
   }
