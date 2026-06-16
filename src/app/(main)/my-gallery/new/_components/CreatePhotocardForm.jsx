@@ -2,21 +2,25 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { CARD_GENRE_OPTIONS, CARD_GRADE_OPTIONS } from '@/constants/card';
+import { getErrorHandler } from '@/constants/errorHandler';
+import { useCreatePhotocard } from '@/hooks/photocard/useCreatePhotocard';
+import { uploadImage } from '@/services/image';
+import {
+  validateCardName,
+  validateDescription,
+  validateGenre,
+  validateGrade,
+  validateImgFile,
+  validatePrice,
+  validateQuantity,
+} from '@/utils/validators';
 import { Input } from '@/components/ui/Input';
 import { Select } from '@/components/ui/Select';
 import { FileInput } from '@/components/ui/FileInput';
 import { Textarea } from '@/components/ui/Textarea';
 import { Button } from '@/components/ui/Button';
-import { CARD_GENRE_OPTIONS, CARD_GRADE_OPTIONS } from '@/constants/card';
-import { useCreatePhotocard } from '@/hooks/photocard/useCreatePhotocard';
-import { uploadImage } from '@/services/image';
-import {
-  validateCardName,
-  validateGenre,
-  validateGrade,
-  validatePrice,
-  validateQuantity,
-} from '@/utils/validators';
+import { showGlobalToast } from '@/lib/toast/toastService';
 
 /**
  * 포토카드 생성 폼 컴포넌트
@@ -74,6 +78,7 @@ export const CreatePhotocardForm = () => {
     errs.name = validateCardName(form.name);
     errs.grade = validateGrade(form.grade);
     errs.genre = validateGenre(form.genre);
+    errs.description = validateDescription(form.description);
 
     const price = Number(form.price);
     errs.price = validatePrice(price);
@@ -89,7 +94,8 @@ export const CreatePhotocardForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const errs = validate();
-    if (Object.keys(errs).length > 0) {
+    const hasError = Object.values(errs).some((msg) => msg);
+    if (hasError) {
       setValidateData(errs);
       return;
     }
@@ -121,10 +127,16 @@ export const CreatePhotocardForm = () => {
             `/my-gallery/new/result?status=success&name=${encodeURIComponent(form.name)}&grade=${form.grade}`,
           );
         },
-        onError: () => {
-          router.push(
-            `/my-gallery/new/result?status=failure&name=${encodeURIComponent(form.name)}&grade=${form.grade}`,
-          );
+        onError: (error) => {
+          const handler = getErrorHandler(error?.code);
+
+          if (handler.action === 'toast') {
+            showGlobalToast(handler.message ?? error?.message);
+          } else {
+            router.push(
+              `/my-gallery/new/result?status=failure&name=${encodeURIComponent(form.name)}&grade=${form.grade}`,
+            );
+          }
         },
       },
     );
@@ -189,12 +201,8 @@ export const CreatePhotocardForm = () => {
             label="사진 업로드"
             name="imageUrl"
             onChange={handleFileChange}
+            error={validateData.imageFile}
           />
-          {validateData.imageFile && (
-            <p className="text-noto-16-light text-red">
-              {validateData.imageFile}
-            </p>
-          )}
         </div>
         <Textarea
           label="포토카드 설명"
@@ -202,6 +210,7 @@ export const CreatePhotocardForm = () => {
           value={form.description}
           placeholder="카드 설명을 입력해 주세요"
           onChange={handleChange}
+          error={validateData.description}
         />
       </fieldset>
       <Button

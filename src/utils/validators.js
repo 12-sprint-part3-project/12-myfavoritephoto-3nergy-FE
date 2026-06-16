@@ -5,7 +5,7 @@ export const validatePrice = (value) => {
   return '';
 };
 
-// 교환 희망 정보
+// 교환 희망, 카드 설명 정보
 export const validateDescription = (value) => {
   if (!value.trim()) {
     return '설명을 입력해주세요.';
@@ -44,32 +44,12 @@ export const validateGenre = (value) => {
 };
 
 // 수량 min, max validate
-/**
- *
- * @param {*} value
- * @returns
- */
 export const validateQuantity = (value) => {
   if (!value) {
     return '최소 1장은 등록해야 합니다.';
   }
   if (value > 10) {
     return '총 발행량은 10장 이하로 선택 가능합니다.';
-  }
-
-  return '';
-};
-
-/**
- * textarea ( 희망 설명, 제시 내용 ) 필드 validate
- * @param {string} value 입력값
- * @param {string} label textarea label
- * @param {boolean} [required=false] 필수입력 여부(선택)
- * @returns {string}
- */
-export const validateTextarea = (value, label, required = false) => {
-  if (!value.trim()) {
-    return required ? `${label}을(를) 입력해주세요.` : '';
   }
 
   return '';
