@@ -16,6 +16,10 @@ export const getGnbConfig = (pathname) => {
     return { title: '수정하기' };
   }
 
+  if (root === 'marketplace' && action === 'trade') {
+    return { title: '포토카드 교환하기' };
+  }
+
   if (root === 'marketplace' && id === 'create') {
     return { title: '나의 포토카드 판매하기' };
   }

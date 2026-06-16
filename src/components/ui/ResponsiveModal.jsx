@@ -7,7 +7,13 @@ import { useIsDesktop } from '@/hooks/common/useResponsive';
 
 // ref: 내부 스크롤 컨테이너에 연결됨
 // 외부에서 무한스크롤 등 스크롤 이벤트 감지가 필요한 경우 전달
-export const ResponsiveModal = ({ onClose, footer, children, ref }) => {
+export const ResponsiveModal = ({
+  onClose,
+  footer,
+  children,
+  ref,
+  className,
+}) => {
   // lg(1024px) 이상이면 true
   const isDesktop = useIsDesktop();
 
@@ -19,7 +25,7 @@ export const ResponsiveModal = ({ onClose, footer, children, ref }) => {
           ref={ref}
           onClose={onClose}
           footer={footer}
-          className="mx-4 w-full max-w-[72.5rem] bg-gray-500 px-[1.875rem] py-[3.75rem]"
+          className={`{mx-4 py-[3.75rem]} w-full max-w-[72.5rem] bg-gray-500 px-[1.875rem] ${className}`}
         >
           {children}
         </Modal>
