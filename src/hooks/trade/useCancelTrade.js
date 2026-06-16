@@ -14,6 +14,7 @@ export const useCancelTrade = (saleId) => {
       queryClient.invalidateQueries({
         queryKey: QUERY_KEYS.trades.myOffer(saleId),
       });
+      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.mySales.all() });
     },
   });
 };
