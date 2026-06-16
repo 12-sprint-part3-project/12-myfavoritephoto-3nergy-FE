@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { usePhotocardSelectList } from '@/hooks/photocard/usePhotocardSelectList';
-import { useFilterSelection } from '@/hooks/photocard/useFilterSelection';
+import { useFilterSelection } from '@/hooks/common/useFilterSelection';
 import { CARD_GRADE_OPTIONS, CARD_GENRE_OPTIONS } from '@/constants/card';
 import { PageTitle } from '@/components/layout/PageTitle';
 import { SearchBar } from '@/components/ui/SearchBar';
