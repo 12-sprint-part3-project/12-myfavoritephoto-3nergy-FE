@@ -35,8 +35,8 @@ export const GNB = ({
 
   return (
     <header className="sticky top-0 z-40 bg-black">
-      <nav className="hidden w-full items-center sm:flex sm:h-[4.375rem] lg:h-[5rem]">
-        <div className="flex w-full items-center justify-between sm:px-[2.5rem] lg:px-[13.75rem]">
+      <nav className="hidden w-full items-center md:flex md:h-[4.375rem] lg:h-[5rem]">
+        <div className="flex w-full items-center justify-between md:px-[2.5rem] lg:px-[13.75rem]">
           <Link href="/">
             <Image
               src="/logo.svg"
@@ -107,7 +107,7 @@ export const GNB = ({
         </div>
       </nav>
 
-      <nav className="flex h-[3.75rem] items-center justify-between px-6 sm:hidden">
+      <nav className="flex h-[3.75rem] items-center justify-between px-6 md:hidden">
         {isSubPage ? (
           <>
             <button

@@ -40,24 +40,24 @@ export const SortDropdown = ({ value, onChange, className }) => {
       <button
         type="button"
         onClick={() => setIsOpen((prev) => !prev)}
-        className="text-noto-16-regular flex h-[3.4375rem] w-full cursor-pointer items-center justify-between gap-2 border border-white bg-gray-500 px-4"
+        className="flex h-[2.1875rem] w-full cursor-pointer items-center justify-between gap-2 border border-gray-200 bg-black px-[0.9375rem] text-xs md:h-[3.4375rem] md:border-white md:bg-gray-500 md:px-4 md:text-noto-16-regular"
       >
-        <span className={selectedOption ? 'text-white' : 'text-gray-300'}>
+        <span className={`whitespace-nowrap ${selectedOption ? 'text-white' : 'text-gray-300'}`}>
           {selectedOption ? selectedOption.label : '낮은 가격순'}
         </span>
         <ChevronDownIcon
-          className={`h-6 w-6 shrink-0 text-white transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
+          className={`h-5 w-5 shrink-0 text-white transition-transform duration-200 md:h-6 md:w-6 ${isOpen ? 'rotate-180' : ''}`}
         />
       </button>
 
       {isOpen && (
-        <ul className="absolute top-full right-0 left-0 z-10 border border-t-0 border-white bg-gray-500">
+        <ul className="absolute top-full right-0 left-0 z-10 border border-t-0 border-gray-200 bg-black md:border-white md:bg-gray-500">
           {SORT_OPTIONS.map((option) => (
             <li key={option.value}>
               <button
                 type="button"
                 onClick={() => handleSelect(option)}
-                className={`text-noto-16-regular flex h-[3.4375rem] w-full cursor-pointer items-center px-4 transition-colors hover:bg-gray-400 ${
+                className={`flex h-[2.1875rem] w-full cursor-pointer items-center whitespace-nowrap px-[0.9375rem] text-xs transition-colors hover:bg-gray-400 md:h-[3.4375rem] md:px-4 md:text-noto-16-regular ${
                   selectedOption?.value === option.value
                     ? 'text-main'
                     : 'text-white'
