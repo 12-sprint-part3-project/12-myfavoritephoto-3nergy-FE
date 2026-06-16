@@ -121,8 +121,9 @@ export const MarketplaceContent = () => {
       <PageTitle
         variant="title-lg"
         title="마켓플레이스"
+        className="hidden md:block"
         actions={
-          <div className="hidden w-[27.5rem] md:block">
+          <div className="w-[27.5rem]">
             <Button size="lg" className="w-full text-noto-18-bold" onClick={handleCreateClick}>
               나의 포토카드 판매하기
             </Button>

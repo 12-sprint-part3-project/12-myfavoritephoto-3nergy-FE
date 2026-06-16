@@ -24,10 +24,6 @@ export const getGnbConfig = (pathname) => {
     return { title: '나의 포토카드 판매하기' };
   }
 
-  if (root === 'marketplace' && id) {
-    return { title: '마켓플레이스' };
-  }
-
   if (root === 'my-gallery') {
     return { title: '마이갤러리' };
   }
