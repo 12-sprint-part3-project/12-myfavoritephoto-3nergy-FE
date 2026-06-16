@@ -10,6 +10,7 @@ import { SearchBar } from '@/components/ui/SearchBar';
 import { FilterDropdown } from '@/components/domain/photocard/FilterDropdown';
 import { CardList } from '@/app/(main)/my-gallery/_components/CardList';
 import { MobileFilterBottomSheet } from '@/components/domain/photocard/MobileFilterBottomSheet';
+import { usePhotocardFilterSelection } from '@/hooks/photocard/usePhotocardFilterSelection';
 
 export const MyGalleryCardSection = () => {
   const pageSize = usePageSize(); // 분기별 pageSize 불러올 hook
@@ -28,6 +29,14 @@ export const MyGalleryCardSection = () => {
     page,
     pageSize,
   });
+
+  const {
+    draftSelection,
+    setDraftSelection,
+    initialCounts,
+    displayCount,
+    isCountLoading,
+  } = usePhotocardFilterSelection(data);
 
   const gradeOptions = [{ value: '', label: '전체' }, ...CARD_GRADE_OPTIONS];
   const genreOptions = [{ value: '', label: '전체' }, ...CARD_GENRE_OPTIONS];
@@ -55,9 +64,19 @@ export const MyGalleryCardSection = () => {
             <MobileFilterBottomSheet
               tabs={['grade', 'genre']}
               onClose={() => setOpen((prev) => !prev)}
-              onApply={(selection) => setFilter(selection)}
-              initialSelection={filter}
-              totalPhotos={allCardsCnt}
+              draftSelection={draftSelection}
+              onDraftChange={setDraftSelection}
+              totalPhotos={displayCount}
+              onApply={(selection) => {
+                setFilter({
+                  grade: selection.grade ?? '',
+                  genre: selection.genre ?? '',
+                });
+                setPage(1);
+              }}
+              isCountLoading={isCountLoading}
+              counts={initialCounts}
+              displayCount={displayCount}
             />
           )}
           <div className="hidden md:block">
@@ -85,7 +104,7 @@ export const MyGalleryCardSection = () => {
 
       {!isLoading && !error && data && (
         <>
-          <CardList photocards={data.data.photocards} />
+          <CardList photocards={data.photocards} />
           <Pagination
             totalPages={data.meta.totalPages}
             currentPage={page}
