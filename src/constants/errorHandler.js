@@ -45,6 +45,10 @@ export const ERROR_HANDLER = {
   NOT_ENOUGH_QUANTITY: {
     action: 'field',
   },
+  PHOTOCARD_CREATION_LIMIT_EXCEEDED: {
+    message: '이번달 모든 생성 기회를 소진했어요',
+    action: 'toast',
+  },
 };
 
 export const getErrorHandler = (code) => {
