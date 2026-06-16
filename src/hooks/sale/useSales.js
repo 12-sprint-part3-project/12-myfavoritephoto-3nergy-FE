@@ -34,6 +34,9 @@ export const useSales = (params = {}) => {
     select: (res) => ({
       sales: res.pages.flatMap((p) => p.data.sales),
       meta: res.pages.at(-1).meta,
+      gradeCounts: res.pages[0].data.gradeCounts,
+      genreCounts: res.pages[0].data.genreCounts,
+      saleStatusCounts: res.pages[0].data.saleStatusCounts,
     }),
   });
 };
