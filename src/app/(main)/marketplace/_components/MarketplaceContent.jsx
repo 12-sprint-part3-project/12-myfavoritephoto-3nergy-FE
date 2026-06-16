@@ -14,6 +14,7 @@ import { MobileFilterBottomSheet } from '@/components/domain/photocard/MobileFil
 import { EmptyPhotocardList } from '@/components/domain/photocard/EmptyPhotocardList';
 import { CreateSaleModal } from '@/app/(main)/marketplace/_components/CreateSaleModal';
 import { useSales } from '@/hooks/sale/useSales';
+import { useSalesFilterSelection } from '@/hooks/sale/useSalesFilterSelection';
 import { useIsMobile } from '@/hooks/common/useResponsive';
 import { usePageSize } from '@/hooks/common/usePageSize';
 import { useDebounce } from '@/hooks/common/useDebounce';
@@ -95,6 +96,14 @@ export const MarketplaceContent = () => {
       sort: SORT_PARAM_MAP[sort],
       pageSize,
     });
+
+  const {
+    draftSelection,
+    setDraftSelection,
+    initialCounts,
+    displayCount,
+    isCountLoading,
+  } = useSalesFilterSelection(data);
 
   const cards = data?.sales.map(mapSaleToCard) ?? [];
   const totalCount = data?.meta.totalCount ?? 0;
@@ -201,11 +210,20 @@ export const MarketplaceContent = () => {
 
       {isFilterOpen && (
         <MobileFilterBottomSheet
-          tabs={FILTER_TABS}
-          totalPhotos={totalCount}
+          tabs={FILTER_TABS} // ['grade', 'genre', 'soldOut']
           onClose={() => setIsFilterOpen(false)}
+          draftSelection={draftSelection}
+          onDraftChange={setDraftSelection}
+          totalPhotos={displayCount}
+          displayCount={displayCount}
+          isCountLoading={isCountLoading}
+          counts={initialCounts}
           onApply={(selection) => {
-            setFilters((prev) => ({ ...prev, ...selection }));
+            setFilters({
+              grade: selection.grade ?? null,
+              genre: selection.genre ?? null,
+              soldOut: selection.soldOut ?? null, // 그대로 유지
+            });
           }}
         />
       )}
