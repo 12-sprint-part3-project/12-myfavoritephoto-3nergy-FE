@@ -38,7 +38,12 @@ export const MobileFilterBottomSheet = ({
 
   // 모든 탭의 선택값 초기화
   const resetFilter = () => {
-    onDraftChange(tabs.reduce((acc, key) => ({ ...acc, [key]: null }), {}));
+    const emptySelection = tabs.reduce(
+      (acc, key) => ({ ...acc, [key]: null }),
+      {},
+    );
+    onDraftChange(emptySelection);
+    onApply?.(emptySelection);
   };
 
   // 확인 버튼 클릭 시 선택값을 부모로 전달하고 닫기
