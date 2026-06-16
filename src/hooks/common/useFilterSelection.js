@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect } from 'react';
 import { useTotalCount } from '@/hooks/common/useTotalCount';
 
-const COUNT_KEY_MAP = {
+const DEFAULT_COUNT_KEY_MAP = {
   gradeCounts: 'grade',
   genreCounts: 'genre',
   saleStatusCounts: 'status',
@@ -9,7 +9,19 @@ const COUNT_KEY_MAP = {
 };
 
 export const useFilterSelection = (data, tabs, options = {}) => {
-  const { mapToApiParams, totalCountQueryKey, totalCountQueryFn } = options;
+  const {
+    mapToApiParams,
+    totalCountQueryKey,
+    totalCountQueryFn,
+    countKeyMap = {},
+    totalCount,
+  } = options;
+
+  const resolvedCountKeyMap = useMemo(
+    () => ({ ...DEFAULT_COUNT_KEY_MAP, ...countKeyMap }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
+  );
 
   // 바텀시트 내 선택 상태를 상위에서 관리: 선택 변경 시 displayCount를 즉시 계산하거나 API 호출하기 위함
   // tabs 기반으로 초기 선택 상태 동적 생성
@@ -24,8 +36,10 @@ export const useFilterSelection = (data, tabs, options = {}) => {
       Object.entries(data)
         .filter(([key]) => key.endsWith('Counts'))
         .map(([key, value]) => {
-          const tabKey = key.replace('Counts', '');
-          const itemKey = COUNT_KEY_MAP[key] ?? tabKey;
+          const tabKey = resolvedCountKeyMap[key] ?? key.replace('Counts', '');
+          // itemKey는 API 응답 필드명 — DEFAULT_COUNT_KEY_MAP 기준값 사용
+          const itemKey =
+            DEFAULT_COUNT_KEY_MAP[key] ?? key.replace('Counts', '');
           return [
             tabKey,
             Object.fromEntries(
@@ -34,7 +48,7 @@ export const useFilterSelection = (data, tabs, options = {}) => {
           ];
         }),
     );
-  }, [data]);
+  }, [data, resolvedCountKeyMap]);
 
   // 바텀시트 항목별 개수를 최초 로드 시 한 번만 저장
   // 필터 적용 후 API 재호출 시 값이 바뀌는 것을 방지
@@ -80,7 +94,7 @@ export const useFilterSelection = (data, tabs, options = {}) => {
     ? filteredCount
     : selectedCount === 1
       ? counts?.[selectedEntries[0]]?.[draftSelection[selectedEntries[0]]]
-      : data?.meta?.totalCount;
+      : (totalCount ?? data?.meta?.totalCount);
 
   return {
     draftSelection,
