@@ -15,6 +15,8 @@ import { EmptyPhotocardList } from '@/components/domain/photocard/EmptyPhotocard
 import { CreateSaleModal } from '@/app/(main)/marketplace/_components/CreateSaleModal';
 import { useSales } from '@/hooks/sale/useSales';
 import { useIsMobile } from '@/hooks/common/useResponsive';
+import { usePageSize } from '@/hooks/common/usePageSize';
+import { useDebounce } from '@/hooks/common/useDebounce';
 import {
   CARD_GRADE_OPTIONS,
   CARD_GENRE_OPTIONS,
@@ -26,8 +28,6 @@ const GENRE_OPTIONS = [{ value: '', label: '전체' }, ...CARD_GENRE_OPTIONS];
 const SOLD_OUT_OPTIONS = [{ value: '', label: '전체' }, ...SALE_STATUS_OPTIONS];
 
 const FILTER_TABS = ['grade', 'genre', 'soldOut'];
-
-const PAGE_SIZE = 18;
 
 // SortDropdown 옵션 값 → API sort 파라미터 값
 const SORT_PARAM_MAP = {
@@ -53,6 +53,7 @@ const mapSaleToCard = (sale) => ({
 export const MarketplaceContent = () => {
   const router = useRouter();
   const isMobile = useIsMobile();
+  const pageSize = usePageSize();
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [filters, setFilters] = useState({
     grade: null,
@@ -62,6 +63,7 @@ export const MarketplaceContent = () => {
   const [sort, setSort] = useState('low-price');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [searchKeyword, setSearchKeyword] = useState('');
+  const debouncedKeyword = useDebounce(searchKeyword, 500);
   const observerTargetRef = useRef(null);
 
   const handleCreateClick = () => {
@@ -86,12 +88,12 @@ export const MarketplaceContent = () => {
 
   const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useSales({
-      keyword: searchKeyword.trim(),
+      keyword: debouncedKeyword.trim(),
       grade: filters.grade,
       genre: filters.genre,
       status: filters.soldOut,
       sort: SORT_PARAM_MAP[sort],
-      pageSize: PAGE_SIZE,
+      pageSize,
     });
 
   const cards = data?.sales.map(mapSaleToCard) ?? [];
@@ -124,7 +126,11 @@ export const MarketplaceContent = () => {
         className="hidden md:block"
         actions={
           <div className="w-[27.5rem]">
-            <Button size="lg" className="w-full text-noto-18-bold" onClick={handleCreateClick}>
+            <Button
+              size="lg"
+              className="w-full text-noto-18-bold"
+              onClick={handleCreateClick}
+            >
               나의 포토카드 판매하기
             </Button>
           </div>
@@ -205,7 +211,11 @@ export const MarketplaceContent = () => {
       )}
 
       <div className="fixed inset-x-0 bottom-0 z-10 bg-black p-[0.9375rem] md:hidden">
-        <Button size="lg" className="w-full text-noto-18-bold" onClick={handleCreateClick}>
+        <Button
+          size="lg"
+          className="w-full text-noto-18-bold"
+          onClick={handleCreateClick}
+        >
           나의 포토카드 판매하기
         </Button>
       </div>
