@@ -1,13 +1,26 @@
 'use client';
 
-import { ExchangeCard } from '@/components/domain/photocard/ExchangeCard';
+import { useToastContext } from '@/context/ToastContext';
 import { useTrades } from '@/hooks/trade/useTrades';
+import { useAcceptTrade } from '@/hooks/trade/useAcceptTrade';
+import { ExchangeCard } from '@/components/domain/photocard/ExchangeCard';
 
 export const TradeListSection = ({ sale }) => {
   const { data: trades, isLoading, error } = useTrades(sale.saleId);
+  const { mutate: AcceptTrade, isPending } = useAcceptTrade(sale.saleId);
 
-  const handleAccept = (tradeId) => {
-    // TODO: API 연동
+  const { showToast } = useToastContext();
+
+  const handleAccept = (tradeId, closeModal) => {
+    AcceptTrade(tradeId, {
+      onSuccess: () => {
+        closeModal();
+        showToast('교환 제시를 수락했습니다.');
+      },
+      onError: () => {
+        closeModal();
+      },
+    });
   };
 
   const handleReject = (tradeId) => {
@@ -37,14 +50,10 @@ export const TradeListSection = ({ sale }) => {
       {trades?.map((trade) => (
         <li key={trade.id}>
           <ExchangeCard
-            description={trade.offeredCard.description}
-            genre={trade.offeredCard.genre}
-            grade={trade.offeredCard.grade}
-            imageUrl={trade.offeredCard.imageUrl}
-            name={trade.offeredCard.name}
+            {...trade.offeredCard} // description, genre, grade, imageUrl, name, price
             owner={trade.proposer.nickname}
-            price={trade.offeredCard.price}
-            onAccept={() => handleAccept(trade.id)}
+            onAccept={(closeModal) => handleAccept(trade.id, closeModal)}
+            isPending={isPending}
             onReject={() => handleReject(trade.id)}
           />
         </li>
