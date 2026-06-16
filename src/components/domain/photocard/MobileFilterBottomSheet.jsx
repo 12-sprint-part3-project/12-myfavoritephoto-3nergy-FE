@@ -118,7 +118,8 @@ export const MobileFilterBottomSheet = ({
                         : 'text-gray-300 hover:text-gray-200'
                   }
                 >
-                  {GRADE_STYLE[option]?.label ??
+                  {activeConfig.getLabel?.(option) ??
+                    GRADE_STYLE[option]?.label ??
                     GENRE[option] ??
                     SALE_STATUS[option] ??
                     SALE_METHOD[option] ??
