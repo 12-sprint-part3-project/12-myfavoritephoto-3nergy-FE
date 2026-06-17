@@ -39,9 +39,7 @@ export default function MainLayout({ children }) {
         pageTitle={config?.title ?? null}
         onBack={() => router.back()}
       />
-      <main className="mx-auto w-full max-w-[1480px] px-[0.9375rem] pt-[1.25rem] md:px-[1.25rem] md:pt-[2.5rem] xl:pt-[3.75rem]">
-        {children}
-      </main>
+      <main className="mx-auto w-full max-w-[1480px]">{children}</main>
       <FloatingButtons />
     </div>
   );
