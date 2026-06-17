@@ -13,7 +13,7 @@ export const SaleEditContent = ({ saleId }) => {
     isPending,
     error: updateError,
     reset,
-  } = useUpdateSale(saleId);
+  } = useUpdateSale(saleId, sale?.photocard?.id);
 
   // TODO: 스켈레톤 UI로 교체
   if (isLoading) return <div className="text-white">로딩 중...</div>;

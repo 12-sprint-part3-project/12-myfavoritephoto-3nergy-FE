@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { QUERY_KEYS } from '@/constants/queryKeys';
 import { updateSale } from '@/services/sales';
 
-export const useUpdateSale = (saleId) => {
+export const useUpdateSale = (saleId, photocardId) => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -11,7 +11,10 @@ export const useUpdateSale = (saleId) => {
       queryClient.invalidateQueries({
         queryKey: QUERY_KEYS.sales.detail(saleId),
       });
-      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.sales.lists() }); // 가격 수정 시 가격순 정렬 목록 캐시도 갱신 필요
+      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.sales.lists() });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.photocards.ownedQuantity(photocardId),
+      });
     },
   });
 };

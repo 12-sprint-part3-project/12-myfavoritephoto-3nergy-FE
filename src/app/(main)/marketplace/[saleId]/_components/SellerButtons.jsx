@@ -3,12 +3,12 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useToastContext } from '@/context/ToastContext';
+import { useIsMobile } from '@/hooks/common/useResponsive';
 import { useUpdateSale } from '@/hooks/sale/useUpdateSale';
 import { useCancelSale } from '@/hooks/sale/useCancelSale';
 import { Button } from '@/components/ui/Button';
 import { BasicModal } from '@/components/ui/BasicModal';
 import { SaleEditModal } from '@/app/(main)/marketplace/[saleId]/_components/SaleEditModal';
-import { useIsMobile } from '@/hooks/common/useResponsive';
 
 export const SellerButtons = ({ sale }) => {
   const { showToast } = useToastContext();
@@ -18,7 +18,7 @@ export const SellerButtons = ({ sale }) => {
     isPending,
     error: updateError,
     reset,
-  } = useUpdateSale(sale.saleId);
+  } = useUpdateSale(sale.saleId, sale.photocard.id);
   const { mutate: cancelSale } = useCancelSale();
 
   const router = useRouter();
