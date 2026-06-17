@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { useSaleDetail } from '@/hooks/sale/useSaleDetail';
 import { useUpdateSale } from '@/hooks/sale/useUpdateSale';
+import { Spinner } from '@/components/ui/Spinner';
 import { SaleEditForm } from '@/app/(main)/marketplace/[saleId]/_components/SaleEditForm';
 
 export const SaleEditContent = ({ saleId }) => {
@@ -16,7 +17,13 @@ export const SaleEditContent = ({ saleId }) => {
   } = useUpdateSale(saleId, sale?.photocard?.id);
 
   // TODO: 스켈레톤 UI로 교체
-  if (isLoading) return <div className="text-white">로딩 중...</div>;
+  if (isLoading) {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <Spinner />
+      </div>
+    );
+  }
 
   // TODO: 에러 컴포넌트로 교체
   if (error) return <div className="text-white">에러가 발생했습니다.</div>;
