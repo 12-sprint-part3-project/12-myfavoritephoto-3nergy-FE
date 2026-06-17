@@ -7,11 +7,12 @@ import { useToastContext } from '@/context/ToastContext';
 import { getErrorHandler } from '@/constants/errorHandler';
 import { useMe } from '@/hooks/user/useMe';
 import { usePhotocards } from '@/hooks/photocard/usePhotocards';
+import { Button } from '@/components/ui/Button';
+import { Spinner } from '@/components/ui/Spinner';
 import { PageTitle } from '@/components/layout/PageTitle';
 import GradeBadgeList from '@/components/domain/photocard/GradeBadgeList';
 import { OwnedCardsInfo } from '@/app/(main)/my-gallery/_components/OwnedCardsInfo';
 import { MyGalleryCardSection } from '@/app/(main)/my-gallery/_components/MyGalleryCardSection';
-import { Button } from '@/components/ui/Button';
 
 export const MyGalleryContent = () => {
   const today = new Date();
@@ -22,7 +23,12 @@ export const MyGalleryContent = () => {
   const [isDisabled, setIsDisabled] = useState(false);
 
   // TODO: 스켈레톤 UI로 교체
-  if (isLoading) return <div className="text-white">로딩 중...</div>;
+  if (isLoading)
+    return (
+      <div className="flex items-center justify-center py-[3.125rem]">
+        <Spinner />
+      </div>
+    );
 
   // TODO: 에러 컴포넌트로 교체
   if (error) return <div className="text-white">에러가 발생했습니다.</div>;

@@ -12,6 +12,7 @@ import { useMySales } from '@/hooks/sale/useMySales';
 import { useMySalesFilterSelection } from '@/hooks/sale/useMySalesFilterSelection';
 import { Pagination } from '@/components/ui/Pagination';
 import { SearchBar } from '@/components/ui/SearchBar';
+import { Spinner } from '@/components/ui/Spinner';
 import { FilterDropdown } from '@/components/domain/photocard/FilterDropdown';
 import { CardList } from '@/app/(main)/my-sales/_components/CardList';
 import { useDebounce } from '@/hooks/common/useDebounce';
@@ -140,7 +141,11 @@ export const MySalesCardSection = () => {
       </div>
 
       {/* TODO: 스켈레톤 UI로 교체 */}
-      {isLoading && <div className="text-white">로딩 중...</div>}
+      {isLoading && (
+        <div className="flex items-center justify-center py-[3.125rem]">
+          <Spinner />
+        </div>
+      )}
 
       {/* TODO: 에러 컴포넌트로 교체 */}
       {error && <div className="text-white">에러가 발생했습니다.</div>}

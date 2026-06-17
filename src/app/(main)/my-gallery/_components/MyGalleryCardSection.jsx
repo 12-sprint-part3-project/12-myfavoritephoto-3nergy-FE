@@ -2,15 +2,16 @@
 
 import { useState } from 'react';
 import { CARD_GRADE_OPTIONS, CARD_GENRE_OPTIONS } from '@/constants/card';
-import { usePhotocards } from '@/hooks/photocard/usePhotocards';
 import { usePageSize } from '@/hooks/common/usePageSize';
 import { useDebounce } from '@/hooks/common/useDebounce';
+import { usePhotocards } from '@/hooks/photocard/usePhotocards';
+import { usePhotocardFilterSelection } from '@/hooks/photocard/usePhotocardFilterSelection';
 import { Pagination } from '@/components/ui/Pagination';
 import { SearchBar } from '@/components/ui/SearchBar';
+import { Spinner } from '@/components/ui/Spinner';
 import { FilterDropdown } from '@/components/domain/photocard/FilterDropdown';
 import { CardList } from '@/app/(main)/my-gallery/_components/CardList';
 import { MobileFilterBottomSheet } from '@/components/domain/photocard/MobileFilterBottomSheet';
-import { usePhotocardFilterSelection } from '@/hooks/photocard/usePhotocardFilterSelection';
 
 export const MyGalleryCardSection = () => {
   const pageSize = usePageSize(); // 분기별 pageSize 불러올 hook
@@ -97,7 +98,11 @@ export const MyGalleryCardSection = () => {
       </div>
 
       {/* TODO: 스켈레톤 UI로 교체 */}
-      {isLoading && <div className="text-white">로딩 중...</div>}
+      {isLoading && (
+        <div className="flex items-center justify-center py-[3.125rem]">
+          <Spinner />
+        </div>
+      )}
 
       {/* TODO: 에러 컴포넌트로 교체 */}
       {error && <div className="text-white">에러가 발생했습니다.</div>}

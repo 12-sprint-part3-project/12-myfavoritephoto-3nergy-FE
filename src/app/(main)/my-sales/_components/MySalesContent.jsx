@@ -2,6 +2,7 @@
 
 import { useMe } from '@/hooks/user/useMe';
 import { useMySales } from '@/hooks/sale/useMySales';
+import { Spinner } from '@/components/ui/Spinner';
 import GradeBadgeList from '@/components/domain/photocard/GradeBadgeList';
 import { OwnedCardsInfo } from '@/app/(main)/my-sales/_components/OwnedCardsInfo';
 import { MySalesCardSection } from '@/app/(main)/my-sales/_components/MySalesCardSection';
@@ -11,7 +12,12 @@ export const MySalesContent = () => {
   const { data, isLoading, error } = useMySales();
 
   // TODO: 스켈레톤 UI로 교체
-  if (isLoading) return <div className="text-white">로딩 중...</div>;
+  if (isLoading)
+    return (
+      <div className="flex items-center justify-center py-[3.125rem]">
+        <Spinner />
+      </div>
+    );
 
   // TODO: 에러 컴포넌트로 교체
   if (error) return <div className="text-white">에러가 발생했습니다.</div>;
