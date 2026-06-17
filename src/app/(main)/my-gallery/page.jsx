@@ -10,13 +10,13 @@ export const metadata = {
 
 export default function page() {
   return (
-    <div className="pb-[40px] md:pb-[110px] xl:pb-[140px]">
+    <div className="pb-[110px] xl:pb-[140px]">
       <PageTitle
         title={metadata.title}
         actions={
           <Link
             href="/my-gallery/new"
-            className="bg-main text-noto-16-bold lg:text-noto-18-bold hidden w-[21.375rem] items-center justify-center rounded-xs text-black transition-all duration-150 hover:brightness-90 active:brightness-85 disabled:hover:brightness-100 disabled:active:brightness-100 md:flex md:h-[3.75rem] lg:w-[27.5rem]"
+            className="fixed right-[.9375rem] bottom-[40px] left-[.9375rem] z-40 flex w-auto items-center justify-center rounded-xs bg-main py-[17px] text-noto-16-bold text-black transition-all duration-150 hover:brightness-90 active:brightness-85 disabled:hover:brightness-100 disabled:active:brightness-100 md:static md:h-[3.75rem] md:w-[21.375rem] lg:w-[27.5rem] lg:text-noto-18-bold"
           >
             포토카드 생성하기
           </Link>
