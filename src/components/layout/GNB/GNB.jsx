@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { AlarmIcon, CaretLeftIcon, MenuIcon } from '@/icons';
+import { AlarmIcon, CaretLeftIcon, MenuIcon, DotIcon } from '@/icons';
 import { APP_NAME } from '@/constants/app';
 import { ROUTES } from '@/constants/routes';
 import { NotificationMenu } from '@/components/layout/GNB/NotificationMenu';
@@ -18,7 +18,6 @@ export const GNB = ({
   onLogout,
   onMenuClick,
   onBack,
-  onAlarmClick,
   onMarkAsRead,
 }) => {
   const router = useRouter();
@@ -38,8 +37,12 @@ export const GNB = ({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  const unreadCount = notifications.filter((n) => !n.isRead).length;
+  const hasUnread = unreadCount > 0;
+
   return (
     <header className="sticky top-0 z-40 bg-black">
+      {/* PC, 태블릿 */}
       <nav className="hidden w-full items-center md:flex md:h-[4.375rem] lg:h-[5rem]">
         <div className="flex w-full items-center justify-between md:px-[2.5rem] lg:px-[13.75rem]">
           <Link href="/">
@@ -70,9 +73,18 @@ export const GNB = ({
                   type="button"
                   onClick={() => setIsNotificationOpen((prev) => !prev)}
                   aria-label="알림"
-                  className="cursor-pointer"
+                  className="h-6 w-6 cursor-pointer"
                 >
-                  <AlarmIcon className="transition-colors hover:text-main" />
+                  <AlarmIcon
+                    width={24}
+                    className="text-gray-200 transition-colors hover:text-main"
+                  />
+                  {hasUnread && (
+                    <DotIcon
+                      width={8}
+                      className="absolute -top-2 right-0 text-red"
+                    />
+                  )}
                 </button>
                 {isNotificationOpen && (
                   <div className="absolute top-full right-0 z-50 mt-2">
@@ -115,6 +127,7 @@ export const GNB = ({
         </div>
       </nav>
 
+      {/* 모바일 */}
       <nav className="flex h-[3.75rem] items-center justify-between px-6 md:hidden">
         {isSubPage ? (
           <>
@@ -159,9 +172,15 @@ export const GNB = ({
                 type="button"
                 onClick={() => router.push(ROUTES.notifications)}
                 aria-label="알림"
-                className="cursor-pointer"
+                className="relative h-6 w-6 cursor-pointer"
               >
-                <AlarmIcon />
+                <AlarmIcon width={24} />
+                {hasUnread && (
+                  <DotIcon
+                    width={8}
+                    className="absolute -top-2 right-0 text-red"
+                  />
+                )}
               </button>
             ) : (
               <Link
