@@ -46,6 +46,7 @@ export const MyGalleryContent = () => {
       <PageTitle
         title="마이갤러리"
         className="hidden md:block"
+        displayDateFormat="yyyy년 M월"
         actions={
           <div className="w-[21.375rem] lg:w-[27.5rem]">
             <Button
