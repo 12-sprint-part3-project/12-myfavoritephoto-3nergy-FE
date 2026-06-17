@@ -16,7 +16,11 @@ export const login = (body) =>
   });
 
 // 구글 로그인
-export const googleLogin = () => fetchClient('/api/auth/google');
+export const googleLogin = (body) =>
+  fetchClient('/api/auth/google', {
+    method: 'POST',
+    body: JSON.stringify(body),
+  });
 
 // 로그아웃
 export const logout = () =>
