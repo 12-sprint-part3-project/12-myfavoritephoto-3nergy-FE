@@ -11,11 +11,7 @@ export const CreateSaleButton = () => {
   const isMobile = useIsMobile();
   const [showCreateModal, setShowCreateModal] = useState(false);
 
-  useEffect(() => {
-    if (isMobile) {
-      router.prefetch('/marketplace/create');
-    }
-  }, [isMobile, router]);
+  usePrefetchPhotocardList(isMobile ? `/marketplace/create` : undefined);
 
   const handleCreateClick = () => {
     if (isMobile) {

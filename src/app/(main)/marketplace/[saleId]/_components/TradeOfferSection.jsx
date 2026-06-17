@@ -1,9 +1,10 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useIsMobile } from '@/hooks/common/useResponsive';
 import { GRADE_STYLE } from '@/constants/card';
+import { useIsMobile } from '@/hooks/common/useResponsive';
+import { usePrefetchPhotocardList } from '@/hooks/photocard/usePrefetchPhotocardList';
 import { Button } from '@/components/ui/Button';
 import { PageTitle } from '@/components/layout/PageTitle';
 import { TradeOfferModal } from '@/app/(main)/marketplace/[saleId]/_components/TradeOfferModal';
@@ -13,11 +14,9 @@ export const TradeOfferSection = ({ sale }) => {
   const isMobile = useIsMobile();
   const [showTradeModalOpen, setShowTradeModalOpen] = useState(false);
 
-  useEffect(() => {
-    if (isMobile) {
-      router.prefetch(`/marketplace/${sale.saleId}/trade`);
-    }
-  }, [isMobile, sale.saleId, router]);
+  usePrefetchPhotocardList(
+    isMobile ? `/marketplace/${sale.saleId}/trade` : undefined,
+  );
 
   const handleCreateClick = () => {
     if (isMobile) {
