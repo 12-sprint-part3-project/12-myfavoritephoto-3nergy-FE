@@ -3,15 +3,15 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { format } from 'date-fns';
+import { getErrorHandler } from '@/constants/errorHandler';
 import { useMe } from '@/hooks/user/useMe';
 import { usePhotocards } from '@/hooks/photocard/usePhotocards';
+import { showGlobalToast } from '@/lib/toast/toastService';
 import { PageTitle } from '@/components/layout/PageTitle';
 import GradeBadgeList from '@/components/domain/photocard/GradeBadgeList';
 import { OwnedCardsInfo } from '@/app/(main)/my-gallery/_components/OwnedCardsInfo';
 import { MyGalleryCardSection } from '@/app/(main)/my-gallery/_components/MyGalleryCardSection';
 import { Button } from '@/components/ui/Button';
-import { showGlobalToast } from '@/lib/toast/toastService';
-import { getErrorHandler } from '@/constants/errorHandler';
 
 export const MyGalleryContent = () => {
   const today = new Date();
