@@ -1,7 +1,12 @@
 import { NextResponse } from 'next/server';
 
 // 로그인 필수 페이지 경로
-const PROTECTED_PATHS = ['/my-gallery', '/my-sales', '/marketplace'];
+const PROTECTED_PATHS = [
+  '/my-gallery',
+  '/my-sales',
+  '/marketplace',
+  'my-notifications',
+];
 const AUTH_PATHS = ['/login', '/signup'];
 
 export function middleware(request) {
