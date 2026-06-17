@@ -5,9 +5,6 @@ import { QUERY_KEYS } from '@/constants/queryKeys';
 import { getPhotocards } from '@/services/photocard';
 
 const INITIAL_PARAMS = {
-  keyword: '',
-  grade: '',
-  genre: '',
   sort: 'latest',
   pageSize: 20,
 };

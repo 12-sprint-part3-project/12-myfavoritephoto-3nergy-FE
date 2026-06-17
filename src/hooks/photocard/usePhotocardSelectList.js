@@ -3,12 +3,18 @@ import { QUERY_KEYS } from '@/constants/queryKeys';
 import { getPhotocards } from '@/services/photocard';
 
 export const usePhotocardSelectList = (params = {}) => {
+  const filteredParams = Object.fromEntries(
+    Object.entries(params).filter(
+      ([_, v]) => v !== '' && v !== null && v !== undefined,
+    ),
+  );
+
   return useInfiniteQuery({
-    queryKey: QUERY_KEYS.photocards.list(params),
+    queryKey: QUERY_KEYS.photocards.list(filteredParams),
 
     // pageParam: 현재 페이지 번호 (초기값 1, getNextPageParam에서 결정)
     queryFn: ({ pageParam = 1 }) =>
-      getPhotocards({ ...params, page: pageParam }),
+      getPhotocards({ ...filteredParams, page: pageParam }),
 
     initialPageParam: 1,
 
