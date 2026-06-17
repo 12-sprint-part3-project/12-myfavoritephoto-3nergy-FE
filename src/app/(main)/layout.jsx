@@ -10,6 +10,7 @@ import { useNotificationSSE } from '@/hooks/notification/useNotificationSSE';
 import { useReadNotification } from '@/hooks/notification/useReadNotification';
 import { GNB } from '@/components/layout/GNB/GNB';
 import { getGnbConfig } from '@/components/layout/GNB/gnb.config';
+import { FloatingButtons } from '@/components/layout/FloatingButtons';
 
 export default function MainLayout({ children }) {
   const pathname = usePathname();
@@ -38,8 +39,10 @@ export default function MainLayout({ children }) {
         pageTitle={config?.title ?? null}
         onBack={() => router.back()}
       />
-
-      <main className="mx-auto w-full max-w-[1480px]">{children}</main>
+      <main className="mx-auto w-full max-w-[1480px] px-[0.9375rem] pt-[1.25rem] md:px-[1.25rem] md:pt-[2.5rem] xl:pt-[3.75rem]">
+        {children}
+      </main>
+      <FloatingButtons />
     </div>
   );
 }

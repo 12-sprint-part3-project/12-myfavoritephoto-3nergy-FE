@@ -28,7 +28,7 @@ export const PageTitle = ({
     >
       {breadcrumb && (
         <p
-          className={`font-baskin-base text-baskin-16-bold lg:text-baskin-24-bold mb-[0.94rem] text-gray-300 md:mb-[2.5rem] ${hideBreadcrumbOnMobile && 'hidden md:block'}`}
+          className={`font-baskin-base text-baskin-16-bold mb-[0.94rem] text-gray-300 md:mb-[2.5rem] lg:text-baskin-24-bold ${hideBreadcrumbOnMobile && 'hidden md:block'}`}
         >
           {breadcrumb}
         </p>

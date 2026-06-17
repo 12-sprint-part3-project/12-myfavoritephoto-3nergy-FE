@@ -74,7 +74,6 @@ export const MarketplaceContent = () => {
       setShowCreateModal(true);
     }
   };
-
   const handleFilterChange = (key) => (value) => {
     setFilters((prev) => ({ ...prev, [key]: value === '' ? null : value }));
   };
@@ -241,6 +240,7 @@ export const MarketplaceContent = () => {
       {showCreateModal && (
         <CreateSaleModal onClose={() => setShowCreateModal(false)} />
       )}
+
     </div>
   );
 };
