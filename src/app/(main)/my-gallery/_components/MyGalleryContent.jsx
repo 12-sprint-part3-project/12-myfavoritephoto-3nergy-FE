@@ -7,6 +7,8 @@ import { useToastContext } from '@/context/ToastContext';
 import { getErrorHandler } from '@/constants/errorHandler';
 import { useMe } from '@/hooks/user/useMe';
 import { usePhotocards } from '@/hooks/photocard/usePhotocards';
+import { usePageSize } from '@/hooks/common/usePageSize';
+import { useDebounce } from '@/hooks/common/useDebounce';
 import { Button } from '@/components/ui/Button';
 import { Spinner } from '@/components/ui/Spinner';
 import { PageTitle } from '@/components/layout/PageTitle';
@@ -17,24 +19,33 @@ import { MyGalleryCardSection } from '@/app/(main)/my-gallery/_components/MyGall
 export const MyGalleryContent = () => {
   const today = new Date();
   const router = useRouter();
-  const { showToast } = useToastContext();
-  const { data: me } = useMe();
-  const { data, isLoading, error } = usePhotocards();
+
+  const [page, setPage] = useState(1);
+  const [keyword, setKeyword] = useState('');
+  const [filter, setFilter] = useState({ grade: '', genre: '' });
   const [isDisabled, setIsDisabled] = useState(false);
 
-  // TODO: 스켈레톤 UI로 교체
-  if (isLoading)
-    return (
-      <div className="flex items-center justify-center py-[3.125rem]">
-        <Spinner />
-      </div>
-    );
+  const { showToast } = useToastContext();
+
+  const pageSize = usePageSize();
+  const debouncedKeyword = useDebounce(keyword, 500);
+
+  const { data: me } = useMe();
+  const {
+    data: summaryData,
+    isLoading: summaryLoading,
+    error: summaryError,
+  } = usePhotocards();
+  const {
+    data,
+    isLoading: listLoading,
+    error: listError,
+  } = usePhotocards({ keyword: debouncedKeyword, ...filter, page, pageSize });
 
   // TODO: 에러 컴포넌트로 교체
-  if (error) return <div className="text-white">에러가 발생했습니다.</div>;
-
-  const { gradeCounts: grades } = data.data;
-  const allCardsCnt = data.meta.totalCount; // 총 보유 카드 수량
+  if (summaryError || listError) {
+    return <div className="text-white">에러가 발생했습니다.</div>;
+  }
 
   const handleCreateClick = () => {
     if (me.remainingPhotocardCreationCount === 0) {
@@ -62,28 +73,55 @@ export const MyGalleryContent = () => {
               {format(today, 'yyyy년 M월')}
             </span>
             <div className="w-[21.375rem] lg:w-[27.5rem]">
-              <Button
-                size="lg"
-                disabled={isDisabled}
-                className="w-full text-noto-18-bold"
-                onClick={handleCreateClick}
-              >
-                포토카드 생성하기{' '}
-                {me.monthlyPhotocardCreationLimit &&
-                  `(${me.remainingPhotocardCreationCount}/${me.monthlyPhotocardCreationLimit})`}
-              </Button>
+              {me ? (
+                <Button
+                  size="lg"
+                  disabled={isDisabled}
+                  className="w-full text-noto-18-bold"
+                  onClick={handleCreateClick}
+                >
+                  포토카드 생성하기{' '}
+                  {me?.monthlyPhotocardCreationLimit &&
+                    `(${me?.remainingPhotocardCreationCount}/${me?.monthlyPhotocardCreationLimit})`}
+                </Button>
+              ) : (
+                <Button size="lg" disabled className="w-full text-noto-18-bold">
+                  포토카드 생성하기
+                </Button>
+              )}
             </div>
           </div>
         }
         variant="title-lg"
       />
 
-      <div className="border-b border-gray-400 py-[20px] pt-0 md:py-[40px]">
-        <OwnedCardsInfo nickname={me?.nickname} allCardsCnt={allCardsCnt} />
-        <GradeBadgeList grades={grades} />
-      </div>
+      {
+        // TODO: 스켈레톤 UI로 교체
+        summaryLoading || listLoading ? (
+          <div className="flex items-center justify-center py-[3.125rem]">
+            <Spinner />
+          </div>
+        ) : (
+          <>
+            <div className="border-b border-gray-400 py-[20px] pt-0 md:py-[40px]">
+              <OwnedCardsInfo
+                nickname={me?.nickname}
+                allCardsCnt={summaryData.meta.totalCount}
+              />
+              <GradeBadgeList grades={summaryData.data.gradeCounts} />
+            </div>
 
-      <MyGalleryCardSection />
+            <MyGalleryCardSection
+              data={data}
+              onFilterChange={setFilter}
+              page={page}
+              onPageChange={setPage}
+              keyword={keyword}
+              onKeywordChange={setKeyword}
+            />
+          </>
+        )
+      }
 
       <div className="fixed right-0 bottom-[40px] left-0 z-40 px-[.9375rem] md:hidden">
         <Button
