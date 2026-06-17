@@ -37,7 +37,7 @@ export const CreatePhotocardForm = () => {
   const { showToast } = useToastContext();
   const { mutate: createPhotocard, isPending } = useCreatePhotocard();
   const [isUploading, setIsUploading] = useState(false);
-  const [disabled, isDisabled] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(false);
 
   const [form, setForm] = useState({
     name: '',
@@ -100,6 +100,13 @@ export const CreatePhotocardForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // 횟수 소진된 상태인 경우 먼저 막기
+    if (me && me.remainingPhotocardCreationCount <= 0) {
+      showToast('이번달 모든 생성 기회를 소진했어요');
+      return;
+    }
+
     const errs = validate();
     const hasError = Object.values(errs).some((msg) => msg);
     if (hasError) {
@@ -112,7 +119,7 @@ export const CreatePhotocardForm = () => {
       setIsUploading(true);
       imageUrl = await uploadImage(form.imageFile);
     } catch {
-      setStep('error');
+      showToast('이미지 업로드에 실패했어요. 다시 시도해 주세요.');
       return;
     } finally {
       setIsUploading(false);
@@ -139,7 +146,7 @@ export const CreatePhotocardForm = () => {
 
           if (handler.action === 'toast') {
             showToast(handler.message ?? error?.message);
-            isDisabled((prev) => !prev);
+            setIsDisabled((prev) => !prev);
           } else {
             router.push(
               `/my-gallery/new/result?status=failure&name=${encodeURIComponent(form.name)}&grade=${form.grade}`,
@@ -261,7 +268,7 @@ export const CreatePhotocardForm = () => {
           type="submit"
           size="lg"
           className="mt-10 w-full md:mt-[3.75rem]"
-          disabled={isUploading || isPending || disabled}
+          disabled={isUploading || isPending || isDisabled}
         >
           생성하기
         </Button>

@@ -19,7 +19,7 @@ export const MyGalleryContent = () => {
   const { showToast } = useToastContext();
   const { data: me } = useMe();
   const { data, isLoading, error } = usePhotocards();
-  const [disabled, isDisabled] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(false);
 
   // TODO: 스켈레톤 UI로 교체
   if (isLoading) return <div className="text-white">로딩 중...</div>;
@@ -38,7 +38,7 @@ export const MyGalleryContent = () => {
       const handler = getErrorHandler('PHOTOCARD_CREATION_LIMIT_EXCEEDED');
 
       showToast(handler.message);
-      isDisabled((prev) => !prev);
+      setIsDisabled((prev) => !prev);
     } else {
       router.push('/my-gallery/new');
     }
@@ -58,7 +58,7 @@ export const MyGalleryContent = () => {
             <div className="w-[21.375rem] lg:w-[27.5rem]">
               <Button
                 size="lg"
-                disabled={disabled}
+                disabled={isDisabled}
                 className="w-full text-noto-18-bold"
                 onClick={handleCreateClick}
               >
@@ -82,7 +82,7 @@ export const MyGalleryContent = () => {
       <div className="fixed right-0 bottom-[40px] left-0 z-40 px-[.9375rem] md:hidden">
         <Button
           size="lg"
-          disabled={disabled}
+          disabled={isDisabled}
           className="w-full text-noto-18-bold"
           onClick={handleCreateClick}
         >
