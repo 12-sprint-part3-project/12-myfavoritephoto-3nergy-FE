@@ -1,4 +1,3 @@
-import { PageTitle } from '@/components/layout/PageTitle';
 import { CreatePhotocardForm } from '@/app/(main)/my-gallery/new/_components/CreatePhotocardForm';
 
 export const metadata = {
@@ -8,11 +7,5 @@ export const metadata = {
 };
 
 export default function page() {
-  return (
-    <div className="pb-[40px] md:pb-[60px] xl:pb-[180px]">
-      <PageTitle title="포토카드 생성" variant="title-lg" />
-
-      <CreatePhotocardForm />
-    </div>
-  );
+  return <CreatePhotocardForm />;
 }
