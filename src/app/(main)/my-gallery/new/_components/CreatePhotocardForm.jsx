@@ -157,12 +157,14 @@ export const CreatePhotocardForm = () => {
         variant="title-lg"
         actions={
           <div className="flex items-baseline gap-[.75rem]">
-            <p className="font-baskin text-baskin-40-bold leading-1 text-main">
-              {me?.remainingPhotocardCreationCount}
+            <div className="flex items-baseline gap-[.25rem] font-baskin leading-1">
+              <span className="text-baskin-40-bold text-main">
+                {me?.remainingPhotocardCreationCount}
+              </span>
               <span className="text-baskin-28-bold text-white">
                 /{me?.monthlyPhotocardCreationLimit}
               </span>
-            </p>
+            </div>
             <span className="text-noto-16-regular text-gray-300">
               {format(today, '(yyyy년 M월)')}
             </span>
@@ -171,13 +173,15 @@ export const CreatePhotocardForm = () => {
       />
 
       <div className="flex items-baseline gap-[.75rem] pt-[.9375rem] md:hidden">
-        <p className="font-baskin text-baskin-40-bold leading-1 text-main">
-          {me?.remainingPhotocardCreationCount}
-          <span className="text-baskin-28-bold text-white">
+        <div className="flex items-baseline gap-[.25rem] font-baskin leading-1">
+          <span className="text-baskin-28-bold text-main">
+            {me?.remainingPhotocardCreationCount}
+          </span>
+          <span className="text-baskin-20-bold text-white">
             /{me?.monthlyPhotocardCreationLimit}
           </span>
-        </p>
-        <span className="text-noto-16-regular text-gray-300">
+        </div>
+        <span className="text-noto-14-regular text-gray-300">
           {format(today, '(yyyy년 M월)')}
         </span>
       </div>
