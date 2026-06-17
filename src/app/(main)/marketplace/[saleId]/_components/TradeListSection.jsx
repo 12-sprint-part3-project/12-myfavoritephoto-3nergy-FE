@@ -5,6 +5,7 @@ import { useTrades } from '@/hooks/trade/useTrades';
 import { useAcceptTrade } from '@/hooks/trade/useAcceptTrade';
 import { useRejectTrade } from '@/hooks/trade/useRejectTrade';
 import { ExchangeCard } from '@/components/domain/photocard/ExchangeCard';
+import { ExchangeCardSkeleton } from '@/components/domain/photocard/ExchangeCardSkeleton';
 
 export const TradeListSection = ({ sale }) => {
   const { data: trades, isLoading, error } = useTrades(sale.saleId);
@@ -43,7 +44,15 @@ export const TradeListSection = ({ sale }) => {
 
   // TODO: 스켈레톤 UI로 교체
   if (isLoading) {
-    return <div className="text-white">로딩 중...</div>;
+    return (
+      <ul className="grid grid-cols-2 gap-[0.3125rem] md:gap-[1.25rem] xl:grid-cols-3 xl:gap-[5rem]">
+        {Array.from({ length: 3 }).map((_, i) => (
+          <li key={i}>
+            <ExchangeCardSkeleton />
+          </li>
+        ))}
+      </ul>
+    );
   }
 
   // TODO: 에러 컴포넌트로 교체
