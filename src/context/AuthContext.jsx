@@ -27,6 +27,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     // 소셜 로그인 후 refreshToken 쿠키가 있을 수 있으니 refresh 시도
+    // fetchClient/fetchWithAuth는 AuthContext에 의존하므로 순환 참조 방지를 위해 raw fetch 사용
     fetch('/api/auth/refresh', { method: 'POST', credentials: 'include' })
       .then((res) => res.json())
       .then((data) => {
@@ -49,20 +50,20 @@ export const AuthProvider = ({ children }) => {
     setLoginModalType(null);
   }, []);
 
-  const login = (token) => {
+  const login = useCallback((token) => {
     setAccessToken(token);
     setToken(token);
-  };
+  }, []);
 
-  const logout = () => {
+  const logout = useCallback(() => {
     setAccessToken(null);
     clearToken();
-  };
+  }, []);
 
-  const handleLogin = () => {
+  const handleLogin = useCallback(() => {
     closeLoginModal();
     router.push('/login');
-  };
+  }, [closeLoginModal, router]);
 
   // queryClient.js에서 발생시킨 auth:error 이벤트 수신
   useEffect(() => {
