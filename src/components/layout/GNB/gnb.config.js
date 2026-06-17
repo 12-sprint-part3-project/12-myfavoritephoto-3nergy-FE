@@ -32,5 +32,9 @@ export const getGnbConfig = (pathname) => {
     return { title: '나의 판매 포토카드' };
   }
 
+  if (root === 'my-notifications') {
+    return { title: '알림' };
+  }
+
   return null;
 };

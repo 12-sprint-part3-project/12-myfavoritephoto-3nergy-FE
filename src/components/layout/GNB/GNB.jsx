@@ -3,8 +3,10 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { AlarmIcon, CaretLeftIcon, MenuIcon, DotIcon } from '@/icons';
 import { APP_NAME } from '@/constants/app';
-import { AlarmIcon, CaretLeftIcon, MenuIcon } from '@/icons';
+import { ROUTES } from '@/constants/routes';
 import { NotificationMenu } from '@/components/layout/GNB/NotificationMenu';
 import { ProfileMenu } from '@/components/layout/GNB/ProfileMenu';
 
@@ -16,8 +18,10 @@ export const GNB = ({
   onLogout,
   onMenuClick,
   onBack,
-  onAlarmClick,
+  onMarkAsRead,
 }) => {
+  const router = useRouter();
+
   const isSubPage = Boolean(pageTitle);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -33,8 +37,12 @@ export const GNB = ({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  const unreadCount = notifications.filter((n) => !n.isRead).length;
+  const hasUnread = unreadCount > 0;
+
   return (
     <header className="sticky top-0 z-40 bg-black">
+      {/* PC, 태블릿 */}
       <nav className="hidden w-full items-center md:flex md:h-[4.375rem] lg:h-[5rem]">
         <div className="flex w-full items-center justify-between md:px-[2.5rem] lg:px-[13.75rem]">
           <Link href="/">
@@ -57,32 +65,50 @@ export const GNB = ({
             />
           </Link>
 
+          {/* 로그인한 경우 */}
           {isAuthenticated ? (
-            <div className="text-noto-14-bold flex items-center gap-4 text-gray-200">
+            <div className="flex items-center gap-4 text-noto-14-bold text-gray-200">
               <span>{user?.points?.toLocaleString()} P</span>
-              <div ref={notificationRef} className="relative">
+
+              {/* 알람 아이콘 */}
+              <div ref={notificationRef} className="relative h-6 w-6">
                 <button
                   type="button"
                   onClick={() => setIsNotificationOpen((prev) => !prev)}
                   aria-label="알림"
-                  className="cursor-pointer"
+                  className="h-6 w-6 cursor-pointer"
                 >
-                  <AlarmIcon className="transition-colors hover:text-main" />
+                  <AlarmIcon className="text-gray-200 transition-colors hover:text-main" />
+                  {hasUnread && (
+                    <span className="absolute -top-1 -right-2 flex h-4 min-w-4 items-center justify-center rounded-full bg-red px-1 text-noto-12-bold text-[10px] leading-none text-white">
+                      {unreadCount > 9 ? '9+' : unreadCount}
+                    </span>
+                  )}
                 </button>
+
+                {/* 알람 아이콘이 클릭된 경우 알람 목록 */}
                 {isNotificationOpen && (
                   <div className="absolute top-full right-0 z-50 mt-2">
-                    <NotificationMenu notifications={notifications} />
+                    <NotificationMenu
+                      notifications={notifications}
+                      onRead={onMarkAsRead}
+                    />
                   </div>
                 )}
               </div>
+
+              {/* 닉네임 - 클릭 시 프로필 표시 */}
               <button
                 type="button"
                 onClick={() => setIsProfileOpen((prev) => !prev)}
-                className="font-baskin-base text-baskin-18-bold cursor-pointer text-gray-200"
+                className="font-baskin-base cursor-pointer text-baskin-18-bold text-gray-200"
               >
                 {user?.nickname}
               </button>
+
               <span className="text-gray-400">|</span>
+
+              {/* 로그아웃 */}
               <button
                 type="button"
                 onClick={onLogout}
@@ -92,13 +118,13 @@ export const GNB = ({
               </button>
             </div>
           ) : (
-            <div className="text-noto-14-regular flex items-center gap-6 text-gray-200">
-              <Link href="/login" className="hover:text-main transition-colors">
+            <div className="flex items-center gap-6 text-noto-14-regular text-gray-200">
+              <Link href="/login" className="transition-colors hover:text-main">
                 로그인
               </Link>
               <Link
                 href="/signup"
-                className="hover:text-main transition-colors"
+                className="transition-colors hover:text-main"
               >
                 회원가입
               </Link>
@@ -107,7 +133,9 @@ export const GNB = ({
         </div>
       </nav>
 
+      {/* 모바일 */}
       <nav className="flex h-[3.75rem] items-center justify-between px-6 md:hidden">
+        {/* 랜딩 페이지, 마켓플레이스 페이지를 제외한 페이지들 */}
         {isSubPage ? (
           <>
             <button
@@ -125,6 +153,7 @@ export const GNB = ({
           </>
         ) : (
           <>
+            {/* 랜딩 페이지, 마켓플레이스 페이지 */}
             <button
               type="button"
               onClick={() => {
@@ -136,6 +165,7 @@ export const GNB = ({
             >
               <MenuIcon />
             </button>
+
             <Link href="/">
               <Image
                 src="/logo.svg"
@@ -149,11 +179,16 @@ export const GNB = ({
             {isAuthenticated ? (
               <button
                 type="button"
-                onClick={onAlarmClick}
+                onClick={() => router.push(ROUTES.notifications)}
                 aria-label="알림"
-                className="cursor-pointer"
+                className="relative h-6 w-6 cursor-pointer"
               >
-                <AlarmIcon />
+                <AlarmIcon className="text-gray-200" />
+                {hasUnread && (
+                  <span className="absolute -top-1 -right-2 flex h-4 min-w-4 items-center justify-center rounded-full bg-red px-1 text-noto-12-bold text-[10px] leading-none text-white">
+                    {unreadCount > 9 ? '9+' : unreadCount}
+                  </span>
+                )}
               </button>
             ) : (
               <Link

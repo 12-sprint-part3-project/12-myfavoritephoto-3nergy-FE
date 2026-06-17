@@ -9,7 +9,7 @@ export const metadata = {
 
 export default function page() {
   return (
-    <div className="pb-[40px] md:pb-[110px] xl:pb-[140px]">
+    <div className="px-[0.9375rem] pt-[1.25rem] pb-[40px] md:px-[1.25rem] md:pt-[2.5rem] md:pb-[110px] xl:pt-[3.75rem] xl:pb-[140px]">
       <PageTitle title={metadata.title} variant="title-lg" />
 
       <MySalesContent />
