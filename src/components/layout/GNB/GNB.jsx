@@ -3,8 +3,10 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
-import { APP_NAME } from '@/constants/app';
+import { useRouter } from 'next/navigation';
 import { AlarmIcon, CaretLeftIcon, MenuIcon } from '@/icons';
+import { APP_NAME } from '@/constants/app';
+import { ROUTES } from '@/constants/routes';
 import { NotificationMenu } from '@/components/layout/GNB/NotificationMenu';
 import { ProfileMenu } from '@/components/layout/GNB/ProfileMenu';
 
@@ -17,7 +19,10 @@ export const GNB = ({
   onMenuClick,
   onBack,
   onAlarmClick,
+  onMarkAsRead,
 }) => {
+  const router = useRouter();
+
   const isSubPage = Boolean(pageTitle);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -58,7 +63,7 @@ export const GNB = ({
           </Link>
 
           {isAuthenticated ? (
-            <div className="text-noto-14-bold flex items-center gap-4 text-gray-200">
+            <div className="flex items-center gap-4 text-noto-14-bold text-gray-200">
               <span>{user?.points?.toLocaleString()} P</span>
               <div ref={notificationRef} className="relative">
                 <button
@@ -71,14 +76,17 @@ export const GNB = ({
                 </button>
                 {isNotificationOpen && (
                   <div className="absolute top-full right-0 z-50 mt-2">
-                    <NotificationMenu notifications={notifications} />
+                    <NotificationMenu
+                      notifications={notifications}
+                      onRead={onMarkAsRead}
+                    />
                   </div>
                 )}
               </div>
               <button
                 type="button"
                 onClick={() => setIsProfileOpen((prev) => !prev)}
-                className="font-baskin-base text-baskin-18-bold cursor-pointer text-gray-200"
+                className="font-baskin-base cursor-pointer text-baskin-18-bold text-gray-200"
               >
                 {user?.nickname}
               </button>
@@ -92,13 +100,13 @@ export const GNB = ({
               </button>
             </div>
           ) : (
-            <div className="text-noto-14-regular flex items-center gap-6 text-gray-200">
-              <Link href="/login" className="hover:text-main transition-colors">
+            <div className="flex items-center gap-6 text-noto-14-regular text-gray-200">
+              <Link href="/login" className="transition-colors hover:text-main">
                 로그인
               </Link>
               <Link
                 href="/signup"
-                className="hover:text-main transition-colors"
+                className="transition-colors hover:text-main"
               >
                 회원가입
               </Link>
@@ -149,7 +157,7 @@ export const GNB = ({
             {isAuthenticated ? (
               <button
                 type="button"
-                onClick={onAlarmClick}
+                onClick={() => router.push(ROUTES.notifications)}
                 aria-label="알림"
                 className="cursor-pointer"
               >
