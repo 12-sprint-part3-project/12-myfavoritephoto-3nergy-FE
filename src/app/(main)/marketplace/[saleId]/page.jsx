@@ -10,7 +10,7 @@ export default async function page({ params }) {
   const { saleId } = await params;
 
   return (
-    <div className="pt-[1.25rem] pb-[40px] md:pt-[2.5rem] md:pb-[60px] lg:pt-[3.75rem] xl:pb-[180px]">
+    <div className="px-[0.9375rem] pt-[1.25rem] pb-[40px] md:px-[1.25rem] md:pt-[2.5rem] md:pb-[60px] lg:pt-[3.75rem] xl:pt-[3.75rem] xl:pb-[180px]">
       <SaleDetailContent saleId={saleId} />
     </div>
   );

@@ -10,7 +10,7 @@ export const metadata = {
 
 export default function page() {
   return (
-    <div className="pb-[110px] xl:pb-[140px]">
+    <div className="px-[0.9375rem] pt-[1.25rem] pb-[110px] md:px-[1.25rem] md:pt-[2.5rem] xl:pt-[3.75rem] xl:pb-[140px]">
       <PageTitle
         title={metadata.title}
         actions={

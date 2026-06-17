@@ -128,7 +128,7 @@ export const MarketplaceContent = () => {
   }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   return (
-    <div className="pb-[5.5rem] md:pb-[110px] xl:pb-[140px]">
+    <div className="px-[0.9375rem] pt-[1.25rem] pb-[5.5rem] md:px-[1.25rem] md:pt-[2.5rem] md:pb-[110px] xl:pt-[3.75rem] xl:pb-[140px]">
       <PageTitle
         variant="title-lg"
         title="마켓플레이스"
