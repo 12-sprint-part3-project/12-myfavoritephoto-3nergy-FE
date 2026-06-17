@@ -65,27 +65,28 @@ export const GNB = ({
             />
           </Link>
 
+          {/* 로그인한 경우 */}
           {isAuthenticated ? (
             <div className="flex items-center gap-4 text-noto-14-bold text-gray-200">
               <span>{user?.points?.toLocaleString()} P</span>
-              <div ref={notificationRef} className="relative">
+
+              {/* 알람 아이콘 */}
+              <div ref={notificationRef} className="relative h-6 w-6">
                 <button
                   type="button"
                   onClick={() => setIsNotificationOpen((prev) => !prev)}
                   aria-label="알림"
                   className="h-6 w-6 cursor-pointer"
                 >
-                  <AlarmIcon
-                    width={24}
-                    className="text-gray-200 transition-colors hover:text-main"
-                  />
+                  <AlarmIcon className="text-gray-200 transition-colors hover:text-main" />
                   {hasUnread && (
-                    <DotIcon
-                      width={8}
-                      className="absolute -top-2 right-0 text-red"
-                    />
+                    <span className="absolute -top-1 -right-2 flex h-4 min-w-4 items-center justify-center rounded-full bg-red px-1 text-noto-12-bold text-[10px] leading-none text-white">
+                      {unreadCount > 9 ? '9+' : unreadCount}
+                    </span>
                   )}
                 </button>
+
+                {/* 알람 아이콘이 클릭된 경우 알람 목록 */}
                 {isNotificationOpen && (
                   <div className="absolute top-full right-0 z-50 mt-2">
                     <NotificationMenu
@@ -95,6 +96,8 @@ export const GNB = ({
                   </div>
                 )}
               </div>
+
+              {/* 닉네임 - 클릭 시 프로필 표시 */}
               <button
                 type="button"
                 onClick={() => setIsProfileOpen((prev) => !prev)}
@@ -102,7 +105,10 @@ export const GNB = ({
               >
                 {user?.nickname}
               </button>
+
               <span className="text-gray-400">|</span>
+
+              {/* 로그아웃 */}
               <button
                 type="button"
                 onClick={onLogout}
@@ -129,6 +135,7 @@ export const GNB = ({
 
       {/* 모바일 */}
       <nav className="flex h-[3.75rem] items-center justify-between px-6 md:hidden">
+        {/* 랜딩 페이지, 마켓플레이스 페이지를 제외한 페이지들 */}
         {isSubPage ? (
           <>
             <button
@@ -146,6 +153,7 @@ export const GNB = ({
           </>
         ) : (
           <>
+            {/* 랜딩 페이지, 마켓플레이스 페이지 */}
             <button
               type="button"
               onClick={() => {
@@ -157,6 +165,7 @@ export const GNB = ({
             >
               <MenuIcon />
             </button>
+
             <Link href="/">
               <Image
                 src="/logo.svg"
@@ -174,12 +183,11 @@ export const GNB = ({
                 aria-label="알림"
                 className="relative h-6 w-6 cursor-pointer"
               >
-                <AlarmIcon width={24} />
+                <AlarmIcon className="text-gray-200" />
                 {hasUnread && (
-                  <DotIcon
-                    width={8}
-                    className="absolute -top-2 right-0 text-red"
-                  />
+                  <span className="absolute -top-1 -right-2 flex h-4 min-w-4 items-center justify-center rounded-full bg-red px-1 text-noto-12-bold text-[10px] leading-none text-white">
+                    {unreadCount > 9 ? '9+' : unreadCount}
+                  </span>
                 )}
               </button>
             ) : (
