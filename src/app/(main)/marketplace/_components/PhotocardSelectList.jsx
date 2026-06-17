@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { CARD_GRADE_OPTIONS, CARD_GENRE_OPTIONS } from '@/constants/card';
 import { useDebounce } from '@/hooks/common/useDebounce';
+import { useDelayedLoading } from '@/hooks/common/useDelayedLoading';
 import { usePhotocardSelectList } from '@/hooks/photocard/usePhotocardSelectList';
 import { usePhotocardFilterSelection } from '@/hooks/photocard/usePhotocardFilterSelection';
 import { PageTitle } from '@/components/layout/PageTitle';
@@ -80,6 +81,10 @@ export const PhotocardSelectList = ({
   const genreOptions = [{ value: '', label: '전체' }, ...CARD_GENRE_OPTIONS];
 
   const isFiltered = params.keyword || params.grade || params.genre;
+  const showFetchingSpinner = useDelayedLoading(
+    isFetching && !isFetchingNextPage,
+    300,
+  );
 
   // TODO: 에러 컴포넌트로 교체
   if (error) {
@@ -167,7 +172,7 @@ export const PhotocardSelectList = ({
         />
       ) : (
         <div className="relative">
-          {isFetching && !isFetchingNextPage && (
+          {showFetchingSpinner && (
             <div className="fixed inset-0 z-10 flex items-center justify-center bg-black/40 md:absolute md:items-start md:pt-40">
               <Spinner />
             </div>

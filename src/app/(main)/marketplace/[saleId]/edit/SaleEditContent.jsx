@@ -1,6 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import { useDelayedLoading } from '@/hooks/common/useDelayedLoading';
 import { useSaleDetail } from '@/hooks/sale/useSaleDetail';
 import { useUpdateSale } from '@/hooks/sale/useUpdateSale';
 import { Spinner } from '@/components/ui/Spinner';
@@ -16,11 +17,12 @@ export const SaleEditContent = ({ saleId }) => {
     reset,
   } = useUpdateSale(saleId, sale?.photocard?.id);
 
-  // TODO: 스켈레톤 UI로 교체
-  if (isLoading) {
+  const showSpinner = useDelayedLoading(isLoading);
+
+  if (showSpinner || isLoading) {
     return (
       <div className="flex h-screen items-center justify-center">
-        <Spinner />
+        {showSpinner && <Spinner />}
       </div>
     );
   }
