@@ -4,12 +4,11 @@ import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { RandomPointModal } from '@/components/domain/point/RandomPointModal';
 import { useMe } from '@/hooks/user/useMe';
-
-const getLocalKey = (uuid) => `randomPointNextAt_${uuid}`;
+import { getPointLocalKey } from '@/utils/pointStorage';
 
 export const FloatingButtons = () => {
   const { data: me } = useMe();
-  const localKey = me?.uuid ? getLocalKey(me.uuid) : null;
+  const localKey = me?.uuid ? getPointLocalKey(me.uuid) : null;
   const [showModal, setShowModal] = useState(false);
 
   // 쿨다운 만료 시 자동 팝업
@@ -29,7 +28,7 @@ export const FloatingButtons = () => {
 
   return (
     <>
-      <div className="fixed bottom-[3.125rem] right-[3.125rem] z-40 flex flex-col items-center gap-2.5 md:gap-5">
+      <div className="fixed bottom-[50px] right-[50px] z-40 flex flex-col items-center gap-2.5 md:gap-5">
         <button
           type="button"
           onClick={() => setShowModal(true)}
@@ -39,8 +38,9 @@ export const FloatingButtons = () => {
           <Image
             src="/images/point/random_box-3.png"
             alt="랜덤포인트"
-            width={100}
-            height={100}
+            width={40}
+            height={40}
+            sizes="40px"
             className="h-1/2 w-1/2 object-contain"
           />
         </button>

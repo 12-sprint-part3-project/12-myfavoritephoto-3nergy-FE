@@ -6,8 +6,7 @@ import { Button } from '@/components/ui/Button';
 import { CloseIcon } from '@/icons';
 import { usePointEvent } from '@/hooks/point/usePointEvent';
 import { useMe } from '@/hooks/user/useMe';
-
-const getLocalKey = (uuid) => `randomPointNextAt_${uuid}`;
+import { getPointLocalKey } from '@/utils/pointStorage';
 
 const BOXES = [
   { id: 1, src: '/images/point/random_box-1.png', alt: '상자 1' },
@@ -67,7 +66,7 @@ const CountdownDisplay = ({ countdown }) => (
 
 export const RandomPointModal = ({ onClose }) => {
   const { data: me } = useMe();
-  const localKey = me?.uuid ? getLocalKey(me.uuid) : null;
+  const localKey = me?.uuid ? getPointLocalKey(me.uuid) : null;
 
   const storedNextAt = useMemo(
     () => (localKey ? getStoredNextAt(localKey) : undefined),
@@ -121,8 +120,7 @@ export const RandomPointModal = ({ onClose }) => {
         setStep('result');
       },
       onError: (err) => {
-        const nextAvailable =
-          err?.nextAvailableAt ?? err?.response?.data?.error?.nextAvailableAt;
+        const nextAvailable = err?.nextAvailableAt;
         if (nextAvailable) {
           const nextAt = new Date(nextAvailable).getTime();
           setApiNextAt(nextAt);
