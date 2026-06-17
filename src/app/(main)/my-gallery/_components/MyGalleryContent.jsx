@@ -3,10 +3,10 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { format } from 'date-fns';
+import { useToastContext } from '@/context/ToastContext';
 import { getErrorHandler } from '@/constants/errorHandler';
 import { useMe } from '@/hooks/user/useMe';
 import { usePhotocards } from '@/hooks/photocard/usePhotocards';
-import { showGlobalToast } from '@/lib/toast/toastService';
 import { PageTitle } from '@/components/layout/PageTitle';
 import GradeBadgeList from '@/components/domain/photocard/GradeBadgeList';
 import { OwnedCardsInfo } from '@/app/(main)/my-gallery/_components/OwnedCardsInfo';
@@ -16,9 +16,10 @@ import { Button } from '@/components/ui/Button';
 export const MyGalleryContent = () => {
   const today = new Date();
   const router = useRouter();
+  const { showToast } = useToastContext();
   const { data: me } = useMe();
   const { data, isLoading, error } = usePhotocards();
-  const [creatable, setCreatable] = useState(false);
+  const [disabled, isDisabled] = useState(false);
 
   // TODO: 스켈레톤 UI로 교체
   if (isLoading) return <div className="text-white">로딩 중...</div>;
@@ -36,8 +37,8 @@ export const MyGalleryContent = () => {
        */
       const handler = getErrorHandler('PHOTOCARD_CREATION_LIMIT_EXCEEDED');
 
-      setCreatable((prev) => !prev);
-      showGlobalToast(handler.message);
+      showToast(handler.message);
+      isDisabled((prev) => !prev);
     } else {
       router.push('/my-gallery/new');
     }
@@ -50,14 +51,14 @@ export const MyGalleryContent = () => {
         className="hidden md:block"
         displayDateFormat="yyyy년 M월"
         actions={
-          <div class="flex items-end gap-[.75rem]">
-            <span class="text-noto-14-regular text-gray-300">
+          <div className="flex items-end gap-[.75rem]">
+            <span className="text-noto-14-regular text-gray-300">
               {format(today, 'yyyy년 M월')}
             </span>
             <div className="w-[21.375rem] lg:w-[27.5rem]">
               <Button
                 size="lg"
-                disabled={creatable}
+                disabled={disabled}
                 className="w-full text-noto-18-bold"
                 onClick={handleCreateClick}
               >
@@ -81,7 +82,7 @@ export const MyGalleryContent = () => {
       <div className="fixed right-0 bottom-[40px] left-0 z-40 px-[.9375rem] md:hidden">
         <Button
           size="lg"
-          disabled={creatable}
+          disabled={disabled}
           className="w-full text-noto-18-bold"
           onClick={handleCreateClick}
         >

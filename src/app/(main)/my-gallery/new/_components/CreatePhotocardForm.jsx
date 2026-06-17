@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { format } from 'date-fns';
+import { useToastContext } from '@/context/ToastContext';
 import { CARD_GENRE_OPTIONS, CARD_GRADE_OPTIONS } from '@/constants/card';
 import { getErrorHandler } from '@/constants/errorHandler';
 import { useMe } from '@/hooks/user/useMe';
@@ -17,7 +18,6 @@ import {
   validatePrice,
   validateQuantity,
 } from '@/utils/validators';
-import { showGlobalToast } from '@/lib/toast/toastService';
 import { Input } from '@/components/ui/Input';
 import { Select } from '@/components/ui/Select';
 import { FileInput } from '@/components/ui/FileInput';
@@ -34,9 +34,10 @@ export const CreatePhotocardForm = () => {
   const today = new Date();
   const router = useRouter();
   const { data: me } = useMe();
+  const { showToast } = useToastContext();
   const { mutate: createPhotocard, isPending } = useCreatePhotocard();
   const [isUploading, setIsUploading] = useState(false);
-  const [creatable, setCreatable] = useState(false);
+  const [disabled, isDisabled] = useState(false);
 
   const [form, setForm] = useState({
     name: '',
@@ -137,8 +138,8 @@ export const CreatePhotocardForm = () => {
           const handler = getErrorHandler(error?.code);
 
           if (handler.action === 'toast') {
-            showGlobalToast(handler.message ?? error?.message);
-            setCreatable(true);
+            showToast(handler.message ?? error?.message);
+            isDisabled((prev) => !prev);
           } else {
             router.push(
               `/my-gallery/new/result?status=failure&name=${encodeURIComponent(form.name)}&grade=${form.grade}`,
@@ -260,7 +261,7 @@ export const CreatePhotocardForm = () => {
           type="submit"
           size="lg"
           className="mt-10 w-full md:mt-[3.75rem]"
-          disabled={isUploading || isPending || creatable}
+          disabled={isUploading || isPending || disabled}
         >
           생성하기
         </Button>
