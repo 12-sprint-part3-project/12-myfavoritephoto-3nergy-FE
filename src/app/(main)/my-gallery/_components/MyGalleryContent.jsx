@@ -37,8 +37,8 @@ export const MyGalleryContent = () => {
        */
       const handler = getErrorHandler('PHOTOCARD_CREATION_LIMIT_EXCEEDED');
 
+      setIsDisabled(true);
       showToast(handler.message);
-      setIsDisabled((prev) => !prev);
     } else {
       router.push('/my-gallery/new');
     }

@@ -103,6 +103,7 @@ export const CreatePhotocardForm = () => {
 
     // 횟수 소진된 상태인 경우 먼저 막기
     if (me && me.remainingPhotocardCreationCount <= 0) {
+      setIsDisabled(true);
       showToast('이번달 모든 생성 기회를 소진했어요');
       return;
     }
@@ -145,8 +146,8 @@ export const CreatePhotocardForm = () => {
           const handler = getErrorHandler(error?.code);
 
           if (handler.action === 'toast') {
+            setIsDisabled(true);
             showToast(handler.message ?? error?.message);
-            setIsDisabled((prev) => !prev);
           } else {
             router.push(
               `/my-gallery/new/result?status=failure&name=${encodeURIComponent(form.name)}&grade=${form.grade}`,
