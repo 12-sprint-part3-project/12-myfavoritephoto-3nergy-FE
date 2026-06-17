@@ -5,6 +5,7 @@ import { usePhotocardSelectList } from '@/hooks/photocard/usePhotocardSelectList
 import { usePhotocardFilterSelection } from '@/hooks/photocard/usePhotocardFilterSelection';
 import { PageTitle } from '@/components/layout/PageTitle';
 import { SearchBar } from '@/components/ui/SearchBar';
+import { Spinner } from '@/components/ui/Spinner';
 import { Card } from '@/components/domain/photocard/Card';
 import { MobileFilterBottomSheet } from '@/components/domain/photocard/MobileFilterBottomSheet';
 import { FilterDropdown } from '@/components/domain/photocard/FilterDropdown';
@@ -30,6 +31,7 @@ export const PhotocardSelectList = ({
   // 포토카드 목록 조회 (무한스크롤)
   const {
     data,
+    isFetching,
     isLoading,
     error,
     fetchNextPage,
@@ -78,11 +80,6 @@ export const PhotocardSelectList = ({
   const genreOptions = [{ value: '', label: '전체' }, ...CARD_GENRE_OPTIONS];
 
   const isFiltered = params.keyword || params.grade || params.genre;
-
-  // TODO: 스켈레톤 UI로 교체
-  if (isLoading) {
-    return <div className="text-white">로딩 중...</div>;
-  }
 
   // TODO: 에러 컴포넌트로 교체
   if (error) {
@@ -158,37 +155,51 @@ export const PhotocardSelectList = ({
       )}
 
       {/* 카드 그리드 */}
-      {data.photocards.length === 0 ? (
+      {isLoading ? (
+        <div className="flex h-[20rem] items-center justify-center">
+          <Spinner />
+        </div>
+      ) : data.photocards.length === 0 ? (
         <EmptyPhotocardList
           isFiltered={isFiltered}
           emptyTitle="판매 가능한 포토카드가 없습니다."
           emptyDescription="마이갤러리에서 포토카드를 생성해보세요."
         />
       ) : (
-        <ul className="grid w-full grid-cols-2 gap-[0.3125rem] md:gap-[1.25rem] xl:gap-[2.5rem]">
-          {data.photocards.map((card) => (
-            <li key={card.id}>
-              <button className="w-full" onClick={() => onSelect(card)}>
-                <Card
-                  type="mygallery"
-                  name={card.name}
-                  imageUrl={card.imageUrl}
-                  grade={card.grade}
-                  genre={card.genre}
-                  price={card.price}
-                  quantity={card.quantity}
-                  owner={card.ownerNickname}
-                />
-              </button>
-            </li>
-          ))}
-        </ul>
+        <div className="relative">
+          {isFetching && !isFetchingNextPage && (
+            <div className="fixed inset-0 z-10 flex items-center justify-center bg-black/40 md:absolute md:items-start md:pt-40">
+              <Spinner />
+            </div>
+          )}
+
+          <ul className="grid w-full grid-cols-2 gap-[0.3125rem] md:gap-[1.25rem] xl:gap-[2.5rem]">
+            {data.photocards.map((card) => (
+              <li key={card.id}>
+                <button className="w-full" onClick={() => onSelect(card)}>
+                  <Card
+                    type="mygallery"
+                    name={card.name}
+                    imageUrl={card.imageUrl}
+                    grade={card.grade}
+                    genre={card.genre}
+                    price={card.price}
+                    quantity={card.quantity}
+                    owner={card.ownerNickname}
+                  />
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
       )}
 
       {/* 무한스크롤 감지 타겟 */}
       <div ref={observerRef} className="h-4" />
       {isFetchingNextPage && (
-        <div className="py-4 text-center text-white">로딩 중...</div>
+        <div className="flex h-[6rem] items-center justify-center">
+          <Spinner className="h-2 w-2" />
+        </div>
       )}
     </div>
   );
