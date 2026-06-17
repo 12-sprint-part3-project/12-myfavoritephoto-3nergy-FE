@@ -13,7 +13,6 @@ import { SortDropdown } from '@/components/domain/photocard/SortDropdown';
 import { MobileFilterBottomSheet } from '@/components/domain/photocard/MobileFilterBottomSheet';
 import { EmptyPhotocardList } from '@/components/domain/photocard/EmptyPhotocardList';
 import { CreateSaleModal } from '@/app/(main)/marketplace/_components/CreateSaleModal';
-import { RandomPointModal } from '@/components/domain/point/RandomPointModal';
 import { useSales } from '@/hooks/sale/useSales';
 import { useSalesFilterSelection } from '@/hooks/sale/useSalesFilterSelection';
 import { useIsMobile } from '@/hooks/common/useResponsive';
@@ -52,21 +51,11 @@ const mapSaleToCard = (sale) => ({
   status: sale.status,
 });
 
-const RANDOM_POINT_KEY = 'randomPointNextAt';
-
-const isPointEventReady = () => {
-  if (typeof window === 'undefined') return false;
-  const saved = localStorage.getItem(RANDOM_POINT_KEY);
-  if (!saved) return true;
-  return Date.now() >= new Date(saved).getTime();
-};
-
 export const MarketplaceContent = () => {
   const router = useRouter();
   const isMobile = useIsMobile();
   const pageSize = usePageSize();
   const [showCreateModal, setShowCreateModal] = useState(false);
-  const [showRandomModal, setShowRandomModal] = useState(true); // TODO: 확인 후 isPointEventReady로 복구
   const [filters, setFilters] = useState({
     grade: null,
     genre: null,
@@ -85,17 +74,6 @@ export const MarketplaceContent = () => {
       setShowCreateModal(true);
     }
   };
-  // 쿨다운 중이면 타이머 설정, 만료 시 깜짝 팝업
-  useEffect(() => {
-    if (showRandomModal) return;
-    const saved = localStorage.getItem(RANDOM_POINT_KEY);
-    if (!saved) return;
-    const delay = new Date(saved).getTime() - Date.now();
-    if (delay <= 0) return;
-    const id = setTimeout(() => setShowRandomModal(true), delay);
-    return () => clearTimeout(id);
-  }, [showRandomModal]);
-
   const handleFilterChange = (key) => (value) => {
     setFilters((prev) => ({ ...prev, [key]: value === '' ? null : value }));
   };
@@ -263,9 +241,6 @@ export const MarketplaceContent = () => {
         <CreateSaleModal onClose={() => setShowCreateModal(false)} />
       )}
 
-      {showRandomModal && (
-        <RandomPointModal onClose={() => setShowRandomModal(false)} />
-      )}
     </div>
   );
 };
