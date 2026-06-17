@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-export const useDelayedLoading = (isLoading, delay = 300) => {
+export const useDelayedLoading = (isLoading, delay = 500) => {
   const [showLoading, setShowLoading] = useState(false);
   const timerRef = useRef(null);
 
