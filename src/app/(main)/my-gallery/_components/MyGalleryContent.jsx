@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { format } from 'date-fns';
 import { useMe } from '@/hooks/user/useMe';
 import { usePhotocards } from '@/hooks/photocard/usePhotocards';
 import { PageTitle } from '@/components/layout/PageTitle';
@@ -13,6 +14,7 @@ import { showGlobalToast } from '@/lib/toast/toastService';
 import { getErrorHandler } from '@/constants/errorHandler';
 
 export const MyGalleryContent = () => {
+  const today = new Date();
   const router = useRouter();
   const { data: me } = useMe();
   const { data, isLoading, error } = usePhotocards();
@@ -48,17 +50,22 @@ export const MyGalleryContent = () => {
         className="hidden md:block"
         displayDateFormat="yyyy년 M월"
         actions={
-          <div className="w-[21.375rem] lg:w-[27.5rem]">
-            <Button
-              size="lg"
-              disabled={creatable}
-              className="w-full text-noto-18-bold"
-              onClick={handleCreateClick}
-            >
-              포토카드 생성하기{' '}
-              {me.monthlyPhotocardCreationLimit &&
-                `(${me.remainingPhotocardCreationCount}/${me.monthlyPhotocardCreationLimit})`}
-            </Button>
+          <div class="flex items-end gap-[.75rem]">
+            <span class="text-noto-14-regular text-gray-300">
+              {format(today, 'yyyy년 M월')}
+            </span>
+            <div className="w-[21.375rem] lg:w-[27.5rem]">
+              <Button
+                size="lg"
+                disabled={creatable}
+                className="w-full text-noto-18-bold"
+                onClick={handleCreateClick}
+              >
+                포토카드 생성하기{' '}
+                {me.monthlyPhotocardCreationLimit &&
+                  `(${me.remainingPhotocardCreationCount}/${me.monthlyPhotocardCreationLimit})`}
+              </Button>
+            </div>
           </div>
         }
         variant="title-lg"
