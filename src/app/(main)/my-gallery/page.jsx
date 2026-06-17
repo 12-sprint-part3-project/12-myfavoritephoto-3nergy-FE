@@ -1,6 +1,4 @@
-import { PageTitle } from '@/components/layout/PageTitle';
-import { MyGalleryContent } from './_components/MyGalleryContent';
-import Link from 'next/link';
+import { MyGalleryContent } from '@/app/(main)/my-gallery/_components/MyGalleryContent';
 
 export const metadata = {
   title: '마이갤러리',
@@ -9,22 +7,5 @@ export const metadata = {
 };
 
 export default function page() {
-  return (
-    <div className="pb-[110px] xl:pb-[140px]">
-      <PageTitle
-        title={metadata.title}
-        actions={
-          <Link
-            href="/my-gallery/new"
-            className="fixed right-[.9375rem] bottom-[40px] left-[.9375rem] z-40 flex w-auto items-center justify-center rounded-xs bg-main py-[17px] text-noto-16-bold text-black transition-all duration-150 hover:brightness-90 active:brightness-85 disabled:hover:brightness-100 disabled:active:brightness-100 md:static md:h-[3.75rem] md:w-[21.375rem] lg:w-[27.5rem] lg:text-noto-18-bold"
-          >
-            포토카드 생성하기
-          </Link>
-        }
-        variant="title-lg"
-      />
-
-      <MyGalleryContent />
-    </div>
-  );
+  return <MyGalleryContent />;
 }
