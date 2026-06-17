@@ -31,7 +31,7 @@ export const fetchClient = async (endpoint, options = {}) => {
     const error = new Error(
       data.error?.message ?? '알 수 없는 오류가 발생했습니다.',
     );
-    error.code = data.error?.code;
+    Object.assign(error, data.error);
     error.statusCode = response.status;
     throw error;
   }
