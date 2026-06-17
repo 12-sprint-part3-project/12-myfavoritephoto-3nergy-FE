@@ -1,7 +1,9 @@
 'use client';
 
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
+import { getErrorHandler } from '@/constants/errorHandler';
 import { useMe } from '@/hooks/user/useMe';
 import { useSaleDetail } from '@/hooks/sale/useSaleDetail';
 import { Spinner } from '@/components/ui/Spinner';
@@ -21,7 +23,7 @@ export const SaleDetailContent = ({ saleId }) => {
 
   const isSeller = !!accessToken && sale?.seller?.uuid === me?.uuid;
 
-  if (isLoading || !sale) {
+  if (isLoading) {
     return (
       <>
         <div className="mb-[1.63rem] md:mb-[3rem] lg:mb-[4.36rem]">
@@ -39,8 +41,14 @@ export const SaleDetailContent = ({ saleId }) => {
 
   // TODO: 에러 컴포넌트로 교체
   if (error) {
+    const { action } = getErrorHandler(error?.code);
+    if (action === 'not-found') {
+      notFound();
+    }
     return <div className="text-white">에러가 발생했습니다.</div>;
   }
+
+  if (!sale) return null;
 
   const isCanceled = sale.status === 'CANCELED';
   const isSoldOut = sale.status === 'SOLD_OUT';
