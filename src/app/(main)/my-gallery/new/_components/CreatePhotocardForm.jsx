@@ -36,6 +36,7 @@ export const CreatePhotocardForm = () => {
   const { data: me } = useMe();
   const { mutate: createPhotocard, isPending } = useCreatePhotocard();
   const [isUploading, setIsUploading] = useState(false);
+  const [creatable, setCreatable] = useState(false);
 
   const [form, setForm] = useState({
     name: '',
@@ -137,6 +138,7 @@ export const CreatePhotocardForm = () => {
 
           if (handler.action === 'toast') {
             showGlobalToast(handler.message ?? error?.message);
+            setCreatable(true);
           } else {
             router.push(
               `/my-gallery/new/result?status=failure&name=${encodeURIComponent(form.name)}&grade=${form.grade}`,
@@ -254,7 +256,7 @@ export const CreatePhotocardForm = () => {
           type="submit"
           size="lg"
           className="mt-10 w-full md:mt-[3.75rem]"
-          disabled={isUploading || isPending}
+          disabled={isUploading || isPending || creatable}
         >
           생성하기
         </Button>
