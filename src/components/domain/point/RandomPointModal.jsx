@@ -1,12 +1,13 @@
 'use client';
 
 import Image from 'next/image';
-import { useState, useEffect, useMemo } from 'react';
+import { useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { CloseIcon } from '@/icons';
 import { usePointEvent } from '@/hooks/point/usePointEvent';
 import { useMe } from '@/hooks/user/useMe';
-import { getPointLocalKey } from '@/utils/pointStorage';
+import { usePointCooldown } from '@/hooks/point/usePointCooldown';
+import { useToastContext } from '@/context/ToastContext';
 
 const BOXES = [
   { id: 1, src: '/images/point/random_box-1.png', alt: '상자 1' },
@@ -20,13 +21,6 @@ const formatCountdown = (ms) => {
   const min = Math.floor(totalSec / 60);
   const sec = totalSec % 60;
   return `${String(min).padStart(2, '0')}분 ${String(sec).padStart(2, '0')}초`;
-};
-
-const getStoredNextAt = (key) => {
-  const saved = localStorage.getItem(key);
-  if (!saved) return null;
-  const nextAt = new Date(saved).getTime();
-  return nextAt > Date.now() ? nextAt : null;
 };
 
 const ModalOverlay = ({ children }) => (
@@ -66,67 +60,36 @@ const CountdownDisplay = ({ countdown }) => (
 
 export const RandomPointModal = ({ onClose }) => {
   const { data: me } = useMe();
-  const localKey = me?.uuid ? getPointLocalKey(me.uuid) : null;
-
-  const storedNextAt = useMemo(
-    () => (localKey ? getStoredNextAt(localKey) : undefined),
-    [localKey],
-  );
+  const { showToast } = useToastContext();
 
   const [step, setStep] = useState('idle');
   const [selectedBox, setSelectedBox] = useState(null);
   const [result, setResult] = useState(null);
-  const [apiNextAt, setApiNextAt] = useState(null);
-  const [countdown, setCountdown] = useState(0);
 
-  // undefined = 아직 초기화 전 | 0 = 명시적 초기화(만료) | number = 쿨다운 중
-  const nextAvailableAt =
-    storedNextAt === undefined ? undefined : apiNextAt === 0 ? null : apiNextAt ?? storedNextAt;
+  const { nextAvailableAt, countdown, saveCooldown } = usePointCooldown(me?.uuid, () => {
+    setStep('idle');
+    setSelectedBox(null);
+    setResult(null);
+  });
 
   const { mutate: claimPoint, isPending } = usePointEvent();
-
-  useEffect(() => {
-    if (!nextAvailableAt) return;
-
-    const tick = () => {
-      const remaining = nextAvailableAt - Date.now();
-      if (remaining <= 0) {
-        setCountdown(0);
-        setApiNextAt(0);
-        setStep('idle');
-        setSelectedBox(null);
-        setResult(null);
-        localStorage.removeItem(localKey);
-      } else {
-        setCountdown(remaining);
-      }
-    };
-
-    const immediateId = setTimeout(tick, 0);
-    const intervalId = setInterval(tick, 1000);
-    return () => {
-      clearTimeout(immediateId);
-      clearInterval(intervalId);
-    };
-  }, [nextAvailableAt, localKey]);
 
   const handleConfirm = () => {
     claimPoint(undefined, {
       onSuccess: (res) => {
         setResult(res);
-        const nextAt = new Date(res.nextAvailableAt).getTime();
-        setApiNextAt(nextAt);
-        localStorage.setItem(localKey, res.nextAvailableAt);
+        saveCooldown(res.nextAvailableAt);
         setStep('result');
       },
       onError: (err) => {
         const nextAvailable = err?.nextAvailableAt;
         if (nextAvailable) {
-          const nextAt = new Date(nextAvailable).getTime();
-          setApiNextAt(nextAt);
-          localStorage.setItem(localKey, nextAvailable);
+          saveCooldown(nextAvailable);
+          setStep('result');
+        } else {
+          showToast(err?.message ?? '포인트 뽑기에 실패했습니다.');
+          setStep('idle');
         }
-        setStep('result');
       },
     });
   };
@@ -154,9 +117,11 @@ export const RandomPointModal = ({ onClose }) => {
               <span className="text-white">획득!</span>
             </p>
           )}
-          <div className="mt-3.5">
-            <CountdownDisplay countdown={countdown} />
-          </div>
+          {nextAvailableAt && (
+            <div className="mt-3.5">
+              <CountdownDisplay countdown={countdown} />
+            </div>
+          )}
         </div>
       </ModalOverlay>
     );
@@ -172,7 +137,7 @@ export const RandomPointModal = ({ onClose }) => {
             <br />
             랜덤 상자 뽑기를 통해 포인트를 획득하세요!
           </p>
-          <CountdownDisplay countdown={countdown} />
+          {nextAvailableAt && <CountdownDisplay countdown={countdown} />}
         </div>
         <div className="mt-5 flex items-center justify-center gap-5 md:mt-8 xl:mt-10">
           {BOXES.map((box) => (

@@ -17,7 +17,7 @@ export const FloatingButtons = () => {
     const saved = localStorage.getItem(localKey);
     if (!saved) return;
     const delay = new Date(saved).getTime() - Date.now();
-    if (delay <= 0) return;
+    if (delay <= 0 || delay > 3_600_000) return;
     const id = setTimeout(() => setShowModal(true), delay);
     return () => clearTimeout(id);
   }, [showModal, localKey]);
