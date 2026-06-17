@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useIsMobile } from '@/hooks/common/useResponsive';
 import { CreateSaleModal } from '@/app/(main)/marketplace/_components/CreateSaleModal';
@@ -10,6 +10,12 @@ export const CreateSaleButton = () => {
   const router = useRouter();
   const isMobile = useIsMobile();
   const [showCreateModal, setShowCreateModal] = useState(false);
+
+  useEffect(() => {
+    if (isMobile) {
+      router.prefetch('/marketplace/create');
+    }
+  }, [isMobile, router]);
 
   const handleCreateClick = () => {
     if (isMobile) {
