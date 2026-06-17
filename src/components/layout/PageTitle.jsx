@@ -1,5 +1,3 @@
-import { format } from 'date-fns';
-
 const variantStyles = {
   'title-lg': 'font-baskin-base text-baskin-48-bold lg:text-baskin-62-bold',
   'title-md': 'font-baskin-base text-baskin-40-bold lg:text-baskin-46-bold',
@@ -23,10 +21,7 @@ export const PageTitle = ({
   hideBreadcrumbOnMobile = false,
   hideBorderOnMobile = false,
   className,
-  displayDateFormat,
 }) => {
-  const today = new Date();
-
   return (
     <div
       className={`w-full border-b border-gray-200 ${hideBorderOnMobile && 'max-md:border-none'} ${className}`}
@@ -45,16 +40,7 @@ export const PageTitle = ({
           {leadingIcon && <div>{leadingIcon}</div>}
           <h1 className={`text-white ${variantStyles[variant]}`}>{title}</h1>
         </div>
-        {(actions || displayDateFormat) && (
-          <div className="flex items-end gap-[.75rem]">
-            {displayDateFormat && (
-              <span className="text-noto-14-regular text-gray-300">
-                {format(today, displayDateFormat)}
-              </span>
-            )}{' '}
-            {actions}
-          </div>
-        )}
+        {actions && <div>{actions}</div>}
       </div>
     </div>
   );
