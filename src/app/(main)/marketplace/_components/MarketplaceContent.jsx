@@ -262,6 +262,10 @@ export const MarketplaceContent = () => {
       {showCreateModal && (
         <CreateSaleModal onClose={() => setShowCreateModal(false)} />
       )}
+
+      {showRandomModal && (
+        <RandomPointModal onClose={() => setShowRandomModal(false)} />
+      )}
     </div>
   );
 };
