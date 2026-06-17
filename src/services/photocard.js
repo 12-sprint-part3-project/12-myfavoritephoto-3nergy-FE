@@ -18,3 +18,7 @@ export const createPhotocard = (body) =>
     method: 'POST',
     body: JSON.stringify(body),
   });
+
+// 보유 수량 확인
+export const getOwnedQuantity = (photocardId) =>
+  fetchWithAuth(`/api/photocards/${photocardId}/owned-quantity`);
