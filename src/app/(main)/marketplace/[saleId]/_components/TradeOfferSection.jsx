@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useIsMobile } from '@/hooks/common/useResponsive';
 import { GRADE_STYLE } from '@/constants/card';
@@ -12,6 +12,12 @@ export const TradeOfferSection = ({ sale }) => {
   const router = useRouter();
   const isMobile = useIsMobile();
   const [showTradeModalOpen, setShowTradeModalOpen] = useState(false);
+
+  useEffect(() => {
+    if (isMobile) {
+      router.prefetch(`/marketplace/${sale.saleId}/trade`);
+    }
+  }, [isMobile, sale.saleId, router]);
 
   const handleCreateClick = () => {
     if (isMobile) {
@@ -33,7 +39,7 @@ export const TradeOfferSection = ({ sale }) => {
               <Button
                 size="lg"
                 onClick={handleCreateClick}
-                className="text-noto-16-bold lg:text-noto-18-bold w-full md:w-[342px] lg:w-[440px]"
+                className="w-full text-noto-16-bold md:w-[342px] lg:w-[440px] lg:text-noto-18-bold"
               >
                 포토카드 교환하기
               </Button>
@@ -43,7 +49,7 @@ export const TradeOfferSection = ({ sale }) => {
 
         {/*교환 희망 정보 - 설명, 등급, 장르*/}
         <div className="flex flex-col gap-[1.25rem]">
-          <p className="text-noto-18-bold lg:text-noto-24-bold text-white">
+          <p className="text-noto-18-bold text-white lg:text-noto-24-bold">
             {sale.desiredDescription}
           </p>
           <div className="flex gap-[0.62rem] lg:gap-[0.9375rem]">
@@ -60,7 +66,7 @@ export const TradeOfferSection = ({ sale }) => {
           <Button
             size="lg"
             onClick={handleCreateClick}
-            className="text-noto-16-bold w-full"
+            className="w-full text-noto-16-bold"
           >
             포토카드 교환하기
           </Button>
