@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useToastContext } from '@/context/ToastContext';
 import { useIsMobile } from '@/hooks/common/useResponsive';
@@ -26,6 +26,12 @@ export const SellerButtons = ({ sale }) => {
 
   const [showEditModal, setShowEditModal] = useState(false);
   const [showCancelModal, setShowCancelModal] = useState(false);
+
+  useEffect(() => {
+    if (isMobile) {
+      router.prefetch(`/marketplace/${sale.saleId}/edit`);
+    }
+  }, [isMobile, sale.saleId, router]);
 
   const handleCancelSale = () => {
     cancelSale(sale.saleId, {
