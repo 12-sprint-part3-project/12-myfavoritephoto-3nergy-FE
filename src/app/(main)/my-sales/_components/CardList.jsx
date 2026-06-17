@@ -11,8 +11,8 @@ export const CardList = ({ sales = [] }) => {
       {sales.length > 0 ? (
         <ul className="grid grid-cols-2 gap-[.3125rem] md:gap-[1.25rem] lg:grid-cols-3 lg:gap-[5rem]">
           {sales.map((item) => (
-            <li key={item.saleMethod === 'SALE' ? item.saleid : item.tradeId}>
-              <Link href={`/marketplace/${item.saleid}`}>
+            <li key={item.saleMethod === 'SALE' ? item.saleId : item.tradeId}>
+              <Link href={`/marketplace/${item.saleId}`}>
                 <Card
                   type="mysales"
                   {...item}
