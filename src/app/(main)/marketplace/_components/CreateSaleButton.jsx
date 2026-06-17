@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useIsMobile } from '@/hooks/common/useResponsive';
 import { CreateSaleModal } from '@/app/(main)/marketplace/_components/CreateSaleModal';
