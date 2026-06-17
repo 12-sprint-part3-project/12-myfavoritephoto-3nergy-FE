@@ -24,7 +24,6 @@ export default function MainLayout({ children }) {
   const { mutate: logout } = useLogout();
 
   const { data: notifications = [] } = useNotifications();
-  console.log(notifications);
   const { mutate: markAsRead } = useReadNotification();
   useNotificationSSE();
 
