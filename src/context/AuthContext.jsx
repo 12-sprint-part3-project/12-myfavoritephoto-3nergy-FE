@@ -20,7 +20,22 @@ export const AuthProvider = ({ children }) => {
   const [accessToken, setAccessToken] = useState(null);
 
   useEffect(() => {
-    setAccessToken(getToken());
+    const token = getToken();
+    if (token) {
+      setAccessToken(token);
+      return;
+    }
+
+    // 소셜 로그인 후 refreshToken 쿠키가 있을 수 있으니 refresh 시도
+    fetch('/api/auth/refresh', { method: 'POST', credentials: 'include' })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success && data.data?.accessToken) {
+          setToken(data.data.accessToken);
+          setAccessToken(data.data.accessToken);
+        }
+      })
+      .catch(() => {});
   }, []);
 
   // 로그인 모달 타입: null | 'session-expired' | 'login-required'
