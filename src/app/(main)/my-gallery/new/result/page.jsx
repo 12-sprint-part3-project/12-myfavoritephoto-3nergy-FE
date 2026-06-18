@@ -1,10 +1,11 @@
 'use client';
 
+import { Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { ResultView } from '@/components/feedback/ResultView';
 import { GRADE_STYLE } from '@/constants/card';
 
-export default function page() {
+function PhotocardCreateResultContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -26,5 +27,13 @@ export default function page() {
         onClick={() => router.push('/my-gallery')}
       />
     </div>
+  );
+}
+
+export default function page() {
+  return (
+    <Suspense>
+      <PhotocardCreateResultContent />
+    </Suspense>
   );
 }
