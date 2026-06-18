@@ -61,12 +61,13 @@ export const MySalesCardSection = () => {
     })),
   ];
 
-  const isFiltered =
-    !!debouncedKeyword ||
-    !!filter.grade ||
-    !!filter.genre ||
-    !!filter.saleMethod ||
-    filter.isSoldOut !== ''; // 필터 검색된 결과인지 체크
+  const isFilteredEmpty =
+    (!!debouncedKeyword ||
+      !!filter.grade ||
+      !!filter.genre ||
+      !!filter.saleMethod ||
+      filter.isSoldOut !== '') &&
+    data.meta.totalPhotos > 0; // 필터 검색된 결과인지 체크
 
   const showFetchingSpinner = useDelayedLoading(
     isFetching && !isFetchingNextPage,
@@ -163,7 +164,7 @@ export const MySalesCardSection = () => {
             </div>
           )}
 
-          <CardList sales={data.mySales} isFiltered={isFiltered} />
+          <CardList sales={data.mySales} isFilteredEmpty={isFilteredEmpty} />
 
           {data.meta.totalPages && (
             <Pagination

@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { Card } from '@/components/domain/photocard/Card';
 import { EmptyPhotocardList } from '@/components/domain/photocard/EmptyPhotocardList';
 
-export const CardList = ({ sales = [], isFiltered }) => {
+export const CardList = ({ sales = [], isFilteredEmpty }) => {
   return (
     <div className="pt-[1.25rem] md:pt-[3.75rem] lg:py-[3.75rem]">
       {sales.length > 0 ? (
@@ -24,7 +24,7 @@ export const CardList = ({ sales = [], isFiltered }) => {
         </ul>
       ) : (
         <EmptyPhotocardList
-          isFiltered={isFiltered}
+          isFiltered={isFilteredEmpty}
           emptyTitle="판매 등록된 카드가 없습니다."
           emptyDescription="마켓플레이스에서 판매할 카드를 등록해보세요."
         />
