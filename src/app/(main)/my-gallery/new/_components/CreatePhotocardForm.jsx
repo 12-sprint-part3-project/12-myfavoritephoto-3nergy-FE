@@ -159,7 +159,7 @@ export const CreatePhotocardForm = () => {
   };
 
   return (
-    <div className="pb-[40px] md:pb-[60px] xl:pb-[180px]">
+    <div className="px-[0.9375rem] pt-[1.25rem] pb-[40px] md:px-[1.25rem] md:pt-[2.5rem] md:pb-[60px] xl:pt-[3.75rem] xl:pb-[180px]">
       <PageTitle
         title="포토카드 생성"
         className="hidden md:block"
