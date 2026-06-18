@@ -9,6 +9,7 @@ import {
 } from 'react';
 import { useRouter } from 'next/navigation';
 import { getToken, setToken, clearToken } from '@/utils/token';
+import { refreshAccessToken } from '@/lib/auth/refreshToken';
 import { LoginModal } from '@/components/domain/auth/LoginModal';
 
 const AuthContext = createContext(null);
@@ -27,14 +28,9 @@ export const AuthProvider = ({ children }) => {
     }
 
     // 소셜 로그인 후 refreshToken 쿠키가 있을 수 있으니 refresh 시도
-    // fetchClient/fetchWithAuth는 AuthContext에 의존하므로 순환 참조 방지를 위해 raw fetch 사용
-    fetch('/api/auth/refresh', { method: 'POST', credentials: 'include' })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success && data.data?.accessToken) {
-          setToken(data.data.accessToken);
-          setAccessToken(data.data.accessToken);
-        }
+    refreshAccessToken()
+      .then((newToken) => {
+        setAccessToken(newToken);
       })
       .catch(() => {});
   }, []);
