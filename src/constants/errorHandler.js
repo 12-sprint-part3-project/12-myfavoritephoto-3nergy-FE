@@ -35,6 +35,10 @@ export const ERROR_HANDLER = {
     message: '로그인에 실패했습니다. 잠시 후 다시 시도해주세요.',
     action: 'toast',
   },
+  INVALID_GOOGLE_TOKEN: {
+    message: '유효하지 않은 Google 인증 정보입니다.',
+    action: 'toast',
+  },
 
   EMAIL_ALREADY_EXISTS: {
     action: 'field',

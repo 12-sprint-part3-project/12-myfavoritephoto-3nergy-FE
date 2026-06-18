@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import { useSignup } from '@/hooks/auth/useSignup';
+import { useGoogleLogin } from '@/hooks/auth/useGoogleLogin';
 import { APP_NAME } from '@/constants/app';
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -32,6 +33,7 @@ const SignupPage = () => {
   });
   const [errors, setErrors] = useState({});
   const { mutate: signup, isPending } = useSignup();
+  const { loginWithGoogle } = useGoogleLogin();
 
   const validateField = (name, values) => {
     switch (name) {
@@ -195,7 +197,7 @@ const SignupPage = () => {
           <button
             type="button"
             className="text-noto-18-regular flex h-[3.4375rem] w-full cursor-pointer items-center justify-center gap-3 rounded-xs border border-gray-300 bg-white text-black transition-all duration-150 hover:bg-gray-100 active:bg-gray-200 md:h-[3.75rem]"
-            onClick={() => {}}
+            onClick={loginWithGoogle}
           >
             <Image
               src="/google.svg"

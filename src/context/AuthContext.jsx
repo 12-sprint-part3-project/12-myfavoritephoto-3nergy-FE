@@ -9,6 +9,7 @@ import {
 } from 'react';
 import { useRouter } from 'next/navigation';
 import { getToken, setToken, clearToken } from '@/utils/token';
+import { refreshAccessToken } from '@/lib/auth/refreshToken';
 import { LoginModal } from '@/components/domain/auth/LoginModal';
 
 const AuthContext = createContext(null);
@@ -20,7 +21,18 @@ export const AuthProvider = ({ children }) => {
   const [accessToken, setAccessToken] = useState(null);
 
   useEffect(() => {
-    setAccessToken(getToken());
+    const token = getToken();
+    if (token) {
+      setAccessToken(token);
+      return;
+    }
+
+    // 소셜 로그인 후 refreshToken 쿠키가 있을 수 있으니 refresh 시도
+    refreshAccessToken()
+      .then((newToken) => {
+        setAccessToken(newToken);
+      })
+      .catch(() => {});
   }, []);
 
   // 로그인 모달 타입: null | 'session-expired' | 'login-required'
@@ -34,20 +46,20 @@ export const AuthProvider = ({ children }) => {
     setLoginModalType(null);
   }, []);
 
-  const login = (token) => {
+  const login = useCallback((token) => {
     setAccessToken(token);
     setToken(token);
-  };
+  }, []);
 
-  const logout = () => {
+  const logout = useCallback(() => {
     setAccessToken(null);
     clearToken();
-  };
+  }, []);
 
-  const handleLogin = () => {
+  const handleLogin = useCallback(() => {
     closeLoginModal();
     router.push('/login');
-  };
+  }, [closeLoginModal, router]);
 
   // queryClient.js에서 발생시킨 auth:error 이벤트 수신
   useEffect(() => {

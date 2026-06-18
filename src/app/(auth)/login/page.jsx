@@ -6,12 +6,14 @@ import { useState } from 'react';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import { useLogin } from '@/hooks/auth/useLogin';
+import { useGoogleLogin } from '@/hooks/auth/useGoogleLogin';
 import { APP_NAME } from '@/constants/app';
 
 const LoginPage = () => {
   const [form, setForm] = useState({ email: '', password: '' });
   const [errors, setErrors] = useState({});
   const { mutate: login, isPending, error } = useLogin();
+  const { loginWithGoogle } = useGoogleLogin();
 
   const validate = () => {
     const next = {};
@@ -100,7 +102,7 @@ const LoginPage = () => {
           <button
             type="button"
             className="text-noto-18-regular flex h-[3.4375rem] w-full cursor-pointer items-center justify-center gap-3 rounded-xs border border-gray-300 bg-white text-black transition-all duration-150 hover:bg-gray-100 active:bg-gray-200 md:h-[3.75rem]"
-            onClick={() => {}}
+            onClick={loginWithGoogle}
           >
             <Image
               src="/google.svg"
