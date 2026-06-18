@@ -20,6 +20,7 @@ export const MyGalleryContent = () => {
   const { data: me } = useMe();
   const { data, isLoading, error } = usePhotocards();
   const [isDisabled, setIsDisabled] = useState(false);
+  console.log(me);
 
   // TODO: 스켈레톤 UI로 교체
   if (isLoading) return <div className="text-white">로딩 중...</div>;
