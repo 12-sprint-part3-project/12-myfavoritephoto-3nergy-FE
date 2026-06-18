@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo, useRef } from 'react';
 import { getPointLocalKey } from '@/utils/pointStorage';
+import { SECOND } from '@/constants/time';
 
 const getStoredNextAt = (key) => {
   const saved = localStorage.getItem(key);
@@ -11,7 +12,9 @@ const getStoredNextAt = (key) => {
 export const usePointCooldown = (uuid, onExpire) => {
   const localKey = uuid ? getPointLocalKey(uuid) : null;
   const onExpireRef = useRef(onExpire);
-  onExpireRef.current = onExpire;
+  useEffect(() => {
+    onExpireRef.current = onExpire;
+  });
 
   const storedNextAt = useMemo(
     () => (localKey ? getStoredNextAt(localKey) : undefined),
@@ -41,7 +44,7 @@ export const usePointCooldown = (uuid, onExpire) => {
     };
 
     const immediateId = setTimeout(tick, 0);
-    const intervalId = setInterval(tick, 1000);
+    const intervalId = setInterval(tick, SECOND);
     return () => {
       clearTimeout(immediateId);
       clearInterval(intervalId);

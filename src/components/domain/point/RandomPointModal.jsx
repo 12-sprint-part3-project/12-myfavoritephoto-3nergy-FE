@@ -3,11 +3,21 @@
 import Image from 'next/image';
 import { useState } from 'react';
 import { Button } from '@/components/ui/Button';
+import { Overlay } from '@/components/ui/Overlay';
 import { CloseIcon } from '@/icons';
 import { usePointEvent } from '@/hooks/point/usePointEvent';
 import { useMe } from '@/hooks/user/useMe';
 import { usePointCooldown } from '@/hooks/point/usePointCooldown';
 import { useToastContext } from '@/context/ToastContext';
+import { SECOND, MINUTE } from '@/constants/time';
+
+const SECS_PER_MIN = MINUTE / SECOND;
+
+const STEP = {
+  IDLE: 'idle',
+  SELECTED: 'selected',
+  RESULT: 'result',
+};
 
 const BOXES = [
   { id: 1, src: '/images/point/random_box-1.png', alt: '상자 1' },
@@ -17,17 +27,11 @@ const BOXES = [
 
 const formatCountdown = (ms) => {
   if (ms <= 0) return '00분 00초';
-  const totalSec = Math.floor(ms / 1000);
-  const min = Math.floor(totalSec / 60);
-  const sec = totalSec % 60;
+  const totalSec = Math.floor(ms / SECOND);
+  const min = Math.floor(totalSec / SECS_PER_MIN);
+  const sec = totalSec % SECS_PER_MIN;
   return `${String(min).padStart(2, '0')}분 ${String(sec).padStart(2, '0')}초`;
 };
-
-const ModalOverlay = ({ children }) => (
-  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4">
-    {children}
-  </div>
-);
 
 const ModalHeader = ({ onClose }) => (
   <div className="flex items-center justify-between">
@@ -62,12 +66,12 @@ export const RandomPointModal = ({ onClose }) => {
   const { data: me } = useMe();
   const { showToast } = useToastContext();
 
-  const [step, setStep] = useState('idle');
+  const [step, setStep] = useState(STEP.IDLE);
   const [selectedBox, setSelectedBox] = useState(null);
   const [result, setResult] = useState(null);
 
   const { nextAvailableAt, countdown, saveCooldown } = usePointCooldown(me?.uuid, () => {
-    setStep('idle');
+    setStep(STEP.IDLE);
     setSelectedBox(null);
     setResult(null);
   });
@@ -79,26 +83,26 @@ export const RandomPointModal = ({ onClose }) => {
       onSuccess: (res) => {
         setResult(res);
         saveCooldown(res.nextAvailableAt);
-        setStep('result');
+        setStep(STEP.RESULT);
       },
       onError: (err) => {
         const nextAvailable = err?.nextAvailableAt;
         if (nextAvailable) {
           saveCooldown(nextAvailable);
-          setStep('result');
+          setStep(STEP.RESULT);
         } else {
           showToast(err?.message ?? '포인트 뽑기에 실패했습니다.');
-          setStep('idle');
+          setStep(STEP.IDLE);
         }
       },
     });
   };
 
-  if (nextAvailableAt === undefined) return <div className="fixed inset-0 z-50 bg-black/70" />;
+  if (nextAvailableAt === undefined) return <div className="fixed inset-0 z-50 bg-black/80" />;
 
-  if (step === 'result') {
+  if (step === STEP.RESULT) {
     return (
-      <ModalOverlay>
+      <Overlay onClose={onClose}>
         <div className="w-full max-w-[28.4375rem] rounded-sm bg-gray-500 px-10 pb-24 pt-8">
           <ModalHeader onClose={onClose} />
           <div className="mt-5 flex justify-center">
@@ -123,12 +127,12 @@ export const RandomPointModal = ({ onClose }) => {
             </div>
           )}
         </div>
-      </ModalOverlay>
+      </Overlay>
     );
   }
 
   return (
-    <ModalOverlay>
+    <Overlay onClose={onClose}>
       <div className="w-full max-w-[37.5rem] rounded-sm bg-gray-500 px-5 py-8 md:px-10 md:pb-10 md:pt-12 xl:max-w-[64.625rem] xl:px-16">
         <ModalHeader onClose={onClose} />
         <div className="mt-8 flex flex-col items-center gap-8 text-center md:gap-10">
@@ -147,17 +151,17 @@ export const RandomPointModal = ({ onClose }) => {
               onClick={() => {
                 if (nextAvailableAt) return;
                 setSelectedBox(box.id);
-                setStep('selected');
+                setStep(STEP.SELECTED);
               }}
               aria-label={`상자 ${box.id} 선택`}
               disabled={!!nextAvailableAt}
               className={`relative h-20 flex-1 transition-all duration-200 md:h-32 xl:h-48 ${
                 nextAvailableAt
                   ? 'cursor-not-allowed opacity-40'
-                  : step === 'selected' && selectedBox === box.id
+                  : step === STEP.SELECTED && selectedBox === box.id
                     ? 'cursor-pointer scale-110'
                     : 'cursor-pointer hover:scale-105'
-              } ${step === 'selected' && selectedBox !== box.id ? 'opacity-30' : ''}`}
+              } ${step === STEP.SELECTED && selectedBox !== box.id ? 'opacity-30' : ''}`}
             >
               <Image
                 src={box.src}
@@ -169,7 +173,7 @@ export const RandomPointModal = ({ onClose }) => {
             </button>
           ))}
         </div>
-        {step === 'selected' && (
+        {step === STEP.SELECTED && (
           <div className="mt-8 flex justify-center xl:mt-10">
             <div className="w-full max-w-[32.5rem]">
               <Button
@@ -184,6 +188,6 @@ export const RandomPointModal = ({ onClose }) => {
           </div>
         )}
       </div>
-    </ModalOverlay>
+    </Overlay>
   );
 };
