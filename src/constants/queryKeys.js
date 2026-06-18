@@ -17,7 +17,6 @@ export const QUERY_KEYS = {
   photocards: {
     all: () => ['photocards'],
     list: (params) => ['photocards', 'list', params],
-    detail: (id) => ['photocards', 'detail', normalizeKey.id(id)],
     ownedQuantity: (id) => ['photocards', 'ownedQuantity', normalizeKey.id(id)],
   },
 
