@@ -34,6 +34,11 @@ export const Pagination = ({ totalPages, currentPage, onPageChange }) => {
       : PAGE_GROUP_SIZE_MOBILE,
   );
 
+  // currentPage가 바뀐 후(렌더링 완료 후) 상단으로 스크롤
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [currentPage]);
+
   // 브라우저 창 크기가 바뀔 때마다 pageGroupSize를 업데이트
   // addEventListener로 변화를 감지하고, cleanup 함수(return)로 이벤트 종료
   useEffect(() => {
@@ -59,10 +64,18 @@ export const Pagination = ({ totalPages, currentPage, onPageChange }) => {
   const end = Math.min(totalPages, start + pageGroupSize - 1);
   const pages = Array.from({ length: end - start + 1 }, (_, i) => start + i);
 
+  const handlePageChange = (page) => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    onPageChange(page);
+  };
+
   return (
     <div className="mt-15 flex items-center justify-center gap-[10px] md:mt-30 md:gap-5">
       {/* 처음 페이지로 이동 — 이미 첫 페이지면 비활성화 */}
-      <NavButton onClick={() => onPageChange(1)} disabled={currentPage === 1}>
+      <NavButton
+        onClick={() => handlePageChange(1)}
+        disabled={currentPage === 1}
+      >
         <ChevronDoubleLeftIcon
           className={`${currentPage === 1 ? 'text-gray-400' : 'text-white'}`}
         />
@@ -70,7 +83,7 @@ export const Pagination = ({ totalPages, currentPage, onPageChange }) => {
 
       {/* 이전 페이지로 이동 */}
       <NavButton
-        onClick={() => onPageChange(currentPage - 1)}
+        onClick={() => handlePageChange(currentPage - 1)}
         disabled={currentPage === 1}
       >
         <ChevronLeftIcon
@@ -84,14 +97,16 @@ export const Pagination = ({ totalPages, currentPage, onPageChange }) => {
             key={page}
             page={page}
             isActive={page === currentPage}
-            onClick={() => onPageChange(page)}
+            onClick={() => {
+              handlePageChange(page);
+            }}
           />
         ))}
       </div>
 
       {/* 다음 페이지로 이동 */}
       <NavButton
-        onClick={() => onPageChange(currentPage + 1)}
+        onClick={() => handlePageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
       >
         <ChevronRightIcon
@@ -101,7 +116,7 @@ export const Pagination = ({ totalPages, currentPage, onPageChange }) => {
 
       {/* 마지막 페이지로 이동 — 이미 마지막 페이지면 비활성화 */}
       <NavButton
-        onClick={() => onPageChange(totalPages)}
+        onClick={() => handlePageChange(totalPages)}
         disabled={currentPage === totalPages}
       >
         <ChevronDoubleRightIcon
