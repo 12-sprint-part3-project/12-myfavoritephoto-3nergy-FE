@@ -55,6 +55,12 @@ export const useNotificationSSE = () => {
                       ],
                     }),
                   );
+
+                  if (notification.type === 'SALE_COMPLETED') {
+                    queryClient.invalidateQueries({
+                      queryKey: QUERY_KEYS.point.me(),
+                    });
+                  }
                 } catch (e) {
                   console.error('알림 파싱 실패:', e);
                 }
