@@ -15,6 +15,7 @@ import { EmptyPhotocardList } from '@/components/domain/photocard/EmptyPhotocard
 import { CreateSaleModal } from '@/app/(main)/marketplace/_components/CreateSaleModal';
 import { useSales } from '@/hooks/sale/useSales';
 import { useSalesFilterSelection } from '@/hooks/sale/useSalesFilterSelection';
+import { usePrefetchPhotocardList } from '@/hooks/photocard/usePrefetchPhotocardList';
 import { useIsMobile } from '@/hooks/common/useResponsive';
 import { usePageSize } from '@/hooks/common/usePageSize';
 import { useDebounce } from '@/hooks/common/useDebounce';
@@ -66,6 +67,8 @@ export const MarketplaceContent = () => {
   const [searchKeyword, setSearchKeyword] = useState('');
   const debouncedKeyword = useDebounce(searchKeyword, 500);
   const observerTargetRef = useRef(null);
+
+  usePrefetchPhotocardList(isMobile ? '/marketplace/create' : undefined);
 
   const handleCreateClick = () => {
     if (isMobile) {
@@ -240,7 +243,6 @@ export const MarketplaceContent = () => {
       {showCreateModal && (
         <CreateSaleModal onClose={() => setShowCreateModal(false)} />
       )}
-
     </div>
   );
 };

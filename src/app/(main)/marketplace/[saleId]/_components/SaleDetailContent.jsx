@@ -1,9 +1,12 @@
 'use client';
 
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
+import { getErrorHandler } from '@/constants/errorHandler';
 import { useMe } from '@/hooks/user/useMe';
 import { useSaleDetail } from '@/hooks/sale/useSaleDetail';
+import { Spinner } from '@/components/ui/Spinner';
 import { PageTitle } from '@/components/layout/PageTitle';
 import { CardDetail } from '@/app/(main)/marketplace/[saleId]/_components/CardDetail';
 import { CardInfo } from '@/app/(main)/marketplace/[saleId]/_components/CardInfo';
@@ -20,15 +23,32 @@ export const SaleDetailContent = ({ saleId }) => {
 
   const isSeller = !!accessToken && sale?.seller?.uuid === me?.uuid;
 
-  // TODO: 스켈레톤 UI로 교체
   if (isLoading) {
-    return <div className="text-white">로딩 중...</div>;
+    return (
+      <>
+        <div className="mb-[1.63rem] md:mb-[3rem] lg:mb-[4.36rem]">
+          <div className="w-full border-b border-gray-200">
+            <div className="mb-[0.94rem] hidden animate-pulse rounded bg-gray-400 md:mb-[2.5rem] md:block md:h-[1.5rem] md:w-[8rem] lg:h-[2.25rem]" />
+            <div className="mb-[0.625rem] h-[2.25rem] w-[12rem] animate-pulse rounded bg-gray-400 md:mb-[1.25rem] md:h-[3rem] md:w-[16rem] lg:h-[3.75rem] lg:w-[20rem]" />
+          </div>
+        </div>
+        <div className="flex h-[30rem] items-center justify-center">
+          <Spinner />
+        </div>
+      </>
+    );
   }
 
   // TODO: 에러 컴포넌트로 교체
   if (error) {
+    const { action } = getErrorHandler(error?.code);
+    if (action === 'not-found') {
+      notFound();
+    }
     return <div className="text-white">에러가 발생했습니다.</div>;
   }
+
+  if (!sale) return null;
 
   const isCanceled = sale.status === 'CANCELED';
   const isSoldOut = sale.status === 'SOLD_OUT';
@@ -43,6 +63,7 @@ export const SaleDetailContent = ({ saleId }) => {
           hideBreadcrumbOnMobile
         />
       </div>
+
       {/* 카드이미지 || 카드정보 레이아웃 */}
       <CardDetail sale={sale}>
         {/* 공통 카드 정보 (등급, 장르, 닉네임, 설명, 가격, 잔여) */}

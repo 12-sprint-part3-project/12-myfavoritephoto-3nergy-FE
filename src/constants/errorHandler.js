@@ -53,6 +53,9 @@ export const ERROR_HANDLER = {
     message: '이번달 모든 생성 기회를 소진했어요',
     action: 'toast',
   },
+  SALE_NOT_FOUND: {
+    action: 'not-found',
+  },
 };
 
 export const getErrorHandler = (code) => {
