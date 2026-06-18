@@ -35,7 +35,7 @@ export const MySalesCardSection = () => {
   });
   const [open, setOpen] = useState(false);
 
-  const { data, isFetching, isFetchingNextPage, isLoading } = useMySales({
+  const { data, isFetching, isLoading } = useMySales({
     ...filter,
     keyword: debouncedKeyword,
     page,
@@ -69,10 +69,7 @@ export const MySalesCardSection = () => {
       filter.isSoldOut !== '') &&
     data.meta.totalPhotos > 0; // 필터 검색된 결과인지 체크
 
-  const showFetchingSpinner = useDelayedLoading(
-    isFetching && !isFetchingNextPage,
-    300,
-  );
+  const showFetchingSpinner = useDelayedLoading(isFetching, 300);
 
   const handleFilterChange = (key) => (value) => {
     setFilter((prev) => ({ ...prev, [key]: value }));

@@ -11,6 +11,8 @@ import { FilterDropdown } from '@/components/domain/photocard/FilterDropdown';
 import { CardList } from '@/app/(main)/my-gallery/_components/CardList';
 import { MobileFilterBottomSheet } from '@/components/domain/photocard/MobileFilterBottomSheet';
 import { usePhotocardFilterSelection } from '@/hooks/photocard/usePhotocardFilterSelection';
+import { useDelayedLoading } from '@/hooks/common/useDelayedLoading';
+import { Spinner } from '@/components/ui/Spinner';
 
 export const MyGalleryCardSection = () => {
   const pageSize = usePageSize(); // 분기별 pageSize 불러올 hook
@@ -23,9 +25,9 @@ export const MyGalleryCardSection = () => {
   const [filter, setFilter] = useState({ grade: '', genre: '' });
   const [open, setOpen] = useState(false);
 
-  const { data, isLoading, error } = usePhotocards({
-    keyword: debouncedKeyword,
+  const { data, isFetching, isLoading, error } = usePhotocards({
     ...filter,
+    keyword: debouncedKeyword,
     page,
     pageSize,
   });
@@ -41,13 +43,17 @@ export const MyGalleryCardSection = () => {
   const gradeOptions = [{ value: '', label: '전체' }, ...CARD_GRADE_OPTIONS];
   const genreOptions = [{ value: '', label: '전체' }, ...CARD_GENRE_OPTIONS];
 
+  const isFilteredEmpty =
+    (!!debouncedKeyword || !!filter.grade || !!filter.genre) &&
+    data.meta.totalPhotos > 0; // 필터 검색된 결과인지 체크
+
+  const showFetchingSpinner = useDelayedLoading(isFetching, 300);
+
   const handleFilterChange = (key) => (value) => {
     setFilter((prev) => ({ ...prev, [key]: value }));
     // 필터 변경 시 결과 수가 달라져 현재 페이지가 범위를 벗어날 수 있으므로 1페이지로 초기화
     setPage(1);
   };
-
-  const allCardsCnt = data?.meta.totalCount; // 총 보유 카드 수량
 
   return (
     <>
@@ -96,20 +102,30 @@ export const MyGalleryCardSection = () => {
         </div>
       </div>
 
-      {/* TODO: 스켈레톤 UI로 교체 */}
-      {isLoading && <div className="text-white">로딩 중...</div>}
-
-      {/* TODO: 에러 컴포넌트로 교체 */}
-      {error && <div className="text-white">에러가 발생했습니다.</div>}
-
-      {!isLoading && !error && data && (
+      {isLoading ? (
+        <div className="flex h-[20rem] items-center justify-center">
+          <Spinner />
+        </div>
+      ) : (
         <>
-          <CardList photocards={data.photocards} />
-          <Pagination
-            totalPages={data.meta.totalPages}
-            currentPage={page}
-            onPageChange={setPage}
+          {showFetchingSpinner && (
+            <div className="fixed inset-0 z-10 flex items-center justify-center bg-black/40">
+              <Spinner />
+            </div>
+          )}
+
+          <CardList
+            photocards={data.photocards}
+            isFilteredEmpty={isFilteredEmpty}
           />
+
+          {data.meta.totalPages && (
+            <Pagination
+              totalPages={data.meta.totalPages}
+              currentPage={page}
+              onPageChange={setPage}
+            />
+          )}
         </>
       )}
     </>

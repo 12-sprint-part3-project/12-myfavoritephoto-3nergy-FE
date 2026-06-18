@@ -14,7 +14,7 @@ export const OwnedCardsInfo = () => {
   return (
     <div className="border-b border-gray-400 py-[20px] pt-0 md:py-[40px]">
       <div
-        className={`${isAllLoaded ? '' : 'h-[calc(1.5rem*1.5)] w-[12.5rem] animate-pulse rounded bg-gray-400'} mb-[15px] flex items-center gap-[5px] md:mb-[20px] md:gap-[10px]`}
+        className={`${isAllLoaded ? '' : 'h-[2.25rem] w-[12.5rem] animate-pulse rounded bg-gray-400'} mb-[15px] flex items-center gap-[5px] md:mb-[20px] md:gap-[10px]`}
       >
         {isAllLoaded ? (
           <>

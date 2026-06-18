@@ -6,9 +6,7 @@ import { format } from 'date-fns';
 import { useToastContext } from '@/context/ToastContext';
 import { getErrorHandler } from '@/constants/errorHandler';
 import { useMe } from '@/hooks/user/useMe';
-import { usePhotocards } from '@/hooks/photocard/usePhotocards';
 import { PageTitle } from '@/components/layout/PageTitle';
-import GradeBadgeList from '@/components/domain/photocard/GradeBadgeList';
 import { OwnedCardsInfo } from '@/app/(main)/my-gallery/_components/OwnedCardsInfo';
 import { MyGalleryCardSection } from '@/app/(main)/my-gallery/_components/MyGalleryCardSection';
 import { Button } from '@/components/ui/Button';
@@ -17,18 +15,11 @@ export const MyGalleryContent = () => {
   const today = new Date();
   const router = useRouter();
   const { showToast } = useToastContext();
-  const { data: me } = useMe();
-  const { data, isLoading, error } = usePhotocards();
+  const { data: me, isLoading } = useMe();
   const [isDisabled, setIsDisabled] = useState(false);
 
   // TODO: 스켈레톤 UI로 교체
-  if (isLoading) return <div className="text-white">로딩 중...</div>;
-
-  // TODO: 에러 컴포넌트로 교체
-  if (error) return <div className="text-white">에러가 발생했습니다.</div>;
-
-  const { gradeCounts: grades } = data.data;
-  const allCardsCnt = data.meta.totalCount; // 총 보유 카드 수량
+  // if (isAllLoaded) return <div className="text-white">로딩 중...</div>;
 
   const handleCreateClick = () => {
     if (me.remainingPhotocardCreationCount === 0) {
@@ -49,7 +40,6 @@ export const MyGalleryContent = () => {
       <PageTitle
         title="마이갤러리"
         className="hidden md:block"
-        displayDateFormat="yyyy년 M월"
         actions={
           <div className="flex items-end gap-[.75rem]">
             <span className="text-noto-14-regular text-gray-300">
@@ -63,8 +53,8 @@ export const MyGalleryContent = () => {
                 onClick={handleCreateClick}
               >
                 포토카드 생성하기{' '}
-                {me.monthlyPhotocardCreationLimit &&
-                  `(${me.remainingPhotocardCreationCount}/${me.monthlyPhotocardCreationLimit})`}
+                {me?.remainingPhotocardCreationCount &&
+                  `(${me?.remainingPhotocardCreationCount}/${me?.monthlyPhotocardCreationLimit})`}
               </Button>
             </div>
           </div>
@@ -72,10 +62,7 @@ export const MyGalleryContent = () => {
         variant="title-lg"
       />
 
-      <div className="border-b border-gray-400 py-[20px] pt-0 md:py-[40px]">
-        <OwnedCardsInfo nickname={me?.nickname} allCardsCnt={allCardsCnt} />
-        <GradeBadgeList grades={grades} />
-      </div>
+      <OwnedCardsInfo />
 
       <MyGalleryCardSection />
 
@@ -87,8 +74,8 @@ export const MyGalleryContent = () => {
           onClick={handleCreateClick}
         >
           포토카드 생성하기{' '}
-          {me.monthlyPhotocardCreationLimit &&
-            `(${me.remainingPhotocardCreationCount}/${me.monthlyPhotocardCreationLimit})`}
+          {me?.monthlyPhotocardCreationLimit &&
+            `(${me?.remainingPhotocardCreationCount}/${me?.monthlyPhotocardCreationLimit})`}
         </Button>
       </div>
     </div>
