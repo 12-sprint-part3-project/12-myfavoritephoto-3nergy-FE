@@ -1,9 +1,10 @@
 'use client';
 
+import { Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { ResultView } from '@/components/feedback/ResultView';
 
-export default function TradeOfferResultPage() {
+function TradeOfferResultContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -31,5 +32,13 @@ export default function TradeOfferResultPage() {
         }
       />
     </div>
+  );
+}
+
+export default function TradeOfferResultPage() {
+  return (
+    <Suspense>
+      <TradeOfferResultContent />
+    </Suspense>
   );
 }
