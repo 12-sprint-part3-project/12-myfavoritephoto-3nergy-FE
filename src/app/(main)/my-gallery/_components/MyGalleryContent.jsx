@@ -15,11 +15,8 @@ export const MyGalleryContent = () => {
   const today = new Date();
   const router = useRouter();
   const { showToast } = useToastContext();
-  const { data: me, isLoading } = useMe();
+  const { data: me } = useMe();
   const [isDisabled, setIsDisabled] = useState(false);
-
-  // TODO: 스켈레톤 UI로 교체
-  // if (isAllLoaded) return <div className="text-white">로딩 중...</div>;
 
   const handleCreateClick = () => {
     if (me.remainingPhotocardCreationCount === 0) {
@@ -53,7 +50,7 @@ export const MyGalleryContent = () => {
                 onClick={handleCreateClick}
               >
                 포토카드 생성하기{' '}
-                {me?.remainingPhotocardCreationCount &&
+                {me?.monthlyPhotocardCreationLimit &&
                   `(${me?.remainingPhotocardCreationCount}/${me?.monthlyPhotocardCreationLimit})`}
               </Button>
             </div>

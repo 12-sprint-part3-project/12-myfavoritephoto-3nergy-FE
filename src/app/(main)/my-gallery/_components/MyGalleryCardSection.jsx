@@ -44,8 +44,8 @@ export const MyGalleryCardSection = () => {
   const genreOptions = [{ value: '', label: '전체' }, ...CARD_GENRE_OPTIONS];
 
   const isFilteredEmpty =
-    (!!debouncedKeyword || !!filter.grade || !!filter.genre) &&
-    data.meta.totalPhotos > 0; // 필터 검색된 결과인지 체크
+    !!debouncedKeyword || !!filter.grade || !!filter.genre; // TODO: 실제 없어서 0인지 필터에서 걸러져서 0인지 판단 필요
+  // && data.meta.totalPhotos > 0; // 필터 검색된 결과인지 체크
 
   const showFetchingSpinner = useDelayedLoading(isFetching, 300);
 
