@@ -44,7 +44,6 @@ export const useCancelTrade = (saleId) => {
       // 취소 시 제안자가 현재 보고 있는 교환 목록은 즉시 갱신
       queryClient.refetchQueries({
         queryKey: QUERY_KEYS.trades.myOffer(saleId),
-        myOffer,
       });
 
       // 나머지는 다음 접근 시 갱신
