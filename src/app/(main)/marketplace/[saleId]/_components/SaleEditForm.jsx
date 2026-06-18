@@ -5,6 +5,7 @@ import {
   CARD_GRADE_OPTIONS,
   CARD_GENRE_OPTIONS,
 } from '@/constants/card';
+import { useOwnedQuantity } from '@/hooks/photocard/useOwnedQuantity';
 import { Button } from '@/components/ui/Button';
 import { Select } from '@/components/ui/Select';
 import { Textarea } from '@/components/ui/Textarea';
@@ -38,6 +39,9 @@ export const SaleEditForm = ({
     price: false,
     description: false,
   });
+
+  const { data: ownedData } = useOwnedQuantity(sale.photocard.id);
+  const maxQuantity = (ownedData?.ownedQuantity ?? 0) + sale.remainingQuantity;
 
   const handleBlur = (field, validator, value) => {
     setTouched((prev) => ({
@@ -115,7 +119,7 @@ export const SaleEditForm = ({
 
         <div className="flex flex-1 flex-col">
           {/* 등급, 장르, 판매자 닉네임 */}
-          <div className="text-noto-18-bold lg:text-noto-24-bold mb-[1.875rem] flex justify-between border-b border-gray-400 pb-[1.875rem]">
+          <div className="mb-[1.875rem] flex justify-between border-b border-gray-400 pb-[1.875rem] text-noto-18-bold lg:text-noto-24-bold">
             <div className="flex gap-[0.62rem] lg:gap-[0.9375rem]">
               <span className={GRADE_STYLE[sale.photocard.grade]?.textColor}>
                 {GRADE_STYLE[sale.photocard.grade]?.label}
@@ -130,10 +134,9 @@ export const SaleEditForm = ({
 
           {/* 총 판매 수량, 장당 가격 */}
           <div className="flex flex-col gap-[1.25rem]">
-            {/* NOTE: 현재로선 해당 카드의 총 판매 가능한 수량을 알기 어려운 상태라, 카드 최대 발행 수량(10장)을 max로 설정함 */}
-            {/* NOTE: 판매 수량이 보유 수량 초과 시 백엔드에서 에러 처리 */}
             <CounterInput
               label="총 판매 수량"
+              showMaxLabel
               labelClassName="text-noto-18-regular lg:text-noto-20-regular"
               value={quantity}
               onChange={(val) => {
@@ -141,7 +144,7 @@ export const SaleEditForm = ({
                 onQuantityChange?.();
               }}
               min={1}
-              max={10}
+              max={maxQuantity}
               error={externalQuantityError}
             />
             <PriceInput
@@ -207,14 +210,14 @@ export const SaleEditForm = ({
       <div className="mb-[3.75rem] flex gap-2 lg:mb-0">
         <Button
           variant="secondary"
-          className="text-noto-16-bold lg:text-noto-18-bold w-full"
+          className="w-full text-noto-16-bold lg:text-noto-18-bold"
           onClick={onCancel}
         >
           취소하기
         </Button>
         <Button
           type="submit"
-          className="text-noto-16-bold lg:text-noto-18-bold w-full"
+          className="w-full text-noto-16-bold lg:text-noto-18-bold"
           disabled={!isFormValid || isPending}
         >
           {isPending ? '수정 중...' : '수정하기'}

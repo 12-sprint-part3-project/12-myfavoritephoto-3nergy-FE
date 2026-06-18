@@ -13,7 +13,7 @@ export const SaleEditContent = ({ saleId }) => {
     isPending,
     error: updateError,
     reset,
-  } = useUpdateSale(saleId);
+  } = useUpdateSale(saleId, sale?.photocard?.id);
 
   // TODO: 스켈레톤 UI로 교체
   if (isLoading) return <div className="text-white">로딩 중...</div>;
@@ -22,19 +22,21 @@ export const SaleEditContent = ({ saleId }) => {
   if (error) return <div className="text-white">에러가 발생했습니다.</div>;
 
   return (
-    <SaleEditForm
-      sale={sale}
-      isPending={isPending}
-      onCancel={() => router.back()}
-      onSubmit={(formData) => {
-        updateSale(formData, {
-          onSuccess: () => router.back(),
-        });
-      }}
-      quantityError={
-        updateError?.code === 'NOT_ENOUGH_QUANTITY' ? updateError.message : ''
-      }
-      onQuantityChange={reset}
-    />
+    <div className="xl:pt-[3.75rem px-[0.9375rem] pt-[1.25rem] md:px-[1.25rem] md:pt-[2.5rem]">
+      <SaleEditForm
+        sale={sale}
+        isPending={isPending}
+        onCancel={() => router.back()}
+        onSubmit={(formData) => {
+          updateSale(formData, {
+            onSuccess: () => router.back(),
+          });
+        }}
+        quantityError={
+          updateError?.code === 'NOT_ENOUGH_QUANTITY' ? updateError.message : ''
+        }
+        onQuantityChange={reset}
+      />
+    </div>
   );
 };

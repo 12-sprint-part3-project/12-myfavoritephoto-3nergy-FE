@@ -18,6 +18,7 @@ export const QUERY_KEYS = {
     all: () => ['photocards'],
     list: (params) => ['photocards', 'list', params],
     detail: (id) => ['photocards', 'detail', normalizeKey.id(id)],
+    ownedQuantity: (id) => ['photocards', 'ownedQuantity', normalizeKey.id(id)],
   },
 
   // 판매 (마켓플레이스)

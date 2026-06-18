@@ -8,7 +8,7 @@ export const TradeOfferContent = ({ saleId }) => {
   const [selectedCard, setSelectedCard] = useState(null);
 
   return (
-    <>
+    <div className="xl:pt-[3.75rem px-[0.9375rem] pt-[1.25rem] md:px-[1.25rem] md:pt-[2.5rem]">
       {selectedCard ? (
         <TradeOfferForm
           photocard={selectedCard}
@@ -18,6 +18,6 @@ export const TradeOfferContent = ({ saleId }) => {
       ) : (
         <PhotocardSelectList onSelect={(card) => setSelectedCard(card)} />
       )}
-    </>
+    </div>
   );
 };
