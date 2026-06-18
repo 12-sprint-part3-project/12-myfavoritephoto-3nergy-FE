@@ -1,10 +1,11 @@
 'use client';
 
+import { Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { ResultView } from '@/components/feedback/ResultView';
 import { GRADE_STYLE } from '@/constants/card';
 
-export default function PurchaseResultPage() {
+function PurchaseResultContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -33,5 +34,13 @@ export default function PurchaseResultPage() {
         }
       />
     </div>
+  );
+}
+
+export default function PurchaseResultPage() {
+  return (
+    <Suspense>
+      <PurchaseResultContent />
+    </Suspense>
   );
 }
