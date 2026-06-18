@@ -9,6 +9,7 @@ export const useCreatePhotocard = () => {
     mutationFn: createPhotocard,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.myGallery.all() });
+      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.photocards.all() });
     },
   });
 };
