@@ -113,11 +113,15 @@ html::-webkit-scrollbar {
   border-radius: 999px;
 }
 
+/*  브라우저 기본 스피너(화살표 버튼) 숨기기 */
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
 @layer utilities {
   .font-baskin-base {
     font-family: var(--font-baskin);
     letter-spacing: -0.03em;
   }
-
-
 }

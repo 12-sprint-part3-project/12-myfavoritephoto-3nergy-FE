@@ -19,6 +19,7 @@ import { usePrefetchPhotocardList } from '@/hooks/photocard/usePrefetchPhotocard
 import { useIsMobile } from '@/hooks/common/useResponsive';
 import { usePageSize } from '@/hooks/common/usePageSize';
 import { useDebounce } from '@/hooks/common/useDebounce';
+import { useDelayedLoading } from '@/hooks/common/useDelayedLoading';
 import {
   CARD_GRADE_OPTIONS,
   CARD_GENRE_OPTIONS,
@@ -89,15 +90,21 @@ export const MarketplaceContent = () => {
     setSort(value);
   };
 
-  const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useSales({
-      keyword: debouncedKeyword.trim(),
-      grade: filters.grade,
-      genre: filters.genre,
-      status: filters.soldOut,
-      sort: SORT_PARAM_MAP[sort],
-      pageSize,
-    });
+  const {
+    data,
+    isLoading,
+    isFetching,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useSales({
+    keyword: debouncedKeyword.trim(),
+    grade: filters.grade,
+    genre: filters.genre,
+    status: filters.soldOut,
+    sort: SORT_PARAM_MAP[sort],
+    pageSize,
+  });
 
   const {
     draftSelection,
@@ -111,6 +118,11 @@ export const MarketplaceContent = () => {
   const totalCount = data?.meta.totalCount ?? 0;
   const isFiltered = Boolean(
     searchKeyword.trim() || filters.grade || filters.genre || filters.soldOut,
+  );
+
+  const showFetchingSpinner = useDelayedLoading(
+    isFetching && !isFetchingNextPage,
+    500,
   );
 
   useEffect(() => {
@@ -192,23 +204,39 @@ export const MarketplaceContent = () => {
         <div className="flex h-[20rem] items-center justify-center">
           <Spinner />
         </div>
-      ) : cards.length === 0 ? (
-        <EmptyPhotocardList
-          isFiltered={isFiltered}
-          emptyTitle="등록된 판매가 없습니다."
-          emptyDescription="첫 번째 판매를 등록해보세요."
-        />
       ) : (
-        <div className="mt-5 grid grid-cols-2 gap-[5px] md:mt-[1.875rem] md:gap-[20px] lg:grid-cols-3 lg:gap-[80px]">
-          {cards.map((card) => (
-            <Link key={card.id} href={`/marketplace/${card.id}`}>
-              <Card type="marketplace" {...card} />
-            </Link>
-          ))}
-        </div>
-      )}
+        <>
+          {showFetchingSpinner && (
+            <div className="fixed inset-0 z-10 flex items-center justify-center bg-black/40">
+              <Spinner />
+            </div>
+          )}
 
-      {hasNextPage && <div ref={observerTargetRef} className="h-1" />}
+          {cards.length === 0 ? (
+            <EmptyPhotocardList
+              isFiltered={isFiltered}
+              emptyTitle="등록된 판매가 없습니다."
+              emptyDescription="첫 번째 판매를 등록해보세요."
+            />
+          ) : (
+            <div className="mt-5 grid grid-cols-2 gap-[5px] md:mt-[1.875rem] md:gap-[20px] lg:grid-cols-3 lg:gap-[80px]">
+              {cards.map((card) => (
+                <Link key={card.id} href={`/marketplace/${card.id}`}>
+                  <Card type="marketplace" {...card} />
+                </Link>
+              ))}
+            </div>
+          )}
+
+          {hasNextPage && <div ref={observerTargetRef} className="h-1" />}
+
+          {isFetchingNextPage && (
+            <div className="mt-5 flex h-[5rem] items-center justify-center md:mt-[1.875rem]">
+              <Spinner />
+            </div>
+          )}
+        </>
+      )}
 
       {isFilterOpen && (
         <MobileFilterBottomSheet

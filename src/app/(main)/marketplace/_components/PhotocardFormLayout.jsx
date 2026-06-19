@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { GRADE_STYLE } from '@/constants/card';
+import { GRADE_STYLE, GENRE } from '@/constants/card';
 
 export const PhotocardFormLayout = ({
   imageUrl,
@@ -24,13 +24,13 @@ export const PhotocardFormLayout = ({
       </div>
       <div className="flex flex-1 flex-col">
         {/* 등급, 장르, 판매자 닉네임 */}
-        <div className="text-noto-18-bold lg:text-noto-24-bold mb-[1.875rem] flex justify-between border-b border-gray-400 pb-[1.875rem]">
+        <div className="mb-[1.875rem] flex justify-between border-b border-gray-400 pb-[1.875rem] text-noto-18-bold lg:text-noto-24-bold">
           <div className="flex gap-[0.62rem] lg:gap-[0.9375rem]">
             <span className={GRADE_STYLE[grade]?.textColor}>
               {GRADE_STYLE[grade]?.label}
             </span>
             <span className="text-gray-400">|</span>
-            <span className="text-gray-300">{genre}</span>
+            <span className="text-gray-300">{GENRE[genre]}</span>
           </div>
           <span className="border-b border-white text-white">{nickname}</span>
         </div>

@@ -4,7 +4,9 @@ import {
   GRADE_STYLE,
   CARD_GRADE_OPTIONS,
   CARD_GENRE_OPTIONS,
+  GENRE,
 } from '@/constants/card';
+import { MAXIMUM_PRICE } from '@/constants/card';
 import { useOwnedQuantity } from '@/hooks/photocard/useOwnedQuantity';
 import { Button } from '@/components/ui/Button';
 import { Select } from '@/components/ui/Select';
@@ -125,7 +127,9 @@ export const SaleEditForm = ({
                 {GRADE_STYLE[sale.photocard.grade]?.label}
               </span>
               <span className="text-gray-400">|</span>
-              <span className="text-gray-300">{sale.photocard.genre}</span>
+              <span className="text-gray-300">
+                {GENRE[sale.photocard.genre]}
+              </span>
             </div>
             <span className="border-b border-white text-white">
               {sale.seller.nickname}
@@ -154,6 +158,7 @@ export const SaleEditForm = ({
               labelClassName="text-noto-18-regular lg:text-noto-20-regular"
               error={touched.price ? errors.price : ''}
               onBlur={() => handleBlur('price', validatePrice, price)}
+              max={MAXIMUM_PRICE}
             />
           </div>
         </div>
