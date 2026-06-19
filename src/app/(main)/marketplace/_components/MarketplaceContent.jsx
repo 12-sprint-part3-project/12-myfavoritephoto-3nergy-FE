@@ -63,7 +63,7 @@ export const MarketplaceContent = () => {
     genre: null,
     soldOut: null,
   });
-  const [sort, setSort] = useState('low-price');
+  const [sort, setSort] = useState('latest');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [searchKeyword, setSearchKeyword] = useState('');
   const debouncedKeyword = useDebounce(searchKeyword, 500);

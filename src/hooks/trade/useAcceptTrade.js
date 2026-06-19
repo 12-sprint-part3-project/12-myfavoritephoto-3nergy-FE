@@ -13,15 +13,14 @@ export const useAcceptTrade = (saleId) => {
       queryClient.refetchQueries({
         queryKey: QUERY_KEYS.trades.bySale(saleId),
       });
-      // 나머지는 해당 페이지 진입 시 최신 상태로 동기화
+      // 나머지는 다음 접근 시 갱신
       queryClient.invalidateQueries({
         queryKey: QUERY_KEYS.trades.myOffer(saleId),
       });
-      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.mySales.all() });
-      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.myGallery.all() });
-      queryClient.invalidateQueries({
-        queryKey: QUERY_KEYS.sales.detail(saleId),
-      });
+      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.sales.all() }); // 판매 상태/잔여수량 변동 (매진 가능)
+      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.photocards.all() }); // 양쪽 보유 포토카드 목록 갱신
+      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.mySales.all() }); // 양쪽 판매 목록 상태 갱신
+      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.myGallery.all() }); // 양쪽 보유  포토카드 목록 갱신
     },
   });
 };

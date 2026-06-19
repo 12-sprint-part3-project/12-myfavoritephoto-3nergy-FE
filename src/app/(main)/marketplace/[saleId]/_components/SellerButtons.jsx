@@ -18,7 +18,7 @@ export const SellerButtons = ({ sale }) => {
     isPending,
     error: updateError,
     reset,
-  } = useUpdateSale(sale.saleId, sale.photocard.id);
+  } = useUpdateSale(sale.saleId);
   const { mutate: cancelSale } = useCancelSale();
 
   const router = useRouter();
