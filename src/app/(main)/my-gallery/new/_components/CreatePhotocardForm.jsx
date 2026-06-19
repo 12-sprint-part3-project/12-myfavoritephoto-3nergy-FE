@@ -37,7 +37,6 @@ export const CreatePhotocardForm = () => {
   const { showToast } = useToastContext();
   const { mutate: createPhotocard, isPending } = useCreatePhotocard();
   const [isUploading, setIsUploading] = useState(false);
-  const [isDisabled, setIsDisabled] = useState(false);
 
   const [form, setForm] = useState({
     name: '',
@@ -103,7 +102,6 @@ export const CreatePhotocardForm = () => {
 
     // 횟수 소진된 상태인 경우 먼저 막기
     if (me && me.remainingPhotocardCreationCount <= 0) {
-      setIsDisabled(true);
       showToast('이번달 모든 생성 기회를 소진했어요');
       return;
     }
@@ -269,7 +267,7 @@ export const CreatePhotocardForm = () => {
           type="submit"
           size="lg"
           className="mt-10 w-full md:mt-[3.75rem]"
-          disabled={isUploading || isPending || isDisabled}
+          disabled={isUploading || isPending}
         >
           생성하기
         </Button>
