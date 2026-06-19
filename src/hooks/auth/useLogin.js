@@ -13,7 +13,7 @@ export const useLogin = () => {
     onSuccess: (data) => {
       setToken(data.accessToken);
       authLogin(data.accessToken);
-      router.push('/marketplace');
+      window.location.href = '/marketplace';
     },
   });
 };
