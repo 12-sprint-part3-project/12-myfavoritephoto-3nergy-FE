@@ -6,6 +6,7 @@ import {
   CARD_GENRE_OPTIONS,
   GENRE,
 } from '@/constants/card';
+import { MAXIMUM_PRICE } from '@/constants/card';
 import { Button } from '@/components/ui/Button';
 import { Select } from '@/components/ui/Select';
 import { Textarea } from '@/components/ui/Textarea';
@@ -83,6 +84,7 @@ export const SaleRegisterForm = ({ photocard, onBack }) => {
               labelClassName="text-noto-18-regular lg:text-noto-20-regular"
               error={touched.price ? errors.price : ''}
               onBlur={() => handleBlur('price', validatePrice, form.price)}
+              max={MAXIMUM_PRICE}
             />
           </div>
         </div>

@@ -6,6 +6,7 @@ import {
   CARD_GENRE_OPTIONS,
   GENRE,
 } from '@/constants/card';
+import { MAXIMUM_PRICE } from '@/constants/card';
 import { useOwnedQuantity } from '@/hooks/photocard/useOwnedQuantity';
 import { Button } from '@/components/ui/Button';
 import { Select } from '@/components/ui/Select';
@@ -157,6 +158,7 @@ export const SaleEditForm = ({
               labelClassName="text-noto-18-regular lg:text-noto-20-regular"
               error={touched.price ? errors.price : ''}
               onBlur={() => handleBlur('price', validatePrice, price)}
+              max={MAXIMUM_PRICE}
             />
           </div>
         </div>
