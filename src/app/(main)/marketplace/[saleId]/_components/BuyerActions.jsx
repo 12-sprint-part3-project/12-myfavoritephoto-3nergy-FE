@@ -25,8 +25,12 @@ export const BuyerActions = ({ sale }) => {
         );
       },
       onError: (error) => {
+        const message = error?.statusCode
+          ? error.message // 백엔드 에러 → 서버가 내려준 메시지
+          : '오류가 발생했습니다. 다시 시도해주세요.'; // 프론트 에러 → 고정 문구
+
         router.push(
-          `/marketplace/${sale.saleId}/purchase/result?status=failure&name=${encodeURIComponent(sale?.photocard?.name)}&grade=${sale?.photocard?.grade}&quantity=${value}&message=${encodeURIComponent(error.message)}`,
+          `/marketplace/${sale.saleId}/purchase/result?status=failure&name=${encodeURIComponent(sale?.photocard?.name)}&grade=${sale?.photocard?.grade}&quantity=${value}&message=${encodeURIComponent(message)}`,
         );
       },
     });

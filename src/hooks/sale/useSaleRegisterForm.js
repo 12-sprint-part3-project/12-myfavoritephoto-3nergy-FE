@@ -74,8 +74,12 @@ export const useSaleRegisterForm = (photocard) => {
           );
         },
         onError: (error) => {
+          const message = error?.statusCode
+            ? error.message // 백엔드 에러 → 서버가 내려준 메시지
+            : '오류가 발생했습니다. 다시 시도해주세요.'; // 프론트 에러 → 고정 문구
+
           router.push(
-            `/marketplace/create/result?status=failed&name=${encodeURIComponent(photocard.name)}&grade=${photocard.grade}&quantity=${form.quantity}&message=${encodeURIComponent(error.message)}`,
+            `/marketplace/create/result?status=failed&name=${encodeURIComponent(photocard.name)}&grade=${photocard.grade}&quantity=${form.quantity}&message=${encodeURIComponent(message)}`,
           );
         },
       },
