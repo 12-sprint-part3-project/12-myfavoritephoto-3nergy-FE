@@ -19,7 +19,7 @@ export const SellerButtons = ({ sale }) => {
     error: updateError,
     reset,
   } = useUpdateSale(sale.saleId);
-  const { mutate: cancelSale } = useCancelSale();
+  const { mutate: cancelSale, isPending: isCancelPending } = useCancelSale();
 
   const router = useRouter();
   const isMobile = useIsMobile();
@@ -98,8 +98,10 @@ export const SellerButtons = ({ sale }) => {
         <BasicModal
           title="포토카드 판매 내리기"
           buttonText="판매 내리기"
+          loadingText="판매 내리는 중..."
           onClose={() => setShowCancelModal(false)}
           onClick={handleCancelSale}
+          isLoading={isCancelPending}
         >
           정말로 판매를 중단하시겠습니까?
         </BasicModal>
