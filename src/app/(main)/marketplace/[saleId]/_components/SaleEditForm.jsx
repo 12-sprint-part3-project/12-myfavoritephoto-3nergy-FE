@@ -4,6 +4,7 @@ import {
   GRADE_STYLE,
   CARD_GRADE_OPTIONS,
   CARD_GENRE_OPTIONS,
+  GENRE,
 } from '@/constants/card';
 import { useOwnedQuantity } from '@/hooks/photocard/useOwnedQuantity';
 import { Button } from '@/components/ui/Button';
@@ -125,7 +126,9 @@ export const SaleEditForm = ({
                 {GRADE_STYLE[sale.photocard.grade]?.label}
               </span>
               <span className="text-gray-400">|</span>
-              <span className="text-gray-300">{sale.photocard.genre}</span>
+              <span className="text-gray-300">
+                {GENRE[sale.photocard.genre]}
+              </span>
             </div>
             <span className="border-b border-white text-white">
               {sale.seller.nickname}

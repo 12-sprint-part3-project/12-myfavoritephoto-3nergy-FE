@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { GRADE_STYLE } from '@/constants/card';
+import { GRADE_STYLE, GENRE } from '@/constants/card';
 import { useIsMobile } from '@/hooks/common/useResponsive';
 import { usePrefetchPhotocardList } from '@/hooks/photocard/usePrefetchPhotocardList';
 import { Button } from '@/components/ui/Button';
@@ -56,7 +56,7 @@ export const TradeOfferSection = ({ sale }) => {
               {GRADE_STYLE[sale.desiredGrade]?.label}
             </span>
             <span className="text-gray-400">|</span>
-            <span className="text-gray-300">{sale.desiredGenre}</span>
+            <span className="text-gray-300">{GENRE[sale.desiredGenre]}</span>
           </div>
         </div>
 
