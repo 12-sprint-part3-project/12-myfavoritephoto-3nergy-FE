@@ -5,6 +5,7 @@ import {
   CARD_GRADE_OPTIONS,
   CARD_GENRE_OPTIONS,
 } from '@/constants/card';
+import { MAXIMUM_PRICE } from '@/constants/card';
 import { Button } from '@/components/ui/Button';
 import { Select } from '@/components/ui/Select';
 import { Textarea } from '@/components/ui/Textarea';
@@ -51,7 +52,7 @@ export const SaleRegisterForm = ({ photocard, onBack }) => {
 
         <div className="flex flex-1 flex-col">
           {/* 등급, 장르, 판매자 닉네임 */}
-          <div className="text-noto-18-bold lg:text-noto-24-bold mb-[1.875rem] flex justify-between border-b border-gray-400 pb-[1.875rem]">
+          <div className="mb-[1.875rem] flex justify-between border-b border-gray-400 pb-[1.875rem] text-noto-18-bold lg:text-noto-24-bold">
             <div className="flex gap-[0.62rem] lg:gap-[0.9375rem]">
               <span className={GRADE_STYLE[photocard.grade]?.textColor}>
                 {GRADE_STYLE[photocard.grade]?.label}
@@ -82,6 +83,7 @@ export const SaleRegisterForm = ({ photocard, onBack }) => {
               labelClassName="text-noto-18-regular lg:text-noto-20-regular"
               error={touched.price ? errors.price : ''}
               onBlur={() => handleBlur('price', validatePrice, form.price)}
+              max={MAXIMUM_PRICE}
             />
           </div>
         </div>
@@ -142,14 +144,14 @@ export const SaleRegisterForm = ({ photocard, onBack }) => {
       <div className="mb-[3.75rem] flex gap-2 lg:mb-0">
         <Button
           variant="secondary"
-          className="text-noto-16-bold lg:text-noto-18-bold w-full"
+          className="w-full text-noto-16-bold lg:text-noto-18-bold"
           onClick={onBack}
         >
           취소하기
         </Button>
         <Button
           type="submit"
-          className="text-noto-16-bold lg:text-noto-18-bold w-full"
+          className="w-full text-noto-16-bold lg:text-noto-18-bold"
           disabled={!isFormValid || isPending}
         >
           {isPending ? '등록 중...' : '판매하기'}
