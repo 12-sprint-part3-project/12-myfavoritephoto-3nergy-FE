@@ -15,7 +15,7 @@ export const SaleEditContent = ({ saleId }) => {
     isPending,
     error: updateError,
     reset,
-  } = useUpdateSale(saleId, sale?.photocard?.id);
+  } = useUpdateSale(saleId);
 
   const showSpinner = useDelayedLoading(isLoading);
 
