@@ -1,7 +1,14 @@
+import { MAXIMUM_PRICE } from '@/constants/card';
+
 export const validatePrice = (value) => {
   if (value < 1 || !value) {
-    return '가격은 1P 이상 입력해주세요.';
+    return '가격은 1P 이상 입력해 주세요.';
   }
+
+  if (value > MAXIMUM_PRICE) {
+    return `${MAXIMUM_PRICE}P 이하로 입력해 주세요`;
+  }
+
   return '';
 };
 
@@ -11,7 +18,7 @@ export const validateDescription = (value) => {
     return '설명을 입력해주세요.';
   }
   if (value.length > 300) {
-    return '300자 이하로 입력해주세요.';
+    return '300자 이하로 입력해 주세요.';
   }
   return '';
 };
@@ -20,6 +27,10 @@ export const validateDescription = (value) => {
 export const validateCardName = (value) => {
   if (!value.trim()) {
     return '포토카드 이름을 입력해 주세요.';
+  }
+
+  if (value.length > 20) {
+    return '20자 이하로 입력해 주세요.';
   }
 
   return '';
