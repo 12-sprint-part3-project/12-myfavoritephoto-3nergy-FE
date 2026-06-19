@@ -188,13 +188,12 @@ export const GNB = ({
             </Link>
 
             {isAuthenticated ? (
-              <button
-                type="button"
-                onClick={() => router.push(ROUTES.notifications)}
+              <Link
+                href={() => router.push(ROUTES.notifications)}
                 aria-label={
                   hasUnread ? `알림, 읽지 않은 알림 ${unreadCount}개` : '알림'
                 }
-                className="relative h-6 w-6 cursor-pointer"
+                className="relative h-6 w-6"
               >
                 <AlarmIcon className="text-gray-200" />
                 {hasUnread && (
@@ -205,7 +204,7 @@ export const GNB = ({
                     {unreadCount > 9 ? '9+' : unreadCount}
                   </span>
                 )}
-              </button>
+              </Link>
             ) : (
               <Link
                 href="/login"
