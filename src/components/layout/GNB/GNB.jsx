@@ -75,12 +75,19 @@ export const GNB = ({
                 <button
                   type="button"
                   onClick={() => setIsNotificationOpen((prev) => !prev)}
-                  aria-label="알림"
+                  aria-label={
+                    hasUnread ? `알림, 읽지 않은 알림 ${unreadCount}개` : '알림'
+                  }
+                  aria-haspopup="true"
+                  aria-expanded={isNotificationOpen}
                   className="h-6 w-6 cursor-pointer"
                 >
                   <AlarmIcon className="text-gray-200 transition-colors hover:text-main" />
                   {hasUnread && (
-                    <span className="absolute -top-1 -right-2 flex h-4 min-w-4 items-center justify-center rounded-full bg-red px-1 text-noto-12-bold text-[10px] leading-none text-white">
+                    <span
+                      aria-hidden="true"
+                      className="absolute -top-1 -right-2 flex h-4 min-w-4 items-center justify-center rounded-full bg-red px-1 text-noto-12-bold text-[10px] leading-none text-white"
+                    >
                       {unreadCount > 9 ? '9+' : unreadCount}
                     </span>
                   )}
@@ -100,13 +107,17 @@ export const GNB = ({
               {/* 닉네임 - 클릭 시 프로필 표시 */}
               <button
                 type="button"
+                aria-expanded={isProfileOpen}
+                aria-haspopup="menu"
                 onClick={() => setIsProfileOpen((prev) => !prev)}
                 className="font-baskin-base cursor-pointer text-baskin-18-bold text-gray-200"
               >
                 {user?.nickname}
               </button>
 
-              <span className="text-gray-400">|</span>
+              <span aria-hidden="true" className="text-gray-400">
+                |
+              </span>
 
               {/* 로그아웃 */}
               <button
@@ -180,12 +191,17 @@ export const GNB = ({
               <button
                 type="button"
                 onClick={() => router.push(ROUTES.notifications)}
-                aria-label="알림"
+                aria-label={
+                  hasUnread ? `알림, 읽지 않은 알림 ${unreadCount}개` : '알림'
+                }
                 className="relative h-6 w-6 cursor-pointer"
               >
                 <AlarmIcon className="text-gray-200" />
                 {hasUnread && (
-                  <span className="absolute -top-1 -right-2 flex h-4 min-w-4 items-center justify-center rounded-full bg-red px-1 text-noto-12-bold text-[10px] leading-none text-white">
+                  <span
+                    aria-hidden="true"
+                    className="absolute -top-1 -right-2 flex h-4 min-w-4 items-center justify-center rounded-full bg-red px-1 text-noto-12-bold text-[10px] leading-none text-white"
+                  >
                     {unreadCount > 9 ? '9+' : unreadCount}
                   </span>
                 )}
