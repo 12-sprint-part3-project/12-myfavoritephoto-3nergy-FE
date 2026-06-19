@@ -13,20 +13,20 @@ export const ProfileMenu = ({ user, onLogout, onClose }) => {
   return (
     <>
       <div
-        className="fixed inset-0 z-40 bg-black/50 sm:hidden"
+        className="fixed inset-0 z-40 bg-black/50 md:hidden"
         onClick={onClose}
         aria-hidden="true"
       />
 
       <div
-        className="fixed inset-0 z-40 hidden sm:block"
+        className="fixed inset-0 z-40 hidden md:block"
         onClick={onClose}
         aria-hidden="true"
       />
 
-      <div className="fixed top-0 left-0 z-50 flex h-screen w-[16.25rem] flex-col bg-gray-500 sm:top-[4.375rem] sm:right-[2.5rem] sm:left-auto sm:h-auto lg:top-[5rem] lg:right-[13.75rem]">
-        <div className="border-b border-gray-400/50 px-5 pt-[2.6875rem] pb-5 sm:pt-5">
-          <p className="mb-5 text-noto-18-bold text-white sm:mb-2">
+      <div className="fixed top-0 left-0 z-50 flex h-screen w-[16.25rem] flex-col bg-gray-500 md:top-[4.375rem] md:right-[2.5rem] md:left-auto md:h-auto lg:top-[5rem] lg:right-[13.75rem]">
+        <div className="border-b border-gray-400/50 px-5 pt-[2.6875rem] pb-5 md:pt-5">
+          <p className="mb-5 text-noto-18-bold text-white md:mb-2">
             안녕하세요, {user?.nickname}님!
           </p>
           <div className="flex items-center justify-between">
@@ -52,7 +52,7 @@ export const ProfileMenu = ({ user, onLogout, onClose }) => {
           ))}
         </nav>
 
-        <div className="mt-auto px-5 pb-[2.6875rem] sm:hidden">
+        <div className="mt-auto px-5 pb-[2.6875rem] md:hidden">
           <button
             type="button"
             onClick={onLogout}

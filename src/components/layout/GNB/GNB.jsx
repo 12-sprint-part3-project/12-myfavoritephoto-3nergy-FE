@@ -67,7 +67,7 @@ export const GNB = ({
 
           {/* 로그인한 경우 */}
           {isAuthenticated ? (
-            <div className="flex items-center gap-4 text-noto-14-bold text-gray-200">
+            <div className="flex items-center gap-7 text-noto-14-bold text-gray-200">
               <span>{user?.points?.toLocaleString()} P</span>
 
               {/* 알람 아이콘 */}

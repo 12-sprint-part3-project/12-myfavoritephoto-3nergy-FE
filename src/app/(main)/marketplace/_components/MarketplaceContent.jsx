@@ -120,7 +120,10 @@ export const MarketplaceContent = () => {
     searchKeyword.trim() || filters.grade || filters.genre || filters.soldOut,
   );
 
-  const showFetchingSpinner = useDelayedLoading(isFetching && !isFetchingNextPage, 300);
+  const showFetchingSpinner = useDelayedLoading(
+    isFetching && !isFetchingNextPage,
+    500,
+  );
 
   useEffect(() => {
     if (!hasNextPage) return;
