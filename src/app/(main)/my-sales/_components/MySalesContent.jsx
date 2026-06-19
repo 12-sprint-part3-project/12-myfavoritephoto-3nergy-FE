@@ -21,7 +21,7 @@ export const MySalesContent = () => {
 
   return (
     <>
-      <div className="border-b border-gray-400 py-[40px]">
+      <div className="border-b border-gray-400 py-[20px] pt-0 md:py-[40px]">
         <OwnedCardsInfo nickname={me?.nickname} allCardsCnt={allCardsCnt} />
         <GradeBadgeList grades={grades} />
       </div>

@@ -51,7 +51,7 @@ export const FilterDropdown = ({
       <button
         type="button"
         onClick={() => setIsOpen((prev) => !prev)}
-        className="text-noto-16-regular hidden cursor-pointer items-center gap-1 text-gray-200 transition-colors hover:text-white md:flex"
+        className="hidden cursor-pointer items-center gap-1 text-noto-16-regular text-gray-200 transition-colors hover:text-white md:flex"
       >
         <span>{selectedOption ? selectedOption.label : label}</span>
         <ChevronDownIcon
@@ -66,7 +66,7 @@ export const FilterDropdown = ({
               <button
                 type="button"
                 onClick={() => handleSelect(option)}
-                className={`text-noto-16-regular flex h-[3.4375rem] w-full cursor-pointer items-center px-4 transition-colors hover:bg-gray-400 ${
+                className={`flex h-[3.4375rem] w-full cursor-pointer items-center px-4 text-noto-16-regular whitespace-nowrap transition-colors hover:bg-gray-400 ${
                   selectedOption?.value === option.value
                     ? 'text-main'
                     : 'text-white'
