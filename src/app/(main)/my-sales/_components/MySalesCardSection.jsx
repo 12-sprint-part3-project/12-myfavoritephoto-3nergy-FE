@@ -16,6 +16,8 @@ import { FilterDropdown } from '@/components/domain/photocard/FilterDropdown';
 import { CardList } from '@/app/(main)/my-sales/_components/CardList';
 import { useDebounce } from '@/hooks/common/useDebounce';
 import { MobileFilterBottomSheet } from '@/components/domain/photocard/MobileFilterBottomSheet';
+import { Spinner } from '@/components/ui/Spinner';
+import { useDelayedLoading } from '@/hooks/common/useDelayedLoading';
 
 export const MySalesCardSection = () => {
   const pageSize = usePageSize(); // 분기별 pageSize hook
@@ -33,9 +35,9 @@ export const MySalesCardSection = () => {
   });
   const [open, setOpen] = useState(false);
 
-  const { data, isLoading, error } = useMySales({
-    keyword: debouncedKeyword,
+  const { data, isFetching, isLoading } = useMySales({
     ...filter,
+    keyword: debouncedKeyword,
     page,
     pageSize,
   });
@@ -59,13 +61,21 @@ export const MySalesCardSection = () => {
     })),
   ];
 
+  const isFilteredEmpty =
+    !!debouncedKeyword ||
+    !!filter.grade ||
+    !!filter.genre ||
+    !!filter.saleMethod ||
+    filter.isSoldOut !== ''; // TODO: 실제 없어서 0인지 필터에서 걸러져서 0인지 판단 필요
+  // data.meta.totalPhotos > 0; // 필터 검색된 결과인지 체크
+
+  const showFetchingSpinner = useDelayedLoading(isFetching, 300);
+
   const handleFilterChange = (key) => (value) => {
     setFilter((prev) => ({ ...prev, [key]: value }));
     // 필터 변경 시 결과 수가 달라져 현재 페이지가 범위를 벗어날 수 있으므로 1페이지로 초기화
     setPage(1);
   };
-
-  const allCardsCnt = data?.meta.totalCount; // 총 보유 카드 수량
 
   return (
     <>
@@ -139,20 +149,27 @@ export const MySalesCardSection = () => {
         </div>
       </div>
 
-      {/* TODO: 스켈레톤 UI로 교체 */}
-      {isLoading && <div className="text-white">로딩 중...</div>}
-
-      {/* TODO: 에러 컴포넌트로 교체 */}
-      {error && <div className="text-white">에러가 발생했습니다.</div>}
-
-      {!isLoading && !error && data && (
+      {isLoading ? (
+        <div className="flex h-[20rem] items-center justify-center">
+          <Spinner />
+        </div>
+      ) : (
         <>
-          <CardList sales={data.mySales} />
-          <Pagination
-            totalPages={data.meta.totalPages}
-            currentPage={page}
-            onPageChange={setPage}
-          />
+          {showFetchingSpinner && (
+            <div className="fixed inset-0 z-10 flex items-center justify-center bg-black/40">
+              <Spinner />
+            </div>
+          )}
+
+          <CardList sales={data.mySales} isFilteredEmpty={isFilteredEmpty} />
+
+          {data.meta.totalPages && (
+            <Pagination
+              totalPages={data.meta.totalPages}
+              currentPage={page}
+              onPageChange={setPage}
+            />
+          )}
         </>
       )}
     </>
