@@ -52,7 +52,10 @@ export const queryClient = new QueryClient({
       }
 
       if (action === 'toast') {
-        showGlobalToast(message ?? error?.message);
+        const toastMessage = error?.statusCode
+          ? (message ?? error?.message) // 백엔드 에러 → 매핑된 메시지 or 서버 메시지
+          : '오류가 발생했습니다. 다시 시도해주세요.'; // 프론트 에러 → 고정 문구
+        showGlobalToast(toastMessage);
       }
     },
   }),
