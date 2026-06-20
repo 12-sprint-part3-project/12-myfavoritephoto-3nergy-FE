@@ -189,7 +189,7 @@ export const GNB = ({
 
             {isAuthenticated ? (
               <Link
-                href={router.push(ROUTES.notifications)}
+                href={ROUTES.notifications}
                 aria-label={
                   hasUnread ? `알림, 읽지 않은 알림 ${unreadCount}개` : '알림'
                 }
