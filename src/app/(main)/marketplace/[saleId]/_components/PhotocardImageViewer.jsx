@@ -47,7 +47,7 @@ export const PhotocardImageViewer = ({ imageUrl, name, isSoldOut }) => {
             type="button"
             onClick={() => setIsOpen(false)}
             aria-label="원본 이미지 닫기"
-            className="absolute top-6 right-6 z-[60] rounded-full bg-black/50 p-3 text-white hover:bg-black/70"
+            className="absolute top-6 right-6 z-[60] cursor-pointer rounded-full bg-black/50 p-3 text-white hover:bg-black/70"
           >
             <CloseIcon width={20} />
           </button>
