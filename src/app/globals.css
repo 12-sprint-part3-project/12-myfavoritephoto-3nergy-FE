@@ -119,6 +119,18 @@ input[type='number']::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
 
+/* 자동완성 bg 커스텀 */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0px 1000px var(--color-black) inset !important;
+  -webkit-text-fill-color: var(--color-white) !important;
+}
+input:-webkit-autofill:focus {
+  border-color: var(--color-main);
+}
+
 @layer utilities {
   .font-baskin-base {
     font-family: var(--font-baskin);
