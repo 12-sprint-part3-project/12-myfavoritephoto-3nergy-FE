@@ -1,18 +1,21 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 
 // ref: 외부에서 스크롤 컨테이너에 접근이 필요한 경우 전달 (예: 무한스크롤 IntersectionObserver root)
 export const BottomSheet = ({ onClose, footer, children, ref }) => {
   const sheetRef = useRef(null);
   const startYRef = useRef(null);
+  const dragYRef = useRef(0);
   const [dragY, setDragY] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
 
   const handleDragStart = (e) => {
     startYRef.current = e.touches?.[0]?.clientY ?? e.clientY;
+    setIsDragging(true);
   };
 
-  const handleDragMove = (e) => {
+  const handleDragMove = useCallback((e) => {
     if (startYRef.current === null) {
       return;
     }
@@ -26,21 +29,41 @@ export const BottomSheet = ({ onClose, footer, children, ref }) => {
       return;
     }
 
+    dragYRef.current = diff;
     setDragY(diff);
-  };
+  }, []);
 
-  const handleDragEnd = () => {
+  const handleDragEnd = useCallback(() => {
     const sheetHeight = sheetRef.current?.offsetHeight ?? 0;
-
     // 사용자가 아래로 드래그한 거리(dragY)가 시트 높이의 30% 이상이면 바텀시트 닫음
-    const shouldClose = dragY >= sheetHeight * 0.3;
+    const shouldClose = dragYRef.current >= sheetHeight * 0.3;
+
+    setDragY(0);
+    dragYRef.current = 0;
+    startYRef.current = null;
+    setIsDragging(false);
+
     if (shouldClose) {
       onClose();
     }
+  }, [onClose]);
 
-    startYRef.current = null;
-    setDragY(0);
-  };
+  // 드래그 중일 때만 document에 마우스/터치 이벤트 등록
+  useEffect(() => {
+    if (!isDragging) return;
+
+    document.addEventListener('mousemove', handleDragMove);
+    document.addEventListener('mouseup', handleDragEnd);
+    document.addEventListener('touchmove', handleDragMove);
+    document.addEventListener('touchend', handleDragEnd);
+
+    return () => {
+      document.removeEventListener('mousemove', handleDragMove);
+      document.removeEventListener('mouseup', handleDragEnd);
+      document.removeEventListener('touchmove', handleDragMove);
+      document.removeEventListener('touchend', handleDragEnd);
+    };
+  }, [isDragging, handleDragMove, handleDragEnd]);
 
   return (
     <div
@@ -55,13 +78,9 @@ export const BottomSheet = ({ onClose, footer, children, ref }) => {
     >
       {/* 드래그 핸들 */}
       <div
-        className="flex shrink-0 cursor-grab justify-center pt-[0.94rem] pb-[1.87rem] active:cursor-grabbing"
+        className="flex shrink-0 cursor-grab justify-center pt-[0.94rem] pb-[1.87rem] select-none active:cursor-grabbing"
         onMouseDown={handleDragStart}
-        onMouseMove={handleDragMove}
-        onMouseUp={handleDragEnd}
         onTouchStart={handleDragStart}
-        onTouchMove={handleDragMove}
-        onTouchEnd={handleDragEnd}
       >
         <div className="h-[0.375rem] w-[3rem] rounded-[3.125rem] bg-gray-400" />
       </div>
