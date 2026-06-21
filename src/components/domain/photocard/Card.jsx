@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { SoldoutIcon } from '@/icons';
 import { GRADE_STYLE, GENRE } from '@/constants/card';
 import { APP_NAME } from '@/constants/app';
+import { displayKoreanNumber } from '@/utils/format';
 
 const STATUS_LABEL = {
   SALE: '판매 중',
@@ -39,7 +40,7 @@ export const Card = ({
         />
         {type === 'mysales' && !isSoldOut && (
           <span
-            className={`md:text-noto-14-regular lg:text-noto-16-regular text-noto-10-regular absolute top-[.3125rem] left-[.3125rem] rounded-xs bg-black/50 px-2 py-1 md:top-[.625rem] md:left-[.625rem] lg:px-[.625rem] ${status === 'SALE' ? 'text-white' : 'text-main'}`}
+            className={`absolute top-[.3125rem] left-[.3125rem] rounded-xs bg-black/50 px-2 py-1 text-noto-10-regular md:top-[.625rem] md:left-[.625rem] md:text-noto-14-regular lg:px-[.625rem] lg:text-noto-16-regular ${status === 'SALE' ? 'text-white' : 'text-main'}`}
           >
             {STATUS_LABEL[status]}
           </span>
@@ -47,7 +48,7 @@ export const Card = ({
         {isSoldOut && (
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="w-[46.67%]">
-              <SoldoutIcon className="text-red h-auto w-full" />
+              <SoldoutIcon className="h-auto w-full text-red" />
             </div>
             <span className="sr-only">{STATUS_LABEL[status]}</span>
           </div>
@@ -55,43 +56,43 @@ export const Card = ({
       </div>
 
       <div className="mt-[10px] md:mt-[25px] lg:mt-8">
-        <h3 className="text-noto-14-bold md:text-noto-22-bold line-clamp-1 text-white">
+        <h3 className="line-clamp-1 text-noto-14-bold text-white md:text-noto-22-bold">
           {name}
         </h3>
 
         <div className="mt-[5px] flex items-center justify-between md:mt-[10px]">
           <div className="flex items-center">
             <span
-              className={`text-noto-10-light md:text-noto-16-light pb-[2px] md:pb-1 ${textColor}`}
+              className={`pb-[2px] text-noto-10-light md:pb-1 md:text-noto-16-light ${textColor}`}
             >
               {gradeLabel}
             </span>
-            <span className="text-noto-10-regular md:text-noto-16-regular pb-[2px] text-gray-300 before:mx-[5px] before:text-gray-400 before:content-['|'] md:pb-1 before:md:mx-[10px]">
+            <span className="pb-[2px] text-noto-10-regular text-gray-300 before:mx-[5px] before:text-gray-400 before:content-['|'] md:pb-1 md:text-noto-16-regular before:md:mx-[10px]">
               {GENRE[genre]}
             </span>
           </div>
-          <span className="text-noto-10-regular md:text-noto-16-regular pb-[2px] text-white underline md:pb-1">
+          <span className="pb-[2px] text-noto-10-regular text-white underline md:pb-1 md:text-noto-16-regular">
             {owner}
           </span>
         </div>
 
         <dl className="mt-[10px] flex flex-col gap-[5px] border-t border-gray-400 pt-[10px] md:mt-5 md:gap-[10px] md:pt-5">
           <div className="flex justify-between">
-            <dt className="text-noto-10-light md:text-noto-16-light text-gray-300">
+            <dt className="text-noto-10-light text-gray-300 md:text-noto-16-light">
               가격
             </dt>
-            <dd className="text-noto-10-regular md:text-noto-18-regular text-white">
-              {price} P
+            <dd className="text-noto-10-regular text-white md:text-noto-18-regular">
+              {displayKoreanNumber(price)} P
             </dd>
           </div>
           <div className="flex justify-between">
             {type === 'marketplace' && (
               <>
-                <dt className="text-noto-10-light md:text-noto-16-light text-gray-300">
+                <dt className="text-noto-10-light text-gray-300 md:text-noto-16-light">
                   잔여
                 </dt>
-                <dd className="text-noto-10-light md:text-noto-18-light text-gray-300">
-                  <span className="text-noto-10-regular md:text-noto-18-regular text-white">
+                <dd className="text-noto-10-light text-gray-300 md:text-noto-18-light">
+                  <span className="text-noto-10-regular text-white md:text-noto-18-regular">
                     {remainingQuantity}
                   </span>{' '}
                   / {totalQuantity}
@@ -100,20 +101,20 @@ export const Card = ({
             )}
             {type === 'mysales' && (
               <>
-                <dt className="text-noto-10-light md:text-noto-16-light text-gray-300">
+                <dt className="text-noto-10-light text-gray-300 md:text-noto-16-light">
                   잔여
                 </dt>
-                <dd className="text-noto-10-regular md:text-noto-18-regular text-white">
+                <dd className="text-noto-10-regular text-white md:text-noto-18-regular">
                   {remainingQuantity}
                 </dd>
               </>
             )}
             {type === 'mygallery' && (
               <>
-                <dt className="text-noto-10-light md:text-noto-16-light text-gray-300">
+                <dt className="text-noto-10-light text-gray-300 md:text-noto-16-light">
                   수량
                 </dt>
-                <dd className="text-noto-10-regular md:text-noto-18-regular text-white">
+                <dd className="text-noto-10-regular text-white md:text-noto-18-regular">
                   {quantity}
                 </dd>
               </>
