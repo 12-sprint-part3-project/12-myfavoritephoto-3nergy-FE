@@ -33,7 +33,7 @@ export const MyGalleryContent = () => {
   };
 
   return (
-    <div className="px-[0.9375rem] pt-[1.25rem] pb-[40px] md:px-[1.25rem] md:pt-[2.5rem] md:pb-[110px] xl:pt-[3.75rem] xl:pb-[140px]">
+    <div className="px-[0.9375rem] pt-[1.25rem] pb-[110px] md:px-[1.25rem] md:pt-[2.5rem] xl:pt-[3.75rem] xl:pb-[140px]">
       <PageTitle
         title="마이갤러리"
         className="hidden md:block"
@@ -63,7 +63,7 @@ export const MyGalleryContent = () => {
 
       <MyGalleryCardSection />
 
-      <div className="fixed right-0 bottom-[40px] left-0 z-40 px-[.9375rem] md:hidden">
+      <div className="fixed inset-x-0 bottom-0 z-10 bg-black p-[0.9375rem] md:hidden">
         <Button
           size="lg"
           disabled={isDisabled}
