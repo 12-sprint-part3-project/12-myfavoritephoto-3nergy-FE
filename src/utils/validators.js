@@ -1,4 +1,4 @@
-import { MAXIMUM_PRICE } from '@/constants/card';
+import { MAXIMUM_PRICE, MAXIMUM_QUANTITY } from '@/constants/card';
 
 export const validatePrice = (value) => {
   if (value < 1 || !value) {
@@ -6,7 +6,7 @@ export const validatePrice = (value) => {
   }
 
   if (value > MAXIMUM_PRICE) {
-    return `${MAXIMUM_PRICE}P 이하로 입력해 주세요`;
+    return '21억 이하로 입력해 주세요';
   }
 
   return '';
@@ -59,7 +59,7 @@ export const validateQuantity = (value) => {
   if (!value) {
     return '최소 1장은 등록해야 합니다.';
   }
-  if (value > 10) {
+  if (value > MAXIMUM_QUANTITY) {
     return '총 발행량은 10장 이하로 선택 가능합니다.';
   }
 

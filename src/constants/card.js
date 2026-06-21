@@ -69,4 +69,5 @@ export const SALE_METHOD_OPTIONS = Object.entries(SALE_METHOD).map(
   }),
 );
 
-export const MAXIMUM_PRICE = 2100000000; // integer 최대 허용 값 2147483647
+export const MAXIMUM_PRICE = 2100000000; // integer 최대 허용 값 2147483647 인데, 백엔드에 2100000000 로 뒤 짜투리 가격 날림
+export const MAXIMUM_QUANTITY = 10;
