@@ -11,7 +11,9 @@ export const CreateSaleButton = () => {
   const isMobile = useIsMobile();
   const [showCreateModal, setShowCreateModal] = useState(false);
 
-  usePrefetchPhotocardList(isMobile ? `/marketplace/create` : undefined);
+  usePrefetchPhotocardList(isMobile ? '/marketplace/create' : undefined, {
+    excludeOnSale: true,
+  });
 
   const handleCreateClick = () => {
     if (isMobile) {
