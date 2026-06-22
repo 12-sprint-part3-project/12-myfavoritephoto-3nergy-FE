@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { notFound } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { getErrorHandler } from '@/constants/errorHandler';
@@ -11,10 +12,19 @@ import { PageTitle } from '@/components/layout/PageTitle';
 import { CardDetail } from '@/app/(main)/marketplace/[saleId]/_components/CardDetail';
 import { CardInfo } from '@/app/(main)/marketplace/[saleId]/_components/CardInfo';
 import { SellerTradeInfo } from '@/app/(main)/marketplace/[saleId]/_components/SellerTradeInfo';
-import { SellerButtons } from '@/app/(main)/marketplace/[saleId]/_components/SellerButtons';
 import { BuyerActions } from '@/app/(main)/marketplace/[saleId]/_components/BuyerActions';
-import { TradeListSection } from '@/app/(main)/marketplace/[saleId]/_components/TradeListSection';
-import { BuyerTradeSection } from '@/app/(main)/marketplace/[saleId]/_components/BuyerTradeSection';
+
+const SellerButtons = dynamic(() =>
+  import('./SellerButtons').then((mod) => mod.SellerButtons),
+);
+
+const TradeListSection = dynamic(() =>
+  import('./TradeListSection').then((mod) => mod.TradeListSection),
+);
+
+const BuyerTradeSection = dynamic(() =>
+  import('./BuyerTradeSection').then((mod) => mod.BuyerTradeSection),
+);
 
 export const SaleDetailContent = ({ saleId }) => {
   const { accessToken } = useAuth();

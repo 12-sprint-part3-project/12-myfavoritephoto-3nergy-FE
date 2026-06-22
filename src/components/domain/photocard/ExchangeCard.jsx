@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { GRADE_STYLE, GENRE } from '@/constants/card';
 import { Button } from '@/components/ui/Button';
 import { BasicModal } from '@/components/ui/BasicModal';
+import { getOptimizedImageUrl } from '@/utils/cloudinary';
 
 export const ExchangeCard = ({
   imageUrl,
@@ -43,12 +44,11 @@ export const ExchangeCard = ({
       <article className="flex flex-col border border-white/10 bg-gray-500 p-[.625rem] md:p-5 md:pb-[1.5625rem] lg:p-10">
         <div className="relative aspect-4/3 overflow-hidden">
           <Image
-            src={imageUrl}
+            src={getOptimizedImageUrl(imageUrl, 400)}
             alt={name}
-            width={400}
-            height={400}
-            sizes="(max-width: 768px) 50vw, (max-width: 1280px) 33vw, 25vw" // 추가
-            className="h-full w-full object-cover"
+            fill
+            sizes="(max-width: 768px) calc(50vw - 20px), (max-width: 1280px) calc(33vw - 40px), calc(25vw - 60px)"
+            className="object-cover"
           />
         </div>
 

@@ -1,13 +1,11 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { PageTitle } from '@/components/layout/PageTitle';
 import { SearchBar } from '@/components/ui/SearchBar';
 import { Spinner } from '@/components/ui/Spinner';
 import { Button } from '@/components/ui/Button';
-import { Card } from '@/components/domain/photocard/Card';
 import { FilterDropdown } from '@/components/domain/photocard/FilterDropdown';
 import { SortDropdown } from '@/components/domain/photocard/SortDropdown';
 import { MobileFilterBottomSheet } from '@/components/domain/photocard/MobileFilterBottomSheet';
@@ -25,6 +23,7 @@ import {
   CARD_GENRE_OPTIONS,
   SALE_STATUS_OPTIONS,
 } from '@/constants/card';
+import { PrefetchSaleCard } from '@/app/(main)/marketplace/_components/PrefetchSaleCard';
 
 const GRADE_OPTIONS = [{ value: '', label: '전체' }, ...CARD_GRADE_OPTIONS];
 const GENRE_OPTIONS = [{ value: '', label: '전체' }, ...CARD_GENRE_OPTIONS];
@@ -117,14 +116,12 @@ export const MarketplaceContent = () => {
   } = useSalesFilterSelection(data);
 
   const cards = data?.sales.map(mapSaleToCard) ?? [];
-  const totalCount = data?.meta.totalCount ?? 0;
   const isFiltered = Boolean(
     searchKeyword.trim() || filters.grade || filters.genre || filters.soldOut,
   );
 
   const showFetchingSpinner = useDelayedLoading(
-    isFetching && !isFetchingNextPage,
-    500,
+    isFetching && !isFetchingNextPage && !isLoading,
   );
 
   useEffect(() => {
@@ -222,10 +219,12 @@ export const MarketplaceContent = () => {
             />
           ) : (
             <div className="mt-5 grid grid-cols-2 gap-[5px] md:mt-[1.875rem] md:gap-[20px] lg:grid-cols-3 lg:gap-[80px]">
-              {cards.map((card) => (
-                <Link key={card.id} href={`/marketplace/${card.id}`}>
-                  <Card type="marketplace" {...card} />
-                </Link>
+              {cards.map((card, index) => (
+                <PrefetchSaleCard
+                  key={card.id}
+                  card={card}
+                  priority={index < 6}
+                />
               ))}
             </div>
           )}

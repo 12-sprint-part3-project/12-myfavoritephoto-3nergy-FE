@@ -7,7 +7,13 @@ import { useIsMobile } from '@/hooks/common/useResponsive';
 import { usePrefetchPhotocardList } from '@/hooks/photocard/usePrefetchPhotocardList';
 import { Button } from '@/components/ui/Button';
 import { PageTitle } from '@/components/layout/PageTitle';
-import { TradeOfferModal } from '@/app/(main)/marketplace/[saleId]/_components/TradeOfferModal';
+import dynamic from 'next/dynamic';
+
+const TradeOfferModal = dynamic(() =>
+  import('@/app/(main)/marketplace/[saleId]/_components/TradeOfferModal').then(
+    (m) => m.TradeOfferModal,
+  ),
+);
 
 export const TradeOfferSection = ({ sale }) => {
   const router = useRouter();

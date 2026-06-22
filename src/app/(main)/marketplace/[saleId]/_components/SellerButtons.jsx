@@ -1,5 +1,6 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useToastContext } from '@/context/ToastContext';
@@ -8,7 +9,12 @@ import { useUpdateSale } from '@/hooks/sale/useUpdateSale';
 import { useCancelSale } from '@/hooks/sale/useCancelSale';
 import { Button } from '@/components/ui/Button';
 import { BasicModal } from '@/components/ui/BasicModal';
-import { SaleEditModal } from '@/app/(main)/marketplace/[saleId]/_components/SaleEditModal';
+
+const SaleEditModal = dynamic(() =>
+  import('@/app/(main)/marketplace/[saleId]/_components/SaleEditModal').then(
+    (m) => m.SaleEditModal,
+  ),
+);
 
 export const SellerButtons = ({ sale }) => {
   const { showToast } = useToastContext();

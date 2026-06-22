@@ -2,9 +2,13 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import CloseIcon from '@/icons/close.svg';
 import { SoldoutIcon } from '@/icons';
-import { Overlay } from '@/components/ui/Overlay';
+
+import dynamic from 'next/dynamic';
+
+const ImageModal = dynamic(() =>
+  import('./ImageModal').then((mod) => mod.ImageModal),
+);
 
 export const PhotocardImageViewer = ({ imageUrl, name, isSoldOut }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -43,28 +47,11 @@ export const PhotocardImageViewer = ({ imageUrl, name, isSoldOut }) => {
       </button>
 
       {isOpen && (
-        <Overlay onClose={() => setIsOpen(false)}>
-          {/* 화면 기준 닫기 버튼 */}
-          <button
-            type="button"
-            onClick={() => setIsOpen(false)}
-            aria-label="원본 이미지 닫기"
-            className="absolute top-6 right-6 z-[60] cursor-pointer rounded-full bg-black/50 p-3 text-white hover:bg-black/70"
-          >
-            <CloseIcon width={20} />
-          </button>
-
-          {/* 이미지 영역 */}
-          <div className="relative h-[75vh] w-[80vw] max-w-[700px]">
-            <Image
-              src={imageUrl}
-              alt={`${name} 원본 이미지`}
-              fill
-              className="object-contain"
-              sizes="80vw"
-            />
-          </div>
-        </Overlay>
+        <ImageModal
+          imageUrl={imageUrl}
+          name={name}
+          onClose={() => setIsOpen(false)}
+        />
       )}
     </>
   );

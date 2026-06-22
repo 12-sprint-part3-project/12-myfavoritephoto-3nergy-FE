@@ -5,6 +5,7 @@ import { SoldoutIcon } from '@/icons';
 import { GRADE_STYLE, GENRE } from '@/constants/card';
 import { APP_NAME } from '@/constants/app';
 import { displayKoreanNumber } from '@/utils/format';
+import { getOptimizedImageUrl } from '@/utils/cloudinary';
 
 const STATUS_LABEL = {
   SALE: '판매 중',
@@ -24,6 +25,7 @@ export const Card = ({
   totalQuantity, // 총 발행량 — marketplace
   quantity, // 보유 수량 — mygallery
   status, // 'SALE' | 'SOLD_OUT' — mysales, marketplace 공통 / 'TRADE_PENDING' - mysales 만
+  priority = false,
 }) => {
   const { textColor, label: gradeLabel } = GRADE_STYLE[grade] ?? {};
   const isSoldOut = status === 'SOLD_OUT';
@@ -32,11 +34,12 @@ export const Card = ({
     <article className="flex flex-col border border-white/10 bg-gray-500 p-[.625rem] md:p-5 md:pb-[1.875rem] lg:p-10">
       <div className="relative aspect-4/3 overflow-hidden">
         <Image
-          src={imageUrl}
+          src={getOptimizedImageUrl(imageUrl, 400)}
           alt={name}
-          width={400}
-          height={400}
-          className={`h-full w-full object-cover ${isSoldOut ? 'opacity-30' : ''}`}
+          fill
+          sizes="(max-width: 768px) calc(50vw - 20px), (max-width: 1280px) calc(33vw - 40px), calc(25vw - 60px)"
+          priority={priority}
+          className={`object-cover ${isSoldOut ? 'opacity-30' : ''}`}
         />
         {type === 'mysales' && !isSoldOut && (
           <span
