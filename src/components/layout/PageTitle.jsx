@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 const variantStyles = {
   'title-lg': 'font-baskin-base text-baskin-48-bold lg:text-baskin-62-bold',
   'title-md': 'font-baskin-base text-baskin-40-bold lg:text-baskin-46-bold',
@@ -16,6 +18,7 @@ export const PageTitle = ({
   variant,
   title,
   breadcrumb,
+  breadcrumbHref,
   leadingIcon,
   actions,
   hideBreadcrumbOnMobile = false,
@@ -26,13 +29,21 @@ export const PageTitle = ({
     <div
       className={`w-full border-b border-gray-200 ${hideBorderOnMobile && 'max-md:border-none'} ${className}`}
     >
-      {breadcrumb && (
-        <p
-          className={`font-baskin-base text-baskin-16-bold mb-[0.94rem] text-gray-300 md:mb-[2.5rem] lg:text-baskin-24-bold ${hideBreadcrumbOnMobile && 'hidden md:block'}`}
-        >
-          {breadcrumb}
-        </p>
-      )}
+      {breadcrumb &&
+        (breadcrumbHref ? (
+          <Link
+            href={breadcrumbHref}
+            className={`font-baskin-base text-baskin-16-bold mb-[0.94rem] text-gray-300 hover:text-white md:mb-[2.5rem] lg:text-baskin-24-bold ${hideBreadcrumbOnMobile && 'hidden md:block'}`}
+          >
+            {breadcrumb}
+          </Link>
+        ) : (
+          <p
+            className={`font-baskin-base text-baskin-16-bold mb-[0.94rem] text-gray-300 md:mb-[2.5rem] lg:text-baskin-24-bold ${hideBreadcrumbOnMobile && 'hidden md:block'}`}
+          >
+            {breadcrumb}
+          </p>
+        ))}
       <div
         className={`flex items-center justify-between ${gapStyles[variant]}`}
       >

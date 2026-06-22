@@ -47,6 +47,7 @@ export const ExchangeCard = ({
             alt={name}
             width={400}
             height={400}
+            sizes="(max-width: 768px) 50vw, (max-width: 1280px) 33vw, 25vw" // 추가
             className="h-full w-full object-cover"
           />
         </div>

@@ -47,7 +47,7 @@ export const Input = ({
           required={required}
           disabled={disabled}
           {...rest}
-          className={`focus:invalid:border-red invalid:border-red text-noto-14-regular md:text-noto-16-regular h-[3.4375rem] w-full rounded-xs border bg-black px-5 text-white outline-none placeholder:text-gray-200 focus:border disabled:placeholder:text-gray-300 md:h-[3.75rem] ${error ? 'border-red focus:border-red' : 'focus:border-main border-white'}`}
+          className={`h-[3.4375rem] w-full rounded-xs border bg-black px-5 text-noto-14-regular text-white outline-none placeholder:text-gray-200 invalid:border-red focus:border focus:invalid:border-red disabled:placeholder:text-gray-300 md:h-[3.75rem] md:text-noto-16-regular ${error ? 'border-red focus:border-red' : 'border-white focus:border-main'}`}
         />
 
         {isPassword && (
@@ -55,9 +55,9 @@ export const Input = ({
             type="button"
             onClick={() => setShowPassword((prev) => (disabled ? prev : !prev))}
             className={`absolute top-[50%] right-5 h-[1.5rem] w-[1.5rem] -translate-y-[50%] ${disabled ? 'text-gray-400' : 'cursor-pointer text-white'}`}
+            aria-label={showPassword ? '비밀번호 보기' : '비밀번호 가리기'}
           >
-            {showPassword ? <InvisibleIcon /> : <VisibleIcon />}
-            <span className="sr-only">{showPassword ? '숨기기' : '보기'}</span>
+            {showPassword ? <VisibleIcon /> : <InvisibleIcon />}
           </button>
         )}
       </div>

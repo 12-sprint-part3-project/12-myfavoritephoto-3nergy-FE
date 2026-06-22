@@ -4,25 +4,22 @@ import { useQueryClient } from '@tanstack/react-query';
 import { QUERY_KEYS } from '@/constants/queryKeys';
 import { getPhotocards } from '@/services/photocard';
 
-const INITIAL_PARAMS = {
-  sort: 'latest',
-  pageSize: 20,
-};
-
-export const usePrefetchPhotocardList = (path) => {
+export const usePrefetchPhotocardList = (path, extraParams = {}) => {
   const router = useRouter();
   const queryClient = useQueryClient();
 
   useEffect(() => {
+    const params = { sort: 'latest', pageSize: 20, ...extraParams };
+
     if (path) {
       router.prefetch(path);
     }
 
     queryClient.prefetchInfiniteQuery({
-      queryKey: QUERY_KEYS.photocards.list(INITIAL_PARAMS),
+      queryKey: QUERY_KEYS.photocards.list(params),
       queryFn: ({ pageParam = 1 }) =>
-        getPhotocards({ ...INITIAL_PARAMS, page: pageParam }),
+        getPhotocards({ ...params, page: pageParam }),
       initialPageParam: 1,
     });
-  }, [path, router, queryClient]);
+  }, [path, router, queryClient]); // extraParams 객체는 매 렌더마다 새로 생성되므로 의존성에서 제외
 };

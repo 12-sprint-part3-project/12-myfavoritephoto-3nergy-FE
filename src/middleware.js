@@ -5,7 +5,7 @@ const PROTECTED_PATHS = [
   '/my-gallery',
   '/my-sales',
   '/marketplace',
-  'my-notifications',
+  '/my-notifications',
 ];
 const AUTH_PATHS = ['/login', '/signup'];
 

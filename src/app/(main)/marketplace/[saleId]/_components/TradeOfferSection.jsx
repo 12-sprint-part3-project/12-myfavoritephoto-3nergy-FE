@@ -48,7 +48,7 @@ export const TradeOfferSection = ({ sale }) => {
 
         {/*교환 희망 정보 - 설명, 등급, 장르*/}
         <div className="flex flex-col gap-[1.25rem]">
-          <p className="text-noto-18-bold text-white lg:text-noto-24-bold">
+          <p className="text-noto-18-bold whitespace-pre-wrap text-white lg:text-noto-24-bold">
             {sale.desiredDescription}
           </p>
           <div className="flex gap-[0.62rem] lg:gap-[0.9375rem]">

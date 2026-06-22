@@ -53,6 +53,13 @@ const meta = {
         type: { summary: 'string' },
       },
     },
+    breadcrumbHref: {
+      control: 'text',
+      description: '소제목 클릭 시 이동할 경로 (지정 시 링크로 렌더링)',
+      table: {
+        type: { summary: 'string' },
+      },
+    },
     leadingIcon: {
       control: false,
       description: '제목 왼쪽에 표시할 아이콘',
@@ -125,6 +132,23 @@ export const WithBreadcrumb = {
     variant: 'title-md',
     title: '나의 포토카드 판매하기',
     breadcrumb: '마이갤러리',
+  },
+};
+
+export const WithBreadcrumbLink = {
+  args: {
+    variant: 'heading',
+    title: '포토카드 이름',
+    breadcrumb: '마켓플레이스',
+    breadcrumbHref: '/marketplace',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'breadcrumbHref 지정 시 소제목이 링크로 렌더링됩니다. hover 시 흰색으로 강조됩니다.',
+      },
+    },
   },
 };
 

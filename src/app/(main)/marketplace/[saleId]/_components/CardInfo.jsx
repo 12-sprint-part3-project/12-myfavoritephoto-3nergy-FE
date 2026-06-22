@@ -18,7 +18,7 @@ export const CardInfo = ({ sale }) => {
       </div>
       {/* 설명 */}
       <div className="border-b border-gray-400 py-[1.875rem]">
-        <p className="text-noto-16-regular text-white lg:text-noto-18-regular">
+        <p className="text-noto-16-regular whitespace-pre-wrap text-white lg:text-noto-18-regular">
           {sale.photocard.description}
         </p>
       </div>

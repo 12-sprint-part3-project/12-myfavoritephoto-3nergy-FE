@@ -11,7 +11,7 @@ export const CardList = ({ sales = [], isFilteredEmpty }) => {
         <ul className="grid grid-cols-2 gap-[.3125rem] md:gap-[1.25rem] lg:grid-cols-3 lg:gap-[5rem]">
           {sales.map((item) => (
             <li key={item.saleMethod === 'SALE' ? item.saleId : item.tradeId}>
-              <Link href={`/marketplace/${item.saleId}`} title={item.saleId}>
+              <Link href={`/marketplace/${item.saleId}`} aria-label={item.name}>
                 <Card
                   type="mysales"
                   {...item}
