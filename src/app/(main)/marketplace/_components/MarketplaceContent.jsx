@@ -163,7 +163,7 @@ export const MarketplaceContent = () => {
       />
 
       <div className="mt-5 flex flex-col gap-3 md:mt-[1.875rem] md:flex-row md:items-center md:gap-6 lg:gap-[3.75rem]">
-        <div className="md:w-[20rem]">
+        <div className="md:w-[12.5rem]">
           <SearchBar value={searchKeyword} onChange={handleSearchChange} />
         </div>
 
@@ -197,7 +197,7 @@ export const MarketplaceContent = () => {
           <SortDropdown
             value={sort}
             onChange={handleSortChange}
-            className="w-[8.75rem] shrink-0 md:w-[11.25rem]"
+            className="w-[8.75rem] shrink-0"
           />
         </div>
       </div>
