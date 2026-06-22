@@ -59,6 +59,7 @@ export const SaleDetailContent = ({ saleId }) => {
         <PageTitle
           variant="heading"
           breadcrumb="마켓플레이스"
+          breadcrumbHref="/marketplace"
           title={sale?.photocard?.name}
           hideBreadcrumbOnMobile
         />

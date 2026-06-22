@@ -21,6 +21,8 @@ export const PhotocardImageViewer = ({ imageUrl, name, isSoldOut }) => {
           src={imageUrl}
           alt={`${name} 사진`}
           fill
+          priority
+          sizes="(max-width: 768px) 100vw, 50vw" // 100vw도 수정
           className={`object-cover transition-transform duration-300 group-hover:scale-105 md:object-contain ${isSoldOut ? 'opacity-30' : ''} `}
         />
 
