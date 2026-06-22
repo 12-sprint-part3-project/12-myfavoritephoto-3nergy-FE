@@ -63,7 +63,7 @@ export const Card = ({
           {name}
         </h3>
 
-        <div className="mt-[5px] flex items-center justify-between md:mt-[10px]">
+        <div className="mt-[5px] flex flex-col flex-wrap justify-between sm:flex-row sm:items-center md:mt-[10px]">
           <div className="flex items-center">
             <span
               className={`pb-[2px] text-noto-10-light md:pb-1 md:text-noto-16-light ${textColor}`}
@@ -74,7 +74,7 @@ export const Card = ({
               {GENRE[genre]}
             </span>
           </div>
-          <span className="pb-[2px] text-noto-10-regular text-white underline md:pb-1 md:text-noto-16-regular">
+          <span className="self-end pb-[2px] text-noto-10-regular text-white underline md:pb-1 md:text-noto-16-regular">
             {owner}
           </span>
         </div>
