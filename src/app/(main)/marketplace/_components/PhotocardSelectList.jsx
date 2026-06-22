@@ -84,8 +84,7 @@ export const PhotocardSelectList = ({
 
   const isFiltered = params.keyword || params.grade || params.genre;
   const showFetchingSpinner = useDelayedLoading(
-    isFetching && !isFetchingNextPage,
-    300,
+    isFetching && !isFetchingNextPage && !isLoading,
   );
 
   // TODO: 에러 컴포넌트로 교체

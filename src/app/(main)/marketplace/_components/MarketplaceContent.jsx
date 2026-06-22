@@ -116,14 +116,12 @@ export const MarketplaceContent = () => {
   } = useSalesFilterSelection(data);
 
   const cards = data?.sales.map(mapSaleToCard) ?? [];
-  const totalCount = data?.meta.totalCount ?? 0;
   const isFiltered = Boolean(
     searchKeyword.trim() || filters.grade || filters.genre || filters.soldOut,
   );
 
   const showFetchingSpinner = useDelayedLoading(
-    isFetching && !isFetchingNextPage,
-    500,
+    isFetching && !isFetchingNextPage && !isLoading,
   );
 
   useEffect(() => {
@@ -221,8 +219,12 @@ export const MarketplaceContent = () => {
             />
           ) : (
             <div className="mt-5 grid grid-cols-2 gap-[5px] md:mt-[1.875rem] md:gap-[20px] lg:grid-cols-3 lg:gap-[80px]">
-              {cards.map((card) => (
-                <PrefetchSaleCard key={card.id} card={card} />
+              {cards.map((card, index) => (
+                <PrefetchSaleCard
+                  key={card.id}
+                  card={card}
+                  priority={index < 6}
+                />
               ))}
             </div>
           )}
