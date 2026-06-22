@@ -58,10 +58,10 @@ export const MobileFilterBottomSheet = ({
         role="dialog"
         aria-modal="true"
         aria-labelledby="modal-title"
-        className="relative flex min-h-[30rem] w-full flex-col rounded-t-[1.25rem] bg-filter-bottom-sheet-bg"
+        className="relative flex max-h-[90vh] min-h-[30rem] w-full flex-col rounded-t-[1.25rem] bg-filter-bottom-sheet-bg"
       >
         {/* 헤더 */}
-        <div className="flex justify-center py-4">
+        <div className="flex shrink-0 justify-center py-4">
           <h2
             id="modal-title"
             className="text-noto-16-regular font-medium text-gray-400"
@@ -82,12 +82,12 @@ export const MobileFilterBottomSheet = ({
         </div>
 
         {/* 탭: 선택된 탭은 흰색 글씨와 하단 border 표시 */}
-        <ul className="flex gap-6 border-b border-gray-500 px-6">
+        <ul className="flex shrink-0 gap-6 overflow-x-auto border-b border-gray-500 px-6">
           {tabs.map((tab) => (
-            <li key={tab}>
+            <li key={tab} className="shrink-0">
               <button
                 onClick={() => setActiveTab(tab)}
-                className={`p-4 text-noto-16-regular transition-colors duration-150 ${
+                className={`p-4 text-noto-16-regular whitespace-nowrap transition-colors duration-150 ${
                   activeTab === tab
                     ? 'border-b-[1.5px] border-white text-white'
                     : 'text-gray-400 hover:text-gray-300'
