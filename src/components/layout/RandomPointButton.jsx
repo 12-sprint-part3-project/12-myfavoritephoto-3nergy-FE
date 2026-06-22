@@ -12,6 +12,10 @@ export const RandomPointButton = () => {
 
   usePointCooldown(me?.uuid, () => setShowModal(true));
 
+  if (!me) {
+    return null;
+  }
+
   return (
     <>
       <button
