@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { PageTitle } from '@/components/layout/PageTitle';
@@ -53,6 +53,10 @@ const mapSaleToCard = (sale) => ({
   status: sale.status,
 });
 
+const subscribe = () => () => {};
+const getServerSnapshot = () => false;
+const getClientSnapshot = () => true;
+
 export const MarketplaceContent = () => {
   const { accessToken, openLoginModal } = useAuth();
 
@@ -68,6 +72,11 @@ export const MarketplaceContent = () => {
   const [sort, setSort] = useState('latest');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [searchKeyword, setSearchKeyword] = useState('');
+  const isMounted = useSyncExternalStore(
+    subscribe,
+    getClientSnapshot,
+    getServerSnapshot,
+  );
   const debouncedKeyword = useDebounce(searchKeyword, 500);
   const observerTargetRef = useRef(null);
 
@@ -207,7 +216,7 @@ export const MarketplaceContent = () => {
         </div>
       </div>
 
-      {isLoading ? (
+      {!isMounted || isLoading ? (
         <div className="flex h-[20rem] items-center justify-center">
           <Spinner />
         </div>
