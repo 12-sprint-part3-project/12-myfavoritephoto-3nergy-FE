@@ -53,7 +53,9 @@ export const FilterDropdown = ({
         onClick={() => setIsOpen((prev) => !prev)}
         className="hidden cursor-pointer items-center gap-1 text-noto-16-regular text-gray-200 transition-colors hover:text-white md:flex"
       >
-        <span>{selectedOption ? selectedOption.label : label}</span>
+        <span className="whitespace-nowrap">
+          {selectedOption ? selectedOption.label : label}
+        </span>
         <ChevronDownIcon
           className={`h-6 w-6 shrink-0 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
         />
