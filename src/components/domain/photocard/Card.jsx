@@ -63,7 +63,7 @@ export const Card = ({
           {name}
         </h3>
 
-        <div className="mt-[5px] flex items-center justify-between md:mt-[10px]">
+        <div className="mt-[5px] flex flex-col flex-wrap justify-between sm:flex-row sm:items-center md:mt-[10px]">
           <div className="flex items-center">
             <span
               className={`pb-[2px] text-noto-10-light md:pb-1 md:text-noto-16-light ${textColor}`}
@@ -74,14 +74,14 @@ export const Card = ({
               {GENRE[genre]}
             </span>
           </div>
-          <span className="pb-[2px] text-noto-10-regular text-white underline md:pb-1 md:text-noto-16-regular">
+          <span className="self-end pb-[2px] text-noto-10-regular text-white underline md:pb-1 md:text-noto-16-regular">
             {owner}
           </span>
         </div>
 
         <dl className="mt-[10px] flex flex-col gap-[5px] border-t border-gray-400 pt-[10px] md:mt-5 md:gap-[10px] md:pt-5">
           <div className="flex justify-between">
-            <dt className="text-noto-10-light text-gray-300 md:text-noto-16-light">
+            <dt className="shrink-0 text-noto-10-light text-gray-300 md:text-noto-16-light">
               가격
             </dt>
             <dd className="text-noto-10-regular text-white md:text-noto-18-regular">
@@ -91,7 +91,7 @@ export const Card = ({
           <div className="flex justify-between">
             {type === 'marketplace' && (
               <>
-                <dt className="text-noto-10-light text-gray-300 md:text-noto-16-light">
+                <dt className="shrink-0 text-noto-10-light text-gray-300 md:text-noto-16-light">
                   잔여
                 </dt>
                 <dd className="text-noto-10-light text-gray-300 md:text-noto-18-light">
@@ -104,7 +104,7 @@ export const Card = ({
             )}
             {type === 'mysales' && (
               <>
-                <dt className="text-noto-10-light text-gray-300 md:text-noto-16-light">
+                <dt className="shrink-0 text-noto-10-light text-gray-300 md:text-noto-16-light">
                   잔여
                 </dt>
                 <dd className="text-noto-10-regular text-white md:text-noto-18-regular">
@@ -114,7 +114,7 @@ export const Card = ({
             )}
             {type === 'mygallery' && (
               <>
-                <dt className="text-noto-10-light text-gray-300 md:text-noto-16-light">
+                <dt className="shrink-0 text-noto-10-light text-gray-300 md:text-noto-16-light">
                   수량
                 </dt>
                 <dd className="text-noto-10-regular text-white md:text-noto-18-regular">

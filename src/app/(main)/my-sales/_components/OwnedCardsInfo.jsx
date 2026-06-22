@@ -2,8 +2,8 @@
 
 import { useMe } from '@/hooks/user/useMe';
 import { useMySales } from '@/hooks/sale/useMySales';
-import { Spinner } from '@/components/ui/Spinner';
 import GradeBadgeList from '@/components/domain/photocard/GradeBadgeList';
+import GradeBadgeListSkeleton from '@/components/domain/photocard/GradeBadgeListSkeleton';
 
 export const OwnedCardsInfo = () => {
   const { data: me, isLoading: isUserLoading } = useMe();
@@ -33,9 +33,7 @@ export const OwnedCardsInfo = () => {
       {isAllLoaded ? (
         <GradeBadgeList grades={data.data.gradeCounts} />
       ) : (
-        <div>
-          <Spinner />
-        </div>
+        <GradeBadgeListSkeleton />
       )}
     </div>
   );
