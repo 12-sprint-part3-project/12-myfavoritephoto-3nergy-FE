@@ -19,7 +19,7 @@ export const SellerTradeInfo = ({ sale }) => {
           <span className="text-gray-300">{GENRE[sale.desiredGenre]}</span>
         </div>
       </div>
-      <p className="text-noto-16-regular text-white lg:text-noto-18-regular">
+      <p className="text-noto-16-regular whitespace-pre-wrap text-white lg:text-noto-18-regular">
         {sale.desiredDescription}
       </p>
     </div>
