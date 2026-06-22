@@ -43,12 +43,16 @@ export const CounterInput = ({
           className="sr-only"
         />
 
-        <div
-          className={`flex items-center gap-[0.94rem] lg:gap-[1.25rem] ${showMaxLabel ? 'lg:w-[245px]' : ''}`}
-        >
+        <div className="flex items-center gap-[0.94rem] lg:gap-[1.25rem]">
           <div
             id={id}
-            className={`flex h-[45px] min-w-[144px] items-center justify-between rounded-sm border ${error ? 'border-red focus:border-red' : 'focus:border-main border-gray-200'} bg-black px-[0.8175rem] py-[0.625rem] lg:h-[50px] lg:min-w-[176px] lg:py-[0.8125rem]`}
+            className={`flex h-[45px] items-center justify-between rounded-sm border ${
+              error ? 'border-red' : 'border-gray-200'
+            } bg-black px-[0.8175rem] py-[0.625rem] lg:h-[50px] lg:py-[0.8125rem] ${
+              showMaxLabel
+                ? 'w-[127px] lg:w-[165px]'
+                : 'min-w-[144px] lg:min-w-[176px]'
+            }`}
           >
             <button
               type="button"
@@ -64,7 +68,7 @@ export const CounterInput = ({
                 }
               />
             </button>
-            <span className="text-noto-18-regular lg:text-noto-20-regular text-white">
+            <span className="text-noto-18-regular text-white lg:text-noto-20-regular">
               {value}
             </span>
             <button
@@ -84,9 +88,9 @@ export const CounterInput = ({
           </div>
 
           {showMaxLabel && (
-            <div className="flex flex-col">
+            <div className="flex w-[60px] shrink-0 flex-col">
               <span className="text-noto-18-bold text-white">/{max}</span>
-              <span className="text-noto-12-regular text-gray-200">
+              <span className="text-noto-12-regular whitespace-nowrap text-gray-200">
                 최대 {max}장
               </span>
             </div>

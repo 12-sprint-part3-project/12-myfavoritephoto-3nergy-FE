@@ -10,10 +10,12 @@ export const SaleCreateContent = () => {
   return (
     <>
       {selectedCard ? (
-        <SaleRegisterForm
-          photocard={selectedCard}
-          onBack={() => setSelectedCard(null)}
-        />
+        <div className="xl:pt-[3.75rem px-[0.9375rem] pt-[1.25rem] md:px-[1.25rem] md:pt-[2.5rem]">
+          <SaleRegisterForm
+            photocard={selectedCard}
+            onBack={() => setSelectedCard(null)}
+          />
+        </div>
       ) : (
         <PhotocardSelectList onSelect={(card) => setSelectedCard(card)} />
       )}
