@@ -56,6 +56,9 @@ export default function RootLayout({ children }) {
       lang="ko"
       className={`${fontNotoSansKr.variable} ${fontBaskin.variable}`}
     >
+      <head>
+        <link rel="preconnect" href="https://res.cloudinary.com" />
+      </head>
       <body className="flex min-h-screen flex-col bg-black">
         <Providers>{children}</Providers>
       </body>
