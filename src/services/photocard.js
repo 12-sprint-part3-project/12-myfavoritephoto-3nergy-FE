@@ -4,9 +4,10 @@ import { fetchWithAuth } from '@/lib/api/fetchWithAuth';
 export const getPhotocards = (params = {}) => {
   const filteredParams = Object.fromEntries(
     Object.entries(params).filter(
-      ([_, v]) => v !== '' && v !== null && v !== undefined,
+      ([_, v]) => v !== '' && v !== null && v !== undefined && v !== false,
     ),
   );
+
   return fetchWithAuth(
     `/api/photocards?${new URLSearchParams(filteredParams)}`,
   );

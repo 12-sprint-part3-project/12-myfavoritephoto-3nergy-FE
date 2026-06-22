@@ -69,7 +69,9 @@ export const MarketplaceContent = () => {
   const debouncedKeyword = useDebounce(searchKeyword, 500);
   const observerTargetRef = useRef(null);
 
-  usePrefetchPhotocardList(isMobile ? '/marketplace/create' : undefined);
+  usePrefetchPhotocardList(isMobile ? '/marketplace/create' : undefined, {
+    excludeOnSale: true,
+  });
 
   const handleCreateClick = () => {
     if (isMobile) {

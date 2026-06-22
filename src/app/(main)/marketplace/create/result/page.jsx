@@ -18,7 +18,7 @@ function SaleCreateResultContent() {
   const isSuccess = status === 'success';
 
   return (
-    <div className="flex h-[calc(100vh-60px)] px-[0.9375rem] pt-[1.25rem] md:px-[1.25rem] md:pt-[2.5rem] xl:pt-[3.75rem]">
+    <div className="flex h-[calc(100vh-60px)] items-center justify-center px-[0.9375rem] md:h-[calc(100vh-80px)] md:px-[1.25rem]">
       <ResultView
         title="판매 등록"
         isSuccess={isSuccess}

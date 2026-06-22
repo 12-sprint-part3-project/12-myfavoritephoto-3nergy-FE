@@ -16,6 +16,7 @@ export const PhotocardSelectList = ({
   pageTitle,
   onSelect,
   scrollContainerRef,
+  excludeOnSale = false,
 }) => {
   const [params, setParams] = useState({
     keyword: '',
@@ -41,6 +42,7 @@ export const PhotocardSelectList = ({
   } = usePhotocardSelectList({
     ...params,
     keyword: debouncedKeyword,
+    excludeOnSale,
   });
 
   const {
