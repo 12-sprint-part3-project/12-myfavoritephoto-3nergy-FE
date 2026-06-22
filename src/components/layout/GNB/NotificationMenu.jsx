@@ -6,7 +6,8 @@ export const NotificationMenu = ({
   className = 'md:max-h-[535px] md:w-[300px]',
 }) => {
   return (
-    <div
+    <ul
+      aria-label="알림 목록"
       className={`custom-scrollbar w-full overflow-y-auto bg-gray-500 ${className}`}
     >
       {notifications.length === 0 ? (
@@ -15,17 +16,19 @@ export const NotificationMenu = ({
         </div>
       ) : (
         notifications.map((notification) => (
-          <NotificationItem
-            key={notification.id}
-            id={notification.id}
-            isRead={notification.isRead}
-            message={notification.message}
-            createdAt={notification.createdAt}
-            path={notification.path}
-            onRead={onRead}
-          />
+          <li key={notification.id}>
+            <NotificationItem
+              key={notification.id}
+              id={notification.id}
+              isRead={notification.isRead}
+              message={notification.message}
+              createdAt={notification.createdAt}
+              path={notification.path}
+              onRead={onRead}
+            />
+          </li>
         ))
       )}
-    </div>
+    </ul>
   );
 };
