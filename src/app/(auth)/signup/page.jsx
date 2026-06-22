@@ -55,6 +55,8 @@ const SignupPage = () => {
 
       case 'password':
         if (!values.password) return '비밀번호를 입력해 주세요.';
+        if (/\s/.test(values.password))
+          return '비밀번호는 공백을 포함할 수 없습니다.';
         if (values.password.length < 8)
           return '비밀번호는 8자 이상이어야 합니다.';
         if (!PASSWORD_UPPERCASE_REGEX.test(values.password))
@@ -196,7 +198,7 @@ const SignupPage = () => {
           </Button>
           <button
             type="button"
-            className="text-noto-18-regular flex h-[3.4375rem] w-full cursor-pointer items-center justify-center gap-3 rounded-xs border border-gray-300 bg-white text-black transition-all duration-150 hover:bg-gray-100 active:bg-gray-200 md:h-[3.75rem]"
+            className="flex h-[3.4375rem] w-full cursor-pointer items-center justify-center gap-3 rounded-xs border border-gray-300 bg-white text-noto-18-regular text-black transition-all duration-150 hover:bg-gray-100 active:bg-gray-200 md:h-[3.75rem]"
             onClick={loginWithGoogle}
           >
             <Image
