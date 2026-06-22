@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/context/AuthContext';
 import { usePurchaseSale } from '@/hooks/sale/usePurchaseSale';
 import { Button } from '@/components/ui/Button';
 import { CounterInput } from '@/components/ui/CounterInput';
@@ -10,6 +11,7 @@ import { GRADE_STYLE } from '@/constants/card';
 
 export const BuyerActions = ({ sale }) => {
   const router = useRouter();
+  const { accessToken, openLoginModal } = useAuth();
   const [value, setValue] = useState(1);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
 
@@ -70,7 +72,13 @@ export const BuyerActions = ({ sale }) => {
         <Button
           size="thick"
           className="w-full text-noto-18-bold lg:text-noto-20-bold"
-          onClick={() => setShowConfirmModal(true)}
+          onClick={() => {
+            if (!accessToken) {
+              openLoginModal('login-required');
+              return;
+            }
+            setShowConfirmModal(true);
+          }}
           disabled={isPending}
         >
           {isPending ? '구매 중...' : '포토카드 구매하기'}
