@@ -44,7 +44,7 @@ export const GNB = ({
     <header className="sticky top-0 z-40 bg-black">
       {/* PC, 태블릿 */}
       <nav className="hidden w-full items-center md:flex md:h-[4.375rem] lg:h-[5rem]">
-        <div className="flex w-full items-center justify-between md:px-[2.5rem] lg:px-[13.75rem]">
+        <div className="mx-auto flex w-full max-w-[1480px] items-center justify-between md:px-[1.25rem]">
           <Link href="/">
             <Image
               src="/logo.svg"

@@ -1,4 +1,6 @@
+import { cache } from 'react';
 import { fetchWithAuth } from '@/lib/api/fetchWithAuth';
+import { fetchPublic } from '@/lib/api/fetchPublic';
 
 // 판매 목록 조회
 export const getSales = (params = {}) => {
@@ -7,11 +9,13 @@ export const getSales = (params = {}) => {
       ([_, v]) => v !== '' && v !== null && v !== undefined,
     ),
   );
-  return fetchWithAuth(`/api/sales?${new URLSearchParams(filtered)}`);
+  return fetchPublic(`/api/sales?${new URLSearchParams(filtered)}`);
 };
 
 // 판매 상세 조회
-export const getSaleDetail = (saleId) => fetchWithAuth(`/api/sales/${saleId}`);
+export const getSaleDetail = cache((saleId) =>
+  fetchPublic(`/api/sales/${saleId}`),
+);
 
 // 나의 판매 목록 조회
 export const getMySales = (params = {}) => {

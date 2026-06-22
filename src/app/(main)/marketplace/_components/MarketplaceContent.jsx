@@ -1,13 +1,12 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import Link from 'next/link';
+import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/context/AuthContext';
 import { PageTitle } from '@/components/layout/PageTitle';
 import { SearchBar } from '@/components/ui/SearchBar';
 import { Spinner } from '@/components/ui/Spinner';
 import { Button } from '@/components/ui/Button';
-import { Card } from '@/components/domain/photocard/Card';
 import { FilterDropdown } from '@/components/domain/photocard/FilterDropdown';
 import { SortDropdown } from '@/components/domain/photocard/SortDropdown';
 import { MobileFilterBottomSheet } from '@/components/domain/photocard/MobileFilterBottomSheet';
@@ -25,6 +24,7 @@ import {
   CARD_GENRE_OPTIONS,
   SALE_STATUS_OPTIONS,
 } from '@/constants/card';
+import { PrefetchSaleCard } from '@/app/(main)/marketplace/_components/PrefetchSaleCard';
 
 const GRADE_OPTIONS = [{ value: '', label: '전체' }, ...CARD_GRADE_OPTIONS];
 const GENRE_OPTIONS = [{ value: '', label: '전체' }, ...CARD_GENRE_OPTIONS];
@@ -53,7 +53,13 @@ const mapSaleToCard = (sale) => ({
   status: sale.status,
 });
 
+const subscribe = () => () => {};
+const getServerSnapshot = () => false;
+const getClientSnapshot = () => true;
+
 export const MarketplaceContent = () => {
+  const { accessToken, openLoginModal } = useAuth();
+
   const router = useRouter();
   const isMobile = useIsMobile();
   const pageSize = usePageSize();
@@ -66,6 +72,11 @@ export const MarketplaceContent = () => {
   const [sort, setSort] = useState('latest');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [searchKeyword, setSearchKeyword] = useState('');
+  const isMounted = useSyncExternalStore(
+    subscribe,
+    getClientSnapshot,
+    getServerSnapshot,
+  );
   const debouncedKeyword = useDebounce(searchKeyword, 500);
   const observerTargetRef = useRef(null);
 
@@ -74,12 +85,17 @@ export const MarketplaceContent = () => {
   });
 
   const handleCreateClick = () => {
+    if (!accessToken) {
+      openLoginModal('login-required');
+      return;
+    }
     if (isMobile) {
       router.push('/marketplace/create');
     } else {
       setShowCreateModal(true);
     }
   };
+
   const handleFilterChange = (key) => (value) => {
     setFilters((prev) => ({ ...prev, [key]: value === '' ? null : value }));
   };
@@ -117,14 +133,12 @@ export const MarketplaceContent = () => {
   } = useSalesFilterSelection(data);
 
   const cards = data?.sales.map(mapSaleToCard) ?? [];
-  const totalCount = data?.meta.totalCount ?? 0;
   const isFiltered = Boolean(
     searchKeyword.trim() || filters.grade || filters.genre || filters.soldOut,
   );
 
   const showFetchingSpinner = useDelayedLoading(
-    isFetching && !isFetchingNextPage,
-    500,
+    isFetching && !isFetchingNextPage && !isLoading,
   );
 
   useEffect(() => {
@@ -163,7 +177,7 @@ export const MarketplaceContent = () => {
       />
 
       <div className="mt-5 flex flex-col gap-3 md:mt-[1.875rem] md:flex-row md:items-center md:gap-6 lg:gap-[3.75rem]">
-        <div className="md:w-[20rem]">
+        <div className="md:w-[12.5rem]">
           <SearchBar value={searchKeyword} onChange={handleSearchChange} />
         </div>
 
@@ -197,12 +211,12 @@ export const MarketplaceContent = () => {
           <SortDropdown
             value={sort}
             onChange={handleSortChange}
-            className="w-[8.75rem] shrink-0 md:w-[11.25rem]"
+            className="w-[8.75rem] shrink-0"
           />
         </div>
       </div>
 
-      {isLoading ? (
+      {!isMounted || isLoading ? (
         <div className="flex h-[20rem] items-center justify-center">
           <Spinner />
         </div>
@@ -222,10 +236,12 @@ export const MarketplaceContent = () => {
             />
           ) : (
             <div className="mt-5 grid grid-cols-2 gap-[5px] md:mt-[1.875rem] md:gap-[20px] lg:grid-cols-3 lg:gap-[80px]">
-              {cards.map((card) => (
-                <Link key={card.id} href={`/marketplace/${card.id}`}>
-                  <Card type="marketplace" {...card} />
-                </Link>
+              {cards.map((card, index) => (
+                <PrefetchSaleCard
+                  key={card.id}
+                  card={card}
+                  priority={index < 6}
+                />
               ))}
             </div>
           )}

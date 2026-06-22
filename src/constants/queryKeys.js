@@ -4,8 +4,10 @@ export const QUERY_KEYS = {
   // 유저
   me: () => ['me'],
 
+  // 포인트
   point: {
     me: () => ['point', 'me'],
+    eventStatus: () => ['point', 'eventStatus'],
   },
 
   // 알림

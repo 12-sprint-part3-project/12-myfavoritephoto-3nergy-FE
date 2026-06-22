@@ -9,6 +9,7 @@ export const CardDetail = ({ sale, children }) => {
         imageUrl={sale.photocard.imageUrl}
         name={sale.photocard.name}
         isSoldOut={isSoldOut}
+        priority={true}
       />
 
       <div className="flex flex-1 flex-col md:max-w-[342px] lg:max-w-[440px]">

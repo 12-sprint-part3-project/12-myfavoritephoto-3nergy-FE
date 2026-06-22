@@ -31,12 +31,9 @@ export const metadata = {
   openGraph: {
     title: '최애의 포토',
     description:
-      '구하기 어려웠던 나의 최애 포토카드를 여기서 찾아보세요. 포토카드 구매, 판매, 교환 플랫폼',
-    // TODO: url는 도메인 확정 후 추가
-    // url: 'https://your-domain.com',
+      '구하기 어려웠던 나의 최애 포토카드를 여기서 찾아보세요! 포토카드 구매, 판매, 교환 플랫폼',
+    url: 'https://favorite-photo-3nergy.vercel.app',
     siteName: '최애의 포토',
-    // TODO: images도 배포 시점에 추가 (1200x630 사이즈에 로고 + 서비스명 + 간단한 설명 등)
-    /*
     images: [
       {
         url: '/og-image.png',
@@ -44,7 +41,6 @@ export const metadata = {
         height: 630,
       },
     ],
-    */
     locale: 'ko_KR',
     type: 'website',
   },
@@ -56,6 +52,9 @@ export default function RootLayout({ children }) {
       lang="ko"
       className={`${fontNotoSansKr.variable} ${fontBaskin.variable}`}
     >
+      <head>
+        <link rel="preconnect" href="https://res.cloudinary.com" />
+      </head>
       <body className="flex min-h-screen flex-col bg-black">
         <Providers>{children}</Providers>
       </body>

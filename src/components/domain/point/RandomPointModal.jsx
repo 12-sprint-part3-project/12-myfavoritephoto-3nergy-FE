@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 import { Button } from '@/components/ui/Button';
 import { Overlay } from '@/components/ui/Overlay';
 import { CloseIcon } from '@/icons';
@@ -9,6 +10,7 @@ import { usePointEvent } from '@/hooks/point/usePointEvent';
 import { useMe } from '@/hooks/user/useMe';
 import { usePointCooldown } from '@/hooks/point/usePointCooldown';
 import { useToastContext } from '@/context/ToastContext';
+import { QUERY_KEYS } from '@/constants/queryKeys';
 import { SECOND, MINUTE } from '@/constants/time';
 
 const SECS_PER_MIN = MINUTE / SECOND;
@@ -43,7 +45,12 @@ const ModalHeader = ({ onClose }) => (
       height={128}
       className="h-8 w-auto md:h-10 xl:h-12"
     />
-    <button type="button" onClick={onClose} aria-label="닫기" className="cursor-pointer text-white">
+    <button
+      type="button"
+      onClick={onClose}
+      aria-label="닫기"
+      className="cursor-pointer text-white"
+    >
       <CloseIcon className="h-7 w-7 md:h-8 md:w-8" />
     </button>
   </div>
@@ -52,12 +59,20 @@ const ModalHeader = ({ onClose }) => (
 const CountdownDisplay = ({ countdown }) => (
   <>
     <div className="flex flex-col items-center gap-1 text-center xl:hidden">
-      <span className="text-noto-14-regular text-gray-300">다음 기회까지 남은 시간</span>
-      <span className="text-noto-14-regular text-main">{formatCountdown(countdown)}</span>
+      <span className="text-noto-14-regular text-gray-300">
+        다음 기회까지 남은 시간
+      </span>
+      <span className="text-noto-14-regular text-main">
+        {formatCountdown(countdown)}
+      </span>
     </div>
     <div className="hidden items-center justify-center gap-2.5 xl:flex">
-      <span className="text-noto-16-regular text-gray-300">다음 기회까지 남은 시간</span>
-      <span className="text-noto-16-regular text-main">{formatCountdown(countdown)}</span>
+      <span className="text-noto-16-regular text-gray-300">
+        다음 기회까지 남은 시간
+      </span>
+      <span className="text-noto-16-regular text-main">
+        {formatCountdown(countdown)}
+      </span>
     </div>
   </>
 );
@@ -65,16 +80,20 @@ const CountdownDisplay = ({ countdown }) => (
 export const RandomPointModal = ({ onClose }) => {
   const { data: me } = useMe();
   const { showToast } = useToastContext();
+  const queryClient = useQueryClient();
 
   const [step, setStep] = useState(STEP.IDLE);
   const [selectedBox, setSelectedBox] = useState(null);
   const [result, setResult] = useState(null);
 
-  const { nextAvailableAt, countdown, saveCooldown } = usePointCooldown(me?.uuid, () => {
-    setStep(STEP.IDLE);
-    setSelectedBox(null);
-    setResult(null);
-  });
+  const { cooldownEndAt, countdown, saveCooldown } = usePointCooldown(
+    me?.uuid,
+    () => {
+      setStep(STEP.IDLE);
+      setSelectedBox(null);
+      setResult(null);
+    },
+  );
 
   const { mutate: claimPoint, isPending } = usePointEvent();
 
@@ -82,28 +101,29 @@ export const RandomPointModal = ({ onClose }) => {
     claimPoint(undefined, {
       onSuccess: (res) => {
         setResult(res);
-        saveCooldown(res.nextAvailableAt);
+        saveCooldown(res.remainingMilliseconds);
         setStep(STEP.RESULT);
       },
       onError: (err) => {
-        const nextAvailable = err?.nextAvailableAt;
-        if (nextAvailable) {
-          saveCooldown(nextAvailable);
-          setStep(STEP.RESULT);
+        if (err?.code === 'EVENT_NOT_AVAILABLE') {
+          queryClient.invalidateQueries({
+            queryKey: QUERY_KEYS.point.eventStatus(),
+          });
         } else {
           showToast(err?.message ?? '포인트 뽑기에 실패했습니다.');
-          setStep(STEP.IDLE);
         }
+        setStep(STEP.IDLE);
       },
     });
   };
 
-  if (nextAvailableAt === undefined) return <div className="fixed inset-0 z-50 bg-black/80" />;
+  if (cooldownEndAt === undefined)
+    return <div className="fixed inset-0 z-50 bg-black/80" />;
 
   if (step === STEP.RESULT) {
     return (
       <Overlay onClose={onClose}>
-        <div className="w-full max-w-[28.4375rem] rounded-sm bg-gray-500 px-10 pb-24 pt-8">
+        <div className="w-full max-w-[28.4375rem] rounded-sm bg-gray-500 px-10 pt-8 pb-24">
           <ModalHeader onClose={onClose} />
           <div className="mt-5 flex justify-center">
             <Image
@@ -121,7 +141,7 @@ export const RandomPointModal = ({ onClose }) => {
               <span className="text-white">획득!</span>
             </p>
           )}
-          {nextAvailableAt && (
+          {cooldownEndAt && (
             <div className="mt-3.5">
               <CountdownDisplay countdown={countdown} />
             </div>
@@ -133,7 +153,7 @@ export const RandomPointModal = ({ onClose }) => {
 
   return (
     <Overlay onClose={onClose}>
-      <div className="w-full max-w-[37.5rem] rounded-sm bg-gray-500 px-5 py-8 md:px-10 md:pb-10 md:pt-12 xl:max-w-[64.625rem] xl:px-16">
+      <div className="w-full max-w-[37.5rem] rounded-sm bg-gray-500 px-5 py-8 md:px-10 md:pt-12 md:pb-10 xl:max-w-[64.625rem] xl:px-16">
         <ModalHeader onClose={onClose} />
         <div className="mt-8 flex flex-col items-center gap-8 text-center md:gap-10">
           <p className="text-noto-16-bold text-white xl:text-noto-20-bold">
@@ -141,7 +161,7 @@ export const RandomPointModal = ({ onClose }) => {
             <br />
             랜덤 상자 뽑기를 통해 포인트를 획득하세요!
           </p>
-          {nextAvailableAt && <CountdownDisplay countdown={countdown} />}
+          {cooldownEndAt && <CountdownDisplay countdown={countdown} />}
         </div>
         <div className="mt-5 flex items-center justify-center gap-5 md:mt-8 xl:mt-10">
           {BOXES.map((box) => (
@@ -149,17 +169,17 @@ export const RandomPointModal = ({ onClose }) => {
               key={box.id}
               type="button"
               onClick={() => {
-                if (nextAvailableAt) return;
+                if (cooldownEndAt) return;
                 setSelectedBox(box.id);
                 setStep(STEP.SELECTED);
               }}
               aria-label={`상자 ${box.id} 선택`}
-              disabled={!!nextAvailableAt}
+              disabled={!!cooldownEndAt}
               className={`relative h-20 flex-1 transition-all duration-200 md:h-32 xl:h-48 ${
-                nextAvailableAt
+                cooldownEndAt
                   ? 'cursor-not-allowed opacity-40'
                   : step === STEP.SELECTED && selectedBox === box.id
-                    ? 'cursor-pointer scale-110'
+                    ? 'scale-110 cursor-pointer'
                     : 'cursor-pointer hover:scale-105'
               } ${step === STEP.SELECTED && selectedBox !== box.id ? 'opacity-30' : ''}`}
             >

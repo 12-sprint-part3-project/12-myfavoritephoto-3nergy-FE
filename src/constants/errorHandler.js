@@ -40,6 +40,9 @@ export const ERROR_HANDLER = {
     action: 'toast',
   },
 
+  INVALID_CREDENTIALS: {
+    action: 'field',
+  },
   EMAIL_ALREADY_EXISTS: {
     action: 'field',
   },

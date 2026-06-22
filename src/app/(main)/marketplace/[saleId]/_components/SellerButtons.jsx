@@ -1,16 +1,24 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/context/AuthContext';
 import { useToastContext } from '@/context/ToastContext';
 import { useIsMobile } from '@/hooks/common/useResponsive';
 import { useUpdateSale } from '@/hooks/sale/useUpdateSale';
 import { useCancelSale } from '@/hooks/sale/useCancelSale';
 import { Button } from '@/components/ui/Button';
 import { BasicModal } from '@/components/ui/BasicModal';
-import { SaleEditModal } from '@/app/(main)/marketplace/[saleId]/_components/SaleEditModal';
+
+const SaleEditModal = dynamic(() =>
+  import('@/app/(main)/marketplace/[saleId]/_components/SaleEditModal').then(
+    (m) => m.SaleEditModal,
+  ),
+);
 
 export const SellerButtons = ({ sale }) => {
+  const { accessToken, openLoginModal } = useAuth();
   const { showToast } = useToastContext();
 
   const {
@@ -49,12 +57,25 @@ export const SellerButtons = ({ sale }) => {
   };
 
   // 수정하기 버튼 클릭 시 모바일이면 페이지 이동, 태블릿/pc면 모달
+
   const handleEditClick = () => {
+    if (!accessToken) {
+      openLoginModal('login-required');
+      return;
+    }
     if (isMobile) {
       router.push(`/marketplace/${sale.saleId}/edit`);
     } else {
       setShowEditModal(true);
     }
+  };
+
+  const handleCancelClick = () => {
+    if (!accessToken) {
+      openLoginModal('login-required');
+      return;
+    }
+    setShowCancelModal(true);
   };
 
   return (
@@ -71,7 +92,7 @@ export const SellerButtons = ({ sale }) => {
           size="thick"
           className="text-noto-18-bold lg:text-noto-20-bold"
           variant="secondary"
-          onClick={() => setShowCancelModal(true)}
+          onClick={handleCancelClick}
         >
           판매 내리기
         </Button>

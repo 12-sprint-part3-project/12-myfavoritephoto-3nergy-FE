@@ -5,6 +5,7 @@ import { SoldoutIcon } from '@/icons';
 import { GRADE_STYLE, GENRE } from '@/constants/card';
 import { APP_NAME } from '@/constants/app';
 import { displayKoreanNumber } from '@/utils/format';
+import { getOptimizedImageUrl } from '@/utils/cloudinary';
 
 const STATUS_LABEL = {
   SALE: '판매 중',
@@ -24,6 +25,7 @@ export const Card = ({
   totalQuantity, // 총 발행량 — marketplace
   quantity, // 보유 수량 — mygallery
   status, // 'SALE' | 'SOLD_OUT' — mysales, marketplace 공통 / 'TRADE_PENDING' - mysales 만
+  priority = false,
 }) => {
   const { textColor, label: gradeLabel } = GRADE_STYLE[grade] ?? {};
   const isSoldOut = status === 'SOLD_OUT';
@@ -32,11 +34,12 @@ export const Card = ({
     <article className="flex flex-col border border-white/10 bg-gray-500 p-[.625rem] md:p-5 md:pb-[1.875rem] lg:p-10">
       <div className="relative aspect-4/3 overflow-hidden">
         <Image
-          src={imageUrl}
+          src={getOptimizedImageUrl(imageUrl, 400)}
           alt={name}
-          width={400}
-          height={400}
-          className={`h-full w-full object-cover ${isSoldOut ? 'opacity-30' : ''}`}
+          fill
+          sizes="(max-width: 768px) calc(50vw - 20px), (max-width: 1280px) calc(33vw - 40px), calc(25vw - 60px)"
+          priority={priority}
+          className={`object-cover ${isSoldOut ? 'opacity-30' : ''}`}
         />
         {type === 'mysales' && !isSoldOut && (
           <span
@@ -60,7 +63,7 @@ export const Card = ({
           {name}
         </h3>
 
-        <div className="mt-[5px] flex items-center justify-between md:mt-[10px]">
+        <div className="mt-[5px] flex flex-col flex-wrap justify-between sm:flex-row sm:items-center md:mt-[10px]">
           <div className="flex items-center">
             <span
               className={`pb-[2px] text-noto-10-light md:pb-1 md:text-noto-16-light ${textColor}`}
@@ -71,14 +74,14 @@ export const Card = ({
               {GENRE[genre]}
             </span>
           </div>
-          <span className="pb-[2px] text-noto-10-regular text-white underline md:pb-1 md:text-noto-16-regular">
+          <span className="self-end pb-[2px] text-noto-10-regular text-white underline md:pb-1 md:text-noto-16-regular">
             {owner}
           </span>
         </div>
 
         <dl className="mt-[10px] flex flex-col gap-[5px] border-t border-gray-400 pt-[10px] md:mt-5 md:gap-[10px] md:pt-5">
           <div className="flex justify-between">
-            <dt className="text-noto-10-light text-gray-300 md:text-noto-16-light">
+            <dt className="shrink-0 text-noto-10-light text-gray-300 md:text-noto-16-light">
               가격
             </dt>
             <dd className="text-noto-10-regular text-white md:text-noto-18-regular">
@@ -88,7 +91,7 @@ export const Card = ({
           <div className="flex justify-between">
             {type === 'marketplace' && (
               <>
-                <dt className="text-noto-10-light text-gray-300 md:text-noto-16-light">
+                <dt className="shrink-0 text-noto-10-light text-gray-300 md:text-noto-16-light">
                   잔여
                 </dt>
                 <dd className="text-noto-10-light text-gray-300 md:text-noto-18-light">
@@ -101,7 +104,7 @@ export const Card = ({
             )}
             {type === 'mysales' && (
               <>
-                <dt className="text-noto-10-light text-gray-300 md:text-noto-16-light">
+                <dt className="shrink-0 text-noto-10-light text-gray-300 md:text-noto-16-light">
                   잔여
                 </dt>
                 <dd className="text-noto-10-regular text-white md:text-noto-18-regular">
@@ -111,7 +114,7 @@ export const Card = ({
             )}
             {type === 'mygallery' && (
               <>
-                <dt className="text-noto-10-light text-gray-300 md:text-noto-16-light">
+                <dt className="shrink-0 text-noto-10-light text-gray-300 md:text-noto-16-light">
                   수량
                 </dt>
                 <dd className="text-noto-10-regular text-white md:text-noto-18-regular">
