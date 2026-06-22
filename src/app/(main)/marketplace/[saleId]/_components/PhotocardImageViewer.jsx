@@ -2,15 +2,19 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import { SoldoutIcon } from '@/icons';
-
 import dynamic from 'next/dynamic';
+import { SoldoutIcon } from '@/icons';
 
 const ImageModal = dynamic(() =>
   import('./ImageModal').then((mod) => mod.ImageModal),
 );
 
-export const PhotocardImageViewer = ({ imageUrl, name, isSoldOut }) => {
+export const PhotocardImageViewer = ({
+  imageUrl,
+  name,
+  isSoldOut,
+  priority = false,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -19,15 +23,17 @@ export const PhotocardImageViewer = ({ imageUrl, name, isSoldOut }) => {
         type="button"
         onClick={() => setIsOpen(true)}
         aria-label={`${name} 원본 이미지 보기`}
-        className="group relative mb-[1.25rem] h-[360px] w-full cursor-pointer overflow-hidden md:mr-[1.25rem] md:mb-0 md:aspect-[4/3] md:h-auto md:flex-1 lg:mr-[5rem]"
+        className="group relative mb-[1.25rem] h-[360px] w-full overflow-hidden md:mr-[1.25rem] md:mb-0 md:aspect-[4/3] md:h-auto md:flex-1 lg:mr-[5rem]"
       >
         <Image
           src={imageUrl}
           alt={`${name} 사진`}
           fill
-          priority
-          sizes="(max-width: 768px) 100vw, 50vw" // 100vw도 수정
-          className={`object-cover transition-transform duration-300 group-hover:scale-105 md:object-contain ${isSoldOut ? 'opacity-30' : ''} `}
+          priority={priority}
+          fetchPriority={priority ? 'high' : 'auto'}
+          decoding={priority ? 'sync' : 'async'}
+          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 40vw"
+          className={`object-cover md:object-contain ${isSoldOut ? 'opacity-30' : ''}`}
         />
 
         <span

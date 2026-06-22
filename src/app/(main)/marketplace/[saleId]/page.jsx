@@ -9,6 +9,7 @@ import { SaleDetailContent } from '@/app/(main)/marketplace/[saleId]/_components
 
 export async function generateMetadata({ params }) {
   const { saleId } = await params;
+
   const sale = await getSaleDetail(saleId).catch(() => null);
 
   return {

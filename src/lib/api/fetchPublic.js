@@ -4,7 +4,6 @@ export const fetchPublic = async (endpoint, options = {}) => {
 
   const response = await fetch(url, {
     ...options,
-    cache: 'no-store',
     headers: {
       'Content-Type': 'application/json',
       ...options.headers,
