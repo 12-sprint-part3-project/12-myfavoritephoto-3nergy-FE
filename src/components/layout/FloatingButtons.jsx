@@ -4,6 +4,9 @@ import { usePathname } from 'next/navigation';
 import { RandomPointButton } from '@/components/layout/RandomPointButton';
 import { ScrollTopButton } from '@/components/layout/ScrollTopButton';
 
+const PURCHASE_RESULT_REGEX = /^\/marketplace\/[^/]+\/purchase\/result$/;
+const TRADE_RESULT_REGEX = /^\/marketplace\/[^/]+\/trade\/result$/;
+
 const isHiddenPath = (pathname) => {
   if (pathname === '/my-notifications') {
     return true;
@@ -13,11 +16,11 @@ const isHiddenPath = (pathname) => {
     return true;
   }
 
-  if (/^\/marketplace\/[^/]+\/purchase\/result$/.test(pathname)) {
+  if (PURCHASE_RESULT_REGEX.test(pathname)) {
     return true;
   }
 
-  if (/^\/marketplace\/[^/]+\/trade\/result$/.test(pathname)) {
+  if (TRADE_RESULT_REGEX.test(pathname)) {
     return true;
   }
 
