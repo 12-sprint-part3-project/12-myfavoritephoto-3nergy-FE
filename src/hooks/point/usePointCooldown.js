@@ -1,61 +1,71 @@
-import { useState, useEffect, useMemo, useRef } from 'react';
-import { getPointLocalKey } from '@/utils/pointStorage';
+import { useEffect, useRef, useState } from 'react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { QUERY_KEYS } from '@/constants/queryKeys';
+import { getPointEventStatus } from '@/services/point';
 import { SECOND } from '@/constants/time';
 
-const getStoredNextAt = (key) => {
-  const saved = localStorage.getItem(key);
-  if (!saved) return null;
-  const nextAt = new Date(saved).getTime();
-  return nextAt > Date.now() ? nextAt : null;
+const fetchEventStatus = async () => {
+  const status = await getPointEventStatus();
+
+  return {
+    ...status,
+    cooldownEndAt: status.canDraw
+      ? null
+      : Date.now() + status.remainingMilliseconds,
+  };
 };
 
 export const usePointCooldown = (uuid, onExpire) => {
-  const localKey = uuid ? getPointLocalKey(uuid) : null;
+  const queryClient = useQueryClient();
   const onExpireRef = useRef(onExpire);
   useEffect(() => {
     onExpireRef.current = onExpire;
   });
 
-  const storedNextAt = useMemo(
-    () => (localKey ? getStoredNextAt(localKey) : undefined),
-    [localKey],
-  );
+  const { data, isLoading } = useQuery({
+    queryKey: QUERY_KEYS.point.eventStatus(),
+    queryFn: fetchEventStatus,
+    enabled: Boolean(uuid),
+  });
 
-  const [apiNextAt, setApiNextAt] = useState(null);
+  const cooldownEndAt = data?.cooldownEndAt;
   const [countdown, setCountdown] = useState(0);
 
-  // undefined = 아직 초기화 전 | null = 쿨다운 없음 | number = 쿨다운 중
-  const nextAvailableAt =
-    storedNextAt === undefined ? undefined : apiNextAt === 0 ? null : apiNextAt ?? storedNextAt;
-
   useEffect(() => {
-    if (!nextAvailableAt) return;
+    if (!cooldownEndAt) {
+      return;
+    }
 
     const tick = () => {
-      const remaining = nextAvailableAt - Date.now();
+      const remaining = cooldownEndAt - Date.now();
+      setCountdown(Math.max(remaining, 0));
+
       if (remaining <= 0) {
-        setCountdown(0);
-        setApiNextAt(0);
-        if (localKey) localStorage.removeItem(localKey);
+        queryClient.invalidateQueries({
+          queryKey: QUERY_KEYS.point.eventStatus(),
+        });
         onExpireRef.current?.();
-      } else {
-        setCountdown(remaining);
       }
     };
 
-    const immediateId = setTimeout(tick, 0);
+    tick();
     const intervalId = setInterval(tick, SECOND);
-    return () => {
-      clearTimeout(immediateId);
-      clearInterval(intervalId);
-    };
-  }, [nextAvailableAt, localKey]);
+    return () => clearInterval(intervalId);
+  }, [cooldownEndAt, queryClient]);
 
-  const saveCooldown = (nextAvailableAtStr) => {
-    const nextAt = new Date(nextAvailableAtStr).getTime();
-    if (localKey) localStorage.setItem(localKey, nextAvailableAtStr);
-    setApiNextAt(nextAt);
+  const saveCooldown = (remainingMilliseconds) => {
+    queryClient.setQueryData(QUERY_KEYS.point.eventStatus(), (prev) => ({
+      ...prev,
+      canDraw: false,
+      remainingMilliseconds,
+      cooldownEndAt: Date.now() + remainingMilliseconds,
+    }));
   };
 
-  return { nextAvailableAt, countdown, saveCooldown };
+  return {
+    // undefined: 초기 조회 전 | null: 쿨다운 없음(뽑기 가능) | number: 쿨다운 종료 시각(timestamp)
+    cooldownEndAt: isLoading ? undefined : cooldownEndAt,
+    countdown,
+    saveCooldown,
+  };
 };
