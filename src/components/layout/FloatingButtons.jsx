@@ -6,13 +6,22 @@ import { ScrollTopButton } from '@/components/layout/ScrollTopButton';
 
 const PURCHASE_RESULT_REGEX = /^\/marketplace\/[^/]+\/purchase\/result$/;
 const TRADE_RESULT_REGEX = /^\/marketplace\/[^/]+\/trade\/result$/;
+const EDIT_REGEX = /^\/marketplace\/[^/]+\/edit$/;
+const TRADE_FORM_REGEX = /^\/marketplace\/[^/]+\/trade$/;
 
 const isHiddenPath = (pathname) => {
   if (pathname === '/my-notifications') {
     return true;
   }
 
-  if (pathname === '/marketplace/create/result') {
+  if (
+    pathname === '/marketplace/create' ||
+    pathname === '/marketplace/create/result'
+  ) {
+    return true;
+  }
+
+  if (pathname === '/my-gallery/new' || pathname === '/my-gallery/new/result') {
     return true;
   }
 
@@ -21,6 +30,14 @@ const isHiddenPath = (pathname) => {
   }
 
   if (TRADE_RESULT_REGEX.test(pathname)) {
+    return true;
+  }
+
+  if (EDIT_REGEX.test(pathname)) {
+    return true;
+  }
+
+  if (TRADE_FORM_REGEX.test(pathname)) {
     return true;
   }
 
