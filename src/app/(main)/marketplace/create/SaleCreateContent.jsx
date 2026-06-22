@@ -17,7 +17,10 @@ export const SaleCreateContent = () => {
           />
         </div>
       ) : (
-        <PhotocardSelectList onSelect={(card) => setSelectedCard(card)} />
+        <PhotocardSelectList
+          onSelect={(card) => setSelectedCard(card)}
+          excludeOnSale={true}
+        />
       )}
     </>
   );
