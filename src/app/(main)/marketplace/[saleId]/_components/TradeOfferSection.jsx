@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/context/AuthContext';
+
 import { GRADE_STYLE, GENRE } from '@/constants/card';
 import { useIsMobile } from '@/hooks/common/useResponsive';
 import { usePrefetchPhotocardList } from '@/hooks/photocard/usePrefetchPhotocardList';
@@ -17,6 +19,8 @@ const TradeOfferModal = dynamic(() =>
 
 export const TradeOfferSection = ({ sale }) => {
   const router = useRouter();
+
+  const { accessToken, openLoginModal } = useAuth();
   const isMobile = useIsMobile();
   const [showTradeModalOpen, setShowTradeModalOpen] = useState(false);
 
@@ -25,6 +29,10 @@ export const TradeOfferSection = ({ sale }) => {
   );
 
   const handleCreateClick = () => {
+    if (!accessToken) {
+      openLoginModal('login-required');
+      return;
+    }
     if (isMobile) {
       router.push(`/marketplace/${sale.saleId}/trade`);
     } else {

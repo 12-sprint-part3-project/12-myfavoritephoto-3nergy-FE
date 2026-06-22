@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/context/AuthContext';
 import { PageTitle } from '@/components/layout/PageTitle';
 import { SearchBar } from '@/components/ui/SearchBar';
 import { Spinner } from '@/components/ui/Spinner';
@@ -53,6 +54,8 @@ const mapSaleToCard = (sale) => ({
 });
 
 export const MarketplaceContent = () => {
+  const { accessToken, openLoginModal } = useAuth();
+
   const router = useRouter();
   const isMobile = useIsMobile();
   const pageSize = usePageSize();
@@ -73,12 +76,17 @@ export const MarketplaceContent = () => {
   });
 
   const handleCreateClick = () => {
+    if (!accessToken) {
+      openLoginModal('login-required');
+      return;
+    }
     if (isMobile) {
       router.push('/marketplace/create');
     } else {
       setShowCreateModal(true);
     }
   };
+
   const handleFilterChange = (key) => (value) => {
     setFilters((prev) => ({ ...prev, [key]: value === '' ? null : value }));
   };
