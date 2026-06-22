@@ -8,21 +8,12 @@ import { Button } from '@/components/ui/Button';
 import { useSignup } from '@/hooks/auth/useSignup';
 import { useGoogleLogin } from '@/hooks/auth/useGoogleLogin';
 import { APP_NAME } from '@/constants/app';
-
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const NICKNAME_REGEX = /^[가-힣a-zA-Z0-9_-]+$/;
-const PASSWORD_UPPERCASE_REGEX = /[A-Z]/;
-const PASSWORD_SPECIAL_CHAR_REGEX = /[!@#$%^&*(),.?":{}|<>_\-+=[\]\\/;']/;
-const RESERVED_NICKNAMES = [
-  'system',
-  'admin',
-  'administrator',
-  'root',
-  'null',
-  'undefined',
-  '관리자',
-  '운영자',
-];
+import {
+  validateEmail,
+  validateNickname,
+  validatePassword,
+  validatePasswordConfirm,
+} from '@/utils/validators';
 
 const SignupPage = () => {
   const [form, setForm] = useState({
@@ -38,37 +29,13 @@ const SignupPage = () => {
   const validateField = (name, values) => {
     switch (name) {
       case 'email':
-        if (!values.email) return '이메일을 입력해 주세요.';
-        if (!EMAIL_REGEX.test(values.email))
-          return '이메일 형식이 올바르지 않습니다.';
-        return '';
-
+        return validateEmail(values.email);
       case 'nickname':
-        if (!values.nickname) return '닉네임을 입력해 주세요.';
-        if (values.nickname.length < 2 || values.nickname.length > 10)
-          return '닉네임은 2자 이상 10자 이하로 입력해 주세요.';
-        if (!NICKNAME_REGEX.test(values.nickname))
-          return '닉네임은 한글, 영문, 숫자, -, _ 만 사용할 수 있습니다.';
-        if (RESERVED_NICKNAMES.includes(values.nickname.toLowerCase()))
-          return '이미 사용 중인 닉네임입니다.';
-        return '';
-
+        return validateNickname(values.nickname);
       case 'password':
-        if (!values.password) return '비밀번호를 입력해 주세요.';
-        if (values.password.length < 8)
-          return '비밀번호는 8자 이상이어야 합니다.';
-        if (!PASSWORD_UPPERCASE_REGEX.test(values.password))
-          return '비밀번호는 대문자를 1자 이상 포함해야 합니다.';
-        if (!PASSWORD_SPECIAL_CHAR_REGEX.test(values.password))
-          return '비밀번호는 특수문자를 1자 이상 포함해야 합니다.';
-        return '';
-
+        return validatePassword(values.password);
       case 'passwordConfirm':
-        if (!values.passwordConfirm) return '비밀번호를 한번 더 입력해 주세요.';
-        if (values.password !== values.passwordConfirm)
-          return '비밀번호가 일치하지 않습니다.';
-        return '';
-
+        return validatePasswordConfirm(values.password, values.passwordConfirm);
       default:
         return '';
     }
@@ -196,7 +163,7 @@ const SignupPage = () => {
           </Button>
           <button
             type="button"
-            className="text-noto-18-regular flex h-[3.4375rem] w-full cursor-pointer items-center justify-center gap-3 rounded-xs border border-gray-300 bg-white text-black transition-all duration-150 hover:bg-gray-100 active:bg-gray-200 md:h-[3.75rem]"
+            className="flex h-[3.4375rem] w-full cursor-pointer items-center justify-center gap-3 rounded-xs border border-gray-300 bg-white text-noto-18-regular text-black transition-all duration-150 hover:bg-gray-100 active:bg-gray-200 md:h-[3.75rem]"
             onClick={loginWithGoogle}
           >
             <Image
