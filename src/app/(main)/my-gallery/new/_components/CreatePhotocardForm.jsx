@@ -4,7 +4,12 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { format } from 'date-fns';
 import { useToastContext } from '@/context/ToastContext';
-import { CARD_GENRE_OPTIONS, CARD_GRADE_OPTIONS } from '@/constants/card';
+import {
+  CARD_GENRE_OPTIONS,
+  CARD_GRADE_OPTIONS,
+  MAXIMUM_PRICE,
+  MAXIMUM_QUANTITY,
+} from '@/constants/card';
 import { getErrorHandler } from '@/constants/errorHandler';
 import { useMe } from '@/hooks/user/useMe';
 import { useCreatePhotocard } from '@/hooks/photocard/useCreatePhotocard';
@@ -49,15 +54,45 @@ export const CreatePhotocardForm = () => {
   });
   const [validateData, setValidateData] = useState({});
 
+  // max 값 가져오기
+  const MAXIMUM_DATA = {
+    price: MAXIMUM_PRICE,
+    totalQuantity: MAXIMUM_QUANTITY,
+  };
+
+  // max 적용할 필드
+  const MAXIMUM_USE_FIELD = {
+    price: validatePrice,
+    totalQuantity: validateQuantity,
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    let next = value;
-    if (name === 'totalQuantity') next = value.replace(/\D/g, '');
-    if (name === 'price')
-      next = value.replace(/\D/g, '').replace(/^0+(?=\d)/, '');
+
+    // price, totalQuantity가 아닌 일반 필드는 기존 동작 그대로
+    if (!(name in MAXIMUM_DATA)) {
+      setForm((prev) => ({ ...prev, [name]: value }));
+      if (validateData[name]) {
+        setValidateData((prev) => ({ ...prev, [name]: '' }));
+      }
+      return;
+    }
+
+    // price는 앞자리 0 제거, totalQuantity는 숫자만 허용
+    let result =
+      name === 'price'
+        ? value.replace(/\D/g, '').replace(/^0+(?=\d)/, '')
+        : value.replace(/\D/g, '');
+
+    let fieldError = '';
+    if (result && Number(result) > MAXIMUM_DATA[name]) {
+      // validators.js의 메시지를 그대로 가져다 씀
+      fieldError = MAXIMUM_USE_FIELD[name](Number(result));
+      result = String(MAXIMUM_DATA[name]);
+    }
+
     setForm((prev) => ({ ...prev, [name]: next }));
-    if (validateData[name])
-      setValidateData((prev) => ({ ...prev, [name]: '' }));
+    setValidateData((prev) => ({ ...prev, [name]: fieldError }));
   };
 
   const handlePriceKeyDown = (e) => {
