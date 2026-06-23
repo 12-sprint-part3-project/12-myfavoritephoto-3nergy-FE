@@ -91,7 +91,7 @@ export const CreatePhotocardForm = () => {
       result = String(MAXIMUM_DATA[name]);
     }
 
-    setForm((prev) => ({ ...prev, [name]: next }));
+    setForm((prev) => ({ ...prev, [name]: result }));
     setValidateData((prev) => ({ ...prev, [name]: fieldError }));
   };
 
