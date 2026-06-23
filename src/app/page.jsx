@@ -3,7 +3,6 @@ import Link from 'next/link';
 import { APP_NAME } from '@/constants/app';
 import { ROUTES } from '@/constants/routes';
 import { LandingGNB } from '@/app/_components/LandingGNB';
-import { Button } from '@/components/ui/Button';
 
 const FEATURE_SECTIONS = [
   {
@@ -55,7 +54,6 @@ export default function Page() {
               alt=""
               aria-hidden="true"
               fill
-              priority
               className="object-cover object-top lg:hidden"
             />
             <Image
@@ -83,14 +81,11 @@ export default function Page() {
             <span className="text-main">나의 최애</span>가 여기에!
           </h1>
 
-          <Link href={ROUTES.marketplace} className="mt-[1.5rem] md:mt-[2rem]">
-            <Button
-              variant="primary"
-              size="lg"
-              className="w-[14.125rem] text-noto-16-bold"
-            >
-              최애 찾으러 가기
-            </Button>
+          <Link
+            href={ROUTES.marketplace}
+            className="mt-[1.5rem] flex h-[3.4375rem] w-[14.125rem] items-center justify-center rounded-xs bg-main text-noto-16-bold text-black transition-all duration-150 hover:brightness-90 focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 focus-visible:outline-none active:brightness-85 md:mt-[2rem] md:h-[3.75rem]"
+          >
+            최애 찾으러 가기
           </Link>
 
           <div className="mt-[2.5rem] w-full md:mt-[3rem] lg:mt-[0.625rem]">
@@ -99,6 +94,8 @@ export default function Page() {
               alt="마켓플레이스 미리보기"
               width={2232}
               height={1056}
+              priority
+              sizes="100vw"
               className="h-auto w-full lg:hidden"
             />
             <Image
@@ -119,6 +116,7 @@ export default function Page() {
               alt={section.alt}
               width={section.mdWidth}
               height={section.mdHeight}
+              sizes="100vw"
               className="h-auto w-full lg:hidden"
             />
             <Image
@@ -147,14 +145,11 @@ export default function Page() {
             나의 최애를 지금 찾아보세요!
           </h2>
 
-          <Link href={ROUTES.marketplace} className="mt-[1.5rem] md:mt-[2rem]">
-            <Button
-              variant="primary"
-              size="lg"
-              className="w-[14.125rem] text-noto-16-bold"
-            >
-              최애 찾으러 가기
-            </Button>
+          <Link
+            href={ROUTES.marketplace}
+            className="mt-[1.5rem] flex h-[3.4375rem] w-[14.125rem] items-center justify-center rounded-xs bg-main text-noto-16-bold text-black transition-all duration-150 hover:brightness-90 focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 focus-visible:outline-none active:brightness-85 md:mt-[2rem] md:h-[3.75rem]"
+          >
+            최애 찾으러 가기
           </Link>
         </section>
       </main>
