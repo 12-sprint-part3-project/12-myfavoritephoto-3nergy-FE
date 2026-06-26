@@ -1,378 +1,167 @@
-# **3NERGY**
+# 📸 최애의 포토 (Favorite Photo)
 
-[3nergy 노션](https://app.notion.com/p/3NERGY-358f2145fdcf808ca5d2f5b6763a8d24?source=copy_link)
+디지털 포토카드를 사고팔고 교환할 수 있는 플랫폼입니다. 좋아하는 아이돌, 스포츠 스타, 일러스트 등 나만의 디지털 포토카드 컬렉션을 완성해보세요!
 
-## **팀원 구성**
+> 🔗 [서비스 바로가기](https://favorite-photo-3nergy.vercel.app/)　|　📖 [Storybook](https://6a20e5e80c54f49e7e40f7f1-jpbakefftj.chromatic.com/?path=/docs/ui-button--docs&globals=backgrounds.value:dark)
 
-한고은 (개인 Github 링크)
-
-김상우 (개인 Github 링크)
-
-유서현 (개인 Github 링크)
-
-장민주 (개인 Github 링크)
-
-추명곤 (개인 Github 링크)
-
----
-
-## **프로젝트 소개**
-
-- "최애의 포토"는 디지털 시대의 새로운 수집 문화를 선도하는 플랫폼입니다. 자신이 좋아하는 아이돌이나 스포츠 스타, 그림 등 디지털 포토카드를 손쉽게 사고팔 수 있는 공간으로, 특별한 커뮤니티를 제공합니다. 이제는 좋아하는 포토카드를 실제로 모으는 것뿐만 아니라, 디지털 자산으로 소장하며 나만의 컬렉션을 완성할 수 있습니다. 서로의 포토카드를 교환하고, 나만의 포토카드를 자랑하는 재미와 함께 상호 교류도 즐길 수 있는 플랫폼, "최애의 포토"에서 만나보세요!
-- 프로젝트 기간: 2026.06.01 ~ 2026.06.23
-
----
-
-## **기술 스택**
-
-![Frontend](https://img.shields.io/badge/Frontend-%23121011?style=for-the-badge) 
-
-![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E) 
-![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB) 
-![Next JS](https://img.shields.io/badge/Next-black.svg?style=for-the-badge&logo=next.js&logoColor=white) 
-![React Query](https://img.shields.io/badge/-React%20Query-FF4154?style=for-the-badge&logo=react%20query&logoColor=white) 
-![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white) 
-![Storybook](https://img.shields.io/badge/-Storybook-FF4785?style=for-the-badge&logo=storybook&logoColor=white) 
-![ESLint](https://img.shields.io/badge/ESLint-4B3263?style=for-the-badge&logo=eslint&logoColor=white) 
-![Prettier](https://img.shields.io/badge/prettier-%23192a32?style=for-the-badge&logo=prettier&logoColor=dc524a)
-
----
-
-![Backend](https://img.shields.io/badge/Backend-%23121011?style=for-the-badge) 
-
-![NodeJS](https://img.shields.io/badge/node.js-6DA55F.svg?style=for-the-badge&logo=node.js&logoColor=white) 
-![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
-![Prisma](https://img.shields.io/badge/Prisma-3982CE?style=for-the-badge&logo=Prisma&logoColor=white) 
-![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens) 
-![Zod](https://img.shields.io/badge/zod-%233068b7.svg?style=for-the-badge&logo=zod&logoColor=white) 
-![Swagger](https://img.shields.io/badge/-Swagger-%23Clojure?style=for-the-badge&logo=swagger&logoColor=white) 
-![Nodemon](https://img.shields.io/badge/NODEMON-%23323330.svg?style=for-the-badge&logo=nodemon&logoColor=%BBDEAD) 
-![ESLint](https://img.shields.io/badge/ESLint-4B3263?style=for-the-badge&logo=eslint&logoColor=white) 
-![Prettier](https://img.shields.io/badge/prettier-%23192a32?style=for-the-badge&logo=prettier&logoColor=dc524a)
-
-bcrypt, SSE, node-cron
-
----
-
-![Database](https://img.shields.io/badge/Database-%23121011?style=for-the-badge)
-
-![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
-
----
-
-![Tools](https://img.shields.io/badge/Tools-%23121011?style=for-the-badge)
-
-![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white) ![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white) ![Discord](https://img.shields.io/badge/Discord-%235865F2.svg?style=for-the-badge&logo=discord&logoColor=white) ![Notion](https://img.shields.io/badge/Notion-%23000000.svg?style=for-the-badge&logo=notion&logoColor=white)
-
----
-
-## **팀원별 구현 기능 상세**
-
-### **유서현**
+<br />
 
 
-- **포토 카드 판매 등록**
-    - 구글 소셜 로그인 API 사용으로 소셜 로그인 기능 구현
-    - 사이트 이용을 위한 추가 정보 입력 기능 구현
-- **포토 카드 상세 페이지**
-    - user 타입(관리자, 학생)에 대한 조건부 추가 입력 모달창 기능 및 페이지 이동 기능 구현
-- **공용 컴포넌트**
-    - Spinner, EmptyPhotocardList, ResultView, Toast, CounterInput, Button, BasicModal, NotificationMenu(Item), BottomSheet, PageTitle
+## 🧑‍🤝‍🧑 팀원 소개
+<table align="center">
+  <tbody><tr>
+   <td align="center">
+      <a href="https://github.com/coDribble">
+        <img src="https://github.com/coDribble.png" width="100px;" alt="김상우" style="max-width: 100%;"><br>
+        <sub><b>김상우</b></sub>
+      </a><br>
+      <sub>Frontend</sub>
+    </td>   
+    <td align="center">
+      <a href="https://github.com/yooseohyeon">
+        <img src="https://github.com/yooseohyeon.png" width="100px;" alt="유서현" style="max-width: 100%;"><br>
+        <sub><b>유서현</b></sub>
+      </a><br>
+      <sub>Frontend Part Leader</sub>
+    </td>
+    <td align="center">
+      <a href="https://github.com/NAYA3">
+        <img src="https://github.com/NAYA3.png" width="100px;" alt="한고은" style="max-width: 100%;"><br>
+        <sub><b>한고은</b></sub>
+      </a><br>
+      <sub>Team Leader</sub>
+    </td>
+  </tr>
+</tbody></table>
 
-### **한고은**
+<br/>
 
 
-- **랜딩페이지**
-    - 회원별 버튼 조건부 렌더링(학생: 커리어, 스킬, 수강후기, 커뮤니티, 관리자: 회원 관리 관리자 페이지)
-    - 반응형 레이아웃 구현
-- **로그인/회원가입**
-    - fetch(POST, GET)을 사용하여 무료 수강 종료 시간 기능 구현
-- **마켓플레이스**
-    - fetch(POST, GET)을 사용하여 무료 수강 종료 시간 기능 구현
-- **공용 컴포넌트**
-    - GNB, Profile, FilterDropdown, SortDropdown, FloatigButton, RandomPointModal(RandomPointButton), ScrollTopButton
+## 🛠 기술 스택
 
-### **김상우**
+**Core**
+ 
+![Next.js](https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=nextdotjs&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS_v4-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)
+![TanStack Query](https://img.shields.io/badge/TanStack_Query-FF4154?style=flat-square&logo=reactquery&logoColor=white)
+ 
+**Infra / Deploy**
+ 
+![Vercel](https://img.shields.io/badge/Vercel-000000?style=flat-square&logo=vercel&logoColor=white)
+![Cloudinary](https://img.shields.io/badge/Cloudinary-3448C5?style=flat-square&logo=cloudinary&logoColor=white)
+ 
+**Dev Tools**
+ 
+![Storybook](https://img.shields.io/badge/Storybook-FF4785?style=flat-square&logo=storybook&logoColor=white)
+![Chromatic](https://img.shields.io/badge/Chromatic-FC521F?style=flat-square&logo=chromatic&logoColor=white)
+![ESLint](https://img.shields.io/badge/ESLint-4B32C3?style=flat-square&logo=eslint&logoColor=white)
+![Prettier](https://img.shields.io/badge/Prettier-F7B93E?style=flat-square&logo=prettier&logoColor=black)
+
+### 기술 스택 선택 이유
+| 기술 | 선택 이유 |
+|:---|:---|
+| Next.js | App Router 기반 SSR/SSG를 활용해 초기 로딩 성능과 SEO를 개선하고,  `next/image`를 통해 이미지 최적화와 lazy loading을 적용했습니다. 또한 Route Handler를 통해 인증을 서버 레이어에서 처리하도록 구조를 분리했습니다. |
+| Tailwind CSS v4 | 유틸리티 퍼스트 방식으로 별도 CSS 파일 없이 컴포넌트 단위로 스타일을 관리할 수 있어 도입했습니다. 또한 v4의 `@theme`로 디자인 토큰을 중앙 관리해 프로젝트 전체의 스타일 일관성을 유지했습니다. |
+| TanStack Query | 서버 상태를 관리하기 위해 도입했습니다. 캐싱과 자동 동기화로 불필요한 API 호출로 최소화하고, `prefetchQuery`로 초기 체감 로딩 속도를 개선했습니다. |
+| Cloudinary | 이미지 CDN 및 변환 기능을 활용해 포토카드 이미지 최적화를 구현했습니다. URL 기반 리사이징으로 클라이언트 부담을 줄이고, CDN으로 빠르게 로드할 수 있습니다. |
+| Vercel | Next.js에 최적화된 배포 환경으로 CI/CD를 간단하게 구성할 수 있기 때문에 도입했습니다. PR 단위 preview 배포로 개발 흐름을 빠르게 검증했습니다. |
+| Storybook, Chromatic | 컴포넌트를 독립적으로 개발하고 문서화하기 위해 도입했습니다. 다양한 상태를 시각적으로 확인할 수 있어 협업 효율을 개선했습니다. |
+| SVGR | SVG 아이콘을 React 컴포넌트로 변환해 디자인 시스템의 일부로 관리하기 위해 도입했습니다. 색상, 크기, 상태 변화를 class 기반으로 제어할 수 있어 UI 일관성을 유지할 수 있었습니다. |
+| ESLint, Prettier | 팀원 간 코드 스타일의 불일치를 방지하기 위해 도입했습니다. 특히 `prettier-plugin-tailwindcss`로 Tailwind 클래스 정렬을 자동화해 스타일 통일에 드는 시간을 줄였습니다. |
 
 
-- **마이갤러리**
-    - fetch(GET)를 사용하여 수강생 개인별 시간 정보 표시
-    - 반응형 레이아웃 구현
-- **포토카드 생성**
-    - fetch(GET)를 사용하여 수강생 개인별 시간 정보 표시
-    - 반응형 레이아웃 구현
-- **나의 판매 포토카드**
-    - fetch(GET)를 사용하여 수강생 개인별 시간 정보 표시
-    - 반응형 레이아웃 구현
-- **공용 컴포넌트**
-    - Card, ExchangeCard, Input, FileInput, Textarea, SearchBar, Select, Pagination(Page), GradeBadgeList(GradeBadge)
+<br/>
 
----
 
-## **파일 구조**
+## ✨ 주요 기능
 
-```plaintext
+### 🔐 인증 시스템
+- 로그인 / 회원가입 / 로그아웃
+- JWT 기반 인증 상태 관리
+- Google OAuth 로그인 지원
+- 로그인 상태 유지 및 토큰 자동 갱신
 
-src
-├── app
-│   ├── (auth)
-│   │   ├── layout.jsx
-│   │   ├── login/
-│   │   │   └── page.jsx
-│   │   └── signup/
-│   │       └── page.jsx
-│   ├── (main)
-│   │   ├── layout.jsx
-│   │   ├── marketplace/
-│   │   │   ├── page.jsx
-│   │   │   ├── _components/
-│   │   │   │   ├── CreateSaleButton.jsx
-│   │   │   │   ├── CreateSaleModal.jsx
-│   │   │   │   ├── MarketplaceContent.jsx
-│   │   │   │   ├── PhotocardFlowModal.jsx
-│   │   │   │   ├── PhotocardFormLayout.jsx
-│   │   │   │   ├── PhotocardSelectList.jsx
-│   │   │   │   ├── PrefetchSaleCard.jsx
-│   │   │   │   ├── SaleRegisterForm.jsx
-│   │   │   │   └── TradeInfoForm.jsx
-│   │   │   ├── [saleId]/
-│   │   │   │   ├── page.jsx
-│   │   │   │   ├── not-found.jsx
-│   │   │   │   ├── _components/
-│   │   │   │   │   ├── BuyerActions.jsx
-│   │   │   │   │   ├── BuyerTradeSection.jsx
-│   │   │   │   │   ├── CardDetail.jsx
-│   │   │   │   │   ├── CardInfo.jsx
-│   │   │   │   │   ├── ImageModal.jsx
-│   │   │   │   │   ├── MyTradeOfferSection.jsx
-│   │   │   │   │   ├── PhotocardImageViewer.jsx
-│   │   │   │   │   ├── SaleDetailContent.jsx
-│   │   │   │   │   ├── SaleEditForm.jsx
-│   │   │   │   │   ├── SaleEditModal.jsx
-│   │   │   │   │   ├── SellerButtons.jsx
-│   │   │   │   │   ├── SellerTradeInfo.jsx
-│   │   │   │   │   ├── TradeListSection.jsx
-│   │   │   │   │   ├── TradeOfferForm.jsx
-│   │   │   │   │   ├── TradeOfferModal.jsx
-│   │   │   │   │   └── TradeOfferSection.jsx
-│   │   │   │   ├── edit/
-│   │   │   │   │   ├── page.jsx
-│   │   │   │   │   └── SaleEditContent.jsx
-│   │   │   │   ├── purchase/result/
-│   │   │   │   │   └── page.jsx
-│   │   │   │   └── trade/
-│   │   │   │       ├── page.jsx
-│   │   │   │       ├── TradeOfferContent.jsx
-│   │   │   │       └── result/
-│   │   │   │           └── page.jsx
-│   │   │   └── create/
-│   │   │       ├── page.jsx
-│   │   │       ├── SaleCreateContent.jsx
-│   │   │       └── result/
-│   │   │           └── page.jsx
-│   │   ├── my-gallery/
-│   │   │   ├── page.jsx
-│   │   │   ├── _components/
-│   │   │   │   ├── CardList.jsx
-│   │   │   │   ├── MyGalleryCardSection.jsx
-│   │   │   │   ├── MyGalleryContent.jsx
-│   │   │   │   └── OwnedCardsInfo.jsx
-│   │   │   └── new/
-│   │   │       ├── page.jsx
-│   │   │       ├── _components/
-│   │   │       │   └── CreatePhotocardForm.jsx
-│   │   │       └── result/
-│   │   │           └── page.jsx
-│   │   ├── my-notifications/
-│   │   │   ├── page.jsx
-│   │   │   └── NotificationsView.jsx
-│   │   └── my-sales/
-│   │       ├── page.jsx
-│   │       └── _components/
-│   │           ├── CardList.jsx
-│   │           ├── MySalesCardSection.jsx
-│   │           ├── MySalesContent.jsx
-│   │           └── OwnedCardsInfo.jsx
-│   ├── api/
-│   │   ├── auth/
-│   │   │   ├── google/callback/route.js
-│   │   │   ├── login/route.js
-│   │   │   ├── logout/route.js
-│   │   │   ├── refresh/route.js
-│   │   │   └── signup/route.js
-│   │   └── upload/route.js
-│   ├── auth/google/callback/
-│   │   └── page.jsx
-│   ├── providers/
-│   │   └── providers.jsx
-│   ├── fonts/
-│   │   └── baskin-robbins-bold.woff2
-│   ├── globals.css
-│   ├── layout.jsx
-│   ├── page.jsx
-│   ├── error.jsx
-│   └── not-found.jsx
-├── components
-│   ├── domain/
-│   │   ├── auth/
-│   │   │   ├── LoginModal.jsx
-│   │   │   └── LoginModal.stories.jsx
-│   │   ├── photocard/
-│   │   │   ├── Card.jsx
-│   │   │   ├── EmptyPhotocardList.jsx
-│   │   │   ├── ExchangeCard.jsx
-│   │   │   ├── ExchangeCardSkeleton.jsx
-│   │   │   ├── FilterDropdown.jsx
-│   │   │   ├── GradeBadge.jsx
-│   │   │   ├── GradeBadgeList.jsx
-│   │   │   ├── GradeBadgeListSkeleton.jsx
-│   │   │   ├── MobileFilterBottomSheet.jsx
-│   │   │   ├── SortDropdown.jsx
-│   │   │   └── *.stories.jsx
-│   │   └── point/
-│   │       └── RandomPointModal.jsx
-│   ├── feedback/
-│   │   ├── ResultView.jsx
-│   │   └── ResultView.stories.jsx
-│   ├── layout/
-│   │   ├── GNB/
-│   │   │   ├── GNB.jsx
-│   │   │   ├── NotificationItem.jsx
-│   │   │   ├── NotificationMenu.jsx
-│   │   │   ├── ProfileMenu.jsx
-│   │   │   ├── gnb.config.js
-│   │   │   └── *.stories.jsx
-│   │   ├── FloatingButtons.jsx
-│   │   ├── PageTitle.jsx
-│   │   ├── RandomPointButton.jsx
-│   │   └── ScrollTopButton.jsx
-│   └── ui/
-│       ├── BasicModal.jsx
-│       ├── BottomSheet.jsx
-│       ├── Button.jsx
-│       ├── CounterInput.jsx
-│       ├── FileInput.jsx
-│       ├── Input.jsx
-│       ├── Modal.jsx
-│       ├── Overlay.jsx
-│       ├── Page.jsx
-│       ├── Pagination.jsx
-│       ├── PriceInput.jsx
-│       ├── ResponsiveModal.jsx
-│       ├── SearchBar.jsx
-│       ├── Select.jsx
-│       ├── Spinner.jsx
-│       ├── Textarea.jsx
-│       ├── Toast.jsx
-│       ├── ToastContainer.jsx
-│       └── *.stories.jsx
-├── constants/
-│   ├── app.js
-│   ├── card.js
-│   ├── errorHandler.js
-│   ├── filter.js
-│   ├── queryKeys.js
-│   ├── routes.js
-│   ├── time.js
-│   └── unit.js
-├── context/
-│   ├── AuthContext.jsx
-│   └── ToastContext.jsx
-├── hooks/
-│   ├── auth/
-│   │   ├── useGoogleLogin.js
-│   │   ├── useLogin.js
-│   │   ├── useLogout.js
-│   │   └── useSignup.js
-│   ├── common/
-│   │   ├── useDebounce.js
-│   │   ├── useDelayedLoading.js
-│   │   ├── useFilterSelection.js
-│   │   ├── useMediaQuery.js
-│   │   ├── usePageSize.js
-│   │   ├── useResponsive.js
-│   │   ├── useToast.js
-│   │   └── useTotalCount.js
-│   ├── notification/
-│   │   ├── useNotificationSSE.js
-│   │   ├── useNotifications.js
-│   │   └── useReadNotification.js
-│   ├── photocard/
-│   │   ├── useCreatePhotocard.js
-│   │   ├── useOwnedQuantity.js
-│   │   ├── usePhotocardFilterSelection.js
-│   │   ├── usePhotocardSelectList.js
-│   │   ├── usePhotocards.js
-│   │   └── usePrefetchPhotocardList.js
-│   ├── point/
-│   │   ├── useMyPoints.js
-│   │   ├── usePointCooldown.js
-│   │   └── usePointEvent.js
-│   ├── sale/
-│   │   ├── useCancelSale.js
-│   │   ├── useCreateSale.js
-│   │   ├── useMySales.js
-│   │   ├── useMySalesFilterSelection.js
-│   │   ├── usePrefetchSaleDetail.js
-│   │   ├── usePurchaseSale.js
-│   │   ├── useSaleDetail.js
-│   │   ├── useSaleRegisterForm.js
-│   │   ├── useSales.js
-│   │   ├── useSalesFilterSelection.js
-│   │   └── useUpdateSale.js
-│   ├── trade/
-│   │   ├── useAcceptTrade.js
-│   │   ├── useCancelTrade.js
-│   │   ├── useCreateTrade.js
-│   │   ├── useMyTradeOffer.js
-│   │   ├── useRejectTrade.js
-│   │   ├── useTradeOfferForm.js
-│   │   └── useTrades.js
-│   └── user/
-│       └── useMe.js
-├── icons/
-│   ├── index.js
-│   └── *.svg (alarm, alert, caret, chevron, close, dot, exchange, filter, ...)
-├── lib/
-│   ├── api/
-│   │   ├── fetchClient.js
-│   │   ├── fetchPublic.js
-│   │   └── fetchWithAuth.js
-│   ├── auth/
-│   │   └── refreshToken.js
-│   ├── react-query/
-│   │   └── queryClient.js
-│   └── toast/
-│       └── toastService.js
-├── services/
-│   ├── auth.js
-│   ├── image.js
-│   ├── notification.js
-│   ├── photocard.js
-│   ├── point.js
-│   ├── sales.js
-│   ├── trade.js
-│   └── user.js
-├── utils/
-│   ├── cloudinary.js
-│   ├── format.js
-│   ├── formatNotificationMessage.js
-│   ├── formatRelativeTime.js
-│   ├── getNotificationPath.js
-│   ├── normalizeKey.js
-│   ├── token.js
-│   └── validators.js
-└── middleware.js
+### 🖼 포토카드 시스템
+- 포토카드 생성 및 조회
+- 월별 생성 제한 및 보유 현황 확인
+
+### 🛒 거래 시스템 (마켓플레이스)
+- 포토카드 판매/구매 기능
+- 교환 요청 및 처리 기능
+- 거래 상태 실시간 반영
+- 거래 이력 조회
+
+### 💰 포인트 시스템
+- 판매/구매 이벤트 기반 포인트 지급
+- 포인트 사용 및 적립
+- 사용자 포인트 조회
+
+### 🔔 실시간 알림
+- SSE 기반 실시간 알림
+- 거래/상태 변경 알림 수신
+- 알림 읽음 처리
+
+<br/>
+
+
+## 📂 폴더 구조
+
+```
+src/
+├── app/                # Next.js App Router 페이지
+│   ├── api/            # Route Handler
+├── components/
+│   ├── ui/             # 범용 UI 컴포넌트 (Button, Input, Modal 등)
+│   ├── layout/         # 페이지 뼈대 (GNB, PageTitle 등)
+│   └── domain/         # 서비스 도메인 컴포넌트 (photocard 등)
+├── hooks/              # 커스텀 훅
+├── services/           # API 호출 함수
+├── icons/              # SVG 아이콘
+├── lib/                # 인프라 레이어
+│   ├── api/              # fetch client
+│   ├── auth/             # 토큰 재발급
+│   ├── react-query/      # QueryClient 설정
+│   └── toast/            # 전역 토스트 서비스
+├── context/            # 전역 상태 (Auth, Toast)
+├── utils/              # 공통 유틸리티 함수
+└── constants/          # 상수
 ```
 
----
+<br />
 
-## **구현 홈페이지**
 
-[최애의 포토(3nergy)](https://favorite-photo-3nergy.vercel.app)
+## 👥 팀원별 역할
+### 김상우
+- 포토카드 생성 페이지 구현 (Cloudinary 업로드, API 연동)
+- 마이갤러리 페이지 구현 (필터, 검색, 페이지네이션)
+- 나의 판매 페이지 구현 (필터, 검색, 페이지네이션)
+- 포토카드 생성 페이지 구현 (Cloudinary 업로드, 유효성 검증, API 연동)
+- 공통 UI 컴포넌트 구현 (Card, Pagination, Form UI 등)
 
----
+### 유서현
+- 프론트엔드 아키텍처 설계 (API → Service → hook → component 레이어 분리, `QUERY_KEYS` 중앙화)
+- 인증 및 전역 상태 관리 구조 설계 (Access/Refresh Token, 자동 재발급, `MutationCache` 기반 전역 에러 처리, AuthContext 기반 인증 UI 전역 관리)
+- 디자인 시스템 구축 (Tailwind `@theme` 기반 디자인 토큰 중앙 관리, 공통 컴포넌트 분류 기준 정의, SVGR 및 Storybook 도입)
+- React Query 기반 서버 상태 관리 (캐싱/업데이트 전략 분리 및 optimistic update 적용)
+- 성능 최적화 (SSR `prefetch`, `IntersectionObserver` 기반 `prefetch`, `router.prefetch` 적용, dynamic import 적용)
+- 포토카드 거래(구매/교환) 플로우 구현 
+- 포토카드 판매 기능 구현 (등록/수정/중단)
+- 판매 상세 페이지 구현 (상태/권한별 UI 분기)
+- 모바일 필터 바텀시트 구현 (PC/모바일 통합 UX, 조건부 API 호출 및 캐싱 최적화)
+- 알림 기능 구현 (이벤트 기반 알림 생성, 타입 기반 메시지 매핑, 상대 시간 포맷팅, 캐시 즉시 반영)
+- 사용자 피드백 UX 개선 (초기 로딩/refeacth/무한스크롤 구분, skeleton·spinner·toast 적용)
+- 공통 UI 컴포넌트 구현 (Button, Modal, BottomSheet 등)
+- SEO 및 OG 메타데이터 설정
 
-## **프로젝트 회고록**
+### 한고은
+- 인증 시스템 구현 (회원가입, 로그인, 로그아웃, OAuth, 유효성 검사)
+- 마켓플레이스 메인 페이지 (검색, 필터, 정렬, 무한 스크롤 및 API 연동)
+- 랜딩 페이지 (반응형 UI 구현 및 최적화)
+- 랜덤 포인트 시스템 및 랜덤 포인트 모달 UI 구현
+- FloatingButtons 구현 (top 버튼, 랜덤 포인트 버튼)
+- 공통 UI 컴포넌트 구현 (GNB, ProfileMenu, FilterDropdown 등)
 
-(제작한 발표자료 링크 혹은 첨부파일 첨부)
+
+
+<br/>
+
