@@ -33,6 +33,13 @@ const meta = {
         type: { summary: 'ReactNode' },
       },
     },
+    ref: {
+      control: false,
+      description: '스크롤 컨테이너(div) 접근용 ref. 무한스크롤 구현 시 사용',
+      table: {
+        type: { summary: 'Ref<HTMLDivElement>' },
+      },
+    },
   },
 };
 
