@@ -2,7 +2,7 @@
 
 디지털 포토카드를 사고팔고 교환할 수 있는 플랫폼입니다. 좋아하는 아이돌, 스포츠 스타, 일러스트 등 나만의 디지털 포토카드 컬렉션을 완성해보세요!
 
-> 🔗 [서비스 바로가기](https://favorite-photo-3nergy.vercel.app/)　|　📖 [Storybook](https://6a20e5e80c54f49e7e40f7f1-jpbakefftj.chromatic.com/?path=/docs/ui-button--docs&globals=backgrounds.value:dark)
+> 🔗 [서비스 바로가기](https://favorite-photo-3nergy.vercel.app/)　|　📖 [Storybook](https://6a20e5e80c54f49e7e40f7f1-luvlfpgqmd.chromatic.com/)
 
 <br />
 
