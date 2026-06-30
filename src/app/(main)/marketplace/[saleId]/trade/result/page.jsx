@@ -2,7 +2,7 @@
 
 import { Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { ResultView } from '@/components/feedback/ResultView';
+import { ResultView } from '@/components/domain/ResultView';
 
 function TradeOfferResultContent() {
   const searchParams = useSearchParams();

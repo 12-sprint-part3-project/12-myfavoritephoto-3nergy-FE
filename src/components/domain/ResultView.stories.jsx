@@ -1,7 +1,7 @@
 import { ResultView } from './ResultView';
 
 const meta = {
-  title: 'Feedback/ResultView',
+  title: 'Domain/ResultView',
   component: ResultView,
   tags: ['autodocs'],
   parameters: {
