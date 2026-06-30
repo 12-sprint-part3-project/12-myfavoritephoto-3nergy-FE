@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { CounterInput } from '@/components/ui/CounterInput';
 
 const meta = {
-  title: 'UI/Input/CounterInput',
+  title: 'Components/Input/CounterInput',
   component: CounterInput,
   tags: ['autodocs'],
   argTypes: {

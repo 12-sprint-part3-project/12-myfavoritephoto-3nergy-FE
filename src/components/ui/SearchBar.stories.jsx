@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { SearchBar } from './SearchBar';
 
 const meta = {
-  title: 'UI/SearchBar',
+  title: 'Components/SearchBar',
   component: SearchBar,
   argTypes: {
     value: {

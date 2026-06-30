@@ -1,7 +1,7 @@
 import { Page } from './Page';
 
 export default {
-  title: 'UI/Page',
+  title: 'Components/Page',
   component: Page,
   argTypes: {
     page: { control: 'number' },

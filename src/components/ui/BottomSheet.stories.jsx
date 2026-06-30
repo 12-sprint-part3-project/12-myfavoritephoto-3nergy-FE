@@ -4,7 +4,7 @@ import { Overlay } from './Overlay';
 import { Button } from './Button';
 
 const meta = {
-  title: 'UI/BottomSheet',
+  title: 'Components/BottomSheet',
   component: BottomSheet,
   tags: ['autodocs'],
   parameters: {

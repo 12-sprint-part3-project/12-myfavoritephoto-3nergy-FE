@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Textarea } from './Textarea';
 
 const meta = {
-  title: 'UI/Textarea',
+  title: 'Components/Textarea',
   component: Textarea,
   tags: ['autodocs'],
   argTypes: {

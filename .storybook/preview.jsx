@@ -7,7 +7,7 @@ const preview = {
         order: [
           'Foundation', // Colors, Typography
           'Assets', // Icons
-          'UI', // Button, Input 등
+          'Components', // Button, Input 등
           'Layout', // GNB, PageTitle 등
           'Domain', // PhotoCard 등
         ],

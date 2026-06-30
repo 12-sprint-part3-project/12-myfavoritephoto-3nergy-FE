@@ -1,7 +1,7 @@
 import { Spinner } from '@/components/ui/Spinner';
 
 const meta = {
-  title: 'UI/Spinner',
+  title: 'Components/Spinner',
   component: Spinner,
   tags: ['autodocs'],
   parameters: {

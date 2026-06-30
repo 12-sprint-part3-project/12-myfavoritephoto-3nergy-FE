@@ -3,7 +3,7 @@ import { Toast } from './Toast';
 import { ToastProvider, useToastContext } from '@/context/ToastContext';
 
 const meta = {
-  title: 'UI/Toast',
+  title: 'Components/Toast',
   component: Toast,
   tags: ['autodocs'],
   parameters: {

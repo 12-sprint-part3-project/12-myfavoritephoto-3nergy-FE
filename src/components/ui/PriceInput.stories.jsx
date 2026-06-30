@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { PriceInput } from '@/components/ui/PriceInput';
 
 const meta = {
-  title: 'UI/Input/PriceInput',
+  title: 'Components/Input/PriceInput',
   component: PriceInput,
   tags: ['autodocs'],
   parameters: {
