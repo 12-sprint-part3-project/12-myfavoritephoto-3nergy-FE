@@ -5,7 +5,8 @@ const preview = {
     options: {
       storySort: {
         order: [
-          'Assets', // Colors, Typography, Icons
+          'Foundation', // Colors, Typography
+          'Assets', // Icons
           'UI', // Button, Input 등
           'Layout', // GNB, PageTitle 등
           'Domain', // PhotoCard 등

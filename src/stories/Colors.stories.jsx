@@ -1,5 +1,5 @@
 const meta = {
-  title: 'Assets/Colors',
+  title: 'Foundation/Colors',
   tags: ['autodocs'],
   parameters: {
     docs: {
