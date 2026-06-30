@@ -5,6 +5,16 @@ const meta = {
   title: 'Components/Pagination/Pagination',
   component: Pagination,
   tags: ['autodocs'],
+  parameters: {
+    layout: 'fullscreen',
+  },
+  decorators: [
+    (Story) => (
+      <div className="p-8">
+        <Story />
+      </div>
+    ),
+  ],
   argTypes: {
     totalPages: {
       control: 'number',

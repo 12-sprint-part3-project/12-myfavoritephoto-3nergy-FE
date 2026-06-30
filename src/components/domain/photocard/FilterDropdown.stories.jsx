@@ -26,7 +26,7 @@ const meta = {
   component: FilterDropdown,
   tags: ['autodocs'],
   parameters: {
-    layout: 'centered',
+    layout: 'fullscreen',
     backgrounds: {
       default: 'dark',
       values: [{ name: 'dark', value: '#0f0f0f' }],
@@ -39,6 +39,13 @@ const meta = {
       },
     },
   },
+  decorators: [
+    (Story) => (
+      <div className="p-8">
+        <Story />
+      </div>
+    ),
+  ],
   argTypes: {
     label: {
       control: 'text',

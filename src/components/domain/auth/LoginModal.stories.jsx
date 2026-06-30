@@ -6,6 +6,9 @@ const meta = {
   title: 'Domain/Auth/LoginModal',
   component: LoginModal,
   tags: ['autodocs'],
+  parameters: {
+    layout: 'centered',
+  },
   argTypes: {
     type: {
       control: 'select',

@@ -72,6 +72,9 @@ const meta = {
   title: 'Layout/GNB/NotificationMenu',
   component: NotificationMenu,
   tags: ['autodocs'],
+  parameters: {
+    layout: 'centered',
+  },
   argTypes: {
     notifications: {
       control: 'object',

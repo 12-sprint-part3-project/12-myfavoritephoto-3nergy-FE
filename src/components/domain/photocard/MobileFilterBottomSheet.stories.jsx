@@ -36,7 +36,7 @@ const meta = {
   component: MobileFilterBottomSheet,
   tags: ['autodocs'],
   parameters: {
-    layout: 'fullscreen',
+    layout: 'centered',
     docs: {
       description: {
         component: `
