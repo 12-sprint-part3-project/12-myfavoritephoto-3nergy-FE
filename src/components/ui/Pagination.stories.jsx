@@ -2,12 +2,16 @@ import { useState } from 'react';
 import { Pagination } from './Pagination';
 
 const meta = {
-  title: 'Components/Pagination',
+  title: 'Components/Pagination/Pagination',
   component: Pagination,
   tags: ['autodocs'],
-  parameters: {
-    layout: 'centered',
-  },
+  decorators: [
+    (Story) => (
+      <div className="bg-black p-8">
+        <Story />
+      </div>
+    ),
+  ],
   argTypes: {
     totalPages: {
       control: 'number',
