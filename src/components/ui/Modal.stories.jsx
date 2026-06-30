@@ -32,6 +32,12 @@ const meta = {
       description: '너비, 패딩 등 추가 스타일 직접 지정 (예: w-[10rem] 등)',
       table: { type: { summary: 'string' } },
     },
+    ref: {
+      control: false,
+      description:
+        '스크롤 컨테이너에 접근하기 위한 ref. 무한스크롤 구현 시 사용',
+      table: { type: { summary: 'Ref<HTMLDivElement>' } },
+    },
   },
 };
 
@@ -133,10 +139,12 @@ const [open, setOpen] = useState(false);
     </ModalWithTrigger>
   ),
 };
-
 export const WithScrollContent = {
   parameters: {
     docs: {
+      description: {
+        story: '스크롤이 생기는 긴 콘텐츠 예시입니다. ',
+      },
       source: {
         code: `
 const [open, setOpen] = useState(false);

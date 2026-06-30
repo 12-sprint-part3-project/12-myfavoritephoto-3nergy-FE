@@ -38,6 +38,22 @@ const meta = {
         type: { summary: 'ReactNode' },
       },
     },
+    className: {
+      control: 'text',
+      description:
+        '추가 스타일 지정 (예: w-[10rem] 등). 데스크탑(Modal)에만 적용되며, 태블릿 이하(BottomSheet)에서는 적용되지 않음.',
+      table: {
+        type: { summary: 'string' },
+      },
+    },
+    ref: {
+      control: false,
+      description:
+        '스크롤 컨테이너 접근용 ref. 데스크탑에서는 Modal, 태블릿 이하에서는 BottomSheet의 스크롤 컨테이너에 연결됨.',
+      table: {
+        type: { summary: 'Ref<HTMLDivElement>' },
+      },
+    },
   },
 };
 
@@ -54,6 +70,7 @@ function ResponsiveModalWithTrigger({ footer, children }) {
         <ResponsiveModal
           onClose={() => setOpen(false)}
           footer={footer?.({ onClose: () => setOpen(false) })}
+          className="max-h-[80vh] w-[35rem] p-10"
         >
           <p className="text-white">{children}</p>
         </ResponsiveModal>
@@ -61,6 +78,7 @@ function ResponsiveModalWithTrigger({ footer, children }) {
     </>
   );
 }
+
 export const Default = {
   args: { children: '반응형 모달 내용입니다.' },
   parameters: {
@@ -125,10 +143,26 @@ const [open, setOpen] = useState(false);
     </ResponsiveModalWithTrigger>
   ),
 };
-
 export const WithScrollContent = {
   parameters: {
     docs: {
+      description: {
+        story: `긴 콘텐츠가 들어갈 때 본문 영역에 스크롤이 생기는 예시입니다.
+
+무한스크롤이 필요한 경우, \`ref\`를 전달하면 내부 스크롤 컨테이너(데스크탑은 Modal, 태블릿 이하는 BottomSheet)에 연결됩니다. 이 ref를 무한스크롤을 처리하는 자식 컴포넌트에 전달해 \`IntersectionObserver\`의 root로 사용할 수 있습니다.
+
+\`\`\`js
+const scrollContainerRef = useRef(null);
+
+<ResponsiveModal ref={scrollContainerRef} onClose={onClose}>
+  <PhotocardSelectList
+    // 모달/바텀시트 스크롤 컨테이너 ref 전달 (IntersectionObserver root로 사용)
+    scrollContainerRef={scrollContainerRef}
+    onSelect={onSelect}
+  />
+</ResponsiveModal>
+\`\`\``,
+      },
       source: {
         code: `
 const [open, setOpen] = useState(false);
