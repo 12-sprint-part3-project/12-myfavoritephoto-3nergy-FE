@@ -3,8 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { AlarmIcon, CaretLeftIcon, MenuIcon, DotIcon } from '@/icons';
+import { AlarmIcon, CaretLeftIcon, MenuIcon } from '@/icons';
 import { APP_NAME } from '@/constants/app';
 import { ROUTES } from '@/constants/routes';
 import { NotificationMenu } from '@/components/layout/GNB/NotificationMenu';
@@ -20,8 +19,6 @@ export const GNB = ({
   onBack,
   onMarkAsRead,
 }) => {
-  const router = useRouter();
-
   const isSubPage = Boolean(pageTitle);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);

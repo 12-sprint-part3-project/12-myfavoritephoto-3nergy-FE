@@ -2,7 +2,7 @@
 
 import { Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { ResultView } from '@/components/feedback/ResultView';
+import { ResultView } from '@/components/domain/ResultView';
 import { GRADE_STYLE } from '@/constants/card';
 
 function PhotocardCreateResultContent() {

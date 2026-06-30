@@ -5,6 +5,16 @@ export default {
   title: 'Domain/Photocard/GradeBadge',
   component: GradeBadge,
   tags: ['autodocs'],
+  parameters: {
+    layout: 'fullscreen',
+  },
+  decorators: [
+    (Story) => (
+      <div className="p-8">
+        <Story />
+      </div>
+    ),
+  ],
 };
 
 // 등급별로 각각 스토리 만들기

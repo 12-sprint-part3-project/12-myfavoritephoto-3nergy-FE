@@ -2,6 +2,17 @@ import '../src/app/globals.css';
 
 const preview = {
   parameters: {
+    options: {
+      storySort: {
+        order: [
+          'Foundation', // Colors, Typography
+          'Assets', // Icons
+          'Components', // Button, Input 등
+          'Layout', // GNB, PageTitle 등
+          'Domain', // PhotoCard 등
+        ],
+      },
+    },
     controls: {
       matchers: {
         color: /(background|color)$/i,
@@ -16,9 +27,12 @@ const preview = {
       ],
     },
   },
+  globals: {
+    backgrounds: { value: 'dark' },
+  },
   decorators: [
     (Story) => (
-      <div className="font-noto">
+      <div className="bg-black font-noto">
         <Story />
       </div>
     ),

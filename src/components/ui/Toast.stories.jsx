@@ -3,14 +3,15 @@ import { Toast } from './Toast';
 import { ToastProvider, useToastContext } from '@/context/ToastContext';
 
 const meta = {
-  title: 'UI/Toast',
+  title: 'Components/Toast',
   component: Toast,
   tags: ['autodocs'],
   parameters: {
+    layout: 'centered',
     docs: {
       description: {
         component:
-          '사용자에게 짧은 피드백 메시지를 제공하는 Toast 컴포넌트입니다. ToastProvider와 useToastContext를 통해 전역으로 사용할 수 있습니다.',
+          '사용자에게 짧은 피드백 메시지를 제공하는 Toast 컴포넌트입니다. `ToastProvider`와 `useToastContext`를 통해 전역으로 사용할 수 있습니다.',
       },
     },
   },
@@ -40,6 +41,13 @@ export const Default = {
     message: '이번달 모든 생성 기회를 소진했어요',
     isVisible: true,
   },
+  decorators: [
+    (Story) => (
+      <div className="relative flex h-[100px]">
+        <Story />
+      </div>
+    ),
+  ],
 };
 
 function ToastWithTrigger({ message }) {
@@ -47,7 +55,9 @@ function ToastWithTrigger({ message }) {
 
   return (
     <>
-      <Button onClick={() => showToast(message)}>Toast 실행</Button>
+      <Button onClick={() => showToast(message)} className="w-[10rem]">
+        Toast 실행
+      </Button>
     </>
   );
 }
@@ -64,6 +74,7 @@ const { showToast } = useToastContext();
 
 <Button
   onClick={() => showToast('이번달 모든 생성 기회를 소진했어요')}
+  className="w-[10rem]"
 >
   Toast 실행
 </Button>

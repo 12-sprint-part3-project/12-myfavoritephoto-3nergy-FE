@@ -4,7 +4,7 @@ import { Overlay } from './Overlay';
 import { Button } from './Button';
 
 const meta = {
-  title: 'UI/BottomSheet',
+  title: 'Components/BottomSheet',
   component: BottomSheet,
   tags: ['autodocs'],
   parameters: {
@@ -31,6 +31,13 @@ const meta = {
         '하단에 고정할 콘텐츠. 스크롤과 무관하게 항상 보여야 할 요소. (없으면 렌더링 생략)',
       table: {
         type: { summary: 'ReactNode' },
+      },
+    },
+    ref: {
+      control: false,
+      description: '스크롤 컨테이너(div) 접근용 ref. 무한스크롤 구현 시 사용',
+      table: {
+        type: { summary: 'Ref<HTMLDivElement>' },
       },
     },
   },

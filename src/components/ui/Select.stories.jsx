@@ -8,7 +8,7 @@ const SAMPLE_OPTIONS = [
 ];
 
 const meta = {
-  title: 'UI/Select',
+  title: 'Components/Select',
   component: Select,
   argTypes: {
     label: {

@@ -1,9 +1,19 @@
 import { Spinner } from '@/components/ui/Spinner';
 
 const meta = {
-  title: 'UI/Spinner',
+  title: 'Components/Spinner',
   component: Spinner,
   tags: ['autodocs'],
+  parameters: {
+    layout: 'fullscreen',
+  },
+  decorators: [
+    (Story) => (
+      <div className="flex justify-center p-8">
+        <Story />
+      </div>
+    ),
+  ],
   parameters: {
     docs: {
       description: {

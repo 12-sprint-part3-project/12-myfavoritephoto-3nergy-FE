@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { PriceInput } from '@/components/ui/PriceInput';
 
 const meta = {
-  title: 'UI/PriceInput',
+  title: 'Components/Input/PriceInput',
   component: PriceInput,
   tags: ['autodocs'],
   parameters: {
@@ -13,7 +13,7 @@ const meta = {
     docs: {
       description: {
         component:
-          '숫자만 입력 가능한 가격 입력 컴포넌트입니다. 입력값 우측에 P가 표시됩니다.',
+          '가격을 설정하는 컴포넌트입니다. 숫자만 입력할 수 있으며, 입력값 우측에 P가 표시됩니다.',
       },
     },
   },

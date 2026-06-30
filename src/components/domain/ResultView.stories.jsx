@@ -1,15 +1,21 @@
 import { ResultView } from './ResultView';
 
 const meta = {
-  title: 'Feedback/ResultView',
+  title: 'Domain/ResultView',
   component: ResultView,
   tags: ['autodocs'],
   parameters: {
     layout: 'fullscreen',
+    docs: {
+      description: {
+        component:
+          '특정 액션(예: 판매 등록, 구매, 교환 제시 등)의 결과를 사용자에게 보여주는 컴포넌트입니다. 성공 또는 실패 상태에 따라 메시지, 스타일, CTA 버튼이 달라집니다.',
+      },
+    },
   },
   decorators: [
     (Story) => (
-      <div className="flex min-h-screen items-center justify-center bg-black px-4">
+      <div className="flex min-h-screen items-center justify-center bg-black">
         <Story />
       </div>
     ),

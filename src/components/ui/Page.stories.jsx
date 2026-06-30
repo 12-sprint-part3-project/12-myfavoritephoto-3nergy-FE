@@ -1,13 +1,23 @@
 import { Page } from './Page';
 
 export default {
-  title: 'UI/Page',
+  title: 'Components/Pagination/Page',
   component: Page,
+  tags: ['autodocs'],
+  parameters: {
+    layout: 'fullscreen',
+  },
+  decorators: [
+    (Story) => (
+      <div className="flex justify-center p-8">
+        <Story />
+      </div>
+    ),
+  ],
   argTypes: {
     page: { control: 'number' },
     isActive: { control: 'boolean' },
   },
-  tags: ['autodocs'],
 };
 
 export const Default = {
