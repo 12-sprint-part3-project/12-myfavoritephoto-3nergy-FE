@@ -72,6 +72,13 @@ const meta = {
   title: 'Layout/GNB/NotificationMenu',
   component: NotificationMenu,
   tags: ['autodocs'],
+  decorators: [
+    (Story) => (
+      <div className="bg-black">
+        <Story />
+      </div>
+    ),
+  ],
   argTypes: {
     notifications: {
       control: 'object',
