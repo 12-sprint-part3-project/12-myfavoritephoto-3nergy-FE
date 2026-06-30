@@ -4,7 +4,14 @@ import { useEffect, useRef } from 'react';
 import CloseIcon from '@/icons/close.svg';
 
 // ref: 외부에서 스크롤 컨테이너에 접근이 필요한 경우 전달 (예: 무한스크롤 IntersectionObserver root)
-export const Modal = ({ onClose, footer, className, children, ref }) => {
+export const Modal = ({
+  onClose,
+  footer,
+  className,
+  children,
+  ref,
+  overflow = 'overflow-y-auto',
+}) => {
   const closeBtnRef = useRef(null);
 
   useEffect(() => {
@@ -25,16 +32,16 @@ export const Modal = ({ onClose, footer, className, children, ref }) => {
         ref={closeBtnRef}
         onClick={onClose}
         aria-label="모달 닫기"
-        className="group focus-visible:ring-main absolute top-[0.9375rem] right-[0.9375rem] p-[0.39rem] focus-visible:ring-2 focus-visible:outline-none lg:top-[1.875rem] lg:right-[1.875rem]"
+        className="group absolute top-[0.9375rem] right-[0.9375rem] p-[0.39rem] focus-visible:ring-2 focus-visible:ring-main focus-visible:outline-none lg:top-[1.875rem] lg:right-[1.875rem]"
       >
         <CloseIcon
           width={15}
-          className="group-hover:text-main text-gray-300 transition-colors duration-150"
+          className="text-gray-300 transition-colors duration-150 group-hover:text-main"
         />
       </button>
 
       {/* 스크롤 영역: ref를 달아 외부에서 IntersectionObserver root로 사용 가능 */}
-      <div ref={ref} className="custom-scrollbar flex-1 overflow-y-auto">
+      <div ref={ref} className={`custom-scrollbar flex-1 ${overflow}`}>
         {children}
       </div>
 
