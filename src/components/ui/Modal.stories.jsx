@@ -38,6 +38,15 @@ const meta = {
         '스크롤 컨테이너에 접근하기 위한 ref. 무한스크롤 구현 시 사용',
       table: { type: { summary: 'Ref<HTMLDivElement>' } },
     },
+    overflow: {
+      control: 'select',
+      options: ['overflow-y-auto', 'overflow-visible', 'overflow-hidden'],
+      description: '스크롤 영역의 overflow 동작 지정. 기본값은 overflow-y-auto',
+      table: {
+        type: { summary: 'string' },
+        defaultValue: { summary: 'overflow-y-auto' },
+      },
+    },
   },
 };
 
