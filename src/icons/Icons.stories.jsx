@@ -47,13 +47,6 @@ import CloseIcon from '@/icons/close.svg';
       },
     },
   },
-  decorators: [
-    (Story) => (
-      <div className="bg-black p-8">
-        <Story />
-      </div>
-    ),
-  ],
 };
 
 export default meta;

@@ -27,6 +27,9 @@ const preview = {
       ],
     },
   },
+  globals: {
+    backgrounds: { value: 'dark' },
+  },
   decorators: [
     (Story) => (
       <div className="font-noto">
@@ -37,3 +40,6 @@ const preview = {
 };
 
 export default preview;
+export const globals = {
+  backgrounds: { value: 'dark' },
+};

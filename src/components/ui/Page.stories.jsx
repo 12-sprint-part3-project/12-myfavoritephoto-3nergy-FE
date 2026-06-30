@@ -4,13 +4,6 @@ export default {
   title: 'Components/Pagination/Page',
   component: Page,
   tags: ['autodocs'],
-  decorators: [
-    (Story) => (
-      <div className="bg-black p-8">
-        <Story />
-      </div>
-    ),
-  ],
   argTypes: {
     page: { control: 'number' },
     isActive: { control: 'boolean' },

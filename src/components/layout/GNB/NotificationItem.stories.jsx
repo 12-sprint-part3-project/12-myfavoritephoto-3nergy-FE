@@ -4,13 +4,6 @@ const meta = {
   title: 'Layout/GNB/NotificationItem',
   component: NotificationItem,
   tags: ['autodocs'],
-  decorators: [
-    (Story) => (
-      <div className="bg-black">
-        <Story />
-      </div>
-    ),
-  ],
   argTypes: {
     isRead: {
       control: 'boolean',

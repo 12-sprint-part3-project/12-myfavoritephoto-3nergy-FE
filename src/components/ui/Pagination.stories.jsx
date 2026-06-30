@@ -5,13 +5,6 @@ const meta = {
   title: 'Components/Pagination/Pagination',
   component: Pagination,
   tags: ['autodocs'],
-  decorators: [
-    (Story) => (
-      <div className="bg-black p-8">
-        <Story />
-      </div>
-    ),
-  ],
   argTypes: {
     totalPages: {
       control: 'number',
