@@ -1,7 +1,7 @@
 import { FileInput } from './FileInput';
 
 const meta = {
-  title: 'UI/FileInput',
+  title: 'UI/Input/FileInput',
   component: FileInput,
   argTypes: {
     label: {
