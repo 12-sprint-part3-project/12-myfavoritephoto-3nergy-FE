@@ -2,6 +2,16 @@ import '../src/app/globals.css';
 
 const preview = {
   parameters: {
+    options: {
+      storySort: {
+        order: [
+          'Assets', // Colors, Typography, Icons
+          'UI', // Button, Input 등
+          'Layout', // GNB, PageTitle 등
+          'Domain', // PhotoCard 등
+        ],
+      },
+    },
     controls: {
       matchers: {
         color: /(background|color)$/i,
